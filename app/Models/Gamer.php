@@ -38,13 +38,14 @@ class Gamer extends Ardent
         'phone'     => 'required|unique:gamers',
     );
     protected $table = "gamers";
-    protected $attributes = array(
+    /*protected $attributes = array(
 
         'city' => 'Астана',
         'status' => 'dumbass',
         'institution' => '-',
         'comment' => 'Комментарий отсутствует'
     );
+    */
     protected $fillable = array(
         'name', 'last_name', 'phone', 'email', 'birthday', 'city', 'vk_page', 'status', 'institution', 'comment', 'lead_id'
     );
@@ -72,7 +73,9 @@ class Gamer extends Ardent
         return Carbon::createFromTimestamp($now - $birthday)->diffInYears();
     }
 
-    public function getBirthday(){
-        return $this->birthday->format("d.m.Y");
+    public function getBirthday($format = "d.m.Y"){
+        return $this->birthday->format($format);
     }
+
+
 }
