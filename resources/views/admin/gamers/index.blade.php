@@ -6,7 +6,7 @@
     <h1>Игроки</h1>
 
     <div>
-        <a href="{{url('back/gamers/create')}}">Создать запись</a>
+        <a href="{{url('admin/gamers/create')}}">Создать запись</a>
     </div>
 
     <table class="table table-striped dataTable">
@@ -32,8 +32,8 @@
                     <td>{{ $gamers[$i]->email  }}</td>
                     <td>{{ $gamers[$i]->vk_page  }}</td>
                     <td>
-                        <a href='{{ url('back/gamers/show', ['id' => $gamers[$i]->id]) }}'>Открыть</a>
-                        <a href='{{ url('back/gamers/edit', ['id' => $gamers[$i]->id]) }}'>Редактировать</a>
+                        <a href='{{ url('admin/gamers/show', ['id' => $gamers[$i]->id]) }}'>Открыть</a>
+                        <a href='{{ url('admin/gamers/edit', ['id' => $gamers[$i]->id]) }}'>Редактировать</a>
                     </td>
                 </tr>
 

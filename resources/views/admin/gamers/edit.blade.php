@@ -6,10 +6,10 @@
     <h1 class="mt-1">Редактирование записи {{ $gamer->name }}</h1>
     <div class="">
 
-        <form method="post" action="/back/gamers/update">
+        <form method="post" action="{{ url('/admin/gamers/update') }}">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             {!! Form::model($user, array('route' => array('user.update', $user->id))) !!}
-            @include('back/gamers/form')
+            @include('admin/gamers/form')
         </form>
     </div>
 

@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gamer;
+use App\Models\GamerScore;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Redirect;
 
 class GamerController extends Controller
 {
@@ -13,7 +18,7 @@ class GamerController extends Controller
     public function index()
     {
         $gamers = Gamer::all();
-        return $this->View('back/gamers/index', ["gamers" => $gamers]);
+        return $this->View('admin/gamers/index', ["gamers" => $gamers]);
     }
 
     /**
@@ -26,7 +31,7 @@ class GamerController extends Controller
         $userAgent = request()->header('User-Agent');
         $isIosDevice = stripos($userAgent,"iPod")||stripos($userAgent,"iPhone")||stripos($userAgent,"iPad");
 
-        return $this->View('back/gamers/create');
+        return $this->View('admin/gamers/create');
     }
 
     /**
@@ -37,17 +42,9 @@ class GamerController extends Controller
      */
     public function store(Request $request)
     {
-        $gamer = new Gamer;
-        $gamer->name = 'Акелла';
-        $gamer->last_name = 'Горбатюк';
-        $gamer->email = 'ake111aa@gmail.com';
-        $gamer->phone = '87017620788';
-        $gamer->birthday = '1993-10-19 00:00:00';
-        $gamer->city = 'Алматы';
-        $gamer->vk_page = 'https://vk.com/maximgorbatyuk';
-        $gamer->status = 'employer';
-        $gamer->institution = 'next';
-        $gamer->comment = 'HZ';
+        $gamer = Gamer::create(
+            $request->input()
+        );
 
         $success = $gamer->save();
         if ($success == false) {
@@ -60,7 +57,7 @@ class GamerController extends Controller
         $gamer->scores()->save($score);
 
 
-        return response()->redirectTo('/back/gamers/'.$gamer->id);
+        return response()->redirectTo('/admin/gamers/'.$gamer->id);
     }
 
     /**
@@ -73,12 +70,10 @@ class GamerController extends Controller
     {
         $gamer = Gamer::find($id);
 
-        return $this->View('back/gamers/show', [
+        return $this->View('admin/gamers/show', [
             'gamer' => $gamer,
             'scores' => $gamer->scores
         ]);
-        //return Redirect::to('back/gamers/')->with('message', 'Thanks for registering!');
-
     }
 
     /**
@@ -90,7 +85,7 @@ class GamerController extends Controller
     public function edit($id)
     {
         $gamer = Gamer::find($id);
-        return $this->View('back/gamers/edit', [
+        return $this->View('admin/gamers/edit', [
             'gamer' => $gamer,
             'scores' => $gamer->scores
         ]);

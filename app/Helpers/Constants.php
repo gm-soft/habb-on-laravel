@@ -11,10 +11,10 @@ namespace App\Helpers;
 
 abstract class Constants
 {
-    const BackLayoutPath    = "back/shared/layout";
-    const BackNavPath       = "back/shared/nav";
-    const BackErrorsPath    = "back/shared/flash";
-    const BackModelValidationPath    = "back/shared/validation";
+    const BackLayoutPath    = "admin/shared/layout";
+    const BackNavPath       = "admin/shared/nav";
+    const BackErrorsPath    = "admin/shared/flash";
+    const BackModelValidationPath    = "admin/shared/validation";
 
     const FrontLayoutPath   = "front/shared/layout";
     const FrontNavPath      = "front/shared/nav";
