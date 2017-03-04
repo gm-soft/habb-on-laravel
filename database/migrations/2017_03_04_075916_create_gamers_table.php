@@ -26,7 +26,7 @@ class CreateGamersTable extends Migration
             $table->string('status')->comment("Ученик/Студент/Работает/Тунеядец");
             $table->string('institution')->comment("Место, где занят человек");
 
-            $table->text('comment')->comment("Комментарий пользователя к данному аккаунту");
+            $table->text('comment')->nullable()->comment("Комментарий пользователя к данному аккаунту");
 
             $table->string('lead_id')->nullable()->comment("Связанный лид в CRM");
             $table->timestamps();

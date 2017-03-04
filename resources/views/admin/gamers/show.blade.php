@@ -3,7 +3,7 @@
 @section('title', 'Информация об игроке')
 
 @section('content')
-    <h1 class="mt-1">Игрок {{ $gamer->name }}</h1>
+    <h1 class="mt-1">Игрок {{ $gamer->name }} {{ $gamer->last_name }} [ID {{ $gamer->id }}]</h1>
 
     Age: {{ $gamer->getGamerAge() }}
     <pre>

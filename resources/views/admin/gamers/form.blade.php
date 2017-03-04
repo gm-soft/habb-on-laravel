@@ -1,7 +1,7 @@
 
 <div class="row">
     <div class="col-sm-6">
-
+        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
         <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Личная информация</h4>
@@ -20,9 +20,8 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label" for="name">Имя</label>
                     <div class="col-sm-9">
-                        {!! Form::text('name', $gamer->name, array('id'=>'name', 'name'=>'name','class' => 'form-control')) !!}
-                        <!--input type="text" id="name" name="name" class="form-control"
-                               required placeholder="Введите имя (50)" maxlength="50" value="{{$gamer->name}}" -->
+                        <input type="text" id="name" name="name" class="form-control"
+                               required placeholder="Введите имя (50)" maxlength="50" value="{{old('name')}}" >
                     </div>
                 </div>
 

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use LaravelArdent\Ardent\Facades\Ardent;
+use Collective\Html\Eloquent\FormAccessible;
+use LaravelArdent\Ardent\Ardent;
 
 /**
  * Class Gamer
@@ -29,6 +29,8 @@ use LaravelArdent\Ardent\Facades\Ardent;
  */
 class Gamer extends Ardent
 {
+    use FormAccessible;
+
     public static $rules = array(
         'name'      => 'required',
         'last_name' => 'required',

@@ -51,13 +51,11 @@ class GamerController extends Controller
             $errors = $gamer->errors()->all();
 
         }
-        $score = new GamerScore([
-            'game_name' => 'cs:go'
-        ]);
-        $gamer->scores()->save($score);
+        $scores = GamerScore::getScoreSet();
+        $gamer->scores()->saveMany($scores);
 
 
-        return response()->redirectTo('/admin/gamers/'.$gamer->id);
+        return $this->Redirect('/admin/gamers/show/'.$gamer->id);
     }
 
     /**

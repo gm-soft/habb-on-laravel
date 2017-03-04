@@ -24,6 +24,17 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * @param null $to
+     * @param int $status
+     * @param array $headers
+     * @param null $secure
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    protected function Redirect($to = null, $status = 302, $headers = [], $secure = null) {
+        return redirect($to, $status, $headers, $secure);
+    }
+
+    /**
      * Генерит URL до дейсвтия контроллера
      *
      * @param  string  $name

@@ -25,6 +25,7 @@ Route::get('/contacts', 'HomeController@contacts');
 Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () {
     Route::get('/', 'AdminController@index');
 
+
     Route::group(['prefix' => 'gamers'], function() {
         Route::get('/', 'GamerController@index');
         Route::get('/show/{id}', 'GamerController@show');

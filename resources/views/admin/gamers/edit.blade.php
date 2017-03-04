@@ -7,8 +7,6 @@
     <div class="">
 
         <form method="post" action="{{ url('/admin/gamers/update') }}">
-            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-            {!! Form::model($user, array('route' => array('user.update', $user->id))) !!}
             @include('admin/gamers/form')
         </form>
     </div>

@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Constants;
+use LaravelArdent\Ardent\Ardent;
 
 /**
  * Class Score
@@ -34,5 +35,19 @@ class GamerScore extends Ardent
     public function gamer()
     {
         return $this->belongsTo('App\Models\Gamer');
+    }
+
+    /**
+     * Возвращает массив стандартных очков
+     * @param null $games
+     * @return array
+     */
+    public static function getScoreSet($games = null) {
+        $games = !is_null($games) ? $games : Constants::getGameArray();
+        $result = [];
+        foreach ($games as $game) {
+            $result[] = new self(['game_name' => $game]);
+        }
+        return $result;
     }
 }

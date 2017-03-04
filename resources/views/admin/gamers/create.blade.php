@@ -5,7 +5,6 @@
 @section('content')
     <h1 class="mt-1">Создание записи</h1>
     <div class="">
-
         <form method="post" action="{{ url('/admin/gamers/store') }}">
             @include('admin/gamers/form')
         </form>
