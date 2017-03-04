@@ -5,9 +5,9 @@
 @section('content')
     <h1 class="mt-1">Создание записи</h1>
     <div class="">
-        <form method="post" action="{{ url('/admin/gamers/store') }}">
+        {!! Form::open(array('action' => array('GamerController@store'))) !!}
             @include('admin/gamers/form')
-        </form>
+        {!! Form::close() !!}
     </div>
 
 

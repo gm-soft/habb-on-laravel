@@ -85,7 +85,7 @@ class GamerController extends Controller
         $gamer = Gamer::find($id);
         return $this->View('admin/gamers/edit', [
             'gamer' => $gamer,
-            'scores' => $gamer->scores
+            'scores' => $gamer->scores()
         ]);
     }
 

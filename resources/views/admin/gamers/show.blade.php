@@ -5,11 +5,48 @@
 @section('content')
     <h1 class="mt-1">Игрок {{ $gamer->name }} {{ $gamer->last_name }} [ID {{ $gamer->id }}]</h1>
 
-    Age: {{ $gamer->getGamerAge() }}
-    <pre>
-        {{ \App\Helpers\VarDumper::dump($gamer) }}
-        <hr>
-        {{ \App\Helpers\VarDumper::dump($gamer->scores()) }}
+    <div class="card">
+        <div class="card-block">
+            <h3 class="card-title">Информация</h3>
+            <div class="card-text">
 
-    </pre>
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <dl class="row">
+                            <dt class="col-sm-3">Возраст</dt><dd class="col-sm-9">{{ $gamer->getGamerAge() }} лет  ({{ $gamer->getBirthday() }})</dd>
+                            <dt class="col-sm-3">Телефон</dt><dd class="col-sm-9">{{ $gamer->phone }}</dd>
+                            <dt class="col-sm-3">Email</dt><dd class="col-sm-9">{{ $gamer->email }}</dd>
+                            <dt class="col-sm-3">Страница VK</dt><dd class="col-sm-9">{{ $gamer->vk_page }}</dd>
+                            <dt class="col-sm-3">Город</dt><dd class="col-sm-9">{{ $gamer->city }}</dd>
+                            <dt class="col-sm-3">Статус</dt><dd class="col-sm-9">{{ $gamer->status }}</dd>
+                            <dt class="col-sm-3">Учреждение</dt><dd class="col-sm-9">{{ $gamer->institution }}</dd>
+
+                        </dl>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <dl class="row">
+                            <dt class="col-sm-3">Лид</dt><dd class="col-sm-9">{{ $gamer->lead_id }}</dd>
+                            <dt class="col-sm-3">Комментарий</dt><dd class="col-sm-9">{{ $gamer->comment }}</dd>
+
+                            <dt class="col-sm-3">Создан</dt><dd class="col-sm-9">{{ $gamer->created_at }}</dd>
+                            <dt class="col-sm-3">Обновлен</dt><dd class="col-sm-9">{{ $gamer->updated_at }}</dd>
+                        </dl>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <div class="float-sm-right">
+                    <a href="{{ url('admin/gamers/') }}"  class="btn btn-secondary"><span class="fa fa-chevron-circle-left"></span> В список</a>
+                    <a href="{{ url('admin/gamers/edit', ['id' => $gamer->id]) }}"  class="btn btn-secondary"><span class="fa fa-pencil"></span> Редактировать</a>
+                    <a href="{{ url('admin/gamers/remove', ['id' => $gamer->id]) }}"  class="btn btn-danger"><span class="fa fa-remove"></span> Удалить</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @include('admin/gamers/score-table')
 @endsection

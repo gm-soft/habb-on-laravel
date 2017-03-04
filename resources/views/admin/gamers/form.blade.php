@@ -1,27 +1,22 @@
 
 <div class="row">
     <div class="col-sm-6">
-        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
         <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Личная информация</h4>
                 <p class="card-text">
 
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="id">Habb ID</label>
-                    <div class="col-sm-9">
+                <input type="hidden" name="id" value="{{old('id')}}" >
 
-                        <input type="number" id="id" class="form-control" value="{{old('id')}}" disabled>
-                        <input type="hidden" name="id" value="{{old('id')}}" >
 
-                    </div>
-                </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="name">Имя</label>
+                    {{ Form::label('name', 'Имя:', ['class' => 'col-sm-3 col-form-label']) }}
                     <div class="col-sm-9">
-                        <input type="text" id="name" name="name" class="form-control"
-                               required placeholder="Введите имя (50)" maxlength="50" value="{{old('name')}}" >
+                        <!--input type="text" id="name" name="name" class="form-control"
+                               required placeholder="Введите имя (50)" maxlength="50" value="{{old('name')}}" -->
+                        {{ Form::text('name', old('name'),
+                            array('class' => 'form-control', 'required', 'maxlength' => '50', 'placeholder' => 'Введите имя')) }}
                     </div>
                 </div>
 
@@ -178,7 +173,7 @@
 
 </div>
 
-<div class="form-group row">
+<div class="form-group">
     <button type="submit" id="submit-btn" class="btn btn-primary">Сохранить</button>
 
 </div>

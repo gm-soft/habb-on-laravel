@@ -25,7 +25,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property \Datetime updated_at
  * @property \Datetime created_at
  *
- * @property GamerScore score
+ * @property GamerScore scores
  */
 class Gamer extends Ardent
 {
@@ -70,5 +70,9 @@ class Gamer extends Ardent
         $now = time();
         $birthday = $this->birthday->getTimestamp();
         return Carbon::createFromTimestamp($now - $birthday)->diffInYears();
+    }
+
+    public function getBirthday(){
+        return $this->birthday->format("d.m.Y");
     }
 }
