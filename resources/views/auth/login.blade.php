@@ -1,3 +1,4 @@
+
 @extends(\App\Helpers\Constants::FrontLayoutPath)
 @section('title', 'Авторизация')
 
@@ -10,7 +11,7 @@
             <h1 class="card-title">Авторизация на сайте</h1>
             <div class="card-text">
 
-                @include(\App\Helpers\Constants::BackModelValidationPath)
+                @include(\App\Helpers\Constants::ValidationLayout)
 
                 <form method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}
@@ -20,9 +21,10 @@
                                placeholder="Email адрес" pattern="@EmailFieldPattern()">
                         @if ($errors->has('email'))
                             <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span><br>
                         @endif
+                        <small>Введите адрес email, указанный при регистрации</small>
                     </div>
 
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
@@ -30,9 +32,10 @@
 
                         @if ($errors->has('password'))
                             <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span><br>
                         @endif
+                        <small>Введите пароль</small>
                     </div>
 
                     <div class="form-check">

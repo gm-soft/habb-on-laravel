@@ -13,7 +13,7 @@
                     </div>
                 @endif
 
-                    @include(\App\Helpers\Constants::BackModelValidationPath)
+                    @include(\App\Helpers\Constants::ValidationLayout)
 
                 <form class="form-horizontal" role="form" method="POST" action="/password/email">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

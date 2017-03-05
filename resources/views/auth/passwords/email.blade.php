@@ -1,46 +1,46 @@
-@extends('layouts.app')
+
+@extends(\App\Helpers\Constants::FrontLayoutPath)
+@section('title', 'Восстановление пароля')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-                <div class="panel-body">
+
+    <div class="row auth-block">
+        <div class="card col-sm-8 offset-sm-2">
+            <div class="card-block">
+                <h1 class="card-title">Восстановление пароля</h1>
+                <div class="card-text>">
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required placeholder="Адрес email">
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
+                            @if ($errors->has('email'))
+                                <span class="help-block text-danger">
                                         <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                                    </span><br>
+                            @endif
+                            <small>Введите адрес email, указанный при регистрации</small>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="float-sm-right">
                                 <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
+                                    Послать запрос на восстановление пароля
                                 </button>
                             </div>
+
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

@@ -7,7 +7,7 @@
             <h1 class="card-title">Сбросить пароль</h1>
             <div class="card-text">
 
-                @include(\App\Helpers\Constants::BackModelValidationPath)
+                @include(\App\Helpers\Constants::ValidationLayout)
 
                 <form class="form-horizontal" role="form" method="POST" action="/password/reset">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

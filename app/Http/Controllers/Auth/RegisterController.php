@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Laracasts\Flash\Flash;
 use Validator;
 
 class RegisterController extends Controller
@@ -27,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/register';
 
     /**
      * Create a new controller instance.
@@ -67,5 +71,62 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /**
+     * Переписываю, так как выкидывает исключение валидации вместо того, чтобы редиректнуть на страницу
+     *
+     * @param Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $all = $request->all();
+        $validator = $this->validator($all);
+
+        try {
+            $result = $validator->validate();
+            $user = $this->create($request->all());
+
+            event(new Registered($user));
+
+            $this->guard()->login($user);
+            return $this->registered($request, $user);
+        } catch (ValidationException $ex) {
+
+            return redirect()->back()
+                ->withInput($all)
+                ->withErrors($validator->errors());
+
+            //return redirect($this->redirectPath());
+        }
+        /*$result = $validator->validate();
+        $user = $this->create($request->all());
+
+        event(new Registered($user));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());*/
+    }
+
+    /**
+     * Скопировал из страницы логина, чтобы переносить юзера на страницу регистрации снова с сообщениями
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $errors = [$this->username() => trans('auth.failed')];
+
+        if ($request->expectsJson()) {
+            return response()->json($errors, 422);
+        }
+
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors($errors);
     }
 }

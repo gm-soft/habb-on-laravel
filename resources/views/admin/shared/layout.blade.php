@@ -11,12 +11,12 @@
 
     <title>@yield('title', "Управление Habb")</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/select2.min.css">
-    <link rel="stylesheet" href="/css/dataTables.min.css">
-    <link rel="stylesheet" href="/custom/shared.css">
-    <link rel="stylesheet" href="/custom/backend.css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared.css') }}">
+    <link rel="stylesheet" href="{{ asset('custom/backend.css') }}">
 
     @yield('styles')
 
@@ -25,19 +25,18 @@
 
         @include(\App\Helpers\Constants::BackNavPath)
         <div class="container">
-            @include(\App\Helpers\Constants::BackErrorsPath)
+            @include(\App\Helpers\Constants::FlashLayout)
             @include('flash::message')
 
             @yield('content')
         </div>
 
-    <script src="/js/tether.min.js"></script>
-    <script src="/js/jquery-3.1.1.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/select2.min.js"></script>
-    <script src="/js/dataTables.min.js"></script>
-    <script src="/custom/helpers.js"></script>
-
-    @yield('scripts')
+        <script src="{{ asset('js/tether.min.js') }}"></script>
+        <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/select2.min.js') }}"></script>
+        <script src="{{ asset('js/dataTables.min.js') }}"></script>
+        <script src="{{ asset('custom/helpers.js') }}"></script>
+        @yield('scripts')
     </body>
 </html>

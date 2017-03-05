@@ -103,6 +103,7 @@ class GamerController extends Controller
         // http://stackoverflow.com/questions/21314130/laravel-ardent-user-model-editing-saving
         $input = Input::all();
         $gamer = new Gamer($input);
+
         if($gamer->validate(Gamer::$rules)) {
 
             // get user from database and fill with input except password
