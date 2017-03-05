@@ -93,43 +93,25 @@ class RegisterController extends Controller
             event(new Registered($user));
 
             $this->guard()->login($user);
-            flash('Спасибо за регистрацию', Constants::Success);
+
             return $this->registered($request, $user);
         } catch (ValidationException $ex) {
 
             return redirect()->back()
                 ->withInput($all)
                 ->withErrors($validator->errors());
-
-            //return redirect($this->redirectPath());
         }
-        /*$result = $validator->validate();
-        $user = $this->create($request->all());
-
-        event(new Registered($user));
-
-        $this->guard()->login($user);
-
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());*/
     }
 
     /**
-     * Скопировал из страницы логина, чтобы переносить юзера на страницу регистрации снова с сообщениями
+     * Метод вызывается когда пользователь зарегистрировался
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  mixed  $user
+     * @return mixed
      */
-    protected function sendFailedLoginResponse(Request $request)
+    protected function registered(Request $request, $user)
     {
-        $errors = [$this->username() => trans('auth.failed')];
-
-        if ($request->expectsJson()) {
-            return response()->json($errors, 422);
-        }
-
-        return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors($errors);
+        flash('Спасибо за регистрацию', Constants::Success);
     }
 }
