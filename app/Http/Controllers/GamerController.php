@@ -31,7 +31,7 @@ class GamerController extends Controller
         $userAgent = request()->header('User-Agent');
         $isIosDevice = stripos($userAgent,"iPod")||stripos($userAgent,"iPhone")||stripos($userAgent,"iPad");
 
-        return $this->View('admin/gamers/create');
+        return $this->View('admin.gamers.create');
     }
 
     /**
@@ -55,7 +55,8 @@ class GamerController extends Controller
         $gamer->scores()->saveMany($scores);
 
 
-        return $this->Redirect('/admin/gamers/show/'.$gamer->id);
+        return Redirect::action('GamerController@show', ["id" => $gamer->id])
+            ->with('success', 'Данные сохранены');
     }
 
     /**
@@ -68,7 +69,7 @@ class GamerController extends Controller
     {
         $gamer = Gamer::find($id);
 
-        return $this->View('admin/gamers/show', [
+        return $this->View('admin.gamers.show', [
             'gamer' => $gamer,
             'scores' => $gamer->scores
         ]);
@@ -83,7 +84,7 @@ class GamerController extends Controller
     public function edit($id)
     {
         $gamer = Gamer::find($id);
-        return $this->View('admin/gamers/edit', [
+        return $this->View('admin.gamers.edit', [
             'gamer' => $gamer,
             'scores' => $gamer->scores()
         ]);

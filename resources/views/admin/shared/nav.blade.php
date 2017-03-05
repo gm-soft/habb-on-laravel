@@ -26,6 +26,8 @@
                         <a class="dropdown-item" href="{{ url('admin/gamers/') }}">Аккаунты</a>
                         <a class="dropdown-item" href="{{ url('admin/teams/') }}">Команды</a>
                         <a class="dropdown-item" href="{{ url('admin/tournaments/') }}">Турниры</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url('admin/posts/') }}">Посты</a>
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('admin/users/') }}">Пользователи</a>

@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-03-04.
+    * Generated on 2017-03-05.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -130,6 +130,8 @@ namespace PHPSTORM_META {
             'translator' instanceof \Illuminate\Translation\Translator,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
+            'html' instanceof \Collective\Html\HtmlBuilder,
+            'form' instanceof \Collective\Html\FormBuilder,
         ],
         \Illuminate\Contracts\Container\Container::make('') => [
             '' == '@',
@@ -252,6 +254,8 @@ namespace PHPSTORM_META {
             'translator' instanceof \Illuminate\Translation\Translator,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
+            'html' instanceof \Collective\Html\HtmlBuilder,
+            'form' instanceof \Collective\Html\FormBuilder,
         ],
         \App::make('') => [
             '' == '@',
@@ -374,6 +378,8 @@ namespace PHPSTORM_META {
             'translator' instanceof \Illuminate\Translation\Translator,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
+            'html' instanceof \Collective\Html\HtmlBuilder,
+            'form' instanceof \Collective\Html\FormBuilder,
         ],
         \app('') => [
             '' == '@',
@@ -496,6 +502,8 @@ namespace PHPSTORM_META {
             'translator' instanceof \Illuminate\Translation\Translator,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'command.tinker' instanceof \Laravel\Tinker\Console\TinkerCommand,
+            'html' instanceof \Collective\Html\HtmlBuilder,
+            'form' instanceof \Collective\Html\FormBuilder,
         ],
     ];
 }

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Laracasts\Flash\Flash;
+use Redirect;
 use Validator;
 
 class RegisterController extends Controller
@@ -27,13 +28,6 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/register';
 
     /**
      * Create a new controller instance.
@@ -94,7 +88,8 @@ class RegisterController extends Controller
 
             $this->guard()->login($user);
 
-            return $this->registered($request, $user);
+            $this->registered($request, $user);
+            return Redirect::to('/');
         } catch (ValidationException $ex) {
 
             return redirect()->back()

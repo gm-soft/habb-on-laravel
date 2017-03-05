@@ -16,28 +16,19 @@
 });*/
 
 Route::get('/', 'HomeController@index');
-
 Route::get('/home', 'HomeController@index');
-Route::get('/news', 'HomeController@news');
 Route::get('/about', 'HomeController@about');
 Route::get('/contacts', 'HomeController@contacts');
+//--------------------------
 
+Route::get('/news', 'FrontController@showAllPosts');
+Route::get('/news/{id}', 'FrontController@openPost');
+//--------------------------
 Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () {
     Route::get('/', 'AdminController@index');
 
-
-    Route::group(['prefix' => 'gamers'], function() {
-        Route::get('/', 'GamerController@index');
-        Route::get('/show/{id}', 'GamerController@show');
-
-        Route::get('/create', 'GamerController@create');
-        Route::post('/store', 'GamerController@store');
-
-        Route::get('/edit/{id}', 'GamerController@edit');
-        Route::post('/update', 'GamerController@update');
-
-        Route::post('/delete/{id}', 'GamerController@delete');
-    });
+    Route::resource('gamers', 'GamerController');
+    Route::resource('posts', 'PostController');
 
 });
 

@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/shared.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/backend.css') }}">
 
     @yield('styles')
@@ -25,7 +24,6 @@
 
         @include(\App\Helpers\Constants::BackNavPath)
         <div class="container">
-            @include(\App\Helpers\Constants::FlashLayout)
             @include('flash::message')
 
             @yield('content')

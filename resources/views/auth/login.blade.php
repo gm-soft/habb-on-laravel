@@ -20,7 +20,7 @@
                         <input type="email" class="form-control{{ $errors->has('email') ? ' has-error' : '' }}" id="email" name="email" value="{{ old('email') }}"
                                placeholder="Email адрес" pattern="@EmailFieldPattern()">
                         @if ($errors->has('email'))
-                            <span class="help-block">
+                            <span class="help-block text-danger">
                                 <strong>{{ $errors->first('email') }}</strong>
                             </span><br>
                         @endif
@@ -31,7 +31,7 @@
                         <input type="password" class="form-control" name="password"  placeholder="Пароль">
 
                         @if ($errors->has('password'))
-                            <span class="help-block">
+                            <span class="help-block text-danger">
                                 <strong>{{ $errors->first('password') }}</strong>
                             </span><br>
                         @endif

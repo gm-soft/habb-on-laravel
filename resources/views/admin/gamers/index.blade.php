@@ -32,8 +32,8 @@
                     <td>{{ $gamers[$i]->email  }}</td>
                     <td>{{ $gamers[$i]->vk_page  }}</td>
                     <td>
-                        <a href='{{ url('admin/gamers/show', ['id' => $gamers[$i]->id]) }}'>Открыть</a>
-                        <a href='{{ url('admin/gamers/edit', ['id' => $gamers[$i]->id]) }}'>Редактировать</a>
+                        {{ link_to_action('GamerController@show', 'Открыть', ['id' => $gamers[$i]->id]) }}
+                        {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $gamers[$i]->id]) }}
                     </td>
                 </tr>
 

@@ -39,10 +39,11 @@
 
             </div>
             <div class="card-footer">
+                {{ link_to_action('GamerController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
                 <div class="float-sm-right">
-                    <a href="{{ url('admin/gamers/') }}"  class="btn btn-secondary"><span class="fa fa-chevron-circle-left"></span> В список</a>
-                    <a href="{{ url('admin/gamers/edit', ['id' => $gamer->id]) }}"  class="btn btn-secondary"><span class="fa fa-pencil"></span> Редактировать</a>
-                    <a href="{{ url('admin/gamers/remove', ['id' => $gamer->id]) }}"  class="btn btn-danger"><span class="fa fa-remove"></span> Удалить</a>
+
+                    {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $post->id], ['class' => 'btn btn-primary']) }}
+                    {{ link_to_action('GamerController@destroy', 'Удалить', ['id' => $post->id], ['class' => 'btn btn-outline-danger']) }}
                 </div>
             </div>
         </div>

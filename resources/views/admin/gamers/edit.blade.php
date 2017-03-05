@@ -6,7 +6,7 @@
     <h1 class="mt-1">Редактирование записи {{ $gamer->name }}</h1>
     <div class="">
 
-        {!! Form::model($gamer, ['method' => 'post', 'action' => ['GamerController@update', $gamer->id]]) !!}
+        {!! Form::model($gamer, ['method' => 'put', 'action' => ['GamerController@update', $gamer->id]]) !!}
             @include('admin/gamers/form')
         {!! Form::close() !!}
 
