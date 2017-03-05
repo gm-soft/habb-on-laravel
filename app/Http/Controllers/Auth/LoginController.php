@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Constants;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,14 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    /**
+     * Функция вызывается когда пользовватель авторизуется
+     * @param Request $request
+     * @param $user
+     */
+    protected function authenticated(Request $request, $user){
+        flash('Вы успешно авторизовались', Constants::Success);
     }
 }

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-dark">
-    <div class="container">
+    <div class="container-fluid">
         <a class="navbar-brand" href="{{url('admin/dashboard/')}}">
-            HABB.KZ Админка
+            Habb Админка
         </a>
 
         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive"

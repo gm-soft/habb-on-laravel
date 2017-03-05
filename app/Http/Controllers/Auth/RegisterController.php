@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Constants;
+use App\Helpers\Messages;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
@@ -91,6 +93,7 @@ class RegisterController extends Controller
             event(new Registered($user));
 
             $this->guard()->login($user);
+            flash('Спасибо за регистрацию', Constants::Success);
             return $this->registered($request, $user);
         } catch (ValidationException $ex) {
 
