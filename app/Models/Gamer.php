@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Collective\Html\Eloquent\FormAccessible;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
 
 /**
