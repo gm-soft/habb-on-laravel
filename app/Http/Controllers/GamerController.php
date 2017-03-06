@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Redirect;
+use Validator;
 
 class GamerController extends Controller
 {
@@ -42,18 +43,38 @@ class GamerController extends Controller
      */
     public function store(Request $request)
     {
-        $gamer = Gamer::create(
-            $request->input()
-        );
+        $input = $request->input();
+        $validator = Validator::make($input, Gamer::rules());
+
+        if ($validator->fails()) {
+            return Redirect::action('GamerController@create')
+                ->withErrors($validator->errors())
+                ->withInput($input);
+        }
+
+        $gamer = new Gamer;
+        $gamer->name = Input::get('name');
+        $gamer->last_name = Input::get('last_name');
+
+        $gamer->phone = Input::get('phone');
+        $gamer->email = Input::get('email');
+        $gamer->birthday = Input::get('birthday');
+        $gamer->city = Input::get('city');
+        $gamer->vk_page = Input::get('vk_page');
+        $gamer->status = Input::get('status');
+        $gamer->institution = Input::get('institution');
+        $gamer->comment = Input::get('comment');
+        $gamer->lead_id = Input::get('lead_id');
 
         $success = $gamer->save();
         if ($success == false) {
-            $errors = $gamer->errors()->all();
+            return Redirect::action('GamerController@create')
+                ->withErrors($gamer->errors())
+                ->withInput($input);
 
         }
         $scores = GamerScore::getScoreSet();
         $gamer->scores()->saveMany($scores);
-
 
         return Redirect::action('GamerController@show', ["id" => $gamer->id])
             ->with('success', 'Данные сохранены');
@@ -67,11 +88,11 @@ class GamerController extends Controller
      */
     public function show($id)
     {
+        /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
-
         return $this->View('admin.gamers.show', [
             'gamer' => $gamer,
-            'scores' => $gamer->scores
+            'scores' => $gamer->scores()
         ]);
     }
 
@@ -83,6 +104,7 @@ class GamerController extends Controller
      */
     public function edit($id)
     {
+        /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
         return $this->View('admin.gamers.edit', [
             'gamer' => $gamer,
@@ -100,24 +122,54 @@ class GamerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // TODO проверить код на ошибки. Копипастнул
-        // http://stackoverflow.com/questions/21314130/laravel-ardent-user-model-editing-saving
-        $input = Input::all();
-        $gamer = new Gamer($input);
+        $input = $request->input();
+        $validator = Validator::make($input, Gamer::rules($id));
 
-        if($gamer->validate(Gamer::$rules)) {
-
-            // get user from database and fill with input except password
-            $gamer = User::find($id);
-
-            if($gamer->save())
-                return Redirect::action('GamerController@show', ["id" => $id])
-                    ->with('success', 'Данные сохранены');
+        if ($validator->fails()) {
+            return Redirect::action('GamerController@edit', ["id" => $id])
+                ->withErrors($validator->errors())
+                ->withInput($input);
         }
 
-        return Redirect::action('GamerController@edit', $id)
-            ->with('error', 'Возникли некоторые ошибки при валидации')
-            ->withErrors($gamer->errors());
+        /** @var Gamer $gamer */
+        $gamer = Gamer::find($id);
+            /*
+        $gamer->name = Input::get('name');
+        $gamer->last_name = Input::get('last_name');
+
+        $gamer->phone = Input::get('phone');
+        $gamer->email = Input::get('email');
+        $gamer->birthday = Input::get('birthday');
+        $gamer->city = Input::get('city');
+        $gamer->vk_page = Input::get('vk_page');
+        $gamer->status = Input::get('status');
+        $gamer->institution = Input::get('institution');
+        $gamer->comment = Input::get('comment');
+        $gamer->lead_id = Input::get('lead_id');*/
+
+        $res = $gamer->update(Input::all());
+
+        if ($res === false) {
+            return Redirect::action('GamerController@edit', ["id" => $gamer->id])
+                ->withErrors($gamer->errors())
+                ->withInput($input);
+        }
+        return Redirect::action('GamerController@show', ["id" => $gamer->id])
+            ->with('success', 'Данные сохранены');
+    }
+
+    /**
+     * Обновляет очки геймера
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function scoreUpdate(Request $request, $id)
+    {
+        /** @var Gamer $gamer */
+        $gamer = Gamer::find($id);
+
     }
 
     /**

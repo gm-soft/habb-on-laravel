@@ -5,9 +5,8 @@
 @section('content')
     <h1 class="mt-1">Игрок {{ $gamer->name }} {{ $gamer->last_name }} [ID {{ $gamer->id }}]</h1>
 
-    <div class="card">
+    <div class="mt-1 card">
         <div class="card-block">
-            <h3 class="card-title">Информация</h3>
             <div class="card-text">
 
                 <div class="row">
@@ -38,13 +37,13 @@
                 </div>
 
             </div>
-            <div class="card-footer">
-                {{ link_to_action('GamerController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
-                <div class="float-sm-right">
+        </div>
+        <div class="card-footer">
+            {{ link_to_action('GamerController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
+            <div class="float-sm-right">
 
-                    {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $post->id], ['class' => 'btn btn-primary']) }}
-                    {{ link_to_action('GamerController@destroy', 'Удалить', ['id' => $post->id], ['class' => 'btn btn-outline-danger']) }}
-                </div>
+                {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $gamer->id], ['class' => 'btn btn-primary']) }}
+                {{ link_to_action('GamerController@destroy', 'Удалить', ['id' => $gamer->id], ['class' => 'btn btn-outline-danger']) }}
             </div>
         </div>
     </div>

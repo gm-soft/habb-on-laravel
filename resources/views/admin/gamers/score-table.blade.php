@@ -1,33 +1,40 @@
 
-<div class="card">
-    <div class="card-block">
-        <h5 class="card-title">Очки</h5>
-        <div class="card-text">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Игра</th>
-                    <th>Очки</th>
-                    <th>Прирост</th>
-                    <th>За месяц</th>
-                    <th>Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($gamer->scores as $score)
+<div class="mt-1">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Игра</th>
+            <th>Очки</th>
+            <th>Прирост</th>
+            <th>За месяц</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($gamer->scores as $score)
 
-                    @php( $monthChanged = $score->total_value - $score->month_value)
-                    <tr>
-                        <td>{{  $score->game_name }}</td>
-                        <td>{{ $score->total_value }}</td>
-                        <td>{{ $score->total_change }}</td>
-                        <td>{{ $monthChanged }}</td>
-                        <td></td>
-                    </tr>
-                @endforeach
+            @php( $monthChanged = $score->total_value - $score->month_value)
+            <tr>
+                <td>{{  $score->game_name }}</td>
+                <td>{{ $score->total_value }}</td>
+                <td>{{ $score->total_change }}</td>
+                <td>{{ $monthChanged }}</td>
+                <td>
+                    {!! Form::open(['method' => 'post', 'action' => ['GamerController@scoreUpdate', $gamer->id]]) !!}
+                        <input type="hidden" name="game" value="{{$score->game_name}}">
+                        <div class="input-group">
+                            {{ Form::number('value', $score->total_value,
+                            array('class' => 'form-control', 'placeholder' => 'Введите число')) }}
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-outline-primary">Сохранить</button>
+                            </span>
+                        </div>
+                    {!! Form::close() !!}
 
-                </tbody>
-            </table>
-        </div>
-    </div>
+                </td>
+            </tr>
+        @endforeach
+
+        </tbody>
+    </table>
 </div>

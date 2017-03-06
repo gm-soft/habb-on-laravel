@@ -69,6 +69,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
+        /** @var Post $post */
         $post = Post::find($id);
         $post->decodeHtmlContent();
         return $this->View('admin/posts/show', [
@@ -84,6 +85,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        /** @var Post $post */
         $post = Post::find($id);
         $post->content = HTML::decode($post->content);
         return $this->View('admin/posts/edit', [
@@ -110,6 +112,7 @@ class PostController extends Controller
                 ->withInput($input);
         }
 
+        /** @var Post $post */
         $post = Post::find($id);
         $post->title = Input::get('title');
         $post->encodeHtmlContent(Input::get('content'));
@@ -133,9 +136,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $nerd = Post::find($id);
-        $nerd->delete();
-        flash('Пост был удален', Constants::Success);
+        /** @var Post $post */
+        $post = Post::find($id);
+        $post->delete();
+        flash("Пост $id был удален", Constants::Success);
         return $this->Redirect('/admin/posts/');
     }
 }

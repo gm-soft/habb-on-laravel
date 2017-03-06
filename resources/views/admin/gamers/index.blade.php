@@ -12,7 +12,6 @@
     <table class="table table-striped dataTable">
         <thead>
             <tr>
-                <th>#</th>
                 <th>ID</th>
                 <th>Имя</th>
                 <th>Телефон</th>
@@ -25,7 +24,6 @@
             @for($i=0;$i<count($gamers);$i++)
 
                 <tr>
-                    <td>{{$i+1}}</td>
                     <td>{{ $gamers[$i]->id }}</td>
                     <td>{{ $gamers[$i]->name}} {{$gamers[$i]->last_name}}</td>
                     <td>{{ $gamers[$i]->phone  }}</td>
