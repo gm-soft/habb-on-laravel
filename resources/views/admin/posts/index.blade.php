@@ -14,7 +14,7 @@
             <tr>
                 <th>ID</th>
                 <th>Заголовок</th>
-                <th>Контент</th>
+                <th>Размер контента</th>
                 <th>Просмотры</th>
                 <th>Опубликован</th>
                 <th>Действия</th>
@@ -26,7 +26,7 @@
                 <tr>
                     <td>{{ $posts[$i]->id }}</td>
                     <td>{{ $posts[$i]->title}}</td>
-                    <td>{{ $posts[$i]->getContentShortly()  }}</td>
+                    <td>{{ $posts[$i]->getContentLength()  }}</td>
                     <td>{{ $posts[$i]->views  }}</td>
                     <td>{{ $posts[$i]->updated_at  }}</td>
                     <td>

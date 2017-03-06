@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Html;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
 
@@ -21,7 +22,7 @@ class Post extends Ardent
 
     public static $rules = array(
         'title'     => 'required|between:2,100',
-        'content'   => 'required|between:2,2000',
+        'content'   => 'required|between:2,5000',
     );
     protected $table = "posts";
 
@@ -47,11 +48,41 @@ class Post extends Ardent
      * @return string
      */
     public function getContentShortly($length = 30) {
-        $contentLength = strlen($this->content);
+
+        $content = $this->contentToHtml();
+        $contentLength = strlen($content);
         if ($length < $contentLength) {
-            $returnable = substr($this->content, 0, $length);
+            $returnable = substr($content, 0, $length);
             return $returnable. "...";
         }
         return $this->content;
+    }
+
+    public function contentToHtml(){
+        $result = HTML::decode($this->content);
+        return $result;
+    }
+
+    /**
+     * ВОзвращает размер статьи
+     * @return int
+     */
+    public function getContentLength() {
+        return strlen($this->content);
+    }
+
+    /**
+     * Кодирует разметку html в пригодную для сохранения в базе
+     * @param $content
+     */
+    public function encodeHtmlContent($content) {
+        $this->content = HTML::entities($content);
+    }
+
+    /**
+     * Декодирует сохраненную кодированную разметку в базе в html-вью
+     */
+    public function decodeHtmlContent() {
+        $this->content = HTML::decode($this->content);
     }
 }

@@ -3,7 +3,7 @@
 @section('title', 'Редактирование статьи')
 
 @section('content')
-    <h1 class="mt-1">Редактирование статьи {{ $post->title }}</h1>
+    <h1 class="mt-1">Редактирование статьи [{{ $post->id }}]</h1>
     <div class="">
 
         {!! Form::model($post, ['method' => 'PATCH', 'action' => ['PostController@update', $post->id]]) !!}
@@ -19,5 +19,8 @@
 @endsection
 
 @section('scripts')
-
+    <script src="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('content', { });
+    </script>
 @endsection

@@ -6,7 +6,7 @@
     <h1 class="mt-1">{{ $post->title }}</h1>
 
     <div class="mt-2">
-        {{ $post->content }}
+        {!! $post->content  !!}
     </div>
     <hr>
     <div class="mt-2 row">

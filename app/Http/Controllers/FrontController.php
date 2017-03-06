@@ -19,7 +19,7 @@ class FrontController extends Controller
         if (!\Auth::user()->hasBackendRight()) {
             $post->views = $post->views+1;
         }
-
+        $post->decodeHtmlContent();
         $post->save();
 
         return $this->View('front.posts.show', ["post" => $post]);
@@ -27,6 +27,9 @@ class FrontController extends Controller
 
     public function showAllPosts() {
         $posts = Post::all();
+        foreach ($posts as $post) {
+            $post->decodeHtmlContent();
+        }
         return $this->View('front.posts.index', ["posts" => $posts]);
     }
 }

@@ -14,13 +14,13 @@
 <div class="form-group">
     {{ Form::label('content', 'Контент') }}
     {{ Form::textarea('content', old('content'),
-            array('class' => 'form-control', 'required', 'maxlength' => '2000', 'placeholder' => 'Напечатайте контент статьи. Максимум 2000 знаков')) }}
+            array('class' => 'form-control', 'required', 'maxlength' => '5000', 'placeholder' => 'Напечатайте контент статьи. Максимум 2000 знаков')) }}
     @if ($errors->has('content'))
         <span class="help-block text-danger">
             <strong>{{ $errors->first('content') }}</strong>
         </span><br>
     @endif
-    <small>Максимальное кол-во знаков: 2000</small>
+    <small>Максимальное кол-во знаков: 5000</small>
 </div>
 
 <div class="form-group float-sm-right">

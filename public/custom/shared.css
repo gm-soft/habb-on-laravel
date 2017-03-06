@@ -28,3 +28,13 @@ pre {
 body {
     margin-bottom: 60px;
 }
+
+blockquote {
+    /**
+    кодирование спец символов не позволяет задать класс цитатам, а бутсрап дате класс не тегу цитаты, а классу цитаты. Здесь я копипастнул код
+     */
+    padding: 0.5rem 1rem !important;
+    margin-bottom: 1rem !important;
+    font-size: 1.25rem !important;
+    border-left: 0.25rem solid #eceeef !important;
+}

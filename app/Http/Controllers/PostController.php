@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Models\Post;
+use Html;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Redirect;
@@ -51,8 +52,9 @@ class PostController extends Controller
         }
 
         $post = new Post;
-        $post->title = Input::get('title');
-        $post->content = Input::get('content');
+        $post->title = HTML::entities(Input::get('title'));
+        $post->encodeHtmlContent(Input::get('content'));
+        //$post->content = HTML::entities(Input::get('content'));
         $post->save();
         flash("Данные сохранены!", Constants::Success);
         return Redirect::action('PostController@show', ["id" => $post->id])
@@ -68,7 +70,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-
+        $post->decodeHtmlContent();
         return $this->View('admin/posts/show', [
             'post' => $post,
         ]);
@@ -83,6 +85,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+        $post->content = HTML::decode($post->content);
         return $this->View('admin/posts/edit', [
             'post' => $post,
         ]);
@@ -101,14 +104,15 @@ class PostController extends Controller
         $input = $request->input();
         $validator = Validator::make($input, Post::$rules);
 
-
         if ($validator->fails()) {
-
+            return Redirect::to('admin/posts/edit')
+                ->withErrors($validator->errors())
+                ->withInput($input);
         }
 
         $post = Post::find($id);
         $post->title = Input::get('title');
-        $post->content = Input::get('content');
+        $post->encodeHtmlContent(Input::get('content'));
 
         if (!$post->save()) {
             return Redirect::to('admin/posts/edit')

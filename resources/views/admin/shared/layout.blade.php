@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/backend.css') }}">
+    <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
 
     @yield('styles')
 
