@@ -3,11 +3,19 @@
 @section('title', 'Список игроков')
 
 @section('content')
-    <h1>Игроки</h1>
+    <div class="row mt-2 mb-1">
 
-    <div>
-        <a href="{{url('admin/gamers/create')}}">Создать запись</a>
+        <div class="col-sm-6">
+            <h1>Игроки</h1>
+        </div>
+
+        <div class="col-sm-6 text-sm-right">
+            <a href="{{url('admin/gamers/create')}}" class="btn btn-secondary">Создать запись</a>
+        </div>
     </div>
+
+
+
 
     <table class="table table-striped dataTable">
         <thead>

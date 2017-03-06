@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="card-footer">
-            {{ link_to_action('GamerController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
+            {{ link_to_action('GamerController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
             <div class="float-sm-right">
 
                 {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $gamer->id], ['class' => 'btn btn-primary']) }}

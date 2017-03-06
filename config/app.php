@@ -181,7 +181,6 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
 
     ],
 
@@ -235,7 +234,6 @@ return [
         // Сторонние алиасы
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
 
     ],
 
