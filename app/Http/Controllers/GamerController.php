@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Constants;
 use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Log;
 use Redirect;
 use Validator;
 
@@ -162,13 +164,34 @@ class GamerController extends Controller
      * Обновляет очки геймера
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function scoreUpdate(Request $request, $id)
+    public function scoreUpdate(Request $request)
     {
         /** @var Gamer $gamer */
-        $gamer = Gamer::find($id);
+        $id = Input::get('gamer_id');
+        $gamer = Gamer::with('scores')->find($id);
+        $gameName = Input::get('game_name');
+        $scoreValue = Input::get('score_value');
+
+        if (is_null($gameName) || is_null($scoreValue)) {
+            Log::info("Прислан невалидный реквест на обновление очков команды");
+
+            flash("Название игры или очки пустые", Constants::Error);
+            return Redirect::action('GamerController@show', ["id" => $id]);
+        }
+
+
+        $result = $gamer->addScoreValue($gameName, $scoreValue);
+        if ($result == false) {
+
+            $message = "Не найдена запись очков игрока<br>";
+            $message .= join('<br>', $gamer->errors());
+            flash($message, Constants::Error);
+            return Redirect::action('GamerController@show', ["id" => $id]);
+        }
+        flash("Очки обновлены", Constants::Success);
+        return Redirect::action('GamerController@show', ["id" => $id]);
 
     }
 

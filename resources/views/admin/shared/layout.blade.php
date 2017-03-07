@@ -10,7 +10,7 @@
     <meta name="googlebot" content="noindex">
 
     <title>@yield('title', "Управление Habb")</title>
-    <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
@@ -23,7 +23,7 @@
 </head>
     <body>
 
-        @include(\App\Helpers\Constants::BackNavPath)
+        @include("admin.shared.nav")
         <div class="container">
             @include('flash::message')
 

@@ -1,5 +1,4 @@
 
-
 <nav class="navbar navbar-dark bg-challonge">
     <div class="container-fluid">
         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

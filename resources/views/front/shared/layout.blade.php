@@ -10,29 +10,26 @@
 
     <title>@yield('title', "HABB - Сообщество геймеров Казахстана")</title>
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/select2.min.css"  />
-    <link rel="stylesheet" href="/css/dataTables.min.css"  />
-    <link rel="stylesheet" href="/custom/shared.css">
-    <link rel="stylesheet" href="/custom/frontend.css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}"  />
+    <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}"  />
+    <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
+    <link rel="stylesheet" href="{{ asset('custom/frontend.css') }}">
     @yield('styles')
 </head>
     <body>
-        @include(\App\Helpers\Constants::FrontNavPath)
+        @include("front.shared.nav")
         <div class="container">
             @include('flash::message')
-
             @yield('content')
-
         </div>
-
-        <script src="/js/tether.min.js"></script>
-        <script src="/js/jquery-3.1.1.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/select2.min.js"></script>
-        <script src="/custom/helpers.js"></script>
-        <script src="/js/dataTables.min.js"></script>
+        <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ asset('js/tether.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/select2.min.js') }}"></script>
+        <script src="{{ asset('js/dataTables.min.js') }}"></script>
+        <script src="{{ asset('custom/helpers.js') }}"></script>
 
         @yield('scripts')
     </body>

@@ -21,10 +21,11 @@
                 <td>{{ $monthChanged }}</td>
                 <td>
                     {!! Form::open(['method' => 'post', 'action' => ['GamerController@scoreUpdate', $gamer->id]]) !!}
-                        <input type="hidden" name="game" value="{{$score->game_name}}">
+                        <input type="hidden" name="gamer_id" value="{{$score->gamer_id}}">
+                        <input type="hidden" name="game_name" value="{{$score->game_name}}">
                         <div class="input-group">
-                            {{ Form::number('value', $score->total_value,
-                            array('class' => 'form-control', 'placeholder' => 'Введите число')) }}
+                            {{ Form::number('score_value', null/*$score->total_value*/,
+                            array('class' => 'form-control', 'placeholder' => 'Введите число', 'required')) }}
                             <span class="input-group-btn">
                                 <button type="submit" class="btn btn-outline-primary">Сохранить</button>
                             </span>

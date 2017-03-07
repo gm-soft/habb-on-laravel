@@ -63,6 +63,7 @@ class Gamer extends Ardent
 
     /**
      * Массив привязанных очков GamerScore
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function scores()
     {
@@ -78,6 +79,38 @@ class Gamer extends Ardent
 
     public function getBirthday($format = "d.m.Y"){
         return $this->birthday->format($format);
+    }
+
+    /**
+     * Возвращает определенный
+     * @param string $gameName
+     * @return GamerScore|null
+     */
+    public function getScoreByGame($gameName) {
+        $scores = $this->scores;
+        foreach ($scores as $score) {
+            if ($score->game_name != $gameName) continue;
+            return $score;
+        }
+        return null;
+    }
+
+    /**
+     * @param string $gameName
+     * @param int $scoreValueAdded
+     * @return bool
+     */
+    public function addScoreValue($gameName, $scoreValueAdded) {
+        $gamerScore = $this->getScoreByGame($gameName);
+        if (is_null($gamerScore)) {
+            $this->errors()->add('NotFound', 'Привязанные очки к игре '.$gameName.' не найдены');
+            return false;
+        }
+        $gamerScore->total_change = $scoreValueAdded;
+        $gamerScore->total_value = $scoreValueAdded + $gamerScore->total_value;
+
+        $result = $gamerScore->update();
+        return $result;
     }
 
 
