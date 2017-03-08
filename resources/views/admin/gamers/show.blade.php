@@ -3,7 +3,7 @@
 @section('title', 'Информация об игроке')
 
 @section('content')
-    <h1 class="mt-1">Игрок {{ $gamer->name }} {{ $gamer->last_name }} [ID {{ $gamer->id }}]</h1>
+    <h1 class="mt-2">Игрок {{ $gamer->name }} {{ $gamer->last_name }} [ID {{ $gamer->id }}]</h1>
 
     <div class="mt-1 card">
         <div class="card-block">
@@ -31,6 +31,8 @@
 
                             <dt class="col-sm-3">Создан</dt><dd class="col-sm-9">{{ $gamer->created_at }}</dd>
                             <dt class="col-sm-3">Обновлен</dt><dd class="col-sm-9">{{ $gamer->updated_at }}</dd>
+
+                            <dt class="col-sm-3">Класс</dt><dd class="col-sm-9">{{ $gamer->getClass() }}</dd>
                         </dl>
                     </div>
 
