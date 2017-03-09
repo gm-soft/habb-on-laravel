@@ -18,7 +18,6 @@ class CreateTeamsTable extends Migration
             $table->string('name', 100)->comment("Название команды. Максимум 100 символов");
             $table->string('city')->comment("Город, указанный при регистрации");
             $table->text('gamer_ids')->comment("Перечисленный массив геймеров-участников");
-
             $table->text('comment')->nullable()->comment("Комментарий пользователя к данной тиме");
             $table->timestamps();
         });

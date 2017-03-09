@@ -13,8 +13,8 @@ class AddFavGames extends Migration
     public function up()
     {
         Schema::table('gamers', function (Blueprint $table) {
-            $table->addColumn('string', 'primary_game');
-            $table->addColumn('text', 'secondary_games');
+            $table->string('primary_game')->nullable()->after('lead_id');
+            $table->text('secondary_games')->nullable()->after('lead_id');
         });
     }
 

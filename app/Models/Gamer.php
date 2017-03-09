@@ -25,6 +25,10 @@ use LaravelArdent\Ardent\Ardent;
  * @property string institution
  * @property string comment
  * @property string lead_id
+ *
+ * @property string primary_game
+ * @property array secondary_games
+ *
  * @property Carbon updated_at
  * @property Carbon created_at
  *
@@ -55,6 +59,9 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     }
 
     protected $dates = ['birthday'];
+    protected $casts = [
+        'secondary_games' => 'array'
+    ];
 
     /**
      * Массив привязанных очков GamerScore
@@ -92,6 +99,16 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         $gamerScore->total_value = $scoreValueAdded + $gamerScore->total_value;
 
         $result = $gamerScore->update();
+        return $result;
+    }
+
+    public function getSecondaryGamesAttribute($value){
+        $result = explode(',', $value);
+        return $result;
+    }
+
+    public function setSecondaryGamesAttribute($value) {
+        $result = join(',', $value);
         return $result;
     }
 

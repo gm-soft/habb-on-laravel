@@ -25,7 +25,6 @@ class Team extends Ardent
     protected $casts = [
         'gamer_ids' => 'array'
     ];
-
     /**
      * Массив привязанных очков TeamScore
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -43,6 +42,16 @@ class Team extends Ardent
         foreach ($this->gamer_ids as $gamer_id) {
             $result[] = Gamer::find($gamer_id);
         }
+        return $result;
+    }
+
+    public function getGamerIdsAttribute($value){
+        $result = explode(',', $value);
+        return $result;
+    }
+
+    public function setGamerIdsAttribute($value) {
+        $result = join(',', $value);
         return $result;
     }
 }
