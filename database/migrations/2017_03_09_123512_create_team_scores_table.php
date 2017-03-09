@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGamerScoresTable extends Migration
+class CreateTeamScoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateGamerScoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('gamer_scores', function (Blueprint $table) {
+        Schema::create('team_scores', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('gamer_id')->comment("Аккаунт геймера, к которому привязана запись");
-            $table->text('scores')->comment("Название дисциплины, к которой относится запись");
-
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateGamerScoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gamer_scores');
+        Schema::dropIfExists('team_scores');
     }
 }

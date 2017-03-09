@@ -18,21 +18,21 @@ use LaravelArdent\Ardent\Ardent;
  * @property string last_name
  * @property string phone
  * @property string email
- * @property \DateTime birthday
+ * @property Carbon birthday
  * @property string city
  * @property string vk_page
  * @property string status
  * @property string institution
  * @property string comment
  * @property string lead_id
- * @property \Datetime updated_at
- * @property \Datetime created_at
+ * @property Carbon updated_at
+ * @property Carbon created_at
  *
- * @property GamerScore scores
+ * @property GamerScore score
  */
 class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 {
-    use FormAccessible;
+    use FormAccessible/*, SoftDeletes*/;
 
     public static function rules ($id = 0) {
         return array(
@@ -43,14 +43,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         );
     }
     protected $table = "gamers";
-    /*protected $attributes = array(
 
-        'city' => 'Астана',
-        'status' => 'dumbass',
-        'institution' => '-',
-        'comment' => 'Комментарий отсутствует'
-    );
-    */
     protected $fillable = array(
         'name', 'last_name', 'phone', 'email', 'birthday', 'city', 'vk_page', 'status', 'institution', 'comment', 'lead_id'
     );
@@ -65,11 +58,11 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 
     /**
      * Массив привязанных очков GamerScore
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function scores()
+    public function score()
     {
-        return $this->hasMany('App\Models\GamerScore');
+        return $this->hasOne('App\Models\GamerScore');
     }
 
     public function getGamerAge(){
@@ -124,7 +117,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function getScore($gameName)
     {
-        $scores = $this->scores;
+        $scores = $this->score;
         foreach ($scores as $score) {
             if ($score->game_name != $gameName) continue;
             return $score;
