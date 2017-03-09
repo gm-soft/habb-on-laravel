@@ -4,7 +4,7 @@ namespace App\Models;
 
 
 use App\Helpers\Constants;
-use app\Interfaces\IScoreInstance;
+use App\Interfaces\IScoreInstance;
 use LaravelArdent\Ardent\Ardent;
 
 class TeamScore extends Ardent implements IScoreInstance

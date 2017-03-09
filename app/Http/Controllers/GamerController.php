@@ -68,6 +68,9 @@ class GamerController extends Controller
         $gamer->comment = Input::get('comment');
         $gamer->lead_id = Input::get('lead_id');
 
+        $gamer->primary_game = Input::get('primary_game');
+        $gamer->secondary_games = Input::get('secondary_games');
+
         $success = $gamer->save();
         if ($success == false) {
             return Redirect::action('GamerController@create')

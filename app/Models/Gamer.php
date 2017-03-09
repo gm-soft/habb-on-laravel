@@ -108,8 +108,11 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     }
 
     public function setSecondaryGamesAttribute($value) {
-        $result = join(',', $value);
-        return $result;
+        $this->attributes['secondary_games']= join(',', $value);
+    }
+
+    public function getSecondaryGamesAsString() {
+        return join(', ', $this->secondary_games);
     }
 
 

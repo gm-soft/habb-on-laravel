@@ -51,7 +51,6 @@ class Team extends Ardent
     }
 
     public function setGamerIdsAttribute($value) {
-        $result = join(',', $value);
-        return $result;
+        $this->attributes['gamer_ids']= join(',', $value);
     }
 }

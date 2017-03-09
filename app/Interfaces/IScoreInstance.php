@@ -6,7 +6,7 @@
  * Time: 19:06
  */
 
-namespace app\Interfaces;
+namespace App\Interfaces;
 
 
 interface IScoreInstance

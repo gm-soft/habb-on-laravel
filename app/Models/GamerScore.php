@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use App\Helpers\Constants;
-use app\Interfaces\IScoreInstance;
+use App\Interfaces\IScoreInstance;
+use Carbon\Carbon;
 use LaravelArdent\Ardent\Ardent;
 
 /**
@@ -15,8 +16,8 @@ use LaravelArdent\Ardent\Ardent;
  * @property int total_value Общее значение набранных очков
  * @property int total_change Показатель последнего изменения очков. Может быть больше или меньше нуля
  * @property int month_value Показатель очков на начало месяца. Для того, чтобы считать, какой прирост за месяц произошел
- * @property \DateTime created_at
- * @property \DateTime updated_at
+ * @property Carbon created_at
+ * @property Carbon updated_at
  */
 class GamerScore extends Ardent implements IScoreInstance
 {

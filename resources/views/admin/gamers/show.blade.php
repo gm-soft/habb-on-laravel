@@ -28,6 +28,8 @@
                         <dl class="row">
                             <dt class="col-sm-3">Лид</dt><dd class="col-sm-9">{{ $gamer->lead_id }}</dd>
                             <dt class="col-sm-3">Комментарий</dt><dd class="col-sm-9">{{ $gamer->comment }}</dd>
+                            <dt class="col-sm-3">Основная игра</dt><dd class="col-sm-9">{{ $gamer->primary_game }}</dd>
+                            <dt class="col-sm-3">Другие игры</dt><dd class="col-sm-9">{{ $gamer->getSecondaryGamesAsString() }}</dd>
 
                             <dt class="col-sm-3">Создан</dt><dd class="col-sm-9">{{ $gamer->created_at }}</dd>
                             <dt class="col-sm-3">Обновлен</dt><dd class="col-sm-9">{{ $gamer->updated_at }}</dd>

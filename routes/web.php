@@ -28,7 +28,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () 
     Route::get('/', 'AdminController@index');
 
     Route::resource('gamers', 'GamerController');
-    Route::post('scoreUpdate', 'GamerController@scoreUpdate');
+    Route::post('gamerScoreUpdate', 'GamerController@scoreUpdate');
+
+    Route::resource('teams', 'TeamController');
+    Route::post('teamsScoreUpdate', 'TeamController@scoreUpdate');
 
     Route::resource('posts', 'PostController');
 

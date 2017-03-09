@@ -170,6 +170,30 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {{ Form::select('primary_game', [
+                        'dota2' => 'Dota2',
+                        'cs:go' => 'CS:GO',
+                        'lol' => 'League of Legends',
+                        'hearthstone' => 'Hearthstone',
+                        'wot' => 'World of Tanks',
+                        'overwatch' => 'Overwatch',
+                        'cod' => 'Call of Duty (серия игр)'
+                    ], old('primary_game'), ['class'=>'form-control select2-single', 'id' => 'primary_game', 'required' => true]) }}
+                </div>
+
+                <div class="form-group">
+                    {{ Form::select('secondary_games[]', [
+                         'dota2' => 'Dota2',
+                         'cs:go' => 'CS:GO',
+                         'lol' => 'League of Legends',
+                         'hearthstone' => 'Hearthstone',
+                         'wot' => 'World of Tanks',
+                         'overwatch' => 'Overwatch',
+                         'cod' => 'Call of Duty (серия игр)'
+                     ], old('secondary_games'), ['class'=>'form-control select2-multiple', 'id' => 'primary_game', 'multiple' => true, 'required' => true]) }}
+                </div>
+
                 </p>
             </div>
         </div>

@@ -95,13 +95,8 @@ class BladeExtensions
             return $content;
         });
 
-
-        Blade::directive('renderGameSelectField', function($fieldName,
-                                                           $fieldId = null,
-                                                           $userGames = null,
-                                                           $isRequired = false,
-                                                           $isMultiple = false) {
-            $fieldId = !is_null($fieldId) ? $fieldId : $fieldName;
+        Blade::directive('FormGameSelectField', function($fieldName, $userGames = null, $isRequired = false, $isMultiple = false) {
+            $fieldId = $fieldName;
             $fieldName = $isMultiple == true ? $fieldName."[]" : $fieldName;
             $userGames = is_array($userGames) ? $userGames : [$userGames];
 
@@ -114,7 +109,7 @@ class BladeExtensions
 
             $content .= "<option value='' disabled>Выберите игру</option>|";
 
-            $gameIds = explode(",", "dota,cs:go,lol,hearthstone,wot,overwatch,cod");
+            $gameIds = explode(",", "dota2,cs:go,lol,hearthstone,wot,overwatch,cod");
             $gameTitles = explode(",", "Dota2,CS:GO,League of Legends,Hearthstone,World of Tanks,Overwatch,Call of Duty (серия игр)");
 
             for ($i = 0; $i < count($gameIds);$i++) {

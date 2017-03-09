@@ -25,6 +25,7 @@
                 <th>Телефон</th>
                 <th>Email</th>
                 <th>VK страница</th>
+                <th>Игра</th>
                 <th>Действия</th>
             </tr>
         </thead>
@@ -37,6 +38,7 @@
                     <td>{{ $gamers[$i]->phone  }}</td>
                     <td>{{ $gamers[$i]->email  }}</td>
                     <td>{{ $gamers[$i]->vk_page  }}</td>
+                    <td>{{ $gamers[$i]->primary_game  }}</td>
                     <td>
                         {{ link_to_action('GamerController@show', 'Открыть', ['id' => $gamers[$i]->id]) }}
                         {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $gamers[$i]->id]) }}
