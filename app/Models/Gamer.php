@@ -28,11 +28,11 @@ use LaravelArdent\Ardent\Ardent;
  * @property Carbon updated_at
  * @property Carbon created_at
  *
- * @property GamerScore score
+ * @property GamerScore scores
  */
 class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 {
-    use FormAccessible/*, SoftDeletes*/;
+    use FormAccessible;
 
     public static function rules ($id = 0) {
         return array(
@@ -58,11 +58,11 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 
     /**
      * Массив привязанных очков GamerScore
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function score()
+    public function scores()
     {
-        return $this->hasOne('App\Models\GamerScore');
+        return $this->hasMany('App\Models\GamerScore');
     }
 
     public function getGamerAge(){
@@ -117,7 +117,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function getScore($gameName)
     {
-        $scores = $this->score;
+        $scores = $this->scores;
         foreach ($scores as $score) {
             if ($score->game_name != $gameName) continue;
             return $score;

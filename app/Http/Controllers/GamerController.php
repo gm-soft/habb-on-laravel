@@ -45,7 +45,6 @@ class GamerController extends Controller
      */
     public function store(Request $request)
     {
-        throwException(new \Exception('NotImplemented'));
         $input = $request->input();
         $validator = Validator::make($input, Gamer::rules());
 

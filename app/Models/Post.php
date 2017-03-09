@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Html;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
@@ -13,8 +14,8 @@ use LaravelArdent\Ardent\Ardent;
  * @property string title
  * @property string content
  * @property int views
- * @property \DateTime created_at
- * @property \DateTime updated_at
+ * @property Carbon created_at
+ * @property Carbon updated_at
  */
 class Post extends Ardent
 {
