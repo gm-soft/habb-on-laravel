@@ -28,7 +28,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property Carbon updated_at
  * @property Carbon created_at
  *
- * @property GamerScore scores
+ * @property GamerScore[] scores
  */
 class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 {

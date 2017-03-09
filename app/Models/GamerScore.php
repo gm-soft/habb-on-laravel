@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Constants;
+use app\Interfaces\IScoreInstance;
 use LaravelArdent\Ardent\Ardent;
 
 /**
@@ -17,7 +18,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property \DateTime created_at
  * @property \DateTime updated_at
  */
-class GamerScore extends Ardent
+class GamerScore extends Ardent implements IScoreInstance
 {
     /**
      * The database table used by the model.
