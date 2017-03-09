@@ -25,6 +25,10 @@ class Team extends Ardent
     protected $casts = [
         'gamer_ids' => 'array'
     ];
+    public static $rules = [
+        'name' => 'between:1,100'
+    ];
+
     /**
      * Массив привязанных очков TeamScore
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
