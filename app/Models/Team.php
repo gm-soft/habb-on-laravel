@@ -51,12 +51,22 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
     }
 
     /**
+     * @param bool $all
      * @return Gamer[]
      */
-    public function getGamers() {
+    public function getGamers($all = true) {
         $result = [];
-        foreach ($this->gamer_ids as $gamer_id) {
-            $result[] = Gamer::find($gamer_id);
+        $gamerIds = $this->gamer_ids;
+        $gamerRoles = $this->gamer_roles;
+
+        for ($i = 0; $i < count($gamerIds); $i++) {
+
+            $gamer_id = $gamerIds[$i];
+            if ($all == true || $gamerRoles[$i] == 'captain' || $gamerRoles[$i] == 'gamer') {
+                $gamer = Gamer::find($gamer_id);
+                $gamer["role"] = isset($gamerRoles[$i]) ? $gamerRoles[$i] : null;
+                $result[] = $gamer;
+            }
         }
         return $result;
     }

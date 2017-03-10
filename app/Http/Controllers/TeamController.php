@@ -20,8 +20,16 @@ class TeamController extends Controller
      */
     public function index()
     {
+        /** @var Team[] $instances */
         $instances = Team::all();
-        return $this->View('admin/teams/index', ["teams" => $instances]);
+        $gamers = [];
+        foreach ($instances as $instance){
+            $gamers[$instance->name] = $instance->getGamers();
+        }
+        return $this->View('admin/teams/index', [
+            "teams" => $instances,
+            'gamers' => $gamers
+        ]);
     }
 
     /**
@@ -160,6 +168,13 @@ class TeamController extends Controller
 
 
         $result = $instance->addScoreValue($gameName, $scoreValue);
+        if (!is_null(Input::get('with_gamers'))) {
+            $gamers = $instance->getGamers(false);
+            foreach ($gamers as $gamer) {
+                $result = $result && $gamer->addScoreValue($gameName, $scoreValue);
+            }
+        }
+
         if ($result == false) {
 
             $message = "Не найдена запись очков игрока<br>";
@@ -180,7 +195,7 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        // TODO: Реализовать удаление. Да и вообще нужно и во вьюхах поредактировать. Постом походу отправляется запрос. Или DELETE
+        // TODO: Реализовать удаление. Да и вообще нужно и во вьюхах поредактировать. DELETE походу отправляется запрос
         $instance = Team::find($id);
         $result = $instance->delete();
     }

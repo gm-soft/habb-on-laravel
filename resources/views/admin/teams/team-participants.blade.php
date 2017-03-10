@@ -21,9 +21,9 @@
             <td>{{ link_to_action('GamerController@show', $fullName, ['id' => $gamer->id]) }}</td>
             <td>
                 <ul>
-                    <li>{{ $scores[0]->game_name }}: <span class="float-sm-right">{{ $scores[0]->total_change }}</span></li>
-                    <li>{{ $scores[1]->game_name }}: <span class="float-sm-right">{{ $scores[1]->total_change }}</span></li>
-                    <li>{{ $scores[2]->game_name }}: <span class="float-sm-right">{{ $scores[2]->total_change }}</span></li>
+                    <li>{{ $scores[0]->game_name }}: <span class="float-sm-right">{{ $scores[0]->total_value }}</span></li>
+                    <li>{{ $scores[1]->game_name }}: <span class="float-sm-right">{{ $scores[1]->total_value }}</span></li>
+                    <li>{{ $scores[2]->game_name }}: <span class="float-sm-right">{{ $scores[2]->total_value }}</span></li>
                 </ul>
             </td>
         </tr>

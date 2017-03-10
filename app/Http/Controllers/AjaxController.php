@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
-    public function sync() {
+    public function syncGamers() {
 
         $oldGamers = DB::table('gamers_old')->get()->all();
         $oldGamerScores = DB::table('gamer_scores_old')->get()->all();
@@ -36,8 +36,6 @@ class AjaxController extends Controller
                 'secondary_games' => $item->secondary_games,
                 'primary_game' => $item->primary_game,
             ];
-
-
             $count++;
         }
         DB::table('gamers')->insert($inserts);
@@ -56,6 +54,65 @@ class AjaxController extends Controller
             $scoreCount++;
         }
         DB::table('gamer_scores')->insert($inserts);
+
+
+        return response()->json(['count' => $count, 'scoreCount' => $scoreCount]);
+    }
+
+    public function syncTeams() {
+        $oldGamers = DB::table('teams_old')->get()->all();
+        $oldGamerScores = DB::table('team_scores_old')->get()->all();
+
+        $count = 0;
+        $scoreCount = 0;
+        $inserts = [];
+        for($i = 0; $i < count($oldGamers); $i++) {
+
+            $item = $oldGamers[$i];
+
+            $gamer_ids = [];
+            $gamer_roles = [];
+
+            $gamer_ids[0] = $item->captain_id;
+            $gamer_roles[0] = 'captain';
+
+            $gamers = [$item->player_2_id, $item->player_3_id,$item->player_4_id,$item->player_5_id];
+            foreach ($gamers as $gamer) {
+                if (is_null($gamer)) continue;
+                $gamer_ids[] = $gamer;
+                $gamer_roles[] = 'gamer';
+            }
+
+            $inserts[] = [
+                'id' => $item->id,
+                'name' => $item->name,
+                'city' => $item->city,
+                'comment' => !is_null($item->comment) || $item->comment == '' ? $item->comment : 'no comment',
+
+                'gamer_ids' => join(', ', $gamer_ids),
+                'gamer_roles' => join(', ', $gamer_roles),
+
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ];
+            $count++;
+        }
+        DB::table('teams')->insert($inserts);
+        //------------------
+        $inserts = [];
+        foreach ($oldGamerScores as $item) {
+            $inserts[] = [
+                'id' => $item->id,
+                'team_id' => $item->team_id,
+                'game_name' => $item->game_name,
+                'total_value' => $item->total_value,
+                'total_change' => $item->total_change,
+                'month_value' => $item->month_value,
+
+            ];
+            $scoreCount++;
+        }
+        DB::table('team_scores')->insert($inserts);
 
 
         return response()->json(['count' => $count, 'scoreCount' => $scoreCount]);

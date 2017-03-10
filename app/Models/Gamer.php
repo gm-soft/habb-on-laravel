@@ -52,6 +52,8 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'name', 'last_name', 'phone', 'email', 'birthday', 'city', 'vk_page', 'status', 'institution', 'comment', 'lead_id'
     );
 
+    public $teamRole = null;
+
     public function __construct(array $attributes = array())
     {
         $this->setRawAttributes($this->attributes, true);
@@ -81,6 +83,10 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 
     public function getBirthday($format = "d.m.Y"){
         return $this->birthday->format($format);
+    }
+
+    public function getFullName() {
+        return $this->name." ".$this->last_name;
     }
 
     /**

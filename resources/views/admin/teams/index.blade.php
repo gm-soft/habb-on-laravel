@@ -19,26 +19,31 @@
                 <th>ID</th>
                 <th>Название</th>
                 <th>Капитан</th>
-                <th>Email</th>
-                <th>VK страница</th>
-                <th>Игра</th>
-                <th>Действия</th>
+                <th>Игрок</th>
+                <th>Игрок</th>
+                <th>Игрок</th>
+                <th>Игрок</th>
             </tr>
         </thead>
         <tbody>
             @for($i=0;$i<count($teams);$i++)
+                @php
+                    $gamersArray = $gamers[$teams[$i]->name];
+                    $cap = isset($gamersArray[0]) ? $gamersArray[0]->getFullName() : 'Без игрока';
+                    $g1 = isset($gamersArray[1]) ? $gamersArray[1]->getFullName() : 'Без игрока';
+                    $g2 = isset($gamersArray[2]) ? $gamersArray[2]->getFullName() : 'Без игрока';
+                    $g3 = isset($gamersArray[3]) ? $gamersArray[3]->getFullName() : 'Без игрока';
+                    $g4 = isset($gamersArray[4]) ? $gamersArray[4]->getFullName() : 'Без игрока';
 
+                @endphp
                 <tr>
                     <td>{{ $teams[$i]->id }}</td>
-                    <td>{{ $teams[$i]->name}}</td>
-                    <td>{{ $teams[$i]->phone  }}</td>
-                    <td>{{ $teams[$i]->email  }}</td>
-                    <td>{{ $teams[$i]->vk_page  }}</td>
-                    <td>{{ $teams[$i]->primary_game  }}</td>
-                    <td>
-                        {{ link_to_action('TeamController@show', 'Открыть', ['id' => $teams[$i]->id]) }}
-                        {{ link_to_action('TeamController@edit', 'Редактировать', ['id' => $teams[$i]->id]) }}
-                    </td>
+                    <td><b>{{ link_to_action('TeamController@show', $teams[$i]->name, ['id' => $teams[$i]->id]) }}</b></td>
+                    <td><i>{{ $cap }}</i></td>
+                    <td>{{ $g1 }}</td>
+                    <td>{{ $g2  }}</td>
+                    <td>{{ $g3  }}</td>
+                    <td>{{ $g4  }}</td>
                 </tr>
 
             @endfor
