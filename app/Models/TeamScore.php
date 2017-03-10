@@ -35,6 +35,11 @@ class TeamScore extends Ardent implements IScoreInstance
         return $this->belongsTo('App\Models\Team');
     }
 
+    /**
+     * Возвращает набор очков для создания объекта
+     * @param array|null $games
+     * @return TeamScore[]
+     */
     static function getScoreSet($games = null)
     {
         $games = !is_null($games) ? $games : Constants::getGameArray();

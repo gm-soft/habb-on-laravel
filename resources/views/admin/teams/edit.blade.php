@@ -3,14 +3,10 @@
 @section('title', 'Редактирование команды')
 
 @section('content')
-    <h1 class="mt-1">Редактирование команды {{ $gamer->name }}</h1>
-    <div class="">
-
-        {!! Form::model($gamer, ['method' => 'put', 'action' => ['TeamController@update', $gamer->id]]) !!}
-            @include('admin/teams/form')
-        {!! Form::close() !!}
-
-    </div>
+    <h1 class="mt-1">Редактирование команды {{ $team->name }}</h1>
+    {!! Form::model($team, ['method' => 'put', 'action' => ['TeamController@update', $team->id]]) !!}
+        @include('admin/teams/form')
+    {!! Form::close() !!}
 
 
 @endsection
@@ -19,8 +15,8 @@
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript">
 
-        $("#gamer_ids").select2({
-            placeholder: "Выберите как минимум трех игроков",
+        $(".select2-single").select2({
+            placeholder: "Выберите игрока",
         });
 
         $('#form').submit(function(){

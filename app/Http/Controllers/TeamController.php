@@ -31,12 +31,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        /** @var Gamer[] $gamers */
-        $gamers = Gamer::all()->all();
-        $gamerOptionList = [];
-        foreach ($gamers as $gamer) {
-            $gamerOptionList[$gamer->getIdentifier()] = $gamer->getName();
-        }
+        $gamerOptionList = Gamer::asSelectableOptionArray();
         return view('admin.teams.create', ['gamerOptionList' => $gamerOptionList]);
     }
 
@@ -59,7 +54,11 @@ class TeamController extends Controller
                 ->withInput($input);
         }
 
-        $instance = new Team(Input::all());
+        $instance = new Team();
+        $instance->name = Input::get('name');
+        $instance->comment = Input::get('comment');
+        $instance->city = Input::get('city');
+        $instance->gamer_ids = Input::get('gamer_ids');
 
         $success = $instance->save();
         if ($success == false) {
@@ -85,9 +84,11 @@ class TeamController extends Controller
     {
         /** @var Team $instance */
         $instance = Team::find($id);
+        $gamers = $instance->getGamers();
         return $this->View('admin.teams.show', [
             'team' => $instance,
-            'scores' => $instance->scores()
+            'scores' => $instance->scores(),
+            'gamers' => $gamers
         ]);
     }
 
@@ -101,8 +102,11 @@ class TeamController extends Controller
     {
         /** @var Team $instance */
         $instance = Team::find($id);
+        $gamerOptionList = Gamer::asSelectableOptionArray();
+
         return $this->View('admin.teams.edit', [
-            'team' => $instance
+            'team' => $instance,
+            'gamerOptionList' => $gamerOptionList
         ]);
     }
 
@@ -116,6 +120,7 @@ class TeamController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $input = $request->input();
         $validator = Validator::make($input, Team::$rules);
 
@@ -126,9 +131,34 @@ class TeamController extends Controller
         }
 
         /** @var Team $instance */
-        $instance = Team::find($id);
 
-        $res = $instance->update(Input::all());
+        $gamerIds = [];
+        $gamerIdsSource = Input::get('gamer_ids');
+
+        for ($i = 0; $i < count($gamerIdsSource); $i++) {
+            if ($gamerIdsSource[$i] == 'null') continue;
+            $gamerIds[] = $gamerIdsSource[$i];
+        }
+
+        $gamerRolesSource = Input::get('gamer_roles');
+        for ($i = 0; $i < count($gamerIdsSource); $i++) {
+
+            if ($gamerRolesSource[$i] != 'captain') continue;
+            if ($i == 0) continue;
+
+            $tmp = $gamerIds[0];
+            $gamerIds[0] = $gamerIds[$i];
+            $gamerIds[$i] = $tmp;
+            break;
+        }
+
+        $instance = Team::find($id);
+        $instance->name = Input::get('name');
+        $instance->comment = Input::get('comment');
+        $instance->city = Input::get('city');
+        $instance->gamer_ids = $gamerIds;
+
+        $res = $instance->update();
 
         if ($res === false) {
             return Redirect::action('TeamController@edit', ["id" => $instance->id])
@@ -148,7 +178,7 @@ class TeamController extends Controller
     public function scoreUpdate(Request $request)
     {
         /** @var Team $instance */
-        $id = Input::get('gamer_id');
+        $id = Input::get('team_id');
         $instance = Team::with('scores')->find($id);
         $gameName = Input::get('game_name');
         $scoreValue = Input::get('score_value');

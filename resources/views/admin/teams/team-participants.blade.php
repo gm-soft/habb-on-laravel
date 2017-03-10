@@ -1,35 +1,30 @@
 
-<table class="table table-striped">
+<table class="table table-sm">
     <thead>
     <tr>
         <th>ID</th>
         <th>Имя</th>
-        <th colspan="3">Очки</th>
-        <th>Действия</th>
+        <th>Очки</th>
     </tr>
     </thead>
     <tbody>
-    @php
-        $gamers = $team->getGamers();
-
-    @endphp
     @foreach($gamers as $gamer)
 
         @php
             /** @var \App\Models\GamerScore[] $scores */
             $scores = $gamer->scores;
-            $monthChanged = $score->total_value - $score->month_value
+            $fullName = $gamer->name. " " . $gamer->last_name;
 
         @endphp
         <tr>
             <td>{{  $gamer->id }}</td>
-            <td>{{ $gamer->name }} {{ $gamer->last_name }}</td>
-            <td>{{ $scores[0]->total_change }}</td>
-            <td>{{ $scores[1]->total_change }}</td>
-            <td>{{ $scores[2]->total_change }}</td>
+            <td>{{ link_to_action('GamerController@show', $fullName, ['id' => $gamer->id]) }}</td>
             <td>
-                {{ link_to_action('GamerController@show', 'Открыть', ['id' => $gamer->id]) }}
-
+                <ul>
+                    <li>{{ $scores[0]->game_name }}: <span class="float-sm-right">{{ $scores[0]->total_change }}</span></li>
+                    <li>{{ $scores[1]->game_name }}: <span class="float-sm-right">{{ $scores[1]->total_change }}</span></li>
+                    <li>{{ $scores[2]->game_name }}: <span class="float-sm-right">{{ $scores[2]->total_change }}</span></li>
+                </ul>
             </td>
         </tr>
     @endforeach

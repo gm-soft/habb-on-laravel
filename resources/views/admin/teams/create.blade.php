@@ -4,11 +4,9 @@
 
 @section('content')
     <h1 class="mt-1">Создание команды</h1>
-    <div class="">
-        {!! Form::open(array('action' => array('TeamController@store'))) !!}
-            @include('admin/teams/form')
-        {!! Form::close() !!}
-    </div>
+    {!! Form::open(array('action' => array('TeamController@store'))) !!}
+        @include('admin/teams/form')
+    {!! Form::close() !!}
 
 
 @endsection
@@ -17,8 +15,8 @@
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript">
 
-        $("#gamer_ids").select2({
-            placeholder: "Выберите как минимум трех игроков",
+        $(".select2-single").select2({
+            placeholder: "Выберите игрока",
         });
 
         $('#form').submit(function(){

@@ -149,4 +149,20 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     {
         return strtolower(class_basename($this));
     }
+
+    public static function asSelectableOptionArray($withEmpty = true)
+    {
+        /** @var Gamer[] $gamers */
+        $gamers = self::all()->all();
+        $gamerOptionList = [];
+
+        if ($withEmpty == true) {
+            $gamerOptionList['null'] = 'Без игрока';
+        }
+
+        foreach ($gamers as $gamer) {
+            $gamerOptionList[$gamer->getIdentifier()] = $gamer->getName();
+        }
+        return $gamerOptionList;
+    }
 }
