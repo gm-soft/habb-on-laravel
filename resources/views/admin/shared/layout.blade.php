@@ -13,11 +13,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/backend.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
-
     @yield('styles')
 
 </head>
@@ -33,8 +30,6 @@
         <script src="{{ asset('js/tether.min.js') }}"></script>
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/select2.min.js') }}"></script>
-        <script src="{{ asset('js/dataTables.min.js') }}"></script>
         <script src="{{ asset('custom/helpers.js') }}"></script>
         @yield('scripts')
     </body>

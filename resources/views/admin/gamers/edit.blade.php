@@ -16,6 +16,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript">
         $(".select2-multiple").select2({
             placeholder: "Иногда играю (можно выбрать несколько)",
@@ -29,4 +30,7 @@
             $("#submit-btn").prop('disabled',true);
         });
     </script>
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 @endsection

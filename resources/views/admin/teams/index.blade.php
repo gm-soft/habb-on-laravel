@@ -13,10 +13,6 @@
             <a href="{{url('admin/teams/create')}}" class="btn btn-secondary">Создать запись</a>
         </div>
     </div>
-
-
-
-
     <table class="table table-striped dataTable">
         <thead>
             <tr>
@@ -53,9 +49,13 @@
 @endsection
 
 @section('scripts')
-<script>
-    $(document).ready(function(){
-        $('.dataTable').DataTable();
-    });
-</script>
+    <script src="{{ asset('js/dataTables.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.dataTable').DataTable();
+        });
+    </script>
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
 @endsection

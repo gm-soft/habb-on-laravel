@@ -14,16 +14,19 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript">
+
         $("#gamers").select2({
             placeholder: "Выберите как минимум трех игроков",
-        });
-        $('select').on('select2:select', function (evt) {
-            // Do something
         });
 
         $('#form').submit(function(){
             $("#submit-btn").prop('disabled',true);
         });
     </script>
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 @endsection
