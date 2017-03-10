@@ -90,15 +90,15 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      * @return bool
      */
     public function addScoreValue($gameName, $scoreValueAdded) {
-        $gamerScore = $this->getScore($gameName);
-        if (is_null($gamerScore)) {
+        $score = $this->getScore($gameName);
+        if (is_null($score)) {
             $this->errors()->add('NotFound', 'Привязанные очки к игре '.$gameName.' не найдены');
             return false;
         }
-        $gamerScore->total_change = $scoreValueAdded;
-        $gamerScore->total_value = $scoreValueAdded + $gamerScore->total_value;
+        $score->total_change = $scoreValueAdded;
+        $score->total_value = $scoreValueAdded + $score->total_value;
 
-        $result = $gamerScore->update();
+        $result = $score->update();
         return $result;
     }
 

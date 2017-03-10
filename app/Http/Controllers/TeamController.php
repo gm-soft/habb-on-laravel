@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\TeamScore;
 use Illuminate\Http\Request;
@@ -19,8 +20,8 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $isntances = Team::all();
-        return $this->View('admin/teams/index', ["teams" => $isntances]);
+        $instances = Team::all();
+        return $this->View('admin/teams/index', ["teams" => $instances]);
     }
 
     /**
@@ -30,7 +31,13 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return $this->View('admin.teams.create');
+        /** @var Gamer[] $gamers */
+        $gamers = Gamer::all()->all();
+        $gamerOptionList = [];
+        foreach ($gamers as $gamer) {
+            $gamerOptionList[$gamer->getIdentifier()] = $gamer->getName();
+        }
+        return view('admin.teams.create', ['gamerOptionList' => $gamerOptionList]);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Interfaces\ISelectableOption;
+use App\Interfaces\ITournamentParticipant;
 use Carbon\Carbon;
 use LaravelArdent\Ardent\Ardent;
 
@@ -19,7 +21,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property Carbon updated_at
  * @property Carbon created_at
  */
-class Team extends Ardent
+class Team extends Ardent implements ISelectableOption, ITournamentParticipant
 {
     protected $table = "teams";
     protected $casts = [
@@ -36,6 +38,10 @@ class Team extends Ardent
     public function scores()
     {
         return $this->hasMany('App\Models\TeamScore');
+    }
+
+    public function getGamerIdsAsString() {
+        return join(', ', $this->gamer_ids);
     }
 
     /**
@@ -56,5 +62,44 @@ class Team extends Ardent
 
     public function setGamerIdsAttribute($value) {
         $this->attributes['gamer_ids']= join(',', $value);
+    }
+
+    public function getIdentifier()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name." [ID ".$this->id."]";
+    }
+
+    public function getScore($gameName)
+    {
+        $scores = $this->scores;
+        foreach ($scores as $score) {
+            if ($score->game_name != $gameName) continue;
+            return $score;
+        }
+        return null;
+    }
+
+    public function getClass()
+    {
+        return strtolower(class_basename($this));
+    }
+
+    public function addScoreValue($gameName, $scoreValueAdded)
+    {
+        $score = $this->getScore($gameName);
+        if (is_null($score)) {
+            $this->errors()->add('NotFound', 'Привязанные очки к игре '.$gameName.' не найдены');
+            return false;
+        }
+        $score->total_change = $scoreValueAdded;
+        $score->total_value = $scoreValueAdded + $score->total_value;
+
+        $result = $score->update();
+        return $result;
     }
 }

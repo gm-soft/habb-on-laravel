@@ -52,5 +52,8 @@
         </div>
     </div>
 
-    @include('admin/gamers/score-table')
+    <div class="mt-1">
+        @include('admin/gamers/score-table')
+    </div>
+
 @endsection

@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () 
 
 });
 
+//Route::get('/sync', 'AjaxController@sync');
+
 /**
  * Auth Routes
  */

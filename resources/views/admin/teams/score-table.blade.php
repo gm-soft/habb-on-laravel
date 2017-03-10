@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($gamer->scores as $score)
+    @foreach($team->scores as $score)
 
         @php( $monthChanged = $score->total_value - $score->month_value)
         <tr>
@@ -19,8 +19,8 @@
             <td>{{ $score->total_change }}</td>
             <td>{{ $monthChanged }}</td>
             <td>
-                {!! Form::open(['method' => 'post', 'action' => ['GamerController@scoreUpdate', $gamer->id]]) !!}
-                <input type="hidden" name="gamer_id" value="{{$score->gamer_id}}">
+                {!! Form::open(['method' => 'post', 'action' => ['TeamController@scoreUpdate', $team->id]]) !!}
+                <input type="hidden" name="team_id" value="{{$score->team_id}}">
                 <input type="hidden" name="game_name" value="{{$score->game_name}}">
                 <div class="input-group">
                     {{ Form::number('score_value', null/*$score->total_value*/,

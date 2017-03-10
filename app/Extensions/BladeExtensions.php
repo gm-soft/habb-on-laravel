@@ -3,6 +3,7 @@
 namespace App\Extensions;
 
 use App\Helpers\Constants;
+use App\Models\Gamer;
 use Blade;
 
 class BladeExtensions
@@ -95,33 +96,22 @@ class BladeExtensions
             return $content;
         });
 
-        Blade::directive('FormGameSelectField', function($fieldName, $userGames = null, $isRequired = false, $isMultiple = false) {
-            $fieldId = $fieldName;
-            $fieldName = $isMultiple == true ? $fieldName."[]" : $fieldName;
-            $userGames = is_array($userGames) ? $userGames : [$userGames];
+        Blade::directive('GamersSelect2', function($fieldName, $gamersSelected, $isRequired = true, $multiple = false) {
 
-            $multipleAttr = $isMultiple == true ? "multiple='multiple'" : "";
-            $classAttr = $isMultiple == true ? "multiple" : "single";
-
-            $requiredState = $isRequired == true ? "required" : "";
-
-            $content = "<select class='form-control select2-$classAttr' id='$fieldId' name='$fieldName' $requiredState $multipleAttr>\n";
-
-            $content .= "<option value='' disabled>Выберите игру</option>|";
-
-            $gameIds = explode(",", "dota2,cs:go,lol,hearthstone,wot,overwatch,cod");
-            $gameTitles = explode(",", "Dota2,CS:GO,League of Legends,Hearthstone,World of Tanks,Overwatch,Call of Duty (серия игр)");
-
-            for ($i = 0; $i < count($gameIds);$i++) {
-                $value = $gameIds[$i];
-                $title = $gameTitles[$i];
-
-                $selected = in_array($value, $userGames)  ? "selected" : "";
-                $content .= "<option value='$value' $selected>$title</option>\n";
+            /** @var Gamer[] $gamers */
+            $gamers = Gamer::all();
+            $list = [];
+            foreach ($gamers as $gamer) {
+                $list[$gamer->getIdentifier()] = $gamer->getName();
             }
-            $content .= "</select>";
+            $options = array();
+            $classAttr = $multiple == true ? "multiple" : "single";
 
-            return $content;
+            $options['class'] = "form-control select2-$classAttr";
+            if ($isRequired == true) $options["required"] = true;
+            if ($multiple == true) $options["multiple"] = true;
+
+            return \Collective\Html\FormFacade::select($fieldName, $list, $gamersSelected, $options);
         });
 
         Blade::directive('renderGameSelectField', function($selectedGame = null,

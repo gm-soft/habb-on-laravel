@@ -6,6 +6,7 @@ use App\Helpers\Constants;
 use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\User;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Log;
@@ -138,7 +139,6 @@ class GamerController extends Controller
 
         /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
-            /*
         $gamer->name = Input::get('name');
         $gamer->last_name = Input::get('last_name');
 
@@ -150,9 +150,11 @@ class GamerController extends Controller
         $gamer->status = Input::get('status');
         $gamer->institution = Input::get('institution');
         $gamer->comment = Input::get('comment');
-        $gamer->lead_id = Input::get('lead_id');*/
+        $gamer->lead_id = Input::get('lead_id');
+        $gamer->primary_game = Input::get('primary_game');
+        $gamer->secondary_games = Input::get('secondary_games');
 
-        $res = $gamer->update(Input::all());
+        $res = $gamer->update();
 
         if ($res === false) {
             return Redirect::action('GamerController@edit', ["id" => $gamer->id])
@@ -208,4 +210,6 @@ class GamerController extends Controller
     {
         //
     }
+
+
 }
