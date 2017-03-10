@@ -52,12 +52,12 @@
                 <p class="card-text">
 
                 <div class="form-group">
-                    {{ Form::label('gamers', 'Список игроков') }}
-                    {{ Form::select('gamers[]', $gamerOptionList, old('gamers'),
-                        ['class'=>'form-control select2-multiple', 'id' => 'gamers', 'multiple' => true, 'required' => "required"]) }}
+                    {{ Form::label('gamer_ids', 'Список игроков') }}
+                    {{ Form::select('gamer_ids[]', $gamerOptionList, old('gamers'),
+                        ['class'=>'form-control select2-multiple', 'id' => 'gamer_ids', 'multiple' => true, 'required' => "required"]) }}
                     @if ($errors->has('comment'))
                         <span class="help-block text-danger">
-                                    <strong>{{ $errors->first('gamers') }}</strong>
+                                    <strong>{{ $errors->first('gamer_ids') }}</strong>
                                 </span><br>
                     @endif
                 <small>Первый игрок будет назначен капитаном</small>

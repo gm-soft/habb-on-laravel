@@ -17,7 +17,7 @@
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript">
 
-        $("#gamers").select2({
+        $("#gamer_ids").select2({
             placeholder: "Выберите как минимум трех игроков",
         });
 

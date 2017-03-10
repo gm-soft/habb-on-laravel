@@ -48,6 +48,8 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
+        // TODO Нужно доработать контроллер, так как вообще не смотрел
+
         $input = $request->input();
         $validator = Validator::make($input, Team::$rules);
 
