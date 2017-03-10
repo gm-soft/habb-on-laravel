@@ -54,11 +54,7 @@ class TeamController extends Controller
                 ->withInput($input);
         }
 
-        $instance = new Team();
-        $instance->name = Input::get('name');
-        $instance->comment = Input::get('comment');
-        $instance->city = Input::get('city');
-        $instance->gamer_ids = Input::get('gamer_ids');
+        $instance = $this->constructTeam(null, Input::all());
 
         $success = $instance->save();
         if ($success == false) {
@@ -129,35 +125,7 @@ class TeamController extends Controller
                 ->withErrors($validator->errors())
                 ->withInput($input);
         }
-
-        /** @var Team $instance */
-
-        $gamerIds = [];
-        $gamerIdsSource = Input::get('gamer_ids');
-
-        for ($i = 0; $i < count($gamerIdsSource); $i++) {
-            if ($gamerIdsSource[$i] == 'null') continue;
-            $gamerIds[] = $gamerIdsSource[$i];
-        }
-
-        $gamerRolesSource = Input::get('gamer_roles');
-        for ($i = 0; $i < count($gamerIdsSource); $i++) {
-
-            if ($gamerRolesSource[$i] != 'captain') continue;
-            if ($i == 0) continue;
-
-            $tmp = $gamerIds[0];
-            $gamerIds[0] = $gamerIds[$i];
-            $gamerIds[$i] = $tmp;
-            break;
-        }
-
-        $instance = Team::find($id);
-        $instance->name = Input::get('name');
-        $instance->comment = Input::get('comment');
-        $instance->city = Input::get('city');
-        $instance->gamer_ids = $gamerIds;
-
+        $instance = $this->constructTeam($id, Input::all());
         $res = $instance->update();
 
         if ($res === false) {
@@ -212,6 +180,51 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // TODO: Реализовать удаление. Да и вообще нужно и во вьюхах поредактировать. Постом походу отправляется запрос. Или DELETE
+        $instance = Team::find($id);
+        $result = $instance->delete();
+    }
+
+    /**
+     * @param null $id
+     * @param array $input
+     * @return Team
+     */
+    private function constructTeam($id = null, array $input) {
+        $gamerIds = [];
+        $gamerRoles = [];
+        $gamerIdsSource = $input['gamer_ids'];
+        $gamerRolesSource = $input['gamer_roles'];
+
+        for ($i = 0; $i < count($gamerIdsSource); $i++) {
+
+            if ($gamerIdsSource[$i] == 'null') continue;
+            $gamerIds[] = $gamerIdsSource[$i];
+            $gamerRoles[] = $gamerRolesSource[$i];
+        }
+
+        for ($i = 0; $i < count($gamerRoles); $i++) {
+
+            if ($gamerRoles[$i] != 'captain') continue;
+            if ($i == 0) continue;
+
+            $tmp = $gamerIds[0];
+            $gamerIds[0] = $gamerIds[$i];
+            $gamerIds[$i] = $tmp;
+            //----
+            $tmp = $gamerRoles[0];
+            $gamerRoles[0] = $gamerRoles[$i];
+            $gamerRoles[$i] = $tmp;
+            break;
+        }
+        /** @var Team $instance */
+        $instance = !is_null($id) ? Team::find($id) : new Team();
+        $instance->name = $input['name'];
+        $instance->comment = $input['comment'];
+        $instance->city = $input['city'];
+        $instance->gamer_ids = $gamerIds;
+        $instance->gamer_roles = $gamerRoles;
+
+        return $instance;
     }
 }

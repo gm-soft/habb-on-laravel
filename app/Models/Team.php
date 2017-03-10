@@ -16,6 +16,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property string city
  * @property string comment
  * @property array gamer_ids
+ * @property array gamer_roles
  *
  * @property TeamScore[] scores
  * @property Carbon updated_at
@@ -25,7 +26,8 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
 {
     protected $table = "teams";
     protected $casts = [
-        'gamer_ids' => 'array'
+        'gamer_ids' => 'array',
+        'gamer_roles' => 'array'
     ];
     public static $rules = [
         'name' => 'between:1,100'
@@ -44,6 +46,10 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         return join(', ', $this->gamer_ids);
     }
 
+    public function getGamerRolesAsString() {
+        return join(', ', $this->gamer_roles);
+    }
+
     /**
      * @return Gamer[]
      */
@@ -55,6 +61,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         return $result;
     }
 
+    #region Attributes
     public function getGamerIdsAttribute($value){
         $result = explode(',', $value);
         return $result;
@@ -63,6 +70,17 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
     public function setGamerIdsAttribute($value) {
         $this->attributes['gamer_ids']= join(',', $value);
     }
+
+    public function getGamerRolesAttribute($value){
+        $result = explode(',', $value);
+        return $result;
+    }
+
+    public function setGamerRolesAttribute($value) {
+        $this->attributes['gamer_roles']= join(',', $value);
+    }
+
+    #endregion
 
     public function getIdentifier()
     {
