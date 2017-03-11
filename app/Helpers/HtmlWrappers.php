@@ -20,6 +20,13 @@ abstract class HtmlWrappers
         return $result;
     }
 
+    /**
+     * Выводит строку-заголовок дивизиона в таблице рейтинга
+     * @param string $tdContent Выводимый текст
+     * @param int $tdCount Количество выводимых ячеек
+     * @param int $contentPos Позиция вывода текста $tdContent в строке
+     * @return string
+     */
     public static function AddRatingHeaderRow($tdContent, $tdCount = 4, $contentPos = 2){
         $result = "<tr class=\"bg-custom\">";
         for ($i = 1; $i <= $tdCount; $i++){

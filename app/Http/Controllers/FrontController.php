@@ -51,7 +51,6 @@ class FrontController extends Controller
 
         return view('front.rating.gamer', [
             'game' => $game,
-            'rating' => $rating,
             'greater' => $graterPoint,
             'bellow' => $bellowTheLine
         ]);
@@ -78,16 +77,29 @@ class FrontController extends Controller
 
                 if ($role == 'coach' || $role == 'reserve') continue;
 
-                $gamersToAdd[] = \DB::table('gamers')->select('gamers.id', 'name', 'last_name', 'city', 'gamer_scores.total_value', 'gamer_scores.total_change')
+                $row = \DB::table('gamers')->select('gamers.id', 'name', 'last_name', 'city', 'gamer_scores.total_value', 'gamer_scores.total_change')
                     ->where('gamers.id', '=', $id)
                     ->join('gamer_scores', 'gamers.id', '=', 'gamer_scores.gamer_id')
                     ->where('gamer_scores.game_name', '=', $game)
-                    ->get();
+                    ->first();
+                $gamersToAdd[] = $row;
             }
             $gamers[$item->name] = $gamersToAdd;
         }
 
-        return view('front.rating.team', ['rating' => $rating, 'gamers' => $gamers]);
+        $graterPoint = [];
+        $bellowTheLine = [];
+        foreach ($rating as $item) {
+            if ($item->total_value > 5) $graterPoint[] = $item;
+            else $bellowTheLine[] = $item;
+        }
+
+        return view('front.rating.team', [
+            'game' => $game,
+            'gamers' => $gamers,
+            'greater' => $graterPoint,
+            'bellow' => $bellowTheLine
+        ]);
     }
     #endregion
 }

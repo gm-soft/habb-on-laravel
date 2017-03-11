@@ -46,7 +46,7 @@
                 @endif
 
                 @php
-                    $row = $rating[$i];
+                    $row = $greater[$i];
                     $position++;
                     $name = "ID ".$row->id." <b>".$row->name." ".$row->last_name."</b>";
                     $score = $row->total_value. " (". \App\Helpers\HtmlWrappers::WrapScoreChange($row->total_change) .")";
