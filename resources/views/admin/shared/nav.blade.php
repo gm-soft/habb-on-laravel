@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{url('admin/dashboard/')}}">
+        <a class="navbar-brand" href="{{url('admin/')}}">
             Habb Админка
         </a>
 

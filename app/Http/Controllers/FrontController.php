@@ -42,12 +42,13 @@ class FrontController extends Controller
             ->orderBy('gamer_scores.total_value', 'desc')
             ->get();
 
-        $graterPoint = $rating->filter(function ($value, $key) {
-            return $value->total_value > 5;
-        });
-        $bellowTheLine = $rating->filter(function ($value, $key) {
-            return $value->total_value <= 5;
-        });
+        $graterPoint = [];
+        $bellowTheLine = [];
+        foreach ($rating as $item) {
+            if ($item->total_value > 5) $graterPoint[] = $item;
+            else $bellowTheLine[] = $item;
+        }
+
         return view('front.rating.gamer', [
             'game' => $game,
             'rating' => $rating,

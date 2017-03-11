@@ -21,6 +21,8 @@
             </tr>
         </thead>
         <tbody>
+        {{-- Выводим список участников, у которых очков больше указанного значения --}}
+            @php($position = 0)
             @for($i = 0; $i < count($greater); $i++)
 
                 @if ($i == 0)
@@ -45,18 +47,38 @@
 
                 @php
                     $row = $rating[$i];
-                    $pos= $i+1;
+                    $position++;
                     $name = "ID ".$row->id." <b>".$row->name." ".$row->last_name."</b>";
                     $score = $row->total_value. " (". \App\Helpers\HtmlWrappers::WrapScoreChange($row->total_change) .")";
 
                 @endphp
                 <tr>
-                    <td>{{ $pos }}</td>
+                    <td>{{ $position }}</td>
                     <td>{!! $name !!}</td>
                     <td>{{ $row->city }}</td>
                     <td>{!! $score !!}</td>
                 </tr>
+            @endfor
+            {{-- Cписок участников, у которых очков меньше указанного значения --}}
+            @for($i = 0; $i < count($bellow); $i++)
 
+                @if ($i == 0)
+                    {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Bellow the line") !!}
+                @endif
+
+                @php
+                    $row = $bellow[$i];
+                    $position++;
+                    $name = "ID ".$row->id." <b>".$row->name." ".$row->last_name."</b>";
+                    $score = $row->total_value. " (". \App\Helpers\HtmlWrappers::WrapScoreChange($row->total_change) .")";
+
+                @endphp
+                <tr>
+                    <td>{{ $position }}</td>
+                    <td>{!! $name !!}</td>
+                    <td>{{ $row->city }}</td>
+                    <td>{!! $score !!}</td>
+                </tr>
             @endfor
         </tbody>
     </table>
