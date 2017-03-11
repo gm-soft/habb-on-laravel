@@ -14,7 +14,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('thirdparty/ckeditor/ckeditor.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
     <script>
         ckEditorHelpers.replace('content');
     </script>
