@@ -11,13 +11,13 @@ namespace App\Helpers;
 
 abstract class Constants
 {
-    const BackLayoutPath    = "admin/shared/layout";
-    const BackNavPath       = "admin/shared/nav";
+    const BackLayoutPath    = "layouts.admin-layout";
+    const BackNavPath       = "layouts.admin-nav";
     const FlashLayout    = "shared/flash";
     const ValidationLayout    = "shared/validation";
 
-    const FrontLayoutPath   = "front/shared/layout";
-    const FrontNavPath      = "front/shared/nav";
+    const FrontLayoutPath   = "layouts.front-layout";
+    const FrontNavPath      = "layouts.front-nav";
 
     const GamesString = "cs:go,dota,hearthstone";
     const CsGo = "cs:go";

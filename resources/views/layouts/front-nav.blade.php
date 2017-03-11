@@ -4,7 +4,7 @@
         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
-        <a class="navbar-brand text-white" href="/">Habb</a>
+        <a class="navbar-brand text-white" href="/resources">Habb</a>
 
         <div class="collapse navbar-collapse navbar-toggleable-sm" id="navbarSupportedContent">
 
