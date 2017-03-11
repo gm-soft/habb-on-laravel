@@ -13,11 +13,13 @@ class FrontController extends Controller
         /** @var Post $post */
         $post = Post::find($id);
 
-        if (!\Auth::user()->hasBackendRight()) {
+        $user = \Auth::user();
+        if (\Auth::guest() || !$user->hasBackendRight()) {
             $post->views = $post->views+1;
+            $post->save();
         }
         $post->decodeHtmlContent();
-        $post->save();
+
 
         return $this->View('front.posts.show', ["post" => $post]);
     }
@@ -39,7 +41,19 @@ class FrontController extends Controller
             ->where('gamer_scores.total_value', '>', 0)
             ->orderBy('gamer_scores.total_value', 'desc')
             ->get();
-        return view('front.rating.gamer', ['rating' => $rating]);
+
+        $graterPoint = $rating->filter(function ($value, $key) {
+            return $value->total_value > 5;
+        });
+        $bellowTheLine = $rating->filter(function ($value, $key) {
+            return $value->total_value <= 5;
+        });
+        return view('front.rating.gamer', [
+            'game' => $game,
+            'rating' => $rating,
+            'greater' => $graterPoint,
+            'bellow' => $bellowTheLine
+        ]);
     }
 
     public function teamRating($game = Constants::CsGo){

@@ -9,9 +9,13 @@ use Blade;
 class BladeExtensions
 {
     public static function AddExtensions() {
+        self::AddWrappers();
         self::AddPatterns();
         self::AddRoleFunctions();
         self::AddSelectSnippets();
+    }
+
+    public static function AddWrappers() {
     }
 
     public static function AddRoleFunctions() {
@@ -56,8 +60,6 @@ class BladeExtensions
             return "<?php Auth::user()->getName() ?>";
         });
     }
-
-
     public static function AddPatterns() {
         Blade::directive('EmailFieldPattern', function() {
             return Constants::EmailRegexPattern;
@@ -75,7 +77,6 @@ class BladeExtensions
             return '^(https:\/\/)?(vk\.com)([\/\w \.-]{1,50})*\/?$';
         });
     }
-
     public static function AddSelectSnippets() {
         Blade::directive('renderCitiesSelect', function($selectedCity = null,
                                                         $isRequired = false,
