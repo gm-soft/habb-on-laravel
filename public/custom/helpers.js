@@ -34,27 +34,15 @@ var formHelpers = {
         });
     },
 
-    AddGamerToTeam: function () {
-        var select2 = $('#gamer_id_select');
-        var option = select2.find('option:selected');
+};
 
-        var gamerId = option.val();
-        var gamerName = option.text();
-        console.log(gamerId + " " + gamerName);
-        //-------------
-        var gamersDiv = $('#gamers_selected');
-        var inputs = gamersDiv.find('input');
-        console.log(inputs.length);
+
+var ckEditorHelpers = {
+
+    replace : function(textareaName) {
+        CKEDITOR.config.language = 'ru';
+        CKEDITOR.replace(textareaName, {});
     },
-
-    AddGamerInput: function () {
-
-    },
-
-    RemoveGamerInput: function () {
-
-    }
-
 };
 
 

@@ -14,15 +14,8 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
+    <script src="{{ asset('thirdparty/ckeditor/ckeditor.js') }}"></script>
     <script>
-        CKEDITOR.replace('content', { });
-
-        var editor = {
-            switchType : function(link) {
-                var editor = $('#ckeditor');
-
-            }
-        }
+        ckEditorHelpers.replace('content');
     </script>
 @endsection
