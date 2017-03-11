@@ -1,5 +1,5 @@
 
-@extends(\App\Helpers\Constants::BackLayoutPath)
+@extends('layouts.admin-layout')
 @section('title', 'Информация о статье')
 
 @section('content')

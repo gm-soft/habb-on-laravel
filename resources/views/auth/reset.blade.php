@@ -1,5 +1,5 @@
-@extends(\App\Helpers\Constants::FrontLayoutPath)
 
+@extends('layouts.front-layout')
 @section('content')
 
     <div class="card">

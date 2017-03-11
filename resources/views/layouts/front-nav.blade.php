@@ -7,8 +7,9 @@
         <a class="navbar-brand text-white" href="/resources">Habb</a>
 
         <div class="collapse navbar-collapse navbar-toggleable-sm" id="navbarSupportedContent">
+            <ul class="nav navbar-nav m-0">
 
-            <ul class="nav navbar-nav">
+
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('news') }}">Новости</a>
@@ -58,6 +59,7 @@
                 @endif
 
             </ul>
+
         </div>
     </div>
 </nav>

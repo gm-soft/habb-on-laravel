@@ -1,4 +1,5 @@
-@extends(\App\Helpers\Constants::FrontLayoutPath)
+
+@extends('layouts.front-layout')
 @section('title', 'Регистрация')
 
 @section('content')

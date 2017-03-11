@@ -1,4 +1,4 @@
-@extends(\App\Helpers\Constants::FrontLayoutPath)
+@extends('layouts.front-layout')
 
 @section('title', 'О портале Habb')
 @section('content')

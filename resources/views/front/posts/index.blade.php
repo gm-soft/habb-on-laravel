@@ -1,5 +1,5 @@
 
-@extends(\App\Helpers\Constants::FrontLayoutPath)
+@extends('layouts.front-layout')
 @section('title', 'Новости портала')
 
 @section('content')

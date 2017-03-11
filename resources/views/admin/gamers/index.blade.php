@@ -1,5 +1,5 @@
 
-@extends(\App\Helpers\Constants::BackLayoutPath)
+@extends('layouts.admin-layout')
 @section('title', 'Список игроков')
 
 @section('content')
@@ -13,10 +13,6 @@
             <a href="{{url('admin/gamers/create')}}" class="btn btn-secondary">Создать запись</a>
         </div>
     </div>
-
-
-
-
     <table class="table table-striped dataTable">
         <thead>
             <tr>
