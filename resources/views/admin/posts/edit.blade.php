@@ -3,13 +3,11 @@
 @section('title', 'Редактирование статьи')
 
 @section('content')
-    <h1 class="mt-1">Редактирование статьи [{{ $post->id }}]</h1>
-    <div class="">
-
+    <div class="container">
+        <h1 class="mt-1">Редактирование статьи [{{ $post->id }}]</h1>
         {!! Form::model($post, ['method' => 'PATCH', 'action' => ['PostController@update', $post->id]]) !!}
-            @include('admin/posts/form')
+        @include('admin/posts/form')
         {!! Form::close() !!}
-
     </div>
 
 

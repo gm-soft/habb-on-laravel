@@ -3,10 +3,12 @@
 @section('title', 'Редактирование команды')
 
 @section('content')
-    <h1 class="mt-1">Редактирование команды {{ $team->name }}</h1>
-    {!! Form::model($team, ['method' => 'put', 'action' => ['TeamController@update', $team->id]]) !!}
+    <div class="container">
+        <h1 class="mt-1">Редактирование команды {{ $team->name }}</h1>
+        {!! Form::model($team, ['method' => 'put', 'action' => ['TeamController@update', $team->id]]) !!}
         @include('admin/teams/form')
-    {!! Form::close() !!}
+        {!! Form::close() !!}
+    </div>
 
 
 @endsection

@@ -21,11 +21,10 @@
     <body>
 
         @include("layouts.admin-nav")
-        <div class="container">
-            @include('flash::message')
+        @include('flash::message')
+        @yield('content')
 
-            @yield('content')
-        </div>
+        @include('layouts.footer')
 
         <script src="{{ asset('js/tether.min.js') }}"></script>
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>

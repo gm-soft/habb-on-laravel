@@ -3,13 +3,14 @@
 @section('title', 'Список постов')
 
 @section('content')
-    <h1>Посты</h1>
-    <div>
-        <a href="{{url('admin/posts/create')}}">Создать запись</a>
-    </div>
+    <div class="container">
+        <h1 class="mt-1">Посты</h1>
+        <div class="mb-1">
+            <a href="{{url('admin/posts/create')}}">Создать запись</a>
+        </div>
 
-    <table class="table table-striped dataTable">
-        <thead>
+        <table class="table table-striped dataTable">
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Заголовок</th>
@@ -18,8 +19,8 @@
                 <th>Опубликован</th>
                 <th>Действия</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @for($i=0;$i<count($posts);$i++)
 
                 <tr>
@@ -36,8 +37,9 @@
 
             @endfor
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
 @endsection
 

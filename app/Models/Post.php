@@ -23,7 +23,7 @@ class Post extends Ardent
 
     public static $rules = array(
         'title'     => 'required|between:2,100',
-        'content'   => 'required|between:2,5000',
+        'content'   => 'required|between:2,10000',
     );
     protected $table = "posts";
 
@@ -48,7 +48,7 @@ class Post extends Ardent
      * @param int $length
      * @return string
      */
-    public function getContentShortly($length = 30) {
+    public function getContentShortly($length = 100) {
 
         $content = $this->contentToHtml();
         $contentLength = strlen($content);

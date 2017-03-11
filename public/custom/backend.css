@@ -1,16 +1,7 @@
 
-.gi-2x{font-size: 2em;}
-.gi-3x{font-size: 3em;}
-.gi-4x{font-size: 4em;}
-.gi-5x{font-size: 5em;}
-
-.form-container {
-	background-color: #fff;
-	border-radius: 5px;
-
-    padding: 5px 25px;
-    z-index: -1;
-	margin-top: 8px;
+footer {
+    background-color: #0f1d3a;
+    color: #e2e2e4;
 }
 
 nav {

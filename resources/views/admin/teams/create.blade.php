@@ -3,10 +3,12 @@
 @section('title', 'Создание записи')
 
 @section('content')
-    <h1 class="mt-1">Создание команды</h1>
-    {!! Form::open(array('action' => array('TeamController@store'))) !!}
+    <div class="container">
+        <h1 class="mt-1">Создание команды</h1>
+        {!! Form::open(array('action' => array('TeamController@store'))) !!}
         @include('admin/teams/form')
-    {!! Form::close() !!}
+        {!! Form::close() !!}
+    </div>
 
 
 @endsection

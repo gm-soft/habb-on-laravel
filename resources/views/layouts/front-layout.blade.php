@@ -18,10 +18,10 @@
 </head>
     <body>
         @include("layouts.front-nav")
-        <div class="container">
-            @include('flash::message')
-            @yield('content')
-        </div>
+        @include('flash::message')
+        @yield('content')
+
+        @include('layouts.footer')
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
         <script src="{{ asset('js/tether.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>

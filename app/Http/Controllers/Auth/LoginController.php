@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/news';
 
     /**
      * Create a new controller instance.
@@ -45,6 +45,6 @@ class LoginController extends Controller
      * @param $user
      */
     protected function authenticated(Request $request, $user){
-        flash('Вы успешно авторизовались', Constants::Success);
+        flash('Добро пожаловать!', Constants::Success);
     }
 }

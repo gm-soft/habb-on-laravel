@@ -3,18 +3,13 @@
 @section('title', 'Команды Habb')
 
 @section('content')
-    <div class="row mt-2 mb-1">
-
-        <div class="col-sm-6">
-            <h1>Команды</h1>
-        </div>
-
-        <div class="col-sm-6 text-sm-right">
+    <div class="container">
+        <h1 class="mt-1">Команды</h1>
+        <div class="mb-1 text-sm-right">
             <a href="{{url('admin/teams/create')}}" class="btn btn-secondary">Создать запись</a>
         </div>
-    </div>
-    <table class="table table-striped dataTable">
-        <thead>
+        <table class="table table-striped dataTable">
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Название</th>
@@ -24,8 +19,8 @@
                 <th>Игрок</th>
                 <th>Игрок</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @for($i=0;$i<count($teams);$i++)
                 @php
                     $gamersArray = $gamers[$teams[$i]->name];
@@ -48,8 +43,9 @@
 
             @endfor
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
 @endsection
 

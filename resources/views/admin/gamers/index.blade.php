@@ -3,18 +3,20 @@
 @section('title', 'Список игроков')
 
 @section('content')
-    <div class="row mt-2 mb-1">
 
-        <div class="col-sm-6">
-            <h1>Игроки</h1>
-        </div>
+    <div class="container">
+        <div class="row mt-1 mb-1">
 
-        <div class="col-sm-6 text-sm-right">
-            <a href="{{url('admin/gamers/create')}}" class="btn btn-secondary">Создать запись</a>
+            <div class="col-sm-6">
+                <h1>Игроки</h1>
+            </div>
+
+            <div class="col-sm-6 text-sm-right">
+                <a href="{{url('admin/gamers/create')}}" class="btn btn-secondary">Создать запись</a>
+            </div>
         </div>
-    </div>
-    <table class="table table-striped dataTable">
-        <thead>
+        <table class="table table-striped dataTable">
+            <thead>
             <tr>
                 <th>ID</th>
                 <th>Имя</th>
@@ -24,8 +26,8 @@
                 <th>Игра</th>
                 <th>Действия</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @for($i=0;$i<count($gamers);$i++)
 
                 <tr>
@@ -43,8 +45,9 @@
 
             @endfor
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
 @endsection
 

@@ -4,15 +4,16 @@
 
 @section('content')
 
-    <div class="row auth-block">
-        <div class="col-sm-8 offset-sm-2 card">
-            <div class="card-block">
-                <h1 class="card-title">Сброс пароля</h1>
-                <div class="card-text">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
+    <div class="container">
+        <div class="row auth-block">
+            <div class="col-sm-8 offset-sm-2 card">
+                <div class="card-block">
+                    <h1 class="card-title">Сброс пароля</h1>
+                    <div class="card-text">
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
                     @endif
                     <!-- -->
                         <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
@@ -62,6 +63,7 @@
                             </div>
                         </form>
 
+                    </div>
                 </div>
             </div>
         </div>

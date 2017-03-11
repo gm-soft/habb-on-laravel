@@ -3,25 +3,26 @@
 @section('title', 'Рейтинг игроков')
 
 @section('content')
-    <h1 class="mt-1">Топ игроков <span class="float-sm-right">{{ $game }}</span></h1>
-    <div class="mt-1 mb-1 float-sm-right">
-        <div class="btn-group" role="group" aria-label="Игры">
-            <a href="{{ url('rating/gamers', ['game' => 'cs:go']) }}" class="btn btn-secondary">CS:GO</a>
-            <a href="{{ url('rating/gamers', ['game' => 'dota']) }}" class="btn btn-secondary">Dota 2</a>
-            <a href="{{ url('rating/gamers', ['game' => 'hearthstone']) }}" class="btn btn-secondary">Hearthstone</a>
+    <div class="container">
+        <h1 class="mt-1">Топ игроков <span class="float-sm-right">{{ $game }}</span></h1>
+        <div class="mt-1 mb-1 float-sm-right">
+            <div class="btn-group" role="group" aria-label="Игры">
+                <a href="{{ url('rating/gamers', ['game' => 'cs:go']) }}" class="btn btn-secondary">CS:GO</a>
+                <a href="{{ url('rating/gamers', ['game' => 'dota']) }}" class="btn btn-secondary">Dota 2</a>
+                <a href="{{ url('rating/gamers', ['game' => 'hearthstone']) }}" class="btn btn-secondary">Hearthstone</a>
+            </div>
         </div>
-    </div>
-    <table class="table">
-        <thead>
+        <table class="table">
+            <thead>
             <tr>
                 <th>Позиция</th>
                 <th>Игрок</th>
                 <th>Город</th>
                 <th>Очки</th>
             </tr>
-        </thead>
-        <tbody>
-        {{-- Выводим список участников, у которых очков больше указанного значения --}}
+            </thead>
+            <tbody>
+            {{-- Выводим список участников, у которых очков больше указанного значения --}}
             @php($position = 0)
             @for($i = 0; $i < count($greater); $i++)
 
@@ -80,7 +81,8 @@
                     <td>{!! $score !!}</td>
                 </tr>
             @endfor
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
 @endsection
