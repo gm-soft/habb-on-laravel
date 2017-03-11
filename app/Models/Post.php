@@ -86,4 +86,12 @@ class Post extends Ardent
     public function decodeHtmlContent() {
         $this->content = HTML::decode($this->content);
     }
+
+    public function CreatedAt($format = "d.m.Y"){
+        return $this->created_at->format($format);
+    }
+
+    public function UpdatedAt($format = "d.m.Y"){
+        return $this->updated_at->format($format);
+    }
 }

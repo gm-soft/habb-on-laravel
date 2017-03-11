@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Constants;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
-    /**
-     * Открывает одну из статей
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
+    #region Посты
     public function openPost($id){
+        /** @var Post $post */
         $post = Post::find($id);
 
         if (!\Auth::user()->hasBackendRight()) {
@@ -32,4 +29,50 @@ class FrontController extends Controller
         }
         return $this->View('front.posts.index', ["posts" => $posts]);
     }
+    #endregion
+
+    #region Рейтинги
+    public function gamerRating($game = Constants::CsGo){
+        $rating = \DB::table('gamers')->select('gamers.id', 'name', 'last_name', 'city', 'gamer_scores.total_value', 'gamer_scores.total_change')
+            ->join('gamer_scores', 'gamers.id', '=', 'gamer_scores.gamer_id')
+            ->where('gamer_scores.game_name', '=', $game)
+            ->where('gamer_scores.total_value', '>', 0)
+            ->orderBy('gamer_scores.total_value', 'desc')
+            ->get();
+        return view('front.rating.gamer', ['rating' => $rating]);
+    }
+
+    public function teamRating($game = Constants::CsGo){
+        $rating = \DB::table('teams')
+            ->join('team_scores', 'teams.id', '=', 'team_scores.team_id')
+            ->where('team_scores.game_name', '=', $game)
+            ->where('team_scores.total_value', '>', 0)
+            ->orderBy('team_scores.total_value', 'desc')
+            ->get();
+
+        $gamers = [];
+
+        foreach ($rating as $item) {
+            $gamerIds = explode(', ', $item->gamer_ids);
+            $gamerRoles = explode(', ', $item->gamer_roles);
+            $gamersToAdd = [];
+
+            for($i = 0; $i < count($gamerIds); $i++) {
+                $id = $gamerIds[$i];
+                $role = $gamerRoles[$i];
+
+                if ($role == 'coach' || $role == 'reserve') continue;
+
+                $gamersToAdd[] = \DB::table('gamers')->select('gamers.id', 'name', 'last_name', 'city', 'gamer_scores.total_value', 'gamer_scores.total_change')
+                    ->where('gamers.id', '=', $id)
+                    ->join('gamer_scores', 'gamers.id', '=', 'gamer_scores.gamer_id')
+                    ->where('gamer_scores.game_name', '=', $game)
+                    ->get();
+            }
+            $gamers[$item->name] = $gamersToAdd;
+        }
+
+        return view('front.rating.team', ['rating' => $rating, 'gamers' => $gamers]);
+    }
+    #endregion
 }

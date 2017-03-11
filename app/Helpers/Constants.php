@@ -20,6 +20,9 @@ abstract class Constants
     const FrontNavPath      = "front/shared/nav";
 
     const GamesString = "cs:go,dota,hearthstone";
+    const CsGo = "cs:go";
+    const Dota = "dota";
+    const HearthStone = "hearthstone";
 
     const Success = "success";
     const Error = "danger";

@@ -3,20 +3,21 @@
 @section('title', 'Информация о статье')
 
 @section('content')
-    <h1 class="mt-2">Статья "{{ $post->title }}" [ID {{ $post->id }}]</h1>
+    <h1 class="mt-1">Статья "{{ $post->title }}" [ID {{ $post->id }}]</h1>
 
-    <div class="mt-2">
+    <div class="mt-1">
         {!! $post->content !!}
     </div>
     <hr>
     <div class="">
         <div class="row">
             <div class="col-sm-3">
-                Просмотры: {{ $post->views }}
+                Просмотры <i class="fa fa-eye" aria-hidden="true"></i> {{ $post->views }}
             </div>
 
             <div class="col-sm-9 text-sm-right">
-                Создана: {{ $post->created_at }}. Обновлена: {{ $post->created_at }}
+                <i class="fa fa-plus" aria-hidden="true"></i> Создание {{ $post->UpdatedAt() }}.
+                <i class="fa fa-pencil" aria-hidden="true"></i> Обновление {{ $post->CreatedAt() }}
             </div>
 
         </div>

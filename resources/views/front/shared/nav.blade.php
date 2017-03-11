@@ -13,6 +13,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('news') }}">Новости</a>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="ratings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Рейтинги
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="ratings">
+                        <a class="dropdown-item" href="{{ url('rating/gamers') }}">Персональный рейтинг</a>
+                        <a class="dropdown-item" href="{{ url('rating/teams') }}">Командный рейтинг</a>
+                    </div>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('about') }}">О портале</a>
                 </li>

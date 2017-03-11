@@ -40,6 +40,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () 
 //Route::get('/syncTeams', 'AjaxController@syncTeams');
 
 /**
+ * Рейтинги во фронте
+ */
+Route::group(['prefix' => 'rating'], function () {
+    Route::get('/gamers/{game?}', 'FrontController@gamerRating');
+    Route::get('/teams/{game?}', 'FrontController@teamRating');
+});
+
+
+
+/**
  * Auth Routes
  */
 

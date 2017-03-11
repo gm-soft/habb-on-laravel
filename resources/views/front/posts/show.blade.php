@@ -5,20 +5,16 @@
 @section('content')
     <h1 class="mt-1">{{ $post->title }}</h1>
 
-    <div class="mt-2">
+    <div class="mt-1">
         {!! $post->content  !!}
     </div>
     <hr>
     <div class="mt-2 row">
-        <div class="col-sm-6">
-            {{ link_to_action('FrontController@showAllPosts', 'В список новостей', [], ['class' => 'btn btn-secondary']) }}
-        </div>
-        <div class="col-sm-6">
-            <div class="float-sm-right">
-                Просмотров: {{ $post->views }}. Публикация: {{ $post->updated_at }}.
-            </div>
+        <a href="{{ url('news') }}" class="btn btn-secondary"><i class="fa fa-chevron-left" aria-hidden="true"></i> В список новостей</a>
 
-        </div>
+        <span class="float-sm-right">
+            <i>Просмотров: {{ $post->views }}. Публикация: {{ $post->UpdatedAt() }}</i>
+        </span>
 
     </div>
 
