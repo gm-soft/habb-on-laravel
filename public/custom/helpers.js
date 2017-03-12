@@ -109,11 +109,12 @@ var registrationHelpers = {
             success : function(data, textStatus){
 
                 console.log(data);
-                /*var result = data["result"];
-                var account = data["account"];
-                this.MarkFields(field, result);
-                if (result == false && account == null) return;
-                $('#accountModal').modal('show');*/
+                var result = data["result"];
+                var exists = data["exists"];
+
+                registrationHelpers._markFields(field, exists);
+                if (exists == false) return;
+                $('#accountModal').modal('show');
             }
         });
     },
@@ -127,20 +128,18 @@ var registrationHelpers = {
         this.divEmail          = $('#divEmail');
         this.accountModalTitle = $('#accountModalTitle');
         this.accountModalBody  = $('#accountModalBody');
-        this.vkInput           = $('#vk');
+        this.vkInput           = $('#vk_page');
 
         this.vkInput.focus(function(){
 
             if ($(this).val() == "") {
                 $(this).val("https://vk.com/");
-                return;
             }
         });
 
         this.vkInput.blur(function () {
             if ($(this).val() == "https://vk.com/") {
                 $(this).val("");
-                return;
             }
         });
 

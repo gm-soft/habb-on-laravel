@@ -11,7 +11,7 @@
                 </div>
 
 
-                {!! Form::open(['action' => ['GamerController@store'], 'id' => 'form']) !!}
+                {!! Form::open(['action' => ['GamerController@createGamerAccount'], 'id' => 'form']) !!}
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -78,7 +78,7 @@
                             <div class="form-group ">
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control" id="vk" name="vk" pattern="@VkFieldPattern()" required placeholder="https://vk.com/" maxlength="40">
+                                    <input type="text" class="form-control" id="vk_page" name="vk_page" pattern="@VkFieldPattern()" required placeholder="https://vk.com/" maxlength="40">
                                     <span class="input-group-addon"><i class="fa fa-vk" aria-hidden="true"></i></span>
                                 </div>
                             </div>

@@ -15,3 +15,7 @@ footer {
 .bg-custom {
     background-color: #c8eaf3 !important;
 }
+
+.input-group-addon {
+    min-width: 50px !important;
+}

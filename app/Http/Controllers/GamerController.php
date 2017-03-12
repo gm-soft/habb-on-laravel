@@ -175,6 +175,12 @@ class GamerController extends Controller
 
     #endregion
 
+    #region Форма регистрации участника HABB
+    /**
+     * Открытие формы регистрации
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function registerForm(Request $request) {
 
         $userAgent = $request->header('User-Agent');
@@ -193,13 +199,70 @@ class GamerController extends Controller
      */
     public function searchGamerForDuplicate(Request $request) {
 
-        // TODO Доработать вывод аякса как здесь, так и на клиенте
         $field = Input::get('field');
         $searchable = Input::get('value');
 
-        $gamers = DB::table('gamers')->where($field , '=', $searchable)->get();
-        return response()->json($gamers);
+        $gamer = DB::table('gamers')->where($field , '=', $searchable)->first();
+        $result = ['result' => true, 'exists' => !is_null($gamer)];
+        return response()->json($result);
     }
+
+    /**
+     * Принимает аргументы от формы регистрации и создает аккаунт игрока
+     * @param Request $request
+     * @return GamerController|\Illuminate\Http\RedirectResponse
+     */
+    public function createGamerAccount(Request $request){
+        // TODO Нужно проверить как работает валидация
+        $input = $request->input();
+        $validator = Validator::make($input, Gamer::rules());
+
+        if ($validator->fails()) {
+            return Redirect::action('GamerController@registerForm')
+                ->withErrors($validator->errors())
+                ->withInput($input);
+        }
+
+        $gamer = new Gamer;
+        $gamer->name = Input::get('name');
+        $gamer->last_name = Input::get('last_name');
+
+        $gamer->phone = Input::get('phone');
+        $gamer->email = Input::get('email');
+        $gamer->birthday = Input::get('birthday');
+        $gamer->city = Input::get('city');
+        $gamer->vk_page = Input::get('vk_page');
+        $gamer->status = Input::get('status');
+        $gamer->institution = Input::get('institution');
+        $gamer->comment = Input::get('comment');
+        $gamer->lead_id = 0 /*!is_null(Input::get('lead_id'))*/;
+
+        $gamer->primary_game = Input::get('primary_game');
+        $gamer->secondary_games = Input::get('secondary_games');
+
+        $success = $gamer->save();
+        if ($success == false) {
+            return Redirect::action('GamerController@registerForm')
+                ->withErrors($gamer->errors())
+                ->withInput($input);
+
+        }
+        $scores = GamerScore::getScoreSet();
+        $gamer->scores()->saveMany($scores);
+
+        session(['gamer_id' => $gamer->id]);
+        return Redirect::action('GamerController@displayGamerRegisterResult');
+    }
+
+    public function displayGamerRegisterResult(Request $request){
+        // TODO отдебажить вывод. СДелать проверку на null
+        $id = $request->session()->get('gamer_id');
+        $gamer = Gamer::find($id);
+        $request->session()->forget('gamer_id');
+        return view('front.register.gamer-result', ['gamer' => $gamer]);
+    }
+
+    #endregion
 
 
 }

@@ -51,8 +51,13 @@ Route::group(['prefix' => 'rating'], function () {
  * Регистрации участников и команд
  */
 Route::group(['prefix' => 'register'], function () {
+
     Route::get('/gamer', 'GamerController@registerForm');
+    Route::post('/gamer', 'GamerController@createGamerAccount');
+    Route::get('/gamer/result', 'GamerController@displayGamerRegisterResult');
+
     Route::get('/team', 'GamerController@registerTeamForm');
+
 });
 
 Route::group(['prefix' => 'ajax'], function(){
