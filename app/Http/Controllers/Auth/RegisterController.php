@@ -89,7 +89,7 @@ class RegisterController extends Controller
             $this->guard()->login($user);
 
             $this->registered($request, $user);
-            return Redirect::to('/');
+            return Redirect::to('/news');
         } catch (ValidationException $ex) {
 
             return redirect()->back()

@@ -47,7 +47,17 @@ Route::group(['prefix' => 'rating'], function () {
     Route::get('/teams/{game?}', 'FrontController@teamRating');
 });
 
+/**
+ * Регистрации участников и команд
+ */
+Route::group(['prefix' => 'register'], function () {
+    Route::get('/gamer', 'GamerController@registerForm');
+    Route::get('/team', 'GamerController@registerTeamForm');
+});
 
+Route::group(['prefix' => 'ajax'], function(){
+    Route::post('/search-gamer', 'GamerController@searchGamerForDuplicate');
+});
 
 /**
  * Auth Routes

@@ -15,21 +15,14 @@ use Validator;
 
 class GamerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return \Illuminate\Http\Response|\Illuminate\View\View
-     */
+
+    #region Ресурсные методы
     public function index()
     {
         $gamers = Gamer::all();
         return $this->View('admin/gamers/index', ["gamers" => $gamers]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function create()
     {
         $userAgent = request()->header('User-Agent');
@@ -38,12 +31,6 @@ class GamerController extends Controller
         return $this->View('admin.gamers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $input = $request->input();
@@ -86,12 +73,7 @@ class GamerController extends Controller
             ->with('success', 'Данные сохранены');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         /** @var Gamer $gamer */
@@ -102,12 +84,6 @@ class GamerController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         /** @var Gamer $gamer */
@@ -118,14 +94,6 @@ class GamerController extends Controller
         ]);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $input = $request->input();
@@ -200,15 +168,37 @@ class GamerController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
+    }
+
+    #endregion
+
+    public function registerForm(Request $request) {
+
+        $userAgent = $request->header('User-Agent');
+        $iOsDevice = stripos($userAgent,"iPod")||
+            stripos($userAgent,"iPhone") ||
+            stripos($userAgent,"iPad");
+
+        $cities = Constants::getCities();
+        return view('front.register.gamer', ['iOsDevice' => $iOsDevice, 'cities' => $cities]);
+    }
+
+    /**
+     * Аякс запрос на поиск аккаунта по телефону
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchGamerForDuplicate(Request $request) {
+
+        // TODO Доработать вывод аякса как здесь, так и на клиенте
+        $field = Input::get('field');
+        $searchable = Input::get('value');
+
+        $gamers = DB::table('gamers')->where($field , '=', $searchable)->get();
+        return response()->json($gamers);
     }
 
 

@@ -33,3 +33,17 @@ blockquote {
     font-size: 1.25rem !important;
     border-left: 0.25rem solid #eceeef !important;
 }
+
+/*
+    Делает блок алерта справа сверху постоянным. Не всегда отображается корректно
+ */
+.alert-fixed {
+    position:fixed;
+    top: 60px;
+    right: 10px;
+    min-width: 100px;
+    max-width: 350px;
+    z-index:9999;
+    border: 1px solid;
+    /*border-radius:0px*/
+}
