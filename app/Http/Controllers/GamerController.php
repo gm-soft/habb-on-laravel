@@ -255,8 +255,12 @@ class GamerController extends Controller
     }
 
     public function displayGamerRegisterResult(Request $request){
-        // TODO отдебажить вывод. СДелать проверку на null
         $id = $request->session()->get('gamer_id');
+
+        if (is_null($id)) {
+            // Если внезапно id нет, то редирект на страницу регистрации участника
+            return Redirect::action('GamerController@registerForm');
+        }
         $gamer = Gamer::find($id);
         $request->session()->forget('gamer_id');
         return view('front.register.gamer-result', ['gamer' => $gamer]);
