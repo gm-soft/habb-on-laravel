@@ -13,8 +13,8 @@ class MakeGamerSoftDeletable extends Migration
      */
     public function up()
     {
-        Schema::create('gamers', function (Blueprint $table) {
-            $table->softDeletes();
+        Schema::table('gamers', function (Blueprint $table) {
+            $table->addColumn('timestamp', 'deleted_at')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class MakeGamerSoftDeletable extends Migration
      */
     public function down()
     {
-        Schema::create('gamers', function (Blueprint $table) {
+        Schema::table('gamers', function (Blueprint $table) {
             $table->dropColumn(['deleted_at']);
         });
     }
