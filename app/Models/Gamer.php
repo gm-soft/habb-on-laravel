@@ -31,12 +31,13 @@ use LaravelArdent\Ardent\Ardent;
  *
  * @property Carbon updated_at
  * @property Carbon created_at
+ * @property Carbon deleted_at
  *
  * @property GamerScore[] scores
  */
 class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 {
-    use FormAccessible;
+    use FormAccessible, SoftDeletes;
 
     public static function rules ($id = 0) {
         return array(
@@ -60,7 +61,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         parent::__construct($attributes);
     }
 
-    protected $dates = ['birthday'];
+    protected $dates = ['birthday', 'deleted_at'];
     protected $casts = [
         'secondary_games' => 'array'
     ];

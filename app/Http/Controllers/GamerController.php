@@ -6,6 +6,7 @@ use App\Helpers\Constants;
 use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\User;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -170,7 +171,24 @@ class GamerController extends Controller
 
     public function destroy($id)
     {
-        //
+        /** @var Gamer $gamer */
+        $gamer = Gamer::find($id);
+        $gamer->deleted_at = Carbon::now();
+        $result = $gamer->save();
+
+        if ($result == true) {
+            $message = "Запись ID".$gamer->id." удалена из базы";
+            $type = Constants::Success;
+        } else {
+            $message = "Запись ID".$gamer->id." не удалена из базы<br>";
+            $errors = $gamer->errors();
+            foreach ($errors as $error) {
+                $message .= $error."<br>";
+            }
+            $type = Constants::Error;
+        }
+        flash($message, $type);
+        return Redirect::action('GamerController@index');
     }
 
     #endregion
