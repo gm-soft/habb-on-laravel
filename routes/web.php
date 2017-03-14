@@ -11,9 +11,6 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
@@ -24,16 +21,26 @@ Route::get('/contacts', 'HomeController@contacts');
 Route::get('/news', 'FrontController@showAllPosts');
 Route::get('/news/{id}', 'FrontController@openPost');
 //--------------------------
+
+/**
+ * Руты админки
+ */
 Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () {
     Route::get('/', 'AdminController@index');
 
+    // Геймеры
     Route::resource('gamers', 'GamerController');
     Route::post('gamerScoreUpdate', 'GamerController@scoreUpdate');
 
+    // Команды
     Route::resource('teams', 'TeamController');
     Route::post('teamsScoreUpdate', 'TeamController@scoreUpdate');
 
+    // Посты/новости
     Route::resource('posts', 'PostController');
+
+    // Заявки на создание команды
+    Route::resource('teamCreateRequests', 'TeamCreateRequestController');
 
 });
 
@@ -60,12 +67,15 @@ Route::group(['prefix' => 'register'], function () {
 
 });
 
-Route::group(['prefix' => 'ajax'], function(){
+/**
+ * Аякс-руты
+ */
+Route::group(['prefix' => 'ajax'], function() {
     Route::post('/search-gamer', 'GamerController@searchGamerForDuplicate');
 });
 
 /**
- * Auth Routes
+ * Авторизационные пути. Вынес чтобы были очевидны и наглядны
  */
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

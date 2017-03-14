@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Helpers\Constants;
+use App\Traits\TeamConstructor;
 use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\TeamScore;
@@ -14,10 +16,8 @@ use Validator;
 
 class TeamController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return \Illuminate\Http\Response|\Illuminate\View\View
-     */
+    use TeamConstructor;
+
     public function index()
     {
         /** @var Team[] $instances */
@@ -32,23 +32,12 @@ class TeamController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function create()
     {
         $gamerOptionList = Gamer::asSelectableOptionArray();
         return view('admin.teams.create', ['gamerOptionList' => $gamerOptionList]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         // TODO Нужно доработать контроллер, так как вообще не смотрел
@@ -62,7 +51,7 @@ class TeamController extends Controller
                 ->withInput($input);
         }
 
-        $instance = $this->constructTeam(null, Input::all());
+        $instance = $this->constructTeamFromInput(null, Input::all());
 
         $success = $instance->save();
         if ($success == false) {
@@ -78,12 +67,6 @@ class TeamController extends Controller
             ->with('success', 'Данные сохранены');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function show($id)
     {
         /** @var Team $instance */
@@ -96,12 +79,6 @@ class TeamController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         /** @var Team $instance */
@@ -115,13 +92,6 @@ class TeamController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
 
@@ -133,7 +103,7 @@ class TeamController extends Controller
                 ->withErrors($validator->errors())
                 ->withInput($input);
         }
-        $instance = $this->constructTeam($id, Input::all());
+        $instance = $this->constructTeamFromInput($id, Input::all());
         $res = $instance->update();
 
         if ($res === false) {
@@ -145,12 +115,6 @@ class TeamController extends Controller
             ->with('success', 'Данные сохранены');
     }
 
-    /**
-     * Обновляет очки команды
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function scoreUpdate(Request $request)
     {
         /** @var Team $instance */
@@ -187,59 +151,25 @@ class TeamController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         // TODO: Реализовать удаление. Да и вообще нужно и во вьюхах поредактировать. DELETE походу отправляется запрос
         $instance = Team::find($id);
         $result = $instance->delete();
+        if ($result == true) {
+            $message = "Запись ID".$instance->id." удалена из базы";
+            $type = Constants::Success;
+        } else {
+            $message = "Запись ID".$instance->id." не удалена из базы<br>";
+            $errors = $instance->errors();
+            foreach ($errors as $error) {
+                $message .= $error."<br>";
+            }
+            $type = Constants::Error;
+        }
+        flash($message, $type);
+        return Redirect::action('TeamController@index');
     }
 
-    /**
-     * @param null $id
-     * @param array $input
-     * @return Team
-     */
-    private function constructTeam($id = null, array $input) {
-        $gamerIds = [];
-        $gamerRoles = [];
-        $gamerIdsSource = $input['gamer_ids'];
-        $gamerRolesSource = $input['gamer_roles'];
 
-        for ($i = 0; $i < count($gamerIdsSource); $i++) {
-
-            if ($gamerIdsSource[$i] == 'null') continue;
-            $gamerIds[] = $gamerIdsSource[$i];
-            $gamerRoles[] = $gamerRolesSource[$i];
-        }
-
-        for ($i = 0; $i < count($gamerRoles); $i++) {
-
-            if ($gamerRoles[$i] != 'captain') continue;
-            if ($i == 0) continue;
-
-            $tmp = $gamerIds[0];
-            $gamerIds[0] = $gamerIds[$i];
-            $gamerIds[$i] = $tmp;
-            //----
-            $tmp = $gamerRoles[0];
-            $gamerRoles[0] = $gamerRoles[$i];
-            $gamerRoles[$i] = $tmp;
-            break;
-        }
-        /** @var Team $instance */
-        $instance = !is_null($id) ? Team::find($id) : new Team();
-        $instance->name = $input['name'];
-        $instance->comment = $input['comment'];
-        $instance->city = $input['city'];
-        $instance->gamer_ids = $gamerIds;
-        $instance->gamer_roles = $gamerRoles;
-
-        return $instance;
-    }
 }
