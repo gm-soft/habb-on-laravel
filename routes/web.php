@@ -39,8 +39,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () 
     // Посты/новости
     Route::resource('posts', 'PostController');
 
-    // Заявки на создание команды
-    Route::resource('teamCreateRequests', 'TeamCreateRequestController');
+    // Заявки
+    Route::group(['prefix' => 'requests'], function() {
+        // на создание команды
+        Route::resource('teamCreate', 'TeamCreateRequestController');
+    });
+
 
 });
 

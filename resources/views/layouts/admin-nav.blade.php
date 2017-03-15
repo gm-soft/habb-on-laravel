@@ -32,8 +32,13 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('admin/users/') }}">Пользователи</a>
                         <a class="dropdown-item" href="{{ url('admin/statistic/') }}">Записи статистики</a>
+                    </div>
+                </li>
 
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="requests" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Запросы</a>
+                    <div class="dropdown-menu" aria-labelledby="requests">
+                        <a class="dropdown-item" href="{{ url('admin/requests/teamCreate/') }}">На создание команды</a>
                     </div>
                 </li>
 
