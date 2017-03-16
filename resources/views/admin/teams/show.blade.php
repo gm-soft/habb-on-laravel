@@ -4,7 +4,11 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-1">Игрок {{ $team->name }} [ID {{ $team->id }}]</h1>
+        <div class="mt-1">
+            <h1 class="mt-1">Команда {{ $team->name }} [ID {{ $team->id }}]</h1>
+            <p class="text-muted">Создание: {{ $team->created_at }}. Обновление: {{ $team->updated_at }}</p>
+        </div>
+
 
         <div class="row">
             <div class="col-sm-6">
@@ -15,8 +19,6 @@
                                 <dt class="col-sm-4">Участники</dt>     <dd class="col-sm-8">{{ $team->getGamerIdsAsString() }}</dd>
                                 <dt class="col-sm-4">Город</dt>         <dd class="col-sm-8">{{ $team->city }}</dd>
                                 <dt class="col-sm-4">Комментарий</dt>   <dd class="col-sm-8">{{ $team->comment }}</dd>
-                                <dt class="col-sm-4">Создан</dt>        <dd class="col-sm-8">{{ $team->created_at }}</dd>
-                                <dt class="col-sm-4">Обновлен</dt>      <dd class="col-sm-8">{{ $team->updated_at }}</dd>
                             </dl>
                         </div>
 

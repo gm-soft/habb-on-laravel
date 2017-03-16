@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Models\Gamer;
 use App\Models\TeamCreateRequest;
 use App\Traits\TeamConstructor;
 use Illuminate\Http\Request;
@@ -28,17 +29,17 @@ class TeamCreateRequestController extends Controller
     public function create()
     {
         $cities = Constants::getCities();
-        return view('admin.teams.create',
-            ['cities' => $cities]
+        $phoneRegPattern = Constants::PhoneRegexPattern;
+        $emailRegPattern = Constants::EmailRegexPattern;
+        return view('admin.teamRequests.create',
+            ['phoneRegPattern' => $phoneRegPattern, 'emailRegPattern' => $emailRegPattern]
         );
     }
 
     public function store(Request $request)
     {
-        // TODO Копипаста
-
         $input = $request->input();
-        $validator = Validator::make($input, Team::$rules);
+        $validator = Validator::make($input, TeamCreateRequest::$rules);
 
         if ($validator->fails()) {
             return Redirect::action('TeamCreateRequestController@create')
@@ -47,7 +48,6 @@ class TeamCreateRequestController extends Controller
         }
 
         $instance = $this->constructTeamCreateRequest(null, Input::all());
-
         $success = $instance->save();
         if ($success == false) {
             return Redirect::action('TeamCreateRequestController@create')
@@ -62,42 +62,47 @@ class TeamCreateRequestController extends Controller
 
     public function show($id)
     {
-        // TODO Копипаста
-        /** @var Team $instance */
-        $instance = Team::find($id);
-        $gamers = $instance->getGamers();
-        return $this->View('admin.teams.show', [
-            'team' => $instance,
-            'scores' => $instance->scores(),
-            'gamers' => $gamers
+
+        /** @var TeamCreateRequest $instance */
+        $instance = TeamCreateRequest::find($id);
+
+        $gamers = [];
+
+        for ($i = 0; $i < count($instance->participant_ids); $i++) {
+
+            $participant_id = $instance->participant_ids[$i];
+            $gamer = Gamer::find($participant_id);
+            $gamers[$i] = $gamer ?? null;
+        }
+        return $this->View('admin.teamRequests.show', [
+            'instance' => $instance, 'gamers' => $gamers
         ]);
     }
 
     public function edit($id)
     {
-        // TODO Копипаста
-        /** @var Team $instance */
-        $instance = Team::find($id);
-        $gamerOptionList = Gamer::asSelectableOptionArray();
 
-        return $this->View('admin.teams.edit', [
-            'team' => $instance,
-            'gamerOptionList' => $gamerOptionList
+        /** @var TeamCreateRequest $instance */
+        $instance = TeamCreateRequest::find($id);
+        $phoneRegPattern = Constants::PhoneRegexPattern;
+        $emailRegPattern = Constants::EmailRegexPattern;
+
+        return $this->View('admin.teamRequests.edit', [
+            'instance' => $instance,'phoneRegPattern' => $phoneRegPattern, 'emailRegPattern' => $emailRegPattern
         ]);
     }
 
     public function update(Request $request, $id)
     {
-        // TODO Копипаста
         $input = $request->input();
-        $validator = Validator::make($input, Team::$rules);
+        $validator = Validator::make($input, TeamCreateRequest::$rules);
 
         if ($validator->fails()) {
             return Redirect::action('TeamCreateRequestController@edit', ["id" => $id])
                 ->withErrors($validator->errors())
                 ->withInput($input);
         }
-        $instance = $this->constructTeamFromInput($id, Input::all());
+        $instance = $this->constructTeamCreateRequest($id, Input::all());
         $res = $instance->update();
 
         if ($res === false) {
@@ -111,9 +116,8 @@ class TeamCreateRequestController extends Controller
 
     public function destroy($id)
     {
-        // TODO Копипаста
-        // TODO: Реализовать удаление. Да и вообще нужно и во вьюхах поредактировать. DELETE походу отправляется запрос
-        $instance = Team::find($id);
+        /** @var TeamCreateRequest $instance */
+        $instance = TeamCreateRequest::find($id);
         $result = $instance->delete();
         if ($result == true) {
             $message = "Запись ID".$instance->id." удалена из базы";

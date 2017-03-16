@@ -14,12 +14,8 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript">
 
-        $(".select2-single").select2({
-            placeholder: "Выберите игрока",
-        });
 
         $('#form').submit(function(){
             $("#submit-btn").prop('disabled',true);
@@ -28,5 +24,4 @@
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 @endsection

@@ -4,7 +4,11 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-1">Статья "{{ $post->title }}" [ID {{ $post->id }}]</h1>
+        <div class="mt-1">
+            <h1>Статья "{{ $post->title }}" [ID {{ $post->id }}]</h1>
+            <p class="text-muted">Создание: {{ $post->created_at }}. Обновление: {{ $post->updated_at }}</p>
+        </div>
+
 
         <div class="mt-1">
             {!! $post->content !!}

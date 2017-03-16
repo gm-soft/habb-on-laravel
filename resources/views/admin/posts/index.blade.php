@@ -17,22 +17,17 @@
                 <th>Размер контента</th>
                 <th>Просмотры</th>
                 <th>Опубликован</th>
-                <th>Действия</th>
             </tr>
             </thead>
             <tbody>
             @for($i=0;$i<count($posts);$i++)
-
+                @php($name = $posts[$i]->title)
                 <tr>
                     <td>{{ $posts[$i]->id }}</td>
-                    <td>{{ $posts[$i]->title}}</td>
+                    <td>{{ link_to_action('PostController@show', $name, ['id' => $posts[$i]->id]) }}</td>
                     <td>{{ $posts[$i]->getContentLength()  }}</td>
                     <td>{{ $posts[$i]->views  }}</td>
                     <td>{{ $posts[$i]->updated_at  }}</td>
-                    <td>
-                        {{ link_to_action('PostController@show', 'Открыть', ['id' => $posts[$i]->id]) }}
-                        {{ link_to_action('PostController@edit', 'Редактировать', ['id' => $posts[$i]->id]) }}
-                    </td>
                 </tr>
 
             @endfor

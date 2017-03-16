@@ -10,6 +10,7 @@ namespace App\Traits;
 
 
 use App\Models\Team;
+use App\Models\TeamCreateRequest;
 
 trait TeamConstructor
 {
@@ -64,7 +65,39 @@ trait TeamConstructor
     }
 
 
+    /**
+     * Конструирует заявку на команду
+     * @param null $id
+     * @param array $input
+     * @return TeamCreateRequest
+     */
     protected function constructTeamCreateRequest($id = null, array $input) {
+
+        /** @var TeamCreateRequest $instance */
+        $instance = !is_null($id) ? TeamCreateRequest::find($id) : new TeamCreateRequest();
+        $instance->name = $input['name'];
+        $instance->city = $input['city'];
+
+        $instance->requester_name = $input['requester_name'];
+        $instance->requester_phone = $input['requester_phone'];
+        $instance->requester_email = $input['requester_email'];
+        $instance->requester_comment = isset($input['requester_email']) ? $input['requester_email'] : null;
+
+        $instance->request_processed = isset($input['request_processed']) ? $input['request_processed'] : false;
+        $instance->team_created = isset($input['team_created']) ? $input['team_created'] : false;
+        $instance->team_id = isset($input['team_id']) ? $input['team_id'] : null;
+        $instance->comment = isset($input['comment']) ? $input['comment'] : null;
+
+        if (!isset($input['participant_roles'])) {
+            $input['participant_roles'] = [
+                'captain','gamer', 'gamer','gamer','gamer'
+            ];
+        }
+        $instance->participant_ids = $input['participant_ids'];
+        $instance->participant_names = $input['participant_names'];
+        $instance->participant_roles = $input['participant_roles'];
+
+        return $instance;
 
     }
 }

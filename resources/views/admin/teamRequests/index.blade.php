@@ -29,10 +29,9 @@
                 @endphp
                 <tr>
                     <td>{{ $instances[$i]->id }}</td>
-                    <td><b>{{ link_to_action('TeamController@show', $instances[$i]->name, ['id' => $instances[$i]->id]) }}</b></td>
+                    <td><b>{{ link_to_action('TeamCreateRequestController@show', $instances[$i]->name, ['id' => $instances[$i]->id]) }}</b></td>
                     <td>{{ $instances[$i]->city }}</td>
                     <td>{!! $requesterName !!}</td>
-                    <td>{{ $instances[$i]->city  }}</td>
                     <td>{{ $partCount  }}</td>
                     <td>{{ $instances[$i]->request_processed  }}</td>
                     <td>{{ $instances[$i]->team_created  }}</td>

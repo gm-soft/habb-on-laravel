@@ -24,23 +24,18 @@
                 <th>Email</th>
                 <th>VK страница</th>
                 <th>Игра</th>
-                <th>Действия</th>
             </tr>
             </thead>
             <tbody>
             @for($i=0;$i<count($gamers);$i++)
-
+                @php($name = $gamers[$i]->name." ".$gamers[$i]->last_name)
                 <tr>
                     <td>{{ $gamers[$i]->id }}</td>
-                    <td>{{ $gamers[$i]->name}} {{$gamers[$i]->last_name}}</td>
+                    <td><b>{{ link_to_action('GamerController@show', $name, ['id' => $gamers[$i]->id]) }}</b></td>
                     <td>{{ $gamers[$i]->phone  }}</td>
                     <td>{{ $gamers[$i]->email  }}</td>
                     <td>{{ $gamers[$i]->vk_page  }}</td>
                     <td>{{ $gamers[$i]->primary_game  }}</td>
-                    <td>
-                        {{ link_to_action('GamerController@show', 'Открыть', ['id' => $gamers[$i]->id]) }}
-                        {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $gamers[$i]->id]) }}
-                    </td>
                 </tr>
 
             @endfor

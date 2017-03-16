@@ -10,6 +10,7 @@ use Carbon\Carbon;
  * Class TeamCreateRequest
  * @package App\Models
  *
+ * @property int id
  * @property string name
  * @property string city
  * @property string requester_name

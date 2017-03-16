@@ -4,7 +4,11 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-1">Игрок {{ $gamer->name }} {{ $gamer->last_name }} [ID {{ $gamer->id }}]</h1>
+        <div class="mt-1">
+            <h1>Игрок {{ $gamer->name }} {{ $gamer->last_name }} [ID {{ $gamer->id }}]</h1>
+            <p class="text-muted">Создание: {{ $gamer->created_at }}. Обновление: {{ $gamer->updated_at }}</p>
+        </div>
+
         <div class="mt-1 card">
             <div class="card-block">
                 <div class="card-text">
