@@ -40,18 +40,21 @@ http://stackoverflow.com/questions/39196968/laravel-5-3-new-authroutes/39197278#
 http://stackoverflow.com/questions/22405762/laravel-update-model-with-unique-validation-rule-for-attribute
 https://laracasts.com/discuss/channels/requests/laravel-5-cant-use-ajax-post-request
 
+````
 artisan down
 
-    composer self-update
-    composer update
+composer self-update
+composer update
 
-    git checkout -f
-    git pull origin master
+git checkout -f
+git pull origin master
 
-    artisan migrate --force
-    artisan cache:clear
+artisan migrate --force
+artisan cache:clear
 
-    rm -rf public/assets
-    mkdir public/assets
+rm -rf public/assets
+mkdir public/assets
 
-    artisan up
+artisan up
+````
+прпрп

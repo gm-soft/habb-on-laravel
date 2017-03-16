@@ -51,13 +51,36 @@
                 <div class="float-sm-right">
 
                     {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $gamer->id], ['class' => 'btn btn-primary']) }}
-                    {{ link_to_action('GamerController@destroy', 'Удалить', ['id' => $gamer->id], ['class' => 'btn btn-outline-danger']) }}
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
                 </div>
             </div>
         </div>
 
         <div class="mt-1">
             @include('admin/gamers/score-table')
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="deleteDialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Удаление объекта</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {!! Form::open(['method' =>'delete', 'action' => ['GamerController@destroy', $gamer->id]]) !!}
+                <div class="modal-body">
+                    Вы уверены, что хотите удалить запись об игроке #{{ $gamer->id }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                </div>
+                {!! Form::close() !!}
+
+            </div>
         </div>
     </div>
 

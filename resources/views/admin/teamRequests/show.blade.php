@@ -1,6 +1,6 @@
 
 @extends('layouts.admin-layout')
-@section('title', 'Информация об команде')
+@section('title', 'Заявка на команду')
 
 @section('content')
     <div class="container">
@@ -24,7 +24,7 @@
                 {{ link_to_action('TeamCreateRequestController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
                 <span class="float-sm-right">
                     {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
-                    {{ link_to_action('TeamCreateRequestController@destroy', 'Удалить', ['id' => $instance->id], ['class' => 'btn btn-outline-danger']) }}
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
                 </span>
 
             </div>
@@ -64,6 +64,29 @@
         </div>
         <div class="mt-1">
 
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="deleteDialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Удаление объекта</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {!! Form::open(['method' =>'delete', 'action' => ['TeamCreateRequestController@destroy', $instance->id]]) !!}
+                    <div class="modal-body">
+                        Вы уверены, что хотите удалить заявку на создание команды #{{ $instance->id }}?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                    </div>
+                {!! Form::close() !!}
+
+            </div>
         </div>
     </div>
 

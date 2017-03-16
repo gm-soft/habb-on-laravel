@@ -1,6 +1,6 @@
 
 @extends('layouts.admin-layout')
-@section('title', 'Команды Habb')
+@section('title', 'Заявки на создание команды Habb')
 
 @section('content')
     <div class="container">
