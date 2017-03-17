@@ -9,8 +9,10 @@
 namespace App\Traits;
 
 
+use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\TeamCreateRequest;
+use App\Models\TeamScore;
 
 trait TeamConstructor
 {
@@ -99,5 +101,34 @@ trait TeamConstructor
 
         return $instance;
 
+    }
+
+    /**
+     * Конструирует команду из заявки. Без создания TeamScore.
+     * @param TeamCreateRequest $teamCreateRequest
+     * @return Team
+     */
+    protected function createTeamFromCreateRequest(TeamCreateRequest $teamCreateRequest) {
+        $team = new Team();
+        $team->name = $teamCreateRequest->name;
+        $team->city = $teamCreateRequest->city;
+        $team->comment = "Создана из заявки #".$teamCreateRequest->id;
+        $gamer_ids = [];
+        $gamer_roles = [];
+
+        for ($i = 0; $i < count($teamCreateRequest->participant_ids);$i++) {
+            $participantId = $teamCreateRequest->participant_ids[$i];
+            $role = $teamCreateRequest->participant_roles[$i];
+            /** @var Gamer|null $gamer */
+            $gamer = Gamer::find($participantId);
+
+            if ($gamer) {
+                $gamer_ids[] = $gamer->id;
+                $gamer_roles[] = $role;
+            }
+        }
+        $team->gamer_ids = $gamer_ids;
+        $team->gamer_roles = $gamer_roles;
+        return $team;
     }
 }

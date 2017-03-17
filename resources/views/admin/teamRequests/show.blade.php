@@ -6,29 +6,54 @@
     <div class="container">
         <div class="mt-1">
             <h1>Заявка №{{ $instance->id }}</h1>
-            <div class="text-muted float-sm-left">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</div>
+            <span class="text-muted float-sm-left">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</span>
             <span class="float-sm-right">
-                    {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-outline-secondary']) }}
+                {{ link_to_action('TeamCreateRequestController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
+                {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-secondary']) }}
                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
             </span>
         </div>
 
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-sm-6">
-                <dl>
-                    <dt>Название</dt>       <dd>{{ $instance->name }}</dd>
-                    <dt>Город</dt>          <dd>{{ $instance->city }}</dd>
-                    <dt>Запросивший</dt>    <dd>{{ $instance->requester_name }}</dd>
-                    <dt>Телефон</dt>        <dd>{{ $instance->requester_phone }}</dd>
-                    <dt>Email</dt>          <dd>{{ $instance->requester_email }}</dd>
-                    <dt>Комментарий менеджера</dt><dd>{{ $instance->comment }}</dd>
+                <dl class="row">
+                    <dt class="col-sm-6">Название</dt>       <dd class="col-sm-6 text-sm-right">{{ $instance->name }}</dd>
+                    <dt class="col-sm-6">Город</dt>          <dd class="col-sm-6 text-sm-right">{{ $instance->city }}</dd>
+                    <dt class="col-sm-6">Запросивший</dt>    <dd class="col-sm-6 text-sm-right">{{ $instance->requester_name }}</dd>
+                    <dt class="col-sm-6">Телефон</dt>        <dd class="col-sm-6 text-sm-right">{{ $instance->requester_phone }}</dd>
+                    <dt class="col-sm-6">Email</dt>          <dd class="col-sm-6 text-sm-right">{{ $instance->requester_email }}</dd>
+                    <dt class="col-sm-6">Комментарий менеджера</dt><dd class="col-sm-6 text-sm-right">{{ $instance->comment ?? "Нет комментария"  }}</dd>
+                </dl>
+                <hr>
+                <dl class="row">
+                    <dt class="col-sm-6">Статус обработки</dt><dd class="col-sm-6 text-sm-right">{{ $instance->request_processed }}</dd>
+                    <dt class="col-sm-6">Статус создания команды</dt><dd class="col-sm-6 text-sm-right">{{ $instance->team_created }}</dd>
+
+                    <dt class="col-sm-6">Созданная команда</dt>
+                    <dd class="col-sm-6 text-sm-right">
+                        @if ($instance->request_processed)
+                            {{ link_to_action('TeamController@show', "Команда #". $instance->team_id, ['id'=>$instance->team_id]) }}
+                        @else
+                            Нет команды
+                        @endif
+                    </dd>
                 </dl>
 
                 <hr>
-                <span class="float-sm-left">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmDialog">Принять</button>
-                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#denyDialog">Отклонить</button>
-                </span>
+                @if(!$instance->request_processed)
+                    <span class="float-sm-right">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmDialog">Принять</button>
+                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#denyDialog">Отклонить</button>
+                    </span>
+                @else
+                    <span class="float-sm-left text-muted">
+                        Заявка уже обработана
+                    </span>
+                    <span class="float-sm-right">
+                        <button type="button" class="btn btn-success disabled" disabled>Принять</button>
+                        <button type="button" class="btn btn-outline-danger disabled" disabled>Отклонить</button>
+                    </span>
+                @endif
 
 
             </div>
@@ -98,18 +123,24 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Подтверждение заявки</h5>
+                    <h3 class="modal-title text-success" id="exampleModalLabel">Подтверждение заявки</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 {!! Form::open(['method' =>'post', 'url' => '/admin/requests/confirm']) !!}
                     <div class="modal-body">
+
+                        <dl class="row">
+                            <dt class="col-sm-6">Название</dt>       <dd class="col-sm-6 text-sm-right">{{ $instance->name }}</dd>
+                            <dt class="col-sm-6">Город</dt>          <dd class="col-sm-6 text-sm-right">{{ $instance->city }}</dd>
+                            <dt class="col-sm-6">Участники</dt>      <dd class="col-sm-6 text-sm-right">{{ $instance->getParticipantIdsAsString() }}</dd>
+                        </dl>
                         <div class="form-group">
                             {!! Form::hidden('request_id', $instance->id) !!}
                             {!! Form::label('confirm_message', 'Сообщение запросившему (по желанию менеджера)') !!}
                             {!! Form::textarea('confirm_message', null, [
-                                'class'=>'form-control', 'maxlength'=>300
+                                'class'=>'form-control', 'maxlength'=>150
                             ]) !!}
                             <small>Сообщение будет прикреплено к электронному письму заявителю. Максимум 300 знаков</small>
                         </div>
@@ -128,13 +159,19 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Отклонение заявки</h5>
+                    <h3 class="modal-title text-danger" id="exampleModalLabel">Отклонение заявки</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 {!! Form::open(['method' =>'post', 'url' => '/admin/requests/confirm']) !!}
                 <div class="modal-body">
+                    <span class="h5">Получатель сообщения</span>
+                    <dl class="row">
+                        <dt class="col-sm-6">Имя</dt>       <dd class="col-sm-6 text-sm-right">{{ $instance->requester_name }}</dd>
+                        <dt class="col-sm-6">Телефон</dt>          <dd class="col-sm-6 text-sm-right">{{ $instance->requester_phone }}</dd>
+                        <dt class="col-sm-6">Email</dt>      <dd class="col-sm-6 text-sm-right">{{ $instance->requester_email }}</dd>
+                    </dl>
                     <div class="form-group">
                         {!! Form::hidden('request_id', $instance->id) !!}
                         {!! Form::label('deny_message', 'Причина отказа в заявке (обязательное поле)') !!}

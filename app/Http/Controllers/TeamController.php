@@ -40,8 +40,6 @@ class TeamController extends Controller
 
     public function store(Request $request)
     {
-        // TODO Нужно доработать контроллер, так как вообще не смотрел
-
         $input = $request->input();
         $validator = Validator::make($input, Team::$rules);
 
@@ -153,7 +151,7 @@ class TeamController extends Controller
 
     public function destroy($id)
     {
-        // TODO: Реализовать удаление. Да и вообще нужно и во вьюхах поредактировать. DELETE походу отправляется запрос
+        /** @var Team $instance */
         $instance = Team::find($id);
         $result = $instance->delete();
         if ($result == true) {

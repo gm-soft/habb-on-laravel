@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Constants;
 use App\Models\Gamer;
 use App\Models\TeamCreateRequest;
+use App\Models\TeamScore;
 use App\Traits\TeamConstructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -15,6 +16,7 @@ class TeamCreateRequestController extends Controller
 {
     use TeamConstructor;
 
+    #region CRUD
     public function index(Request $request)
     {
         $instances = TeamCreateRequest::all();
@@ -133,22 +135,47 @@ class TeamCreateRequestController extends Controller
         flash($message, $type);
         return Redirect::action('TeamCreateRequestController@index');
     }
+    #endregion
 
     /**
      * Если  менеджер утверждает заявку, то срабатывает этот экшн
      * @param Request $request
-     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function confirmRequest(Request $request) {
-        echo "<pre>";
-        var_export($request->input());
+        $requestId = Input::get('request_id');
+        $confirmMes = Input::get('confirm_message');
+
+        /** @var TeamCreateRequest $teamCreateRequest */
+        $teamCreateRequest = TeamCreateRequest::find($requestId);
+        if ($teamCreateRequest->request_processed == true) {
+            flash('Заявка уже обработана', Constants::Warning);
+            return Redirect::action('TeamCreateRequestController@show', ['id' => $teamCreateRequest->id]);
+        }
+
+        $team = $this->createTeamFromCreateRequest($teamCreateRequest);
+        $result = $team->save();
+
+        if ($result == true) {
+            $team->scores()->saveMany(TeamScore::getScoreSet());
+            $teamCreateRequest->request_processed = true;
+            $teamCreateRequest->team_created = true;
+            $teamCreateRequest->team_id = $team->id;
+
+            $teamCreateRequest->save();
+
+            flash('Команда создана из заявки', Constants::Success);
+            return Redirect::action('TeamController@show', ['id' => $team->id]);
+        }
+        flash('Команда не была создана из заявки', Constants::Error);
+        return Redirect::action('TeamCreateRequestController@edit', ['id' => $team->id])
+            ->withErrors($team->errors());
     }
 
 
     /**
      * Если менеджер отклоняет заявку, то срабатывает этот метод
      * @param Request $request
-     * @param int $id
      */
     public function denyRequest(Request $request) {
         echo "<pre>";
