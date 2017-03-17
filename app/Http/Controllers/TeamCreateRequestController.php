@@ -133,4 +133,25 @@ class TeamCreateRequestController extends Controller
         flash($message, $type);
         return Redirect::action('TeamCreateRequestController@index');
     }
+
+    /**
+     * Если  менеджер утверждает заявку, то срабатывает этот экшн
+     * @param Request $request
+     * @param int $id
+     */
+    public function confirmRequest(Request $request) {
+        echo "<pre>";
+        var_export($request->input());
+    }
+
+
+    /**
+     * Если менеджер отклоняет заявку, то срабатывает этот метод
+     * @param Request $request
+     * @param int $id
+     */
+    public function denyRequest(Request $request) {
+        echo "<pre>";
+        var_export($request->input());
+    }
 }

@@ -6,7 +6,11 @@
     <div class="container">
         <div class="mt-1">
             <h1>Заявка №{{ $instance->id }}</h1>
-            <p class="text-muted">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</p>
+            <div class="text-muted float-sm-left">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</div>
+            <span class="float-sm-right">
+                    {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-outline-secondary']) }}
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
+            </span>
         </div>
 
         <div class="row">
@@ -21,11 +25,11 @@
                 </dl>
 
                 <hr>
-                {{ link_to_action('TeamCreateRequestController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
-                <span class="float-sm-right">
-                    {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
-                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
+                <span class="float-sm-left">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmDialog">Принять</button>
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#denyDialog">Отклонить</button>
                 </span>
+
 
             </div>
             <div class="col-sm-6">
@@ -84,6 +88,66 @@
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
                         <button type="submit" class="btn btn-outline-danger">Удалить</button>
                     </div>
+                {!! Form::close() !!}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="confirmDialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Подтверждение заявки</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {!! Form::open(['method' =>'post', 'url' => '/admin/requests/confirm']) !!}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            {!! Form::hidden('request_id', $instance->id) !!}
+                            {!! Form::label('confirm_message', 'Сообщение запросившему (по желанию менеджера)') !!}
+                            {!! Form::textarea('confirm_message', null, [
+                                'class'=>'form-control', 'maxlength'=>300
+                            ]) !!}
+                            <small>Сообщение будет прикреплено к электронному письму заявителю. Максимум 300 знаков</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-success">Утвердить</button>
+                    </div>
+                {!! Form::close() !!}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="denyDialog" tabindex="-1" role="dialog" aria-labelledby="denyDialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Отклонение заявки</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {!! Form::open(['method' =>'post', 'url' => '/admin/requests/confirm']) !!}
+                <div class="modal-body">
+                    <div class="form-group">
+                        {!! Form::hidden('request_id', $instance->id) !!}
+                        {!! Form::label('deny_message', 'Причина отказа в заявке (обязательное поле)') !!}
+                        {!! Form::textarea('deny_message', null, [
+                            'class'=>'form-control', 'maxlength'=>300, 'required'=>true,
+                        ]) !!}
+                        <small>Сообщение будет прикреплено к электронному письму заявителю. Максимум 300 знаков</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-danger">Отклонить</button>
+                </div>
                 {!! Form::close() !!}
 
             </div>

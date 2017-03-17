@@ -20,6 +20,13 @@ Route::get('/contacts', 'HomeController@contacts');
 
 Route::get('/news', 'FrontController@showAllPosts');
 Route::get('/news/{id}', 'FrontController@openPost');
+
+Route::get('/error503', function() {
+    return view('errors.503');
+});
+Route::get('/error404', function() {
+    return view('errors.404');
+});
 //--------------------------
 
 /**
@@ -43,6 +50,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () 
     Route::group(['prefix' => 'requests'], function() {
         // на создание команды
         Route::resource('teamCreate', 'TeamCreateRequestController');
+        Route::post('confirm', 'TeamCreateRequestController@confirmRequest');
+        Route::post('deny', 'TeamCreateRequestController@denyRequest');
     });
 
 

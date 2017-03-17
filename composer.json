@@ -9,6 +9,7 @@
         "barryvdh/laravel-ide-helper": "^2.3",
         "filp/whoops": "^2.1",
         "graham-campbell/markdown": "^7.1",
+        "guzzlehttp/guzzle": "^6.2",
         "laracasts/flash": "^2.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
