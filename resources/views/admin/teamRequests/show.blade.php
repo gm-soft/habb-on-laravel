@@ -40,7 +40,7 @@
                 </dl>
 
                 <hr>
-                @if(!$instance->request_processed)
+                @if(!$instance->request_processed == 0)
                     <span class="float-sm-right">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmDialog">Принять</button>
                         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#denyDialog">Отклонить</button>
@@ -164,7 +164,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                {!! Form::open(['method' =>'post', 'url' => '/admin/requests/confirm']) !!}
+                {!! Form::open(['method' =>'post', 'url' => '/admin/requests/deny']) !!}
                 <div class="modal-body">
                     <span class="h5">Получатель сообщения</span>
                     <dl class="row">

@@ -182,9 +182,25 @@ class TeamCreateRequestController extends Controller
     /**
      * Если менеджер отклоняет заявку, то срабатывает этот метод
      * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function denyRequest(Request $request) {
-        echo "<pre>";
-        var_export($request->input());
+        $requestId = Input::get('request_id');
+        $confirmMes = Input::get('deny_message');
+
+        /** @var TeamCreateRequest $teamCreateRequest */
+        $teamCreateRequest = TeamCreateRequest::find($requestId);
+
+        if ($teamCreateRequest->request_processed == true) {
+            flash('Заявка уже обработана', Constants::Warning);
+            return Redirect::action('TeamCreateRequestController@show', ['id' => $teamCreateRequest->id]);
+        }
+
+        $teamCreateRequest->request_processed = true;
+        $teamCreateRequest->team_created = false;
+        $teamCreateRequest->team_id = null;
+        flash('Заявка отклонена успешно с сообщением:<br>'.$confirmMes, Constants::Success);
+        return Redirect::action('TeamCreateRequestController@show', ['id' => $teamCreateRequest->id]);
+
     }
 }
