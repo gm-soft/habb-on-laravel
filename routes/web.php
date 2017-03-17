@@ -85,6 +85,7 @@ Route::group(['prefix' => 'register'], function () {
  */
 Route::group(['prefix' => 'ajax'], function() {
     Route::post('/search-gamer', 'GamerController@searchGamerForDuplicate');
+    Route::get('/test', 'AjaxController@test');
 });
 
 /**

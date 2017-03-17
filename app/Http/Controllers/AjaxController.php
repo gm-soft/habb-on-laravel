@@ -2,11 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TeamCreateRequestConfirmed;
+use App\Models\Team;
+use App\Models\TeamCreateRequest;
 use DB;
 use Illuminate\Http\Request;
+use Mail;
 
 class AjaxController extends Controller
 {
+    public function test() {
+
+        /** @var Team $team */
+        $team = Team::find(51);
+        /** @var TeamCreateRequest $teamCreateRequest */
+        $teamCreateRequest = TeamCreateRequest::find(1);
+        $gamers = $team->getGamers();
+        Mail::to($teamCreateRequest->requester_email)
+            //->cc($team->getGamerEmailAddresses())
+            ->send(new TeamCreateRequestConfirmed($team, $teamCreateRequest, $gamers));
+    }
+
     public function syncGamers() {
 
         $oldGamers = DB::table('gamers_old')->get()->all();

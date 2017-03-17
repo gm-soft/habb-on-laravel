@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Mail\TeamCreateRequestConfirmed;
 use App\Models\Gamer;
 use App\Models\TeamCreateRequest;
 use App\Models\TeamScore;
 use App\Traits\TeamConstructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Mail;
 use Redirect;
 use Validator;
 
@@ -163,6 +165,10 @@ class TeamCreateRequestController extends Controller
             $teamCreateRequest->team_id = $team->id;
 
             $teamCreateRequest->save();
+            $gamers = $team->getGamers();
+            Mail::to($teamCreateRequest->requester_email)
+                //->cc($team->getGamerEmailAddresses())
+                ->send(new TeamCreateRequestConfirmed($team, $teamCreateRequest, $gamers));
 
             flash('Команда создана из заявки', Constants::Success);
             return Redirect::action('TeamController@show', ['id' => $team->id]);

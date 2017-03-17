@@ -144,4 +144,18 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         }
         return $gamerOptionList;
     }
+
+    /**
+     * Возвращает список электронных адресов игроков
+     * @param bool $all
+     * @return array
+     */
+    public function getGamerEmailAddresses($all = true) {
+        $addresses = [];
+        $gamers = $this->getGamers($all);
+        foreach ($gamers as $gamer) {
+            $addresses[] = $gamer->email;
+        }
+        return $addresses;
+    }
 }
