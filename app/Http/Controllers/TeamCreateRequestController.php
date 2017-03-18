@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Helpers\Constants;
 use App\Mail\TeamCreateRequestConfirmed;
 use App\Models\Gamer;
+use App\Models\Team;
 use App\Models\TeamCreateRequest;
 use App\Models\TeamScore;
+use App\Traits\EmailSender;
 use App\Traits\TeamConstructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -16,7 +18,7 @@ use Validator;
 
 class TeamCreateRequestController extends Controller
 {
-    use TeamConstructor;
+    use TeamConstructor, EmailSender;
 
     #region CRUD
     public function index(Request $request)
@@ -166,9 +168,8 @@ class TeamCreateRequestController extends Controller
 
             $teamCreateRequest->save();
             $gamers = $team->getGamers();
-            Mail::to($teamCreateRequest->requester_email)
-                //->cc($team->getGamerEmailAddresses())
-                ->send(new TeamCreateRequestConfirmed($team, $teamCreateRequest, $gamers));
+
+            $this->sendConfirmationEmail($team, $teamCreateRequest, $gamers);
 
             flash('Команда создана из заявки', Constants::Success);
             return Redirect::action('TeamController@show', ['id' => $team->id]);
@@ -202,5 +203,19 @@ class TeamCreateRequestController extends Controller
         flash('Заявка отклонена успешно с сообщением:<br>'.$confirmMes, Constants::Success);
         return Redirect::action('TeamCreateRequestController@show', ['id' => $teamCreateRequest->id]);
 
+    }
+
+    /**
+     * @param Team $team
+     * @param TeamCreateRequest $teamCreateRequest
+     * @param array $gamers
+     * @return bool
+     */
+    private function sendConfirmationEmail(Team $team, TeamCreateRequest $teamCreateRequest, array $gamers) {
+        $viewString = view('mails.team-create-confirmed', ['request'=>$teamCreateRequest, 'team'=>$team, 'gamers'=>$gamers])->render();
+
+        $to = $teamCreateRequest->requester_email;
+        $subject = "Утверждение заявки";
+        return $this->sendEmail($subject, $viewString, $to);
     }
 }

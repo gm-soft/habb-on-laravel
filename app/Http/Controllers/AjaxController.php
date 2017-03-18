@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\TeamCreateRequestConfirmed;
 use App\Models\Team;
 use App\Models\TeamCreateRequest;
+use App\Traits\EmailSender;
 use DB;
 use Illuminate\Http\Request;
-use Mail;
 
 class AjaxController extends Controller
 {
+    use EmailSender;
+
     public function test() {
 
         /** @var Team $team */
@@ -18,9 +19,15 @@ class AjaxController extends Controller
         /** @var TeamCreateRequest $teamCreateRequest */
         $teamCreateRequest = TeamCreateRequest::find(1);
         $gamers = $team->getGamers();
-        Mail::to($teamCreateRequest->requester_email)
-            //->cc($team->getGamerEmailAddresses())
-            ->send(new TeamCreateRequestConfirmed($team, $teamCreateRequest, $gamers));
+
+        $viewString = view('mails.team-create-confirmed', ['request'=>$teamCreateRequest, 'team'=>$team, 'gamers'=>$gamers])->render();
+
+        $to = $teamCreateRequest->requester_email;
+        $subject = "Утверждение заявки";
+        $res = $this->sendEmail($subject, $viewString, $to);
+
+        echo $res;
+        die();
     }
 
     public function syncGamers() {
