@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
-use App\Mail\TeamCreateRequestConfirmed;
 use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\TeamCreateRequest;
@@ -12,7 +11,6 @@ use App\Traits\EmailSender;
 use App\Traits\TeamConstructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Mail;
 use Redirect;
 use Validator;
 
@@ -200,12 +198,16 @@ class TeamCreateRequestController extends Controller
         $teamCreateRequest->request_processed = true;
         $teamCreateRequest->team_created = false;
         $teamCreateRequest->team_id = null;
+
+        $this->sendDenyEmail($confirmMes, $teamCreateRequest);
+
         flash('Заявка отклонена успешно с сообщением:<br>'.$confirmMes, Constants::Success);
         return Redirect::action('TeamCreateRequestController@show', ['id' => $teamCreateRequest->id]);
 
     }
 
     /**
+     * Отправка емейла об утверждении заявки
      * @param Team $team
      * @param TeamCreateRequest $teamCreateRequest
      * @param array $gamers
@@ -215,7 +217,22 @@ class TeamCreateRequestController extends Controller
         $viewString = view('mails.team-create-confirmed', ['request'=>$teamCreateRequest, 'team'=>$team, 'gamers'=>$gamers])->render();
 
         $to = $teamCreateRequest->requester_email;
-        $subject = "Утверждение заявки";
+        $subject = "Утверждение заявки на команду";
+        return $this->sendEmail($subject, $viewString, $to);
+    }
+
+    /**
+     * Отправка емейла об утверждении заявки
+     * @param string $message
+     * @param TeamCreateRequest $teamCreateRequest
+     * @return bool
+     */
+    private function sendDenyEmail(string $message, TeamCreateRequest $teamCreateRequest) {
+        // TODO реализовать
+        $viewString = view('mails.team-create-deny', ['request'=>$teamCreateRequest, 'message'=>$message])->render();
+
+        $to = $teamCreateRequest->requester_email;
+        $subject = "Отказ в заявке на команду";
         return $this->sendEmail($subject, $viewString, $to);
     }
 }
