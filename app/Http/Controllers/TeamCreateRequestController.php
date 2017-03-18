@@ -198,6 +198,7 @@ class TeamCreateRequestController extends Controller
         $teamCreateRequest->request_processed = true;
         $teamCreateRequest->team_created = false;
         $teamCreateRequest->team_id = null;
+        $teamCreateRequest->save();
 
         $this->sendDenyEmail($confirmMes, $teamCreateRequest);
 

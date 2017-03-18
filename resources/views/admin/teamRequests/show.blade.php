@@ -40,7 +40,7 @@
                 </dl>
 
                 <hr>
-                @if(!$instance->request_processed == 0)
+                @if(!$instance->request_processed)
                     <span class="float-sm-right">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmDialog">Принять</button>
                         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#denyDialog">Отклонить</button>
