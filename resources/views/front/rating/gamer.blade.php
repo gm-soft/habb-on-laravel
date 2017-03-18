@@ -64,7 +64,7 @@
             @for($i = 0; $i < count($bellow); $i++)
 
                 @if ($i == 0)
-                    {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Bellow the line") !!}
+                    {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Below the line") !!}
                 @endif
 
                 @php
