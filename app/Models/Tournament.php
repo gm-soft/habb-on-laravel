@@ -183,4 +183,8 @@ class Tournament extends Ardent
         }
         return $result;
     }
+
+    public function getParticipantCount() {
+        return count($this->participant_ids);
+    }
 }
