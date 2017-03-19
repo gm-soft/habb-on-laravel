@@ -61,7 +61,7 @@
 
         <div class="form-group">
             {{ Form::label('started_at', 'Время начала турнира') }}
-            {{ Form::date('started_at', $instance->getStartedAt() ?? null,
+            {{ Form::date('started_at', isset($instance) ? $instance->getStartedAt() : null,
                     array('class' => 'form-control', 'required'=> true)) }}
             @if ($errors->has('started_at'))
                 <span class="help-block text-danger">
