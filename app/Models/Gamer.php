@@ -61,7 +61,9 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         parent::__construct($attributes);
     }
 
-    protected $dates = ['birthday', 'deleted_at'];
+    protected $dates = [
+        'birthday', 'deleted_at'
+    ];
     protected $casts = [
         'secondary_games' => 'array'
     ];
@@ -160,7 +162,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     public static function asSelectableOptionArray($withEmpty = true)
     {
         /** @var Gamer[] $gamers */
-        $gamers = self::all()->all();
+        $gamers = self::all();
         $gamerOptionList = [];
 
         if ($withEmpty == true) {
