@@ -72,7 +72,7 @@
 
         <div class="form-group">
             {{ Form::label('reg_closed_at', 'Время закрытия регистрации на турнир') }}
-            {{ Form::date('reg_closed_at', $instance->getRegClosedAt() ?? null,
+            {{ Form::date('reg_closed_at', isset($instance) ? $instance->getRegClosedAt() : null,
                     array('class' => 'form-control', 'required'=> true)) }}
             @if ($errors->has('reg_closed_at'))
                 <span class="help-block text-danger">
