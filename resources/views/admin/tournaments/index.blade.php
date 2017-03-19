@@ -24,11 +24,11 @@
             @for($i=0;$i<count($instances);$i++)
                 <tr>
                     <td><b>{{ link_to_action('TournamentController@show', $instances[$i]->name, ['id' => $instances[$i]->id]) }}</b></td>
-                    <td>{{ $instances->tournament_type }}</td>
-                    <td>{{ $instances->participant_max_count }}</td>
-                    <td>{{ $instances->getParticipantCount()  }}</td>
-                    <td>{{ $instances->started_at  }}</td>
-                    <td>{{ $instances->reg_closed_at  }}</td>
+                    <td>{{ $instances[$i]->tournament_type }}</td>
+                    <td>{{ $instances[$i]->participant_max_count }}</td>
+                    <td>{{ $instances[$i]->getParticipantCount()  }}</td>
+                    <td>{{ $instances[$i]->started_at  }}</td>
+                    <td>{{ $instances[$i]->reg_closed_at  }}</td>
                 </tr>
 
             @endfor

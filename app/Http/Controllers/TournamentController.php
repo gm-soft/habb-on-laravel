@@ -23,15 +23,11 @@ class TournamentController extends Controller
     public function create()
     {
         $participants = Team::asSelectableOptionArray();
-        // TODO Убрать. Тест
-        $currentParticipants = [Team::find(1)];
-        return view('admin.tournaments.create', ['participants' => $participants, 'currentParticipants' => $currentParticipants]);
+        return view('admin.tournaments.create', ['participants' => $participants]);
     }
 
     public function store(Request $request)
     {
-        // TODO реализовать
-
         $validator = Validator::make(Input::all(), Tournament::$rules);
         if ($validator->fails()) {
             return Redirect::action('TournamentController@create')
@@ -51,13 +47,18 @@ class TournamentController extends Controller
 
         $participantIds = Input::get('participant_ids');
 
-        if (is_null($participantIds)) {
+        if (!is_null($participantIds)) {
             $instance->participant_ids = $participantIds;
-            $instance->participant_scores = [];
+            $scores = [];
 
             for($i = 0; $i < count($participantIds); $i++) {
-                $instance->participant_scores[] = 0;
+                $scores[] = 0;
             }
+
+            $instance->participant_scores = $scores;
+        } else {
+            $instance->participant_ids = null;
+            $instance->participant_scores = null;
         }
 
         $result = $instance->save();
@@ -72,17 +73,73 @@ class TournamentController extends Controller
 
     public function show($id)
     {
-        //
+        /** @var Tournament $instance */
+        $instance = Tournament::find($id);
+        $participants = $instance->getParticipants();
+
+        return view('admin.tournaments.show', [
+            'instance' => $instance,
+            'participants' => $participants
+        ]);
     }
 
     public function edit($id)
     {
-        //
+        /** @var Tournament $instance */
+        $instance = Tournament::find($id);
+        $participants = Team::asSelectableOptionArray();
+        $current_participants = $instance->getParticipants();
+        return view('admin.tournaments.edit', [
+                'instance' => $instance,
+            'participants'=>$participants,
+            'current_participants' => $current_participants
+        ]);
     }
 
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make(Input::all(), Tournament::$rules);
+        if ($validator->fails()) {
+            return Redirect::action('TournamentController@create')
+                ->withErrors($validator->errors())
+                ->withInput(Input::all());
+        }
+        /** @var Tournament $instance */
+        $instance                           = Tournament::find($id);
+        $instance->name                     = Input::get('name');
+        $instance->comment                  = Input::get('comment');
+        $instance->public_description       = Input::get('public_description');
+        $instance->tournament_type          = Input::get('tournament_type');
+        $instance->participant_max_count    = Input::get('participant_max_count');
+
+        $instance->started_at               = Input::get('started_at');
+        $instance->reg_closed_at            = Input::get('reg_closed_at');
+
+        $participantIds = Input::get('participant_ids');
+
+        if (!is_null($participantIds)) {
+            $scores = [];
+
+            for($i = 0; $i < count($participantIds); $i++) {
+
+                $scores[] = $instance->getScoreValueOfId($participantIds[$i]);
+            }
+
+            $instance->participant_scores = $scores;
+            $instance->participant_ids = $participantIds;
+        } else {
+            $instance->participant_ids = null;
+            $instance->participant_scores = null;
+        }
+
+        $result = $instance->save();
+        if ($result == false) {
+            return Redirect::action('TournamentController@create')
+                ->withErrors($instance->errors())
+                ->withInput(Input::all());
+        }
+        return Redirect::action('TournamentController@show', ["id" => $instance->id])
+            ->with('success', 'Данные сохранены');
     }
 
     public function destroy($id)

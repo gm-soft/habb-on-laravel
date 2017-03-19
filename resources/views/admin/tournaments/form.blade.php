@@ -51,7 +51,7 @@
 
         <div class="form-group">
             {{ Form::label('started_at', 'Время начала турнира') }}
-            {{ Form::datetime('started_at', old('participant_max_count'),
+            {{ Form::date('started_at', $instance->getStartedAt() ?? null,
                     array('class' => 'form-control', 'required'=> true)) }}
             @if ($errors->has('started_at'))
                 <span class="help-block text-danger">
@@ -62,7 +62,7 @@
 
         <div class="form-group">
             {{ Form::label('reg_closed_at', 'Время закрытия регистрации на турнир') }}
-            {{ Form::datetime('reg_closed_at', old('participant_max_count'),
+            {{ Form::date('reg_closed_at', $instance->getRegClosedAt() ?? null,
                     array('class' => 'form-control', 'required'=> true)) }}
             @if ($errors->has('reg_closed_at'))
                 <span class="help-block text-danger">
@@ -92,7 +92,7 @@
             {{ Form::label('part_select', 'Выберите участника и нажмите "Добавить"') }}
             <div class="row">
                 <div class="col-sm-8">
-                    {{ Form::select("part_select", $participants, null, ['class'=>'form-control select2-single', 'id' => 'part_select', 'required' => false]) }}
+                    {{ Form::select("part_select", $participants, null, ['class'=>'form-control select2-single', 'id' => 'part_select']) }}
                 </div>
                 <div class="col-sm-4 text-sm-right">
                     <a href="#" id="addPartButton" class="btn btn-primary">Добавить</a>
@@ -103,17 +103,17 @@
 
         <h4>Выбранные участники</h4>
         <div id="outputDiv">
-            @if($currentParticipants ?? null)
-                @for($i = 0; $i < count($currentParticipants); $i++)
+            @if($current_participants ?? null)
+                @for($i = 0; $i < count($current_participants); $i++)
 
-                    <div id="participant_{{ $currentParticipants[$i]->getIdentifier() }}" class="row">
+                    <div id="participant_{{ $current_participants[$i]->getIdentifier() }}" class="row mt-1">
                         <div class="col-sm-8">
-                            <b>{{ $currentParticipants[$i]->getName() }}</b>
-                            <input type="hidden" name="participant_ids[]" value="{{ $currentParticipants[$i]->getIdentifier() }}">
+                            <b>{{ $current_participants[$i]->getName() }}</b>
+                            <input type="hidden" name="participant_ids[]" value="{{ $current_participants[$i]->getIdentifier() }}">
                         </div>
 
                         <div class="col-sm-4 text-sm-right">
-                            <a href="#" class="btn btn-outline-danger" onclick="tournamentHelper.deleteParticipantDiv({{ $currentParticipants[$i]->getIdentifier() }})">
+                            <a href="#" class="btn btn-outline-danger" onclick="tournamentHelper.deleteParticipantDiv({{ $current_participants[$i]->getIdentifier() }})">
                                 Удалить <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                         </div>

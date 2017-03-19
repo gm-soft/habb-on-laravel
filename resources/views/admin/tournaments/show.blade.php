@@ -1,48 +1,52 @@
 
 @extends('layouts.admin-layout')
-@section('title', 'Информация об команде')
+@section('title', 'Информация о турнире')
 
 @section('content')
     <div class="container">
         <div class="mt-1">
-            <h1 class="mt-1">Команда {{ $team->name }} [ID {{ $team->id }}]</h1>
-            <p class="text-muted">Создание: {{ $team->created_at }}. Обновление: {{ $team->updated_at }}</p>
+            <h1 class="mt-1">Турнир {{ $instance->name }} [ID {{ $instance->id }}]</h1>
+            <p class="text-muted">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</p>
         </div>
 
-
         <div class="row">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-block">
-                        <div class="card-text">
-                            <dl class="row">
-                                <dt class="col-sm-4">Участники</dt>     <dd class="col-sm-8">{{ $team->getGamerIdsAsString() }}</dd>
-                                <dt class="col-sm-4">Город</dt>         <dd class="col-sm-8">{{ $team->city }}</dd>
-                                <dt class="col-sm-4">Комментарий</dt>   <dd class="col-sm-8">{{ $team->comment }}</dd>
-                            </dl>
-                        </div>
+            <div class="col-sm-4">
+                <dl>
+                    <dt>Публичное описание</dt>
+                    <dd>{{ $instance->public_description }}</dd>
 
-                    </div>
-                    <div class="card-footer">
-                        {{ link_to_action('TeamController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
-                        <div class="float-sm-right">
+                    <dt>Тип турнира</dt>
+                    <dd>{{ $instance->tournament_type }}</dd>
 
-                            {{ link_to_action('TeamController@edit', 'Редактировать', ['id' => $team->id], ['class' => 'btn btn-primary']) }}
-                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
-                        </div>
+                    <dt>Максимальное кол-во участников</dt>
+                    <dd>{{ $instance->participant_max_count }}</dd>
+
+                    <dt>Начало турнира</dt>
+                    <dd>{{ $instance->started_at }}</dd>
+
+                    <dt>Регистрация закрывается</dt>
+                    <dd>{{ $instance->reg_closed_at }}</dd>
+
+                    <dt>Комментарий</dt>
+                    <dd>{{ $instance->comment }}</dd>
+                </dl>
+                <hr>
+                <div class="mt-1">
+                    {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
+                    <div class="float-sm-right">
+
+                        {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
+                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
                     </div>
                 </div>
 
             </div>
-            <div class="col-sm-6">
-                @include('admin/teams/team-participants')
-            </div>
 
+            <div class="col-sm-8">@include('admin.tournaments.participant-table')</div>
         </div>
 
-        <div class="mt-1">
-            @include('admin/teams/score-table')
-        </div>
+
+
     </div>
 
     <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="deleteDialog" aria-hidden="true">
@@ -54,9 +58,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                {!! Form::open(['method' =>'delete', 'action' => ['TeamController@destroy', $team->id]]) !!}
+                {!! Form::open(['method' =>'delete', 'action' => ['TournamentController@destroy', $instance->id]]) !!}
                 <div class="modal-body">
-                    Вы уверены, что хотите удалить запись о команде #{{ $team->id }}?
+                    Вы уверены, что хотите удалить запись о турнире #{{ $instance->id }}?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>

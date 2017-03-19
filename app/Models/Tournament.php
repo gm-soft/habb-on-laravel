@@ -37,7 +37,9 @@ class Tournament extends Ardent
 
     protected $table = 'tournaments';
     protected $dates = [
-        'deleted_at', 'started_at', 'reg_closed_at'
+        'deleted_at',
+        'started_at',
+        'reg_closed_at'
     ];
     protected $casts = [
         'participant_ids' => 'array',
@@ -60,15 +62,21 @@ class Tournament extends Ardent
 
     #region Attributes
     public function getParticipantIdsAttribute($value){
+
+        if (is_null($value)) return $value;
+
         $result = explode(',', $value);
         return $result;
     }
 
     public function setParticipantIdsAttribute($value) {
-        $this->attributes['participant_ids'] = join(',', $value);
+        $this->attributes['participant_ids'] = is_null($value) ? $value : join(',', $value);
     }
 
     public function getParticipantScoresAttribute($value){
+
+        if (is_null($value)) return $value;
+
         $scores = explode(',', $value);
         foreach ($scores as $key => $value) {
             $scores[$key] = intval($value);
@@ -77,7 +85,7 @@ class Tournament extends Ardent
     }
 
     public function setParticipantScoresAttribute($value) {
-        $this->attributes['participant_scores'] = join(',', $value);
+        $this->attributes['participant_scores'] = is_null($value) ? $value : join(',', $value);
     }
 
     #endregion
@@ -109,6 +117,8 @@ class Tournament extends Ardent
      * @return ITournamentParticipant[]
      */
     public function getParticipants() {
+
+        if (is_null($this->participant_ids)) return null;
         /** @var ITournamentParticipant[] $result */
         $result = [];
         foreach ($this->participant_ids as $participant_id) {
@@ -186,5 +196,13 @@ class Tournament extends Ardent
 
     public function getParticipantCount() {
         return count($this->participant_ids);
+    }
+
+    public function getStartedAt($format = "Y-m-d"){
+        return $this->started_at->format($format);
+    }
+
+    public function getRegClosedAt($format = "Y-m-d"){
+        return $this->reg_closed_at->format($format);
     }
 }

@@ -6,7 +6,7 @@
     <div class="container">
         <h1 class="mt-1">Создание турнира</h1>
         {!! Form::open(array('action' => array('TournamentController@store'))) !!}
-            @include('admin/tournaments/form')
+            @include('admin.tournaments.form')
         {!! Form::close() !!}
     </div>
 
