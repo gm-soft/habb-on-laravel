@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class TournamentController extends Controller
 {
@@ -20,12 +21,16 @@ class TournamentController extends Controller
     public function create()
     {
         $participants = Team::asSelectableOptionArray();
-        return view('admin.tournaments.create', ['participants' => $participants]);
+        // TODO Убрать. Тест
+        $currentParticipants = [Team::find(1)];
+        return view('admin.tournaments.create', ['participants' => $participants, 'currentParticipants' => $currentParticipants]);
     }
 
     public function store(Request $request)
     {
-        //
+        $input = Input::all();
+        echo "<pre>".var_export($input, true);
+        die();
     }
 
     public function show($id)
