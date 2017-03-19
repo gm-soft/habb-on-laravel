@@ -159,6 +159,6 @@ class TournamentController extends Controller
     #endregion
 
     public function scoreUpdate(Request $request) {
-
+        // TODO реализовать
     }
 }
