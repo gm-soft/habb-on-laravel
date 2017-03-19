@@ -10,7 +10,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-8">
                 <dl>
                     <dt>Публичное описание</dt>
                     <dd>{{ $instance->public_description }}</dd>
@@ -21,6 +21,9 @@
                     <dt>Максимальное кол-во участников</dt>
                     <dd>{{ $instance->participant_max_count }}</dd>
 
+                    <dt>Игровая дисциплина</dt>
+                    <dd>{{ $instance->game ?? 'Не определена' }}</dd>
+
                     <dt>Начало турнира</dt>
                     <dd>{{ $instance->started_at }}</dd>
 
@@ -28,21 +31,21 @@
                     <dd>{{ $instance->reg_closed_at }}</dd>
 
                     <dt>Комментарий</dt>
-                    <dd>{{ $instance->comment }}</dd>
+                    <dd>{{ $instance->comment ?? 'Без комментарий' }}</dd>
                 </dl>
-                <hr>
-                <div class="mt-1">
-                    {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
-                    <div class="float-sm-right">
-
-                        {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
-                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
-                    </div>
-                </div>
 
             </div>
+            <div class="col-sm-4">
+                {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
+                <div class="float-sm-right">
 
-            <div class="col-sm-8">@include('admin.tournaments.participant-table')</div>
+                    {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-1">
+            @include('admin.tournaments.participant-table')
         </div>
 
 

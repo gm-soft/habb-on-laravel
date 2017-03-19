@@ -33,7 +33,7 @@
                         {{ Form::number('score_value', null/*$score->total_value*/,
                         array('class' => 'form-control', 'placeholder' => 'Введите число', 'required')) }}
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-outline-primary">Сохранить</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check" aria-hidden="true"></i></button>
                         </span>
                     </div>
                 {!! Form::close() !!}

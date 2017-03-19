@@ -17,6 +17,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property string comment - Комментарий пользователя
  * @property string public_description - Публичное описание, доступное открыто
  * @property string tournament_type - Тип турнира. team или gamer
+ * @property string game - Игровая дисциплина
  * @property int participant_max_count - Максимальное кол-во участников
  *
  * @property array participant_ids - Массив айдишников участников

@@ -40,5 +40,21 @@ abstract class Constants
         return $array;
     }
 
+    /**
+     * Возвращает хэш-массив для складывания в селект
+     * @param bool $withEmpty
+     * @return array
+     */
+    public static function getGamesForSelect($withEmpty = false) {
+        $games = self::getGameArray();
+        $result = [];
+        if ($withEmpty) $result[''] = 'Без дисциплины';
+
+        foreach ($games as $game) {
+            $result[$game] = $game;
+        }
+        return $result;
+    }
+
 
 }

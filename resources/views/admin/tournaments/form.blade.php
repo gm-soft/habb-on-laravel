@@ -39,6 +39,16 @@
         </div>
 
         <div class="form-group">
+            {{ Form::label('game', 'Игровая дисциплина') }}
+            {{ Form::select("game", $games, old("game"), ['class'=>'form-control', 'required' => true]) }}
+            @if ($errors->has('game'))
+                <span class="help-block text-danger">
+                    <strong>{{ $errors->first('game') }}</strong>
+                </span><br>
+            @endif
+        </div>
+
+        <div class="form-group">
             {{ Form::label('participant_max_count', 'Максимальное кол-во участников') }}
             {{ Form::number('participant_max_count', old('participant_max_count'),
                     array('class' => 'form-control', 'required'=> true, 'placeholder' => 'Введите максимальное кол-во участников турнира')) }}

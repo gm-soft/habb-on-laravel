@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Constants;
 use App\Models\Team;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
@@ -23,7 +24,11 @@ class TournamentController extends Controller
     public function create()
     {
         $participants = Team::asSelectableOptionArray();
-        return view('admin.tournaments.create', ['participants' => $participants]);
+        $games = Constants::getGameArray();
+        return view('admin.tournaments.create', [
+            'participants' => $participants,
+            'games' => $games
+        ]);
     }
 
     public function store(Request $request)
@@ -40,6 +45,7 @@ class TournamentController extends Controller
         $instance->comment                  = Input::get('comment');
         $instance->public_description       = Input::get('public_description');
         $instance->tournament_type          = Input::get('tournament_type');
+        $instance->game                     = Input::get('game');
         $instance->participant_max_count    = Input::get('participant_max_count');
 
         $instance->started_at               = Input::get('started_at');
@@ -89,10 +95,13 @@ class TournamentController extends Controller
         $instance = Tournament::find($id);
         $participants = Team::asSelectableOptionArray();
         $current_participants = $instance->getParticipants();
+        $games = Constants::getGamesForSelect();
+
         return view('admin.tournaments.edit', [
                 'instance' => $instance,
             'participants'=>$participants,
-            'current_participants' => $current_participants
+            'current_participants' => $current_participants,
+            'games' => $games
         ]);
     }
 
@@ -110,6 +119,7 @@ class TournamentController extends Controller
         $instance->comment                  = Input::get('comment');
         $instance->public_description       = Input::get('public_description');
         $instance->tournament_type          = Input::get('tournament_type');
+        $instance->game                     = Input::get('game');
         $instance->participant_max_count    = Input::get('participant_max_count');
 
         $instance->started_at               = Input::get('started_at');
@@ -147,4 +157,8 @@ class TournamentController extends Controller
         //
     }
     #endregion
+
+    public function scoreUpdate(Request $request) {
+
+    }
 }

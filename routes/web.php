@@ -48,6 +48,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () 
 
     // Турниры
     Route::resource('tournaments', 'TournamentController');
+    Route::post('tournamentScoreUpdate', 'TournamentController@scoreUpdate');
 
     // Заявки
     Route::group(['prefix' => 'requests'], function() {
