@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\ITournamentParticipant;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
@@ -19,7 +20,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property int participant_max_count - Максимальное кол-во участников
  *
  * @property array participant_ids - Массив айдишников участников
- * @property array participant_scores - Массив очков, полученных участниками в рамках турнира
+ * @property int[] participant_scores - Массив очков, полученных участниками в рамках турнира
  *
  * @property Carbon started_at - Начало турнира
  * @property Carbon reg_closed_at - Время закрытия регистрации
@@ -68,11 +69,11 @@ class Tournament extends Ardent
     }
 
     public function getParticipantScoresAttribute($value){
-        $result = explode(',', $value);
-        foreach ($result as $key => $value) {
-            $result[$key] = intval($value);
+        $scores = explode(',', $value);
+        foreach ($scores as $key => $value) {
+            $scores[$key] = intval($value);
         }
-        return $result;
+        return $scores;
     }
 
     public function setParticipantScoresAttribute($value) {
@@ -82,9 +83,104 @@ class Tournament extends Ardent
     #endregion
 
     /**
-     *
+     * Возвращает конкретного участника
+     * @param $id
+     * @return ITournamentParticipant|null
+     */
+    public function getParticipant($id) {
+        /** @var ITournamentParticipant $result */
+        $result = null;
+        foreach ($this->participant_ids as $participant_id) {
+
+            if ($id != $participant_id) continue;
+
+            if ($this->tournament_type == self::Gamer) {
+                $result = Gamer::find($id);
+            } else {
+                $result = Team::find($id);
+            }
+            break;
+        }
+        return $result;
+    }
+
+    /**
+     * Возвращает массив участников турнира
+     * @return ITournamentParticipant[]
      */
     public function getParticipants() {
+        /** @var ITournamentParticipant[] $result */
+        $result = [];
+        foreach ($this->participant_ids as $participant_id) {
 
+            if ($this->tournament_type == self::Gamer) {
+                $result[] = Gamer::find($participant_id);
+            } else {
+                $result[] = Team::find($participant_id);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Добавляет участника по его id. Автоматически присваивает 0 к очкам
+     * @param $id
+     * @param int $score
+     */
+    public function addParticipant($id, $score = 0) {
+        $this->participant_ids[] = $id;
+        $this->participant_scores[] = $score;
+    }
+
+    /**
+     * Находит участника по id и удаляет его из массива. ОЧки так же удаляются
+     * @param $id
+     */
+    public function removeParticipant($id) {
+        $tmpIds = [];
+        $tmpScores = [];
+
+        for($i = 0; $i < count($this->participant_ids);$i++) {
+
+            if ($this->participant_ids[$i] == $id) continue;
+            $tmpIds[]       = $this->participant_ids[$i];
+            $tmpScores[]    = $this->participant_scores[$i];
+        }
+        $this->participant_ids      = $tmpIds;
+        $this->participant_scores   = $tmpScores;
+
+    }
+
+    /**
+     * Устанавливает новый массив значений айдишников. Ищется и присваивается каждому айдишнику егшо значение очков.
+     * Если не найдено, то присваивается ноль
+     * @param array $ids
+     */
+    public function updateParticipantIdsArray(array $ids) {
+        $tmpIds = [];
+        $tmpScores = [];
+        for($i = 0; $i < count($ids); $i++) {
+
+            $tmpIds[] = $ids[$i];
+            $tmpScores[] = $this->getScoreValueOfId($ids[$i]);
+        }
+        $this->participant_ids = $tmpIds;
+        $this->participant_scores = $tmpScores;
+    }
+
+    /**
+     * Возвращает значение очков, соответствующее айдишнику. Если не найден, то ноль
+     * @param $id
+     * @return int
+     */
+    public function getScoreValueOfId($id) {
+        $result = 0;
+        for($i = 0; $i < count($this->participant_ids);$i++) {
+
+            if ($this->participant_ids[$i] != $id) continue;
+            $result = $this->participant_scores[$i];
+            break;
+        }
+        return $result;
     }
 }
