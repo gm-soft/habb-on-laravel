@@ -31,7 +31,6 @@
     <div class="col-sm-2">
         <div class="form-group">
             <button type="submit" id="submit-btn" class="btn btn-primary mb-1">Опубликовать</button>
-            <a href="#" class="btn btn-secondary mb-1" onclick="editor.switchType(this)">Обычное поле</a>
             <a href="#" class="btn btn-link" onclick="window.history.back()">Отменить</a>
         </div>
     </div>
