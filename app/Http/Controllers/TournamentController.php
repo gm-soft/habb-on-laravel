@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
@@ -160,5 +161,48 @@ class TournamentController extends Controller
 
     public function scoreUpdate(Request $request) {
         // TODO реализовать
+        $game = $request->input('game');
+        $tournamentId = $request->input('tournament_id');
+        $participantId = $request->input('participant_id');
+        $scoreValue = intval($request->input('score_value'));
+        $withGamers = !is_null($request->input('with_gamers')) ? boolval($request->input('with_gamers')) : false;
+
+        $redirect = Redirect::action('TournamentController@show', ["id" => $tournamentId]);
+
+        if (is_null($game)) {
+            flash('Определите игровую дисциплину турнира', Constants::Warning);
+            return $redirect;
+        }
+
+        /** @var Tournament $tournament */
+        $tournament = Tournament::find($tournamentId);
+        if ($tournament->tournament_type == Tournament::Gamer) {
+
+            /** @var Gamer $participant */
+            $participant = Gamer::find($participantId);
+            $participant->addScoreValue($game, $scoreValue);
+            $tournament->addScoreValueOfId($participantId, $scoreValue);
+
+        } else {
+            /** @var Team $participant */
+            $participant = Team::find($participantId);
+            $participant->addScoreValue($game, $scoreValue);
+            $tournament->addScoreValueOfId($participantId, $scoreValue);
+            if ($withGamers) {
+                $gamers = $participant->getGamers(false);
+                foreach ($gamers as $gamer) {
+                    $gamer->addScoreValue($game, $scoreValue);
+                }
+            }
+        }
+        $result = $tournament->save();
+
+
+        if ($result) {
+            flash('Очки сохранены', Constants::Success);
+            return $redirect;
+        }
+        flash('Произошла ошибка при сохранении', Constants::Error);
+        return $redirect;
     }
 }

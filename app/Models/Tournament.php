@@ -195,6 +195,25 @@ class Tournament extends Ardent
         return $result;
     }
 
+    /**
+     * Добавляет очки учсастнику по id
+     * @param $id
+     * @param int $value
+     * @return bool
+     */
+    public function addScoreValueOfId($id, $value) {
+        $result = false;
+        $scores = $this->participant_scores;
+        for($i = 0; $i < count($this->participant_ids);$i++) {
+
+            if ($this->participant_ids[$i] != $id) continue;
+            $scores[$i] += $value;
+            $this->participant_scores = $scores;
+            break;
+        }
+        return $result;
+    }
+
     public function getParticipantCount() {
         return count($this->participant_ids);
     }
