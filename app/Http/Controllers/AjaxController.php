@@ -2,14 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\VarDumper;
+use App\Interfaces\ISelectableOption;
+use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\TeamCreateRequest;
+use App\Models\Tournament;
 use App\Traits\EmailSender;
 use DB;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
+
+    /**
+     * route participantsForSelect
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getParticipantsForSelect(Request $request){
+        $type = $request->input('type');
+        if (is_null($type)) {
+
+            return $this->Json([
+                'result' => false,
+                'error' => 'type is empty'
+            ], 404);
+        }
+
+        /** @var ISelectableOption[] $instances */
+        if ($type == Tournament::Gamer) {
+            $instances = Gamer::getSelectableOptionArray(false);
+        } else {
+            $instances = Team::getSelectableOptionArray(false);
+        }
+
+        //VarDumper::VarExport($instances);
+        $result = [];
+        foreach ($instances as $key => $value) {
+            $item = [
+                'id' => $key,
+                'text' => $value
+            ];
+            $result[] = $item;
+        }
+
+        return $this->Json($result);
+    }
+
+
     use EmailSender;
 
     public function test() {
@@ -30,6 +71,7 @@ class AjaxController extends Controller
         die();
     }
 
+    #region Sync TODO need to be released
     public function syncGamers() {
 
         $oldGamers = DB::table('gamers_old')->get()->all();
@@ -140,4 +182,5 @@ class AjaxController extends Controller
 
         return response()->json(['count' => $count, 'scoreCount' => $scoreCount]);
     }
+    #endregion
 }

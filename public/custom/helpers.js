@@ -185,4 +185,28 @@ var ckEditorHelpers = {
     },
 };
 
+var httpHelpers = {
+    /**
+     * Отправляет данные аяксом
+     * @param url - адрес отправки
+     * @param data - данные
+     * @param onSuccess - коллбэк в случае успеха
+     * @param onError - коллбек в случае ошибки
+     * @constructor
+     */
+    AjaxRequest : function (url, data, onSuccess, onError) {
+
+        onError = typeof onError !== 'undefined' ? onError : null;
+        var request = $.ajax({
+            url : url,
+            type: 'post',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data : data,
+            success  : onSuccess,
+            error : onError
+        });
+        //request.send();
+    }
+};
+
 

@@ -131,7 +131,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         return $result;
     }
 
-    public static function asSelectableOptionArray($withEmpty = true)
+    public static function getSelectableOptionArray($withEmpty = true)
     {
         /** @var Team[] $gamers */
         $gamers = self::all();

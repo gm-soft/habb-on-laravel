@@ -88,8 +88,10 @@ Route::group(['prefix' => 'register'], function () {
  * Аякс-руты
  */
 Route::group(['prefix' => 'ajax'], function() {
-    Route::post('/search-gamer', 'GamerController@searchGamerForDuplicate');
-    Route::get('/test', 'AjaxController@test');
+    Route::post('search-gamer', 'GamerController@searchGamerForDuplicate');
+    Route::get('test', 'AjaxController@test');
+
+    Route::post('participantsForSelect', 'AjaxController@getParticipantsForSelect');
 });
 
 /**

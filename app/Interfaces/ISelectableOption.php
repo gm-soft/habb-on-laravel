@@ -15,5 +15,11 @@ interface ISelectableOption
 
     public function getName();
 
-    public static function asSelectableOptionArray($withEmpty = true);
+    /**
+     * ВОзвращает массив значений для загрузки в селекты
+     * Ключ массива = идентификатор (айди), значение = название/имя
+     * @param bool $withEmpty
+     * @return array
+     */
+    public static function getSelectableOptionArray($withEmpty = true);
 }

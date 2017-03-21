@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\VarDumper;
 use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -24,8 +25,8 @@ class TournamentController extends Controller
 
     public function create()
     {
-        $participants = Team::asSelectableOptionArray();
-        $games = Constants::getGameArray();
+        $participants = Team::getSelectableOptionArray();
+        $games = Constants::getGamesForSelect();
         return view('admin.tournaments.create', [
             'participants' => $participants,
             'games' => $games
@@ -55,19 +56,18 @@ class TournamentController extends Controller
         $participantIds = Input::get('participant_ids');
 
         if (!is_null($participantIds)) {
-            $instance->participant_ids = $participantIds;
             $scores = [];
-
             for($i = 0; $i < count($participantIds); $i++) {
                 $scores[] = 0;
             }
-
-            $instance->participant_scores = $scores;
         } else {
-            $instance->participant_ids = null;
-            $instance->participant_scores = null;
+            $scores = null;
+            //$participantIds = null;
         }
+        $instance->participant_scores = $scores;
+        $instance->participant_ids = $participantIds;
 
+        //VarDumper::VarExport(Input::all());
         $result = $instance->save();
         if ($result == false) {
             return Redirect::action('TournamentController@create')
@@ -94,7 +94,12 @@ class TournamentController extends Controller
     {
         /** @var Tournament $instance */
         $instance = Tournament::find($id);
-        $participants = Team::asSelectableOptionArray();
+        if ($instance->tournament_type == Tournament::Gamer) {
+            $participants = Gamer::getSelectableOptionArray();
+        } else {
+            $participants = Team::getSelectableOptionArray();
+        }
+
         $current_participants = $instance->getParticipants();
         $games = Constants::getGamesForSelect();
 
@@ -135,13 +140,12 @@ class TournamentController extends Controller
 
                 $scores[] = $instance->getScoreValueOfId($participantIds[$i]);
             }
-
-            $instance->participant_scores = $scores;
-            $instance->participant_ids = $participantIds;
         } else {
-            $instance->participant_ids = null;
-            $instance->participant_scores = null;
+            $scores = null;
+            $participantIds = null;
         }
+        $instance->participant_scores = $scores;
+        $instance->participant_ids = $participantIds;
 
         $result = $instance->save();
         if ($result == false) {
@@ -155,7 +159,22 @@ class TournamentController extends Controller
 
     public function destroy($id)
     {
-        //
+        /** @var Tournament $instance */
+        $instance = Tournament::find($id);
+        $result = $instance->delete();
+        if ($result == true) {
+            $message = "Запись ID".$instance->id." удалена из базы";
+            $type = Constants::Success;
+        } else {
+            $message = "Запись ID".$instance->id." не удалена из базы<br>";
+            $errors = $instance->errors();
+            foreach ($errors as $error) {
+                $message .= $error."<br>";
+            }
+            $type = Constants::Error;
+        }
+        flash($message, $type);
+        return Redirect::action('TournamentController@index');
     }
     #endregion
 

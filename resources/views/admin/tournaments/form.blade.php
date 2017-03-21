@@ -30,7 +30,7 @@
             {{ Form::select("tournament_type", [
                                 'team' => 'Командный',
                                 'gamer' => 'Индивидуальный',
-                            ], old("tournament_type"), ['class'=>'form-control', 'required' => true]) }}
+                            ], old("tournament_type"), ['class'=>'form-control', 'required' => true, 'id' => 'tournament_type']) }}
             @if ($errors->has('tournament_type'))
                 <span class="help-block text-danger">
                     <strong>{{ $errors->first('tournament_type') }}</strong>

@@ -131,4 +131,10 @@ class VarDumper
                 break;
         }
     }
+
+    public static function VarExport($data) {
+        echo "<pre>";
+        var_export($data);
+        die();
+    }
 }

@@ -34,7 +34,7 @@ class TeamController extends Controller
 
     public function create()
     {
-        $gamerOptionList = Gamer::asSelectableOptionArray();
+        $gamerOptionList = Gamer::getSelectableOptionArray();
         return view('admin.teams.create', ['gamerOptionList' => $gamerOptionList]);
     }
 
@@ -81,7 +81,7 @@ class TeamController extends Controller
     {
         /** @var Team $instance */
         $instance = Team::find($id);
-        $gamerOptionList = Gamer::asSelectableOptionArray();
+        $gamerOptionList = Gamer::getSelectableOptionArray();
 
         return $this->View('admin.teams.edit', [
             'team' => $instance,

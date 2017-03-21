@@ -20,7 +20,10 @@ var tournamentHelper = {
     // Нужно вызывать при генерации страницы
     registerListeners : function () {
         var addPartButton = $('#addPartButton');
+        var typeSelect = $('#tournament_type');
+
         addPartButton.on('click', tournamentHelper.addParticipant);
+        typeSelect.on('change', tournamentHelper.selectChangeListener);
     },
 
     // Добавляет див участника по его имени и айди
@@ -69,7 +72,45 @@ var tournamentHelper = {
         var data = event.data;
         var id = data.id;
         tournamentHelper.deleteParticipantDiv(id);
+    },
+
+    fillSelect2List : function (selectOptions) {
+
+        var select = $('#part_select');
+        select.find('option').remove();
+        $('#outputDiv').find('div').remove();
+
+        for (var i = 0; i < selectOptions.length; i++) {
+            var value = selectOptions[i].id;
+            var text = selectOptions[i].text;
+
+            var option = "<option value='"+value+"'>"+text+"</option>";
+            select.append(option);
+        }
+        select.prop('disabled', false);
+    },
+
+    getParticipants : function (type) {
+        var data = {type : type};
+        console.log(data);
+        var url = '/ajax/participantsForSelect';
+        var onSuccess = function(res) {
+            tournamentHelper.fillSelect2List(res);
+        };
+        var onError = function (res) {
+            $('#part_select').prop('disabled', false);
+        }
+        httpHelpers.AjaxRequest(url, data, onSuccess, onError);
+    },
+
+    selectChangeListener : function() {
+        var typeSelect = $('#tournament_type');
+        $('#part_select').prop('disabled', true);
+
+        var option = typeSelect.find('option:selected');
+        tournamentHelper.getParticipants(option.val());
     }
+
 };
 
 
