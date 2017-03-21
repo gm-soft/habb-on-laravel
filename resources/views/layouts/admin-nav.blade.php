@@ -28,10 +28,11 @@
                         <a class="dropdown-item" href="{{ url('admin/tournaments/') }}">Турниры</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('admin/posts/') }}">Посты</a>
-
+                        <a class="dropdown-item disabled" href="#">Пользователи</a>
+                        <a class="dropdown-item disabled" href="#">Записи статистики</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url('admin/users/') }}">Пользователи</a>
-                        <a class="dropdown-item" href="{{ url('admin/statistic/') }}">Записи статистики</a>
+                        <a class="dropdown-item" href="{{ url('admin/keyValues/') }}">Ключ-Значение</a>
+
                     </div>
                 </li>
 

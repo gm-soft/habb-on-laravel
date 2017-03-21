@@ -34,9 +34,6 @@ class Post extends Ardent
     protected $dates = [
         "deleted_at"
     ];
-    protected $properties = [
-
-    ];
 
     public function getPublicationDate($format = "d.m.Y"){
 

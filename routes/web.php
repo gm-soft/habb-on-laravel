@@ -57,6 +57,9 @@
             Route::post('deny', 'TeamCreateRequestController@denyRequest');
         });
 
+        // Ключ-Значение
+        Route::resource('keyValues', 'KeyValueController');
+
 
     });
     #endregion
