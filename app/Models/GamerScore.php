@@ -33,6 +33,10 @@ class GamerScore extends Ardent implements IScoreInstance
      */
     protected $fillable = ['game_name'];
 
+    public static $relationsData = [
+        'gamer' => [self::BELONGS_TO, 'Gamer']
+    ];
+
 
     public function gamer()
     {

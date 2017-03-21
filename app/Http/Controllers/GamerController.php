@@ -69,7 +69,7 @@ class GamerController extends Controller
         $gamer = Gamer::find($id);
         return view('admin.gamers.show', [
             'gamer' => $gamer,
-            'scores' => $gamer->scores()
+            'scores' => $gamer->scores
         ]);
     }
 
@@ -79,7 +79,7 @@ class GamerController extends Controller
         $gamer = Gamer::find($id);
         return view('admin.gamers.edit', [
             'gamer' => $gamer,
-            'scores' => $gamer->scores()
+            'scores' => $gamer->scores
         ]);
     }
 
@@ -107,6 +107,32 @@ class GamerController extends Controller
         return Redirect::action('GamerController@show', ["id" => $gamer->id])
             ->with('success', 'Данные сохранены');
     }
+
+
+
+    public function destroy($id)
+    {
+        /** @var Gamer $gamer */
+        $gamer = Gamer::find($id);
+        $gamer->deleted_at = Carbon::now();
+        $result = $gamer->save();
+
+        if ($result == true) {
+            $message = "Запись ID".$gamer->id." удалена из базы";
+            $type = Constants::Success;
+        } else {
+            $message = "Запись ID".$gamer->id." не удалена из базы<br>";
+            $errors = $gamer->errors();
+            foreach ($errors as $error) {
+                $message .= $error."<br>";
+            }
+            $type = Constants::Error;
+        }
+        flash($message, $type);
+        return Redirect::action('GamerController@index');
+    }
+
+    #endregion
 
     /**
      * Обновляет очки геймера
@@ -140,32 +166,7 @@ class GamerController extends Controller
         }
         flash("Очки обновлены", Constants::Success);
         return Redirect::action('GamerController@show', ["id" => $id]);
-
     }
-
-    public function destroy($id)
-    {
-        /** @var Gamer $gamer */
-        $gamer = Gamer::find($id);
-        $gamer->deleted_at = Carbon::now();
-        $result = $gamer->save();
-
-        if ($result == true) {
-            $message = "Запись ID".$gamer->id." удалена из базы";
-            $type = Constants::Success;
-        } else {
-            $message = "Запись ID".$gamer->id." не удалена из базы<br>";
-            $errors = $gamer->errors();
-            foreach ($errors as $error) {
-                $message .= $error."<br>";
-            }
-            $type = Constants::Error;
-        }
-        flash($message, $type);
-        return Redirect::action('GamerController@index');
-    }
-
-    #endregion
 
     #region Форма регистрации участника HABB
     /**

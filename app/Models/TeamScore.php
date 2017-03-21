@@ -28,6 +28,10 @@ class TeamScore extends Ardent implements IScoreInstance
     public static $rules = [
         'name' => 'between:2,100'
     ];
+    public static $relationsData = [
+        'team' => [self::BELONGS_TO, 'Team']
+    ];
+
 
 
     public function team()

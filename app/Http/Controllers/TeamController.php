@@ -72,7 +72,7 @@ class TeamController extends Controller
         $gamers = $instance->getGamers();
         return $this->View('admin.teams.show', [
             'team' => $instance,
-            'scores' => $instance->scores(),
+            'scores' => $instance->scores,
             'gamers' => $gamers
         ]);
     }

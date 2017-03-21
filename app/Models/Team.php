@@ -32,6 +32,9 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
     public static $rules = [
         'name' => 'between:1,100'
     ];
+    public static $relationsData = [
+        'scores' => [self::HAS_MANY, 'TeamScore']
+    ];
 
     /**
      * Массив привязанных очков TeamScore

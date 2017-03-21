@@ -47,25 +47,21 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
             'phone'     => 'required|unique:gamers,phone' . ($id ? ",$id" : ''),
         );
     }
+
     protected $table = "gamers";
 
     protected $fillable = array(
         'name', 'last_name', 'phone', 'email', 'birthday', 'city', 'vk_page', 'status', 'institution', 'comment', 'lead_id'
     );
 
-    public $teamRole = null;
-
-    public function __construct(array $attributes = array())
-    {
-        $this->setRawAttributes($this->attributes, true);
-        parent::__construct($attributes);
-    }
-
     protected $dates = [
         'birthday', 'deleted_at'
     ];
     protected $casts = [
         'secondary_games' => 'array'
+    ];
+    public static $relationsData = [
+        'scores' => [self::HAS_MANY, 'GamerScore']
     ];
 
     /**
@@ -77,6 +73,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         return $this->hasMany('App\Models\GamerScore');
     }
 
+    #region Кастомные функции модели
     public function getGamerAge(){
         Carbon::setLocale('ru');
         $now = time();
@@ -91,7 +88,9 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     public function getFullName() {
         return $this->name." ".$this->last_name;
     }
+    #endregion
 
+    #region еРеализация интерфейсов
     /**
      * Добавляет переданные аргументом очки. Сразу же сохраняет и возвращает результат
      * @param string $gameName
@@ -175,4 +174,5 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         }
         return $gamerOptionList;
     }
+    #endregion
 }
