@@ -21,7 +21,7 @@ class FrontController extends Controller
         $post->decodeHtmlContent();
 
 
-        return $this->View('front.posts.show', ["post" => $post]);
+        return view('front.posts.show', ["post" => $post]);
     }
 
     public function showAllPosts() {
