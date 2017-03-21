@@ -16,8 +16,8 @@
         </div>
 
         <div class="form-group">
-            <label class="col-form-label" for="city">Город команды</label>
-            @renderCitiesSelect(old('city'), true)
+            {{ Form::label('city', 'Город команды') }}
+            {{ Form::select('city', $cities, old('cities'), ['class'=>'form-control', 'required'=>true]) }}
             <small>Укажите, пожалуйста, город команды</small>
         </div>
 
@@ -27,8 +27,8 @@
                     array('class' => 'form-control', 'maxlength' => '100', 'placeholder' => 'Введите свое имя', 'required' => true)) }}
             @if ($errors->has('comment'))
                 <span class="help-block text-danger">
-                                    <strong>{{ $errors->first('requester_name') }}</strong>
-                                </span><br>
+                    <strong>{{ $errors->first('requester_name') }}</strong>
+                </span><br>
             @endif
             <small>Как нам к Вам обращаться?</small>
         </div>
@@ -36,7 +36,7 @@
         <div class="form-group">
             {{ Form::label('requester_phone', 'Телефон запросившего') }}
             {{ Form::text('requester_phone', old('requester_phone'),
-                    array('class' => 'form-control', 'placeholder' => '87011112233', 'pattern' => $phoneRegPattern, 'required' => true)) }}
+                    array('class' => 'form-control', 'placeholder' => 'Введите номер телефона', 'required' => true, 'id' => 'phone')) }}
             @if ($errors->has('requester_phone'))
                 <span class="help-block text-danger">
                                     <strong>{{ $errors->first('requester_phone') }}</strong>
@@ -51,8 +51,8 @@
                     array('class' => 'form-control', 'placeholder' => 'Введите свой email', 'pattern' => $emailRegPattern, 'required' => true)) }}
             @if ($errors->has('requester_email'))
                 <span class="help-block text-danger">
-                                    <strong>{{ $errors->first('requester_email') }}</strong>
-                                </span><br>
+                    <strong>{{ $errors->first('requester_email') }}</strong>
+                </span><br>
             @endif
             <small>Электронный адрес будет использован для отправки результата рассмотрения заявки</small>
         </div>

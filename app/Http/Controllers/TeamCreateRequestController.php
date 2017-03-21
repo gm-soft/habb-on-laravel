@@ -22,8 +22,6 @@ class TeamCreateRequestController extends Controller
     public function index(Request $request)
     {
         $instances = TeamCreateRequest::all();
-
-        //$instances = $instances->where('deleted_at', '=', null);
         return view('admin.teamRequests.index', [
             "instances" => $instances,
         ]);
@@ -33,11 +31,10 @@ class TeamCreateRequestController extends Controller
     public function create()
     {
         $cities = Constants::getCities();
-        $phoneRegPattern = Constants::PhoneRegexPattern;
         $emailRegPattern = Constants::EmailRegexPattern;
-        return view('admin.teamRequests.create',
-            ['phoneRegPattern' => $phoneRegPattern, 'emailRegPattern' => $emailRegPattern]
-        );
+        return view('admin.teamRequests.create',[
+            'cities'=>$cities, 'emailRegPattern' => $emailRegPattern
+            ]);
     }
 
     public function store(Request $request)
@@ -78,7 +75,7 @@ class TeamCreateRequestController extends Controller
             $gamer = Gamer::find($participant_id);
             $gamers[$i] = $gamer ?? null;
         }
-        return $this->View('admin.teamRequests.show', [
+        return view('admin.teamRequests.show', [
             'instance' => $instance, 'gamers' => $gamers
         ]);
     }
@@ -88,11 +85,11 @@ class TeamCreateRequestController extends Controller
 
         /** @var TeamCreateRequest $instance */
         $instance = TeamCreateRequest::find($id);
-        $phoneRegPattern = Constants::PhoneRegexPattern;
+        $cities = Constants::getCities();
         $emailRegPattern = Constants::EmailRegexPattern;
 
-        return $this->View('admin.teamRequests.edit', [
-            'instance' => $instance,'phoneRegPattern' => $phoneRegPattern, 'emailRegPattern' => $emailRegPattern
+        return view('admin.teamRequests.edit', [
+            'instance' => $instance, 'emailRegPattern' => $emailRegPattern, 'cities' => $cities
         ]);
     }
 
@@ -139,6 +136,7 @@ class TeamCreateRequestController extends Controller
     }
     #endregion
 
+    #region Подтверждение и отклонение заявок
     /**
      * Если  менеджер утверждает заявку, то срабатывает этот экшн
      * @param Request $request
@@ -235,5 +233,42 @@ class TeamCreateRequestController extends Controller
         $to = $teamCreateRequest->requester_email;
         $subject = "Отказ в заявке на команду";
         return $this->sendEmail($subject, $viewString, $to);
+    }
+    #endregion
+
+    public function registerTeamFormView() {
+        $cities = Constants::getCities();
+        $emailPattern = Constants::EmailRegexPattern;
+        return view('front.register.teamRequest', [
+            'cities' => $cities, 'emailPattern' => $emailPattern
+        ]);
+    }
+
+    public function registerTeamFormPost(Request $request) {
+
+        $instance = $this->constructTeamCreateRequest(null, Input::all());
+        $result = $instance->save();
+
+        if ($result == false) {
+            return Redirect::action('TeamCreateRequestController@registerTeamFormView')
+                ->withErrors($instance->errors())
+                ->withInput(Input::all());
+
+        }
+        session(['request_id' => $instance->id]);
+        return Redirect::action('TeamCreateRequestController@registerTeamFromResult');
+
+    }
+
+    public function registerTeamFromResult(Request $request) {
+        $id = $request->session()->get('request_id');
+        if (is_null($id)) {
+
+            flash('Возникла непредвиденная ошибка при сохранении заявки.<br>Отправьте, пожалуйста, еще одну. Извините за неудобство =(', Constants::Warning);
+            return Redirect::action('GamerController@registerTeamFormView');
+        }
+        $teamRequest = TeamCreateRequest::find($id);
+        $request->session()->forget('request_id');
+        return view('front.register.team-result', ['request' => $teamRequest]);
     }
 }
