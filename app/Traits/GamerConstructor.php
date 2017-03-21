@@ -11,6 +11,12 @@ namespace App\Traits;
 
 use App\Models\Gamer;
 
+/**
+ * Class GamerConstructor
+ * @package App\Traits
+ *
+ * Трейт для хранения однотипных операций(функций), связанных с геймерами
+ */
 trait GamerConstructor
 {
     /**

@@ -61,7 +61,9 @@ class AjaxController extends Controller
         $teamCreateRequest = TeamCreateRequest::find(1);
         $gamers = $team->getGamers();
 
-        $viewString = view('mails.team-create-confirmed', ['request'=>$teamCreateRequest, 'team'=>$team, 'gamers'=>$gamers])->render();
+        $viewString = view('mails.team-create-confirmed', [
+            'request'=>$teamCreateRequest, 'team'=>$team, 'gamers'=>$gamers
+        ])->render();
 
         $to = $teamCreateRequest->requester_email;
         $subject = "Утверждение заявки";
