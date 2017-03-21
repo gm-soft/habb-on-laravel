@@ -39,14 +39,12 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 {
     use FormAccessible, SoftDeletes;
 
-    public static function rules ($id = 0) {
-        return array(
-            'name'      => 'required',
-            'last_name' => 'required',
-            'email'     => 'required|between:5,100|email|unique:gamers,email' . ($id ? ",$id" : ''),
-            'phone'     => 'required|unique:gamers,phone' . ($id ? ",$id" : ''),
-        );
-    }
+    public static $rules = [
+        'name'      => 'required',
+        'last_name' => 'required',
+        'email'     => 'required|between:3,100|email|unique:gamers',
+        'phone'     => 'required|unique:gamers',
+    ];
 
     protected $table = "gamers";
 

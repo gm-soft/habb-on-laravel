@@ -38,7 +38,7 @@ class GamerController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-        $validator = Validator::make($input, Gamer::rules());
+        $validator = Validator::make($input, Gamer::$rules);
 
         if ($validator->fails()) {
             return Redirect::action('GamerController@create')
@@ -85,24 +85,14 @@ class GamerController extends Controller
 
     public function update(Request $request, $id)
     {
-        $input = $request->input();
-        $validator = Validator::make($input, Gamer::rules($id));
-
-        if ($validator->fails()) {
-            return Redirect::action('GamerController@edit', ["id" => $id])
-                ->withErrors($validator->errors())
-                ->withInput($input);
-        }
-
         /** @var Gamer $gamer */
         $gamer = $this->constructGamerInstance(Input::all(), $id);
-
-        $res = $gamer->update();
+        $res = $gamer->updateUniques();
 
         if ($res === false) {
             return Redirect::action('GamerController@edit', ["id" => $gamer->id])
                 ->withErrors($gamer->errors())
-                ->withInput($input);
+                ->withInput(Input::all());
         }
         return Redirect::action('GamerController@show', ["id" => $gamer->id])
             ->with('success', 'Данные сохранены');
@@ -195,7 +185,7 @@ class GamerController extends Controller
     public function createGamerAccount(Request $request){
         // TODO Нужно проверить как работает валидация
         $input = $request->input();
-        $validator = Validator::make($input, Gamer::rules());
+        $validator = Validator::make($input, Gamer::$rules);
 
         if ($validator->fails()) {
             return Redirect::action('GamerController@registerForm')

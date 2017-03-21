@@ -60,11 +60,6 @@ class KeyValueController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->input(), KeyValue::$rules);
-        /*if ($validator->fails()) {
-
-        }*/
-
         /** @var KeyValue $instance */
         $instance = KeyValue::find($id);
         $instance->key = Input::get('key');
