@@ -63,7 +63,7 @@
                         <div class="col-sm-6">
                             <div id="divPhone" class="form-group">
                                 <div class="input-group">
-                                    <input type="tel" class="form-control" id="phone" name="phone" pattern="@PhoneFieldPattern()" required placeholder="Мобильный телефон">
+                                    <input type="tel" class="form-control" id="phone" name="phone" required placeholder="Мобильный телефон">
                                     <span class="input-group-addon"><i class="fa fa-mobile" aria-hidden="true"></i></span>
                                 </div>
                             </div>
@@ -255,6 +255,7 @@
 
 @section('scripts')
     <script src="{{ asset('js/select2.js') }}"></script>
+    <script src="{{ asset('thirdparty/inputmask/jquery.inputmask.bundle.js') }}"></script>
     <script type="text/javascript">
 
         $('.select2').select2();
@@ -272,8 +273,14 @@
 
         $(document).ready(function(){
             registrationHelpers.RegisterListeners();
+            $('#phone').inputmask({"mask": "8(999)999-9999"});
 
         });
+        /*$(document).ready(function(){
+            $(selector).inputmask("99-9999999");  //static mask
+            $(selector).inputmask({"mask": "8(999)999-9999"}); //specifying options
+            $(selector).inputmask("8-a{1,3}9{1,3}"); //mask with dynamic syntax
+        });*/
     </script>
 @endsection
 

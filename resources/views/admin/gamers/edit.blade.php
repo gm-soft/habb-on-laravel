@@ -19,6 +19,7 @@
 
 @section('scripts')
     <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('thirdparty/inputmask/jquery.inputmask.bundle.js') }}"></script>
     <script type="text/javascript">
         $(".select2-multiple").select2({
             placeholder: "Иногда играю (можно выбрать несколько)",
@@ -30,6 +31,10 @@
 
         $('#form').submit(function(){
             $("#submit-btn").prop('disabled',true);
+        });
+        $(document).ready(function(){
+            $('#phone').inputmask({"mask": "8(999)999-9999"});
+
         });
     </script>
 @endsection

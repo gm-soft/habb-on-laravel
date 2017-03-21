@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Constants;
 use App\Models\Gamer;
 use App\Models\GamerScore;
-use App\User;
+use App\Traits\GamerConstructor;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -16,12 +16,15 @@ use Validator;
 
 class GamerController extends Controller
 {
+    use GamerConstructor;
 
     #region Ресурсные методы
     public function index()
     {
         $gamers = Gamer::all();
-        return $this->View('admin/gamers/index', ["gamers" => $gamers]);
+        return view('admin.gamers.index', [
+            "gamers" => $gamers
+        ]);
     }
 
     public function create()
@@ -29,7 +32,7 @@ class GamerController extends Controller
         $userAgent = request()->header('User-Agent');
         $isIosDevice = stripos($userAgent,"iPod")||stripos($userAgent,"iPhone")||stripos($userAgent,"iPad");
 
-        return $this->View('admin.gamers.create');
+        return view('admin.gamers.create');
     }
 
     public function store(Request $request)
@@ -43,22 +46,7 @@ class GamerController extends Controller
                 ->withInput($input);
         }
 
-        $gamer = new Gamer;
-        $gamer->name = Input::get('name');
-        $gamer->last_name = Input::get('last_name');
-
-        $gamer->phone = Input::get('phone');
-        $gamer->email = Input::get('email');
-        $gamer->birthday = Input::get('birthday');
-        $gamer->city = Input::get('city');
-        $gamer->vk_page = Input::get('vk_page');
-        $gamer->status = Input::get('status');
-        $gamer->institution = Input::get('institution');
-        $gamer->comment = Input::get('comment');
-        $gamer->lead_id = Input::get('lead_id');
-
-        $gamer->primary_game = Input::get('primary_game');
-        $gamer->secondary_games = Input::get('secondary_games');
+        $gamer = $this->constructGamerInstance(Input::all());
 
         $success = $gamer->save();
         if ($success == false) {
@@ -79,7 +67,7 @@ class GamerController extends Controller
     {
         /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
-        return $this->View('admin.gamers.show', [
+        return view('admin.gamers.show', [
             'gamer' => $gamer,
             'scores' => $gamer->scores()
         ]);
@@ -89,7 +77,7 @@ class GamerController extends Controller
     {
         /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
-        return $this->View('admin.gamers.edit', [
+        return view('admin.gamers.edit', [
             'gamer' => $gamer,
             'scores' => $gamer->scores()
         ]);
@@ -107,21 +95,7 @@ class GamerController extends Controller
         }
 
         /** @var Gamer $gamer */
-        $gamer = Gamer::find($id);
-        $gamer->name = Input::get('name');
-        $gamer->last_name = Input::get('last_name');
-
-        $gamer->phone = Input::get('phone');
-        $gamer->email = Input::get('email');
-        $gamer->birthday = Input::get('birthday');
-        $gamer->city = Input::get('city');
-        $gamer->vk_page = Input::get('vk_page');
-        $gamer->status = Input::get('status');
-        $gamer->institution = Input::get('institution');
-        $gamer->comment = Input::get('comment');
-        $gamer->lead_id = Input::get('lead_id');
-        $gamer->primary_game = Input::get('primary_game');
-        $gamer->secondary_games = Input::get('secondary_games');
+        $gamer = $this->constructGamerInstance(Input::all(), $id);
 
         $res = $gamer->update();
 
@@ -210,20 +184,7 @@ class GamerController extends Controller
         return view('front.register.gamer', ['iOsDevice' => $iOsDevice, 'cities' => $cities]);
     }
 
-    /**
-     * Аякс запрос на поиск аккаунта по телефону
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function searchGamerForDuplicate(Request $request) {
 
-        $field = Input::get('field');
-        $searchable = Input::get('value');
-
-        $gamer = DB::table('gamers')->where($field , '=', $searchable)->first();
-        $result = ['result' => true, 'exists' => !is_null($gamer)];
-        return response()->json($result);
-    }
 
     /**
      * Принимает аргументы от формы регистрации и создает аккаунт игрока
@@ -241,22 +202,7 @@ class GamerController extends Controller
                 ->withInput($input);
         }
 
-        $gamer = new Gamer;
-        $gamer->name = Input::get('name');
-        $gamer->last_name = Input::get('last_name');
-
-        $gamer->phone = Input::get('phone');
-        $gamer->email = Input::get('email');
-        $gamer->birthday = Input::get('birthday');
-        $gamer->city = Input::get('city');
-        $gamer->vk_page = Input::get('vk_page');
-        $gamer->status = Input::get('status');
-        $gamer->institution = Input::get('institution');
-        $gamer->comment = Input::get('comment');
-        $gamer->lead_id = 0 /*!is_null(Input::get('lead_id'))*/;
-
-        $gamer->primary_game = Input::get('primary_game');
-        $gamer->secondary_games = Input::get('secondary_games');
+        $gamer = $this->constructGamerInstance(Input::all());
 
         $success = $gamer->save();
         if ($success == false) {
@@ -285,6 +231,27 @@ class GamerController extends Controller
     }
 
     #endregion
+
+    /**
+     * Аякс запрос на поиск аккаунта по телефону
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchGamerForDuplicate(Request $request) {
+
+        $field = Input::get('field');
+        $searchable = Input::get('value');
+
+        if ($field == 'phone') {
+            $searchable = $this->formatPhone($searchable);
+        }
+
+        $gamer = DB::table('gamers')->where($field , '=', $searchable)->first();
+        $result = ['result' => true, 'exists' => !is_null($gamer)];
+        return response()->json($result);
+    }
+
+
 
 
 }

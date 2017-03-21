@@ -53,9 +53,8 @@
                 <div class="form-group row">
                     {{ Form::label('phone', 'Телефон', ['class' => 'col-sm-3 col-form-label']) }}
                     <div class="col-sm-9">
-                        {{ Form::text('phone', old('phone'),
-                            array('class' => 'form-control', 'required', 'maxlength' => '11',
-                            'placeholder' => 'Введите телефон', 'pattern' => \App\Helpers\Constants::PhoneRegexPattern)) }}
+                        {{ Form::tel('phone', old('phone'),
+                            array('class' => 'form-control', 'required', 'placeholder' => 'Введите телефон', 'id' => 'phone')) }}
                         @if ($errors->has('phone'))
                             <span class="help-block text-danger">
                                 <strong>{{ $errors->first('phone') }}</strong>
