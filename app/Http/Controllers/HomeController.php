@@ -25,18 +25,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return $this->View('front.home.index');
+        return view('front.home.index');
     }
 
     public function news() {
-        return $this->View('front.home.news');
+        return view('front.home.news');
     }
 
     public function about() {
-        return $this->View('front.home.about');
+        return view('front.home.about');
     }
 
     public function contacts() {
-        return $this->View('front.home.contacts');
+        return view('front.home.contacts');
     }
 }

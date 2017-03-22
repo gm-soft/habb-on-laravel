@@ -16,7 +16,7 @@
 </head>
     <body>
         @include("layouts.front-nav")
-        @include('flash::message')
+        @include('uikit.flash.message')
         @yield('content')
 
         @include('layouts.footer')
