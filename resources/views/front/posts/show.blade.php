@@ -1,22 +1,26 @@
 
 @extends('layouts.front-layout')
-@section('title', 'Информация о статье')
+@section('title', 'Habb - '.$post->title)
 
 @section('content')
-    <div class="container">
-        <h1 class="mt-1">{{ $post->title }}</h1>
+    <div class="uk-container">
 
-        <div class="mt-1">
-            {!! $post->content  !!}
-        </div>
+        <article class="uk-article">
+            <h1 class="uk-article-title">
+                {{ $post->title }}
+            </h1>
+            <p class="uk-article-meta">
+                Просмотров: {{ $post->views }}. Публикация: {{ $post->UpdatedAt() }}
+            </p>
+            <p>
+                {!! $post->content  !!}
+            </p>
+        </article>
         <hr>
-        <div class="mt-2 row">
-            <a href="{{ url('news') }}" class="btn btn-secondary"><i class="fa fa-chevron-left" aria-hidden="true"></i> В список новостей</a>
-
-            <span class="float-sm-right">
-            <i>Просмотров: {{ $post->views }}. Публикация: {{ $post->UpdatedAt() }}</i>
-        </span>
-
+        <div class="uk-grid-small uk-child-width-auto" uk-grid>
+            <div>
+                <a class="uk-button uk-button-text" href="{{ url('news') }}"><i class="fa fa-chevron-left" aria-hidden="true"></i> В список новостей</a>
+            </div>
         </div>
     </div>
 

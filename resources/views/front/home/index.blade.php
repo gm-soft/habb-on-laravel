@@ -2,11 +2,13 @@
 @extends('layouts.front-layout')
 
 @section('content')
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="pt-3 display-1">HABB - Сообщество геймеров Казахстана</h1>
-            </div>
+    <div class="uk-container">
+        <div class="">
+            <h1 class="uk-heading-hero">HABB</h1>
+            <p class="uk-text-lead">Сообщество геймеров Казахстана</p>
         </div>
+
+    </div>
 
 
 
