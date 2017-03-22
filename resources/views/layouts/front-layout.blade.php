@@ -10,8 +10,8 @@
 
     <title>@yield('title', "HABB - Сообщество геймеров Казахстана")</title>
 
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('thirdparty/fa/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/frontend.css') }}">
     @yield('styles')
@@ -22,9 +22,9 @@
         @yield('content')
 
         @include('layouts.footer')
-        <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-        <script src="{{ asset('js/tether.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('thirdparty/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/tether.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('custom/helpers.js') }}"></script>
 
         @yield('scripts')

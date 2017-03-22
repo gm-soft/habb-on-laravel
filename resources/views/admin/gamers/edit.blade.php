@@ -18,7 +18,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('thirdparty/select2/select2.min.js') }}"></script>
     <script src="{{ asset('thirdparty/inputmask/jquery.inputmask.bundle.js') }}"></script>
     <script type="text/javascript">
         $(".select2-multiple").select2({
@@ -39,5 +39,5 @@
     </script>
 @endsection
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('thirdparty/select2/select2.min.css') }}">
 @endsection

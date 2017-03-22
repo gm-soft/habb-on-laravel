@@ -254,7 +254,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/select2.js') }}"></script>
+    <script src="{{ asset('thirdparty/select2/select2.js') }}"></script>
     <script src="{{ asset('thirdparty/inputmask/jquery.inputmask.bundle.js') }}"></script>
     <script type="text/javascript">
 
@@ -276,14 +276,9 @@
             $('#phone').inputmask({"mask": "8(999)999-9999"});
 
         });
-        /*$(document).ready(function(){
-            $(selector).inputmask("99-9999999");  //static mask
-            $(selector).inputmask({"mask": "8(999)999-9999"}); //specifying options
-            $(selector).inputmask("8-a{1,3}9{1,3}"); //mask with dynamic syntax
-        });*/
     </script>
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('thirdparty/select2/select2.min.css') }}">
 @endsection
