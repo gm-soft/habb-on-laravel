@@ -38,14 +38,16 @@ var formHelpers = {
 };
 
 var registrationHelpers = {
-    phoneInput :        null,
-    emailInput :        null,
-    sbtBtn :            null,
-    divPhone :          null,
-    divEmail :          null,
-    accountModalTitle : null,
-    accountModalBody :  null,
-    vkInput :           null,
+    phoneInput          : null,
+    emailInput          : null,
+    sbtBtn              : null,
+    divPhone            : null,
+    divEmail            : null,
+    accountModalTitle   : null,
+    accountModalBody    : null,
+    vkInput             : null,
+    dangerClass         : "uk-form-danger",
+    successClass        : "uk-form-success",
 
     _markFields : function(field, statement) {
 
@@ -53,19 +55,19 @@ var registrationHelpers = {
 
             if (field == "phone") {
 
-                this.phoneInput.addClass("form-control-danger");
-                this.phoneInput.removeClass("form-control-success");
+                this.phoneInput.addClass(this.dangerClass);
+                this.phoneInput.removeClass(this.successClass);
 
-                this.divPhone.addClass("has-danger");
-                this.divPhone.removeClass("has-success");
+                //this.divPhone.addClass("has-danger");
+                //this.divPhone.removeClass("has-success");
 
 
             } else if (field == "email") {
-                this.emailInput.addClass("form-control-danger");
-                this.emailInput.removeClass("form-control-success");
+                this.emailInput.addClass(this.dangerClass);
+                this.emailInput.removeClass(this.successClass);
 
-                this.divEmail.addClass("has-danger");
-                this.divEmail.removeClass("has-success");
+                //this.divEmail.addClass("has-danger");
+                //this.divEmail.removeClass("has-success");
             }
             this.sbtBtn.prop("disabled", true);
 
@@ -73,18 +75,18 @@ var registrationHelpers = {
         } else {
             if (field == "phone") {
 
-                this.phoneInput.addClass("form-control-success");
-                this.phoneInput.removeClass("form-control-danger");
+                this.phoneInput.addClass(this.successClass);
+                this.phoneInput.removeClass(this.dangerClass);
 
-                this.divPhone.addClass("has-success");
-                this.divPhone.removeClass("has-danger");
+                //this.divPhone.addClass("has-success");
+                //this.divPhone.removeClass("has-danger");
 
             } else if (field == "email") {
-                this.emailInput.addClass("form-control-success");
-                this.emailInput.removeClass("form-control-danger");
+                this.emailInput.addClass(this.successClass);
+                this.emailInput.removeClass(this.dangerClass);
 
-                this.divEmail.addClass("has-success");
-                this.divEmail.removeClass("has-danger");
+                //this.divEmail.addClass("has-success");
+                //this.divEmail.removeClass("has-danger");
             }
 
             this.sbtBtn.prop("disabled", false);
@@ -99,9 +101,6 @@ var registrationHelpers = {
             "field" : field,
             "value" : value
         };
-
-
-
         var request = $.ajax({
             url : url,
             data : paramsData,
@@ -114,7 +113,8 @@ var registrationHelpers = {
 
                 registrationHelpers._markFields(field, exists);
                 if (exists == false) return;
-                $('#accountModal').modal('show');
+                UIkit.modal('#accountModal').show();
+                //$('#accountModal').modal('show');
             }
         });
     },
@@ -150,10 +150,10 @@ var registrationHelpers = {
         this.phoneInput.blur(function(){
             if ($(this).val() == "")  {
 
-                $(this).removeClass("form-control-danger");
-                $(this).removeClass("form-control-success");
-                registrationHelpers.divPhone.removeClass("has-danger");
-                registrationHelpers.divPhone.removeClass("has-success");
+                $(this).removeClass(registrationHelpers.dangerClass);
+                $(this).removeClass(registrationHelpers.successClass);
+                //registrationHelpers.divPhone.removeClass("has-danger");
+                //registrationHelpers.divPhone.removeClass("has-success");
                 return;
             }
 
@@ -164,10 +164,10 @@ var registrationHelpers = {
 
             if ($(this).val() == "")  {
 
-                $(this).removeClass("form-control-danger");
-                $(this).removeClass("form-control-success");
-                registrationHelpers.divEmail.removeClass("has-danger");
-                registrationHelpers.divEmail.removeClass("has-success");
+                $(this).removeClass(registrationHelpers.dangerClass);
+                $(this).removeClass(registrationHelpers.successClass);
+                //registrationHelpers.divEmail.removeClass("has-danger");
+                //registrationHelpers.divEmail.removeClass("has-success");
                 return;
             }
             registrationHelpers._searchValue("email", $(this).val());
