@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="uk-container">
 
         <div class="jumbotron">
             <h1 class="display-2">HABB ID {{ $gamer->id }}</h1>
