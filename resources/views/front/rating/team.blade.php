@@ -126,6 +126,10 @@
             @endfor
             </tbody>
         </table>
+
+        <div class="uk-margin uk-text-center">
+            <a href="#" uk-totop uk-scroll class="uk-button uk-button-default">Наверх</a>
+        </div>
     </div>
 
 
