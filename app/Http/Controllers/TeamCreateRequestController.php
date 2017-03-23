@@ -265,7 +265,7 @@ class TeamCreateRequestController extends Controller
         if (is_null($id)) {
 
             flash('Возникла непредвиденная ошибка при сохранении заявки.<br>Отправьте, пожалуйста, еще одну. Извините за неудобство =(', Constants::Warning);
-            return Redirect::action('GamerController@registerTeamFormView');
+            return Redirect::action('TeamCreateRequestController@registerTeamFormView');
         }
         $teamRequest = TeamCreateRequest::find($id);
         $request->session()->forget('request_id');

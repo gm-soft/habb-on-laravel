@@ -3,16 +3,18 @@
 @section('title', 'Рейтинг команд')
 
 @section('content')
-    <div class="container">
-        <h1 class="mt-1">Топ команд <span class="float-sm-right">{{ $game }}</span></h1>
-        <div class="mt-1 mb-1 float-sm-right">
-            <div class="btn-group" role="group" aria-label="Игры">
-                <a href="{{ url('rating/teams', ['game' => 'cs:go']) }}" class="btn btn-secondary">CS:GO</a>
-                <a href="{{ url('rating/teams', ['game' => 'dota']) }}" class="btn btn-secondary">Dota 2</a>
-                <a href="{{ url('rating/teams', ['game' => 'hearthstone']) }}" class="btn btn-secondary">Hearthstone</a>
+    <div class="uk-container uk-margin">
+        <h1 class="uk-margin">Топ команд <span class="uk-float-right">{{ $game }}</span></h1>
+
+        <div class="uk-margin uk-float-right">
+            <div class="uk-button-group">
+                <a href="{{ url('rating/teams', ['game' => 'cs:go']) }}" class="uk-button uk-button-default">CS:GO</a>
+                <a href="{{ url('rating/teams', ['game' => 'dota']) }}" class="uk-button uk-button-default">Dota 2</a>
+                <a href="{{ url('rating/teams', ['game' => 'hearthstone']) }}" class="uk-button uk-button-default">Hearthstone</a>
             </div>
         </div>
-        <table class="table">
+
+        <table class="uk-table">
             <thead>
             <tr>
                 <th>Позиция</th>
@@ -89,7 +91,7 @@
             @for($i = 0; $i < count($bellow); $i++)
 
                 @if ($i == 0)
-                    {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Bellow the line", 9) !!}
+                    {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Below the line", 9) !!}
                 @endif
 
                 @php
@@ -124,6 +126,10 @@
             @endfor
             </tbody>
         </table>
+
+        <div class="uk-margin uk-text-center">
+            <a href="#" uk-totop uk-scroll class="uk-button uk-button-default">Наверх</a>
+        </div>
     </div>
 
 

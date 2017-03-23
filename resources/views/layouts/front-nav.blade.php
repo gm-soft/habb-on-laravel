@@ -1,75 +1,126 @@
 
-<nav class="navbar navbar-dark bg-challonge">
-    <div class="container-fluid">
-        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+<nav class="uk-navbar-container " uk-navbar="mode: click">
+    <div class="uk-navbar-left">
+        <a class="uk-navbar-toggle" uk-toggle="target: #slideNavigation">
+            <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left">Меню</span>
+        </a>
+        <a class="uk-navbar-item uk-logo" href="{{ url('home') }}">{{ config('app.name') }}</a>
 
-        <a class="navbar-brand text-white" href="/home">Habb</a>
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="{{ url('news') }}">Новости</a>
+            </li>
+            <li  class="uk-parent">
+                <a href="#">Рейтинги <i class="fa fa-caret-down uk-margin-small-left" aria-hidden="true"></i></a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
 
-        <div class="collapse navbar-collapse navbar-toggleable-sm" id="navbarSupportedContent">
-            <ul class="nav navbar-nav m-0">
-
-
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('news') }}">Новости</a>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="ratings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Рейтинги
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="ratings">
-                        <a class="dropdown-item" href="{{ url('rating/gamers') }}">Персональный рейтинг</a>
-                        <a class="dropdown-item" href="{{ url('rating/teams') }}">Командный рейтинг</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="ratings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Регистрации
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="ratings">
-                        <a class="dropdown-item" href="{{ url('register/gamer') }}">Регистрация участника HABB</a>
-                        <a class="dropdown-item" href="{{ url('register/team') }}">Регистрации заявки на команду</a>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('about') }}">О портале</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('contacts') }}">Контакты</a>
-                </li>
-
-                @if(Auth::check())
-
-                    @if(Auth::user()->hasBackendRight())
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('admin') }}">Админка</a>
+                        <li>
+                            <a href="{{ url('rating/gamers') }}">
+                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                                Персональный рейтинг
+                            </a>
                         </li>
-                    @endif
+                        <li>
+                            <a href="{{ url('rating/teams') }}">
+                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: users"></span>
+                                Командный рейтинг
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <!--div class="uk-navbar-item">
+            <form action="javascript:void(0)">
+                <input class="uk-input uk-form-width-small" type="text" placeholder="Input">
+                <button class="uk-button uk-button-default">Button</button>
+            </form>
+        </div-->
+    </div>
+    <div class="uk-navbar-right">
+        <ul class="uk-navbar-nav">
+            @if(Auth::check())
+                    <li>
+                        <a href="#">{{ Auth::user()->name }} <span class="uk-icon uk-margin-small-left" uk-icon="icon: triangle-down"></span></a></a>
+                        <div class="uk-navbar-dropdown">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                @if(Auth::user()->hasBackendRight())
+                                    <li>
+                                        <a href="{{ url('admin') }}"><span class="uk-icon uk-margin-small-right" uk-icon="icon: settings"></span> Админка</a>
+                                    </li>
+                                @endif
 
-                    <li class="nav-item dropdown  float-sm-right">
-                        <a class="nav-link dropdown-toggle" href="#" id="profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user" aria-hidden="true"></i> {{Auth::user()->name}}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="profile">
-                            <a class="dropdown-item" href="{{ url('profile') }}"><i class="fa fa-cog" aria-hidden="true"></i> Профайл</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Выйти</a>
+                                <li>
+                                    <a href="{{ url('profile') }}"><span class="uk-icon uk-margin-small-right" uk-icon="icon: cog"></span> Профайл</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('logout') }}"><span class="uk-icon uk-margin-small-right" uk-icon="icon: sign-out"></span> Выйти</a>
+                                </li>
+                            </ul>
                         </div>
                     </li>
-                @else
-                    <li class="nav-item float-sm-right">
-                        <a class="nav-link" href="{{ route('register') }}">Зарегистрироваться</a>
-                    </li>
-                    <li class="nav-item float-sm-right">
-                        <a class="nav-link" href="{{ route('login') }}">Авторизоваться</a>
-                    </li>
-                @endif
-
-            </ul>
-
-        </div>
+            @else
+                <li><a href="{{ route('register') }}">Зарегистрироваться <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span></a></li>
+                <li><a href="{{ route('login') }}">Авторизоваться <span class="uk-icon uk-margin-small-right" uk-icon="icon: sign-in"></span></a></li>
+            @endif
+        </ul>
     </div>
 </nav>
+
+
+<div id="slideNavigation" uk-offcanvas="mode: push; overlay: true">
+    <div class="uk-offcanvas-bar">
+        <h3>
+            <a href="{{ url('home') }}">{{ config('app.name') }}</a>
+        </h3>
+
+        <ul class="uk-nav uk-nav-default">
+            <li>
+                <a href="{{ url('news') }}">Новости</a>
+            </li>
+
+            <li class="uk-parent">
+                <a href="#">Рейтинги <i class="fa fa-caret-down uk-margin-small-left" aria-hidden="true"></i></a>
+                <ul class="uk-nav-sub">
+                    <li>
+                        <a href="{{ url('rating/gamers') }}">
+                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                            Персональный рейтинг
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('rating/teams') }}">
+                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: users"></span>
+                            Командный рейтинг
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="uk-parent">
+                <a href="#">Формы регистрации <i class="fa fa-caret-down uk-margin-small-left" aria-hidden="true"></i></a>
+                <ul class="uk-nav-sub">
+                    <li>
+                        <a href="{{ url('register/gamer') }}">
+                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                            Регистрация геймера
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('register/team') }}">
+                            <span class="uk-icon uk-margin-small-right" uk-icon="icon: users"></span>
+                            Регистрации заявки на команду
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url('about') }}">О портале</a></li>
+            <li><a href="{{ url('contacts') }}">Контакты</a></li>
+        </ul>
+
+        <button class="uk-button uk-button-default uk-offcanvas-close uk-width-1-1 uk-margin" type="button">Закрыть</button>
+
+    </div>
+</div>

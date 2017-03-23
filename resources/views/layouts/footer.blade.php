@@ -1,5 +1,5 @@
 <footer class="">
-    <div class="container">
+    <div class="uk-container">
         HE:LLO
     </div>
 </footer>
