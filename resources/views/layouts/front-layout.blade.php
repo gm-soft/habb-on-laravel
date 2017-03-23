@@ -9,6 +9,7 @@
     <title>@yield('title', "HABB - Сообщество геймеров Казахстана")</title>
 
     <link rel="stylesheet" href="{{ asset('uikit/css/uikit.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('uikit/css/extend.css') }}">
     <link rel="stylesheet" href="{{ asset('thirdparty/fa/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/frontend.css') }}">

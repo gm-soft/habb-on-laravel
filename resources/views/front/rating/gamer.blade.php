@@ -3,7 +3,7 @@
 @section('title', 'Рейтинг игроков')
 
 @section('content')
-    <div class="uk-container">
+    <div class="uk-container uk-margin">
         <h1 class="uk-margin">Топ игроков <span class="uk-float-right">{{ $game }}</span></h1>
 
         <div class="uk-margin uk-float-right">

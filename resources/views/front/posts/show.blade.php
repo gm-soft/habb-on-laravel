@@ -3,7 +3,7 @@
 @section('title', 'Habb - '.$post->title)
 
 @section('content')
-    <div class="uk-container">
+    <div class="uk-container uk-margin">
 
         <article class="uk-article">
             <h1 class="uk-article-title">

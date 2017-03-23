@@ -3,166 +3,164 @@
 @section('title', 'Регистрация игрока')
 
 @section('content')
-    <div class="uk-container">
-        <div class="form-container">
-            <div class="uk-text-center">
-                <h1 class="uk-margin">Регистрация участника HABB</h1>
-            </div>
-
-
-            {!! Form::open(['action' => ['GamerController@createGamerAccount'], 'id' => 'form']) !!}
-
-            <div uk-grid>
-                <div class="uk-width-1-2">
-
-                    <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                            <span class="uk-form-icon"><i class="fa fa-user" aria-hidden="true"></i></span>
-                            <input type="text" id="name" name="name" class="uk-input" required placeholder="Имя" maxlength="50" >
-
-                        </div>
-                    </div>
-
-                    <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                            <span class="uk-form-icon"><i class="fa fa-user" aria-hidden="true"></i></span>
-                            <input type="text" id="last_name" name="last_name" class="uk-input" required placeholder="Фамилия" maxlength="50">
-                        </div>
-                    </div>
-
-                    <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                            @if ($iOsDevice)
-                                <span class="uk-form-icon">Дата рождения <i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                <input type="date" class="uk-input" id="birthday" name="birthday" required placeholder="Дата рождения">
-
-                            @else
-                                <span class="uk-form-icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="uk-input" id="birthday" name="birthday" required placeholder="Дата рождения">
-
-                            @endif
-                        </div>
-                    </div>
-
-
-                    <div class="uk-margin">
-                        <select class="uk-select" name="city" required title="ВЫберите город">
-                            <option value="" disabled selected>Город</option>
-                            @for($i = 0; $i < count($cities); $i++)
-                                <option value='{{ $cities[$i] }}'>{{ $cities[$i] }}</option>
-                            @endfor
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="uk-width-1-2">
-                    <div id="divPhone" class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                            <span class="uk-form-icon"><i class="fa fa-mobile" aria-hidden="true"></i></span>
-                            <input type="tel" class="uk-input" id="phone" name="phone" required placeholder="Мобильный телефон">
-
-                        </div>
-                    </div>
-
-                    <div id="divEmail" class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                            <span class="uk-form-icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                            <input type="email" class="uk-input" id="email" name="email" pattern="@EmailFieldPattern()" required placeholder="yourname@example.com" maxlength="60">
-
-                        </div>
-                    </div>
-
-                    <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                            <span class="uk-form-icon"><i class="fa fa-vk" aria-hidden="true"></i></span>
-                            <input type="text" class="uk-input" id="vk_page" name="vk_page" pattern="@VkFieldPattern()" required placeholder="https://vk.com/" maxlength="40">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-            <h3 class="uk-text-center">Статус</h3>
-            <div class="uk-grid" uk-grid>
-
-                <div class="uk-width-1-2">
-                    <div class="uk-margin uk-width-1-1">
-                        <select class="uk-select" name="status" required title="Выберите свой статус">
-                            <option value="" disabled selected>Статус</option>
-                            <option value="student">Студент</option>
-                            <option value="pupil">Школьник</option>
-                            <option value="employee">Работаю</option>
-                            <option value="dumbass">В активном поиске себя</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="uk-width-1-2">
-                    <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                            <span class="uk-form-icon"><i class="fa fa-university" aria-hidden="true"></i></span>
-                            <input type="text" class="uk-input" id="institution" name="institution" placeholder="Название учреждения" required maxlength="50">
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="uk-text-center">
-                <h3>Я играю</h3>
-            </div>
-
-            <div class="uk-grid" uk-grid>
-
-                <div class="uk-width-1-2">
-                    <div class="uk-margin">
-                        <select class="uk-select select2 select2-single" name="primary_game" required title="Выберите свою основную дисциплину">
-                            <option value="" selected disabled>Играю активно</option>
-                            <option value="dota">Dota</option>
-                            <option value="cs:go">CS:GO</option>
-                            <option value="lol">League of Legends</option>
-                            <option value="hearthstone">Hearthstone</option>
-                            <option value="wot">World of Tanks</option>
-                            <option value="overwatch">Overwatch</option>
-                            <option value="cod">Call of Duty (серия игр)</option>
-                        </select>
-                    </div>
-                </div>
-
-
-                <div class="uk-width-1-2">
-                    <div class="uk-margin">
-                        <select class="uk-select select2 select2-multiple" name="secondary_games[]" required multiple="multiple" title="Выберите доп. дисциплины">
-                            <option value="dota">Dota</option>
-                            <option value="cs:go">CS:GO</option>
-                            <option value="lol">League of Legends</option>
-                            <option value="hearthstone">Hearthstone</option>
-                            <option value="wot">World of Tanks</option>
-                            <option value="overwatch">Overwatch</option>
-                            <option value="cod">Call of Duty (серия игр)</option>
-                        </select>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="uk-margin">
-                <label>
-                    <input type="checkbox" class="uk-checkbox" id="inqured" name="inqured" required>
-                    Ознакомлен с <a href="#resolution" uk-toggle>условиями</a> и даю согласие на обработку моих данных
-                </label>
-            </div>
-
-            <div class="uk-margin">
-                <button type="submit" id="submit-btn" class="uk-button uk-button-primary">Отправить</button>
-            </div>
-            {!! Form::close() !!}
+    <div class="uk-container uk-margin">
+        <div class="uk-text-center">
+            <h1 class="uk-margin">Регистрация участника HABB</h1>
         </div>
+
+
+        {!! Form::open(['action' => ['GamerController@createGamerAccount'], 'id' => 'form']) !!}
+
+        <div uk-grid>
+            <div class="uk-width-1-2">
+
+                <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <input type="text" id="name" name="name" class="uk-input" required placeholder="Имя" maxlength="50" >
+
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <input type="text" id="last_name" name="last_name" class="uk-input" required placeholder="Фамилия" maxlength="50">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        @if ($iOsDevice)
+                            <span class="uk-form-icon">Дата рождения <i class="fa fa-calendar" aria-hidden="true"></i></span>
+                            <input type="date" class="uk-input" id="birthday" name="birthday" required placeholder="Дата рождения">
+
+                        @else
+                            <span class="uk-form-icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="uk-input" id="birthday" name="birthday" required placeholder="Дата рождения">
+
+                        @endif
+                    </div>
+                </div>
+
+
+                <div class="uk-margin">
+                    <select class="uk-select" name="city" required title="ВЫберите город">
+                        <option value="" disabled selected>Город</option>
+                        @for($i = 0; $i < count($cities); $i++)
+                            <option value='{{ $cities[$i] }}'>{{ $cities[$i] }}</option>
+                        @endfor
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="uk-width-1-2">
+                <div id="divPhone" class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon"><i class="fa fa-mobile" aria-hidden="true"></i></span>
+                        <input type="tel" class="uk-input" id="phone" name="phone" required placeholder="Мобильный телефон">
+
+                    </div>
+                </div>
+
+                <div id="divEmail" class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                        <input type="email" class="uk-input" id="email" name="email" pattern="@EmailFieldPattern()" required placeholder="yourname@example.com" maxlength="60">
+
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon"><i class="fa fa-vk" aria-hidden="true"></i></span>
+                        <input type="text" class="uk-input" id="vk_page" name="vk_page" pattern="@VkFieldPattern()" required placeholder="https://vk.com/" maxlength="40">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <h3 class="uk-text-center">Статус</h3>
+        <div class="uk-grid" uk-grid>
+
+            <div class="uk-width-1-2">
+                <div class="uk-margin uk-width-1-1">
+                    <select class="uk-select" name="status" required title="Выберите свой статус">
+                        <option value="" disabled selected>Статус</option>
+                        <option value="student">Студент</option>
+                        <option value="pupil">Школьник</option>
+                        <option value="employee">Работаю</option>
+                        <option value="dumbass">В активном поиске себя</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="uk-width-1-2">
+                <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon"><i class="fa fa-university" aria-hidden="true"></i></span>
+                        <input type="text" class="uk-input" id="institution" name="institution" placeholder="Название учреждения" required maxlength="50">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="uk-text-center">
+            <h3>Я играю</h3>
+        </div>
+
+        <div class="uk-grid" uk-grid>
+
+            <div class="uk-width-1-2">
+                <div class="uk-margin">
+                    <select class="uk-select select2 select2-single" name="primary_game" required title="Выберите свою основную дисциплину">
+                        <option value="" selected disabled>Играю активно</option>
+                        <option value="dota">Dota</option>
+                        <option value="cs:go">CS:GO</option>
+                        <option value="lol">League of Legends</option>
+                        <option value="hearthstone">Hearthstone</option>
+                        <option value="wot">World of Tanks</option>
+                        <option value="overwatch">Overwatch</option>
+                        <option value="cod">Call of Duty (серия игр)</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="uk-width-1-2">
+                <div class="uk-margin">
+                    <select class="uk-select select2 select2-multiple" name="secondary_games[]" required multiple="multiple" title="Выберите доп. дисциплины">
+                        <option value="dota">Dota</option>
+                        <option value="cs:go">CS:GO</option>
+                        <option value="lol">League of Legends</option>
+                        <option value="hearthstone">Hearthstone</option>
+                        <option value="wot">World of Tanks</option>
+                        <option value="overwatch">Overwatch</option>
+                        <option value="cod">Call of Duty (серия игр)</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="uk-margin">
+            <label>
+                <input type="checkbox" class="uk-checkbox" id="inqured" name="inqured" required>
+                Ознакомлен с <a href="#resolution" uk-toggle>условиями</a> и даю согласие на обработку моих данных
+            </label>
+        </div>
+
+        <div class="uk-margin">
+            <button type="submit" id="submit-btn" class="uk-button uk-button-primary">Отправить</button>
+        </div>
+    {!! Form::close() !!}
 
 
 

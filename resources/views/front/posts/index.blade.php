@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="uk-container">
+    <div class="uk-container uk-margin">
         @foreach($posts as $post)
             <div class="habb-post">
                 <h1># {{ $post->title }}</h1>
