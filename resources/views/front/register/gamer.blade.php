@@ -156,11 +156,10 @@
                     <input type="checkbox" class="uk-checkbox" id="inqured" name="inqured" required>
                     Ознакомлен с <a href="#resolution" uk-toggle>условиями</a> и даю согласие на обработку моих данных
                 </label>
-
             </div>
 
             <div class="uk-margin">
-                <button type="submit" id="submit-btn" class="uk-button uk-button-primary btn-block">Отправить</button>
+                <button type="submit" id="submit-btn" class="uk-button uk-button-primary">Отправить</button>
             </div>
             {!! Form::close() !!}
         </div>
