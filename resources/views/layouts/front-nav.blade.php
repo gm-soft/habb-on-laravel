@@ -38,7 +38,7 @@
             </form>
         </div-->
     </div>
-    <div class="uk-navbar-right">
+    <div class="uk-navbar-right uk-visible@m">
         <ul class="uk-navbar-nav">
             @if(Auth::check())
                     <li>
@@ -118,6 +118,39 @@
 
             <li><a href="{{ url('about') }}">О портале</a></li>
             <li><a href="{{ url('contacts') }}">Контакты</a></li>
+
+            @if(Auth::check())
+                <li class="uk-parent">
+                    <a href="#">{{ Auth::user()->name }} <span class="uk-icon uk-margin-small-left" uk-icon="icon: triangle-down"></span></a>
+                    <ul class="uk-nav-sub">
+                        @if(Auth::user()->hasBackendRight())
+                            <li>
+                                <a href="{{ url('admin') }}"><span class="uk-icon uk-margin-small-right" uk-icon="icon: settings"></span> Админка</a>
+                            </li>
+                        @endif
+
+                        <li>
+                            <a href="{{ url('profile') }}"><span class="uk-icon uk-margin-small-right" uk-icon="icon: cog"></span> Профайл</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}"><span class="uk-icon uk-margin-small-right" uk-icon="icon: sign-out"></span> Выйти</a>
+                        </li>
+                    </ul>
+                </li>
+            @else
+                <li>
+                    <a href="{{ route('register') }}">
+                        Зарегистрироваться
+                        <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('login') }}">
+                        Авторизоваться
+                        <span class="uk-icon uk-margin-small-right" uk-icon="icon: sign-in"></span>
+                    </a>
+                </li>
+            @endif
         </ul>
 
         <button class="uk-button uk-button-default uk-offcanvas-close uk-width-1-1 uk-margin" type="button">Закрыть</button>
