@@ -19,7 +19,10 @@
         <hr>
         <div class="uk-grid-small uk-child-width-auto" uk-grid>
             <div>
-                <a class="uk-button uk-button-text" href="{{ url('news') }}"><i class="fa fa-chevron-left" aria-hidden="true"></i> В список новостей</a>
+                <a class="uk-button uk-button-text" href="{{ url('news') }}">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                    В список новостей
+                </a>
             </div>
         </div>
     </div>
