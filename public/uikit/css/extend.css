@@ -1,4 +1,17 @@
 
+.jumbotron-background {
+    background-image: url(../../images/ti.jpg);
+    color: #f8f8f8 !important;
+}
+.item-background {
+    background-image: url(../../images/cup.jpg);
+}
+
+.background-gray {
+    background-color: rgb(255, 255, 255);
+}
+
+
 nav,footer,.uk-offcanvas-bar {
     background-color: #101831 !important;
 }
@@ -156,6 +169,10 @@ nav,footer,.uk-offcanvas-bar {
     margin-top: 3rem !important;
 }
 
+.mt-10 {
+    margin-top: 10rem !important;
+}
+
 .mr-3 {
     margin-right: 3rem !important;
 }
@@ -295,5 +312,10 @@ nav,footer,.uk-offcanvas-bar {
 
 .py-3 {
     padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+}
+
+.py-6-3 {
+    padding-top: 15rem !important;
     padding-bottom: 3rem !important;
 }
