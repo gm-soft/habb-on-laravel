@@ -3,7 +3,7 @@
  */
 
 
-var tournamentHelper = {
+habb.tournamentHelper = {
     // Листенер по нажатию кнопки добавления
     addParticipant : function(){
 
@@ -14,7 +14,7 @@ var tournamentHelper = {
         var name = optionSelected.text();
         if (id == '') return;
         //console.log(name+ ". id:"+id);
-        tournamentHelper.addParticipantToOutputDiv(id, name);
+        this.addParticipantToOutputDiv(id, name);
     },
 
     // Нужно вызывать при генерации страницы
@@ -22,8 +22,8 @@ var tournamentHelper = {
         var addPartButton = $('#addPartButton');
         var typeSelect = $('#tournament_type');
 
-        addPartButton.on('click', tournamentHelper.addParticipant);
-        typeSelect.on('change', tournamentHelper.selectChangeListener);
+        addPartButton.on('click', habb.tournamentHelper.addParticipant);
+        typeSelect.on('change', habb.tournamentHelper.selectChangeListener);
     },
 
     // Добавляет див участника по его имени и айди
@@ -42,7 +42,7 @@ var tournamentHelper = {
         deleteButton.innerHTML = "Удалить <i class=\"fa fa-times\" aria-hidden=\"true\"></i>";
         $(deleteButton)
             .addClass('btn btn-outline-danger')
-            .click({id: id}, tournamentHelper.deleteParticipantEvent)
+            .click({id: id}, habb.tournamentHelper.deleteParticipantEvent)
             .appendTo(buttonDiv);
 
         displDiv.innerHTML = "<b>"+name+"</b>";
@@ -71,7 +71,7 @@ var tournamentHelper = {
         // Слушатель нажатия "Удалить" напротив участника
         var data = event.data;
         var id = data.id;
-        tournamentHelper.deleteParticipantDiv(id);
+        habb.tournamentHelper.deleteParticipantDiv(id);
     },
 
     fillSelect2List : function (selectOptions) {
@@ -95,12 +95,12 @@ var tournamentHelper = {
         console.log(data);
         var url = '/ajax/participantsForSelect';
         var onSuccess = function(res) {
-            tournamentHelper.fillSelect2List(res);
+            habb.tournamentHelper.fillSelect2List(res);
         };
         var onError = function (res) {
             $('#part_select').prop('disabled', false);
         }
-        httpHelpers.AjaxRequest(url, data, onSuccess, onError);
+        habb.httpHelpers.AjaxRequest(url, data, onSuccess, onError);
     },
 
     selectChangeListener : function() {
@@ -108,7 +108,7 @@ var tournamentHelper = {
         $('#part_select').prop('disabled', true);
 
         var option = typeSelect.find('option:selected');
-        tournamentHelper.getParticipants(option.val());
+        habb.tournamentHelper.getParticipants(option.val());
     }
 
 };

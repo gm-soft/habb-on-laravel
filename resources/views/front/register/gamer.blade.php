@@ -257,7 +257,7 @@
         });
 
         $(document).ready(function(){
-            registrationHelpers.RegisterListeners();
+            habb.registrationHelpers.RegisterListeners();
             $('#phone').inputmask({"mask": "8(999)999-9999"});
 
         });

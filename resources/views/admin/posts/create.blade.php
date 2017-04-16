@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <h1 class="mt-1">Новая статья</h1>
-        {!! Form::open(array('action' => array('PostController@store'))) !!}
+        {!! Form::open(['action' => ['PostController@store']]) !!}
         @include('admin/posts/form')
         {!! Form::close() !!}
     </div>

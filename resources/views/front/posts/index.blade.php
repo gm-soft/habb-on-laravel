@@ -9,7 +9,10 @@
 @section('content')
 
     <div class="uk-container uk-margin">
-        @for($i = 0; $i < count($model->news);$i++)
+
+        <h1>Новости портала</h1>
+
+        @for($i = 0; $i < count($model->posts);$i++)
 
             @php
                 /** @var \App\Models\Post $post */
@@ -18,8 +21,14 @@
             @endphp
 
             <div class="habb-post">
-                <a href="{{ $url }}" class="h1 uk-button-text"># {{ $post->title }}</a>
-                {!! $post->getContentShortly(400) !!}
+                <div class="">
+                    <a href="{{ $url }}" class="h2 uk-button uk-button-text"># {{ $post->title }}</a>
+                </div>
+
+                <div class="uk-margin">
+                    {!! $post->getContentShortly(400) !!}
+                </div>
+
 
                 <div>
 

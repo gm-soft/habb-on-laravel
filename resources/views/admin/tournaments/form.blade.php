@@ -123,7 +123,7 @@
                         </div>
 
                         <div class="col-sm-4 text-sm-right">
-                            <a href="#" class="btn btn-outline-danger" onclick="tournamentHelper.deleteParticipantDiv({{ $current_participants[$i]->getIdentifier() }})">
+                            <a href="#" class="btn btn-outline-danger" onclick="habb.tournamentHelper.deleteParticipantDiv({{ $current_participants[$i]->getIdentifier() }})">
                                 Удалить <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                         </div>

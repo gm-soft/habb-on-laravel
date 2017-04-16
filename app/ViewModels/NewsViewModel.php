@@ -19,7 +19,7 @@ class NewsViewModel
      * NewsViewModel constructor.
      * @param Post[] $posts
      */
-    function __construct(array $posts)
+    function __construct($posts)
     {
         $this->posts = $posts;
     }

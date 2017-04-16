@@ -21,7 +21,7 @@
         $(".select2-single").select2({
             placeholder: "Выберите участников",
         });
-        tournamentHelper.registerListeners();
+        habb.tournamentHelper.registerListeners();
 
         $('#form').submit(function(){
             $("#submit-btn").prop('disabled',true);
