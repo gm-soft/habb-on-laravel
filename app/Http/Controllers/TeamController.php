@@ -26,7 +26,7 @@ class TeamController extends Controller
         foreach ($instances as $instance){
             $gamers[$instance->name] = $instance->getGamers();
         }
-        return $this->View('admin/teams/index', [
+        return view('admin/teams/index', [
             "teams" => $instances,
             'gamers' => $gamers
         ]);
@@ -70,7 +70,7 @@ class TeamController extends Controller
         /** @var Team $instance */
         $instance = Team::find($id);
         $gamers = $instance->getGamers();
-        return $this->View('admin.teams.show', [
+        return view('admin.teams.show', [
             'team' => $instance,
             'scores' => $instance->scores,
             'gamers' => $gamers
@@ -83,7 +83,7 @@ class TeamController extends Controller
         $instance = Team::find($id);
         $gamerOptionList = Gamer::getSelectableOptionArray();
 
-        return $this->View('admin.teams.edit', [
+        return view('admin.teams.edit', [
             'team' => $instance,
             'gamerOptionList' => $gamerOptionList
         ]);

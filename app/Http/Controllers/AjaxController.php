@@ -24,7 +24,7 @@ class AjaxController extends Controller
         $type = $request->input('type');
         if (is_null($type)) {
 
-            return $this->Json([
+            return \Response::json([
                 'result' => false,
                 'error' => 'type is empty'
             ], 404);
@@ -47,7 +47,7 @@ class AjaxController extends Controller
             $result[] = $item;
         }
 
-        return $this->Json($result);
+        return \Response::json($result);
     }
 
 

@@ -52,7 +52,7 @@ class PostController extends Controller
         /** @var Post $post */
         $post = Post::find($id);
         $post->decodeHtmlContent();
-        return $this->View('admin/posts/show', [
+        return view('admin/posts/show', [
             'post' => $post,
         ]);
     }
@@ -62,7 +62,7 @@ class PostController extends Controller
         /** @var Post $post */
         $post = Post::find($id);
         $post->content = HTML::decode($post->content);
-        return $this->View('admin/posts/edit', [
+        return view('admin/posts/edit', [
             'post' => $post,
         ]);
     }
@@ -100,7 +100,7 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->delete();
         flash("Пост $id был удален", Constants::Success);
-        return $this->Redirect('/admin/posts/');
+        return Redirect::to('admin/posts/');
     }
     #endregion
 }

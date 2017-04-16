@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         //$this->middleware('auth');
@@ -21,11 +16,12 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function index()
     {
-        return view('front.home.index');
+        return \Redirect::action('FrontController@news');
+        //return view('front.home.index');
     }
 
     public function news() {

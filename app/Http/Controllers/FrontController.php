@@ -24,12 +24,12 @@ class FrontController extends Controller
         return view('front.posts.show', ["post" => $post]);
     }
 
-    public function showAllPosts() {
+    public function news() {
         $posts = Post::all();
         foreach ($posts as $post) {
             $post->decodeHtmlContent();
         }
-        return $this->View('front.posts.index', ["posts" => $posts]);
+        return view('front.posts.index', ["posts" => $posts]);
     }
     #endregion
 
