@@ -2,24 +2,35 @@
 @extends('layouts.front-layout')
 @section('title', 'Новости портала')
 
+    @php
+        /** @var \App\ViewModels\NewsViewModel $model */
+    @endphp
+
 @section('content')
 
     <div class="uk-container uk-margin">
-        @foreach($posts as $post)
+        @for($i = 0; $i < count($model->news);$i++)
+
+            @php
+                /** @var \App\Models\Post $post */
+                $post = $model->posts[$i];
+                $url = url('news/'.$post->id)
+            @endphp
+
             <div class="habb-post">
-                <h1># {{ $post->title }}</h1>
-                {!! $post->getContentShortly(600) !!}
+                <a href="{{ $url }}" class="h1 uk-button-text"># {{ $post->title }}</a>
+                {!! $post->getContentShortly(400) !!}
 
                 <div>
 
                     <i class="fa fa-eye" aria-hidden="true"></i> {{ $post->views }}
                     <div class="uk-float-right">
-                        {{ link_to_action('FrontController@openPost', 'Подробнее', ['id'=>$post->id], ['class' => 'uk-button uk-button-text']) }}
+                        <a href="{{ $url }}" class="uk-button uk-button-text">Подробнее</a>
                     </div>
                 </div>
                 <hr>
             </div>
-        @endforeach
+        @endfor
     </div>
 
 @endsection

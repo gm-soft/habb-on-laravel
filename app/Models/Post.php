@@ -9,13 +9,16 @@ use LaravelArdent\Ardent\Ardent;
 
 /**
  * Class Post
- * @package App\Models
  *
- * @property string title
- * @property string content
- * @property int views
- * @property Carbon created_at
- * @property Carbon updated_at
+ * @package App\Models
+ * @property int $id
+ * @property string $title Заголовок статьи
+ * @property string $content Контент статьи
+ * @property int $views ПРосмотры статьи
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
+ * @mixin \Eloquent
  */
 class Post extends Ardent
 {

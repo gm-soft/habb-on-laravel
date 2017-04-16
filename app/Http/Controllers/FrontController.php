@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Models\Post;
+use App\ViewModels\NewsViewModel;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -29,7 +30,9 @@ class FrontController extends Controller
         foreach ($posts as $post) {
             $post->decodeHtmlContent();
         }
-        return view('front.posts.index', ["posts" => $posts]);
+        $model = new NewsViewModel($posts);
+
+        return view('front.posts.index', ["model" => $model]);
     }
     #endregion
 
