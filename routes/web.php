@@ -64,7 +64,7 @@
     });
     #endregion
 
-    //Route::get('/syncTeams', 'AjaxController@syncTeams');
+
 
     #region Рейтинги во фронте
     Route::group(['prefix' => 'rating'], function () {
@@ -94,6 +94,9 @@
         Route::get('test', 'AjaxController@test');
 
         Route::post('participantsForSelect', 'AjaxController@getParticipantsForSelect');
+
+        Route::get('/syncGamers', 'AjaxController@syncGamers');
+        Route::get('/syncTeams', 'AjaxController@syncTeams');
     });
     #endregion
 
