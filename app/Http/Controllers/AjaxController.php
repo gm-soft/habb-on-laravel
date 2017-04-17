@@ -156,7 +156,7 @@ class AjaxController extends Controller
                 'id' => $item->id,
                 'name' => $item->name,
                 'city' => $item->city,
-                'comment' => !is_null($item->comment) || $item->comment == '' ? $item->comment : 'no comment',
+                'comment' => !is_null($item->comment) || $item->comment == '' ? $item->comment : '-',
 
                 'gamer_ids' => join(', ', $gamer_ids),
                 'gamer_roles' => join(', ', $gamer_roles),
@@ -175,7 +175,7 @@ class AjaxController extends Controller
                 'team_id' => $item->team_id,
                 'game_name' => $item->game_name,
                 'total_value' => $item->total_value,
-                'total_change' => $item->total_change,
+                'total_change' => $item->change_total,
                 'month_value' => $item->month_value,
 
             ];
