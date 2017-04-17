@@ -87,6 +87,8 @@ class AjaxController extends Controller
             $item = $oldGamers[$i];
             $status = !is_null($item->status) ? $item->status : "dumbass";
             $inst = !is_null($item->status) ? $item->institution : "-";
+            $prim_game = strtolower($item->primary_game);
+            $sec_games = strtolower($item->secondary_games);
             $inserts[] = [
                 'id' => $item->id,
                 'name' => $item->name,
@@ -95,13 +97,13 @@ class AjaxController extends Controller
                 'email' => $item->email,
                 'birthday' => $item->birthday,
                 'city' => $item->city,
-                'vk_page' => $item->vk_page,
+                'vk_page' => $item->vk,
                 'status' => $status,
                 'institution' => $inst,
                 'comment' => $item->comment,
                 'lead_id' => $item->lead_id,
-                'secondary_games' => $item->secondary_games,
-                'primary_game' => $item->primary_game,
+                'secondary_games' => $sec_games,
+                'primary_game' => $prim_game,
             ];
             $count++;
         }
@@ -114,7 +116,7 @@ class AjaxController extends Controller
                 'gamer_id' => $item->gamer_id,
                 'game_name' => $item->game_name,
                 'total_value' => $item->total_value,
-                'total_change' => $item->total_change,
+                'total_change' => $item->change_total,
                 'month_value' => $item->month_value,
 
             ];
