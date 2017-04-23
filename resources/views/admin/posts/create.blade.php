@@ -16,6 +16,6 @@
 @section('scripts')
     <script src="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
     <script>
-        ckEditorHelpers.replace('content');
+        CKEDITOR.replace('content');
     </script>
 @endsection
