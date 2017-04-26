@@ -105,4 +105,8 @@ class FrontController extends Controller
         ]);
     }
     #endregion
+
+    public function revealPresentation(){
+        return view('front.reveal');
+    }
 }

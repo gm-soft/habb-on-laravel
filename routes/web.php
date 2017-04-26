@@ -19,15 +19,22 @@
 
     Route::get('/news', 'FrontController@news');
     Route::get('/news/{id}', 'FrontController@openPost');
+
+    Route::get('/reveal', 'FrontController@revealPresentation');
+
     #endregion
 
     #region Ошибки
-    Route::get('/error503', function() {
-        return view('errors.503');
-    });
-    Route::get('/error404', function() {
-        return view('errors.404');
-    });
+
+    if (env('APP_DEBUG')){
+        Route::get('/error503', function() {
+            return view('errors.503');
+        });
+        Route::get('/error404', function() {
+            return view('errors.404');
+        });
+    }
+
     #endregion
 
     #region Руты админки
