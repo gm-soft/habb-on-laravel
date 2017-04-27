@@ -35,4 +35,14 @@ class HomeController extends Controller
     public function contacts() {
         return view('front.home.contacts');
     }
+
+    public function profile(Request $request){
+        $currentUser = \Auth::user();
+        if (is_null($currentUser)) {
+
+            flash('Пользователь не авторизован', Constants::Warning);
+            return \Redirect::to('/');
+        }
+        return view('auth.profile', ['model' => $currentUser]);
+    }
 }
