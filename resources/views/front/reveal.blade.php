@@ -29,17 +29,17 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
         <section>
-            <h1>Reveal.js</h1>
-            <h3>The HTML Presentation Framework</h3>
+            <h1>Habb</h1>
+            <h3>Система учета и автоматизации</h3>
             <p>
-                <small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+                <small>Автор проекта <u>Горбатюк Максим</u></small>
             </p>
         </section>
 
         <section>
-            <h2>Hello There</h2>
+            <h2>Назначение</h2>
             <p>
-                reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
+                Система предназначена для сбора, хранения и учета информации, обрабатываемой командой "Habb"
             </p>
         </section>
 
