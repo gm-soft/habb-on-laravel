@@ -37,43 +37,35 @@
         </section>
 
         <section>
-            <h2>Назначение</h2>
-            <p>
-                Система предназначена для сбора, хранения и учета информации, обрабатываемой командой "Habb"
-            </p>
-        </section>
+            <section>
+                <h2>Назначение</h2>
+                <p>
+                    Система предназначена для сбора, хранения и учета информации, обрабатываемой командой "Habb"
+                </p>
+            </section>
+            <section>
+                <h2>О команде Habb</h2>
+                <p>
+                    Команда "Habb" занимается развитием популярности киберспорта в городе Алматы,
+                    а также привлекая команды и из других городов Казахстана.
+                </p>
 
-        <!-- Example of nested vertical slides -->
-        <section>
-            <section>
-                <h2>Vertical Slides</h2>
-                <p>Slides can be nested inside of each other.</p>
-                <p>Use the <em>Space</em> key to navigate through all slides.</p>
-                <br>
-                <a href="#" class="navigate-down">
-                    <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-                </a>
             </section>
             <section>
-                <h2>Basement Level 1</h2>
-                <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-            </section>
-            <section>
-                <h2>Basement Level 2</h2>
-                <p>That's it, time to go back up.</p>
-                <br>
-                <a href="#/2">
-                    <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-                </a>
+                <h2>Достижения команды Habb</h2>
+                <p>
+                <ul>
+                    <li>Турниры NPL</li>
+                    <li>Памбстомпы по Dota2 и CS:GO</li>
+                    <li>Турниры "Битва за Туран"</li>
+                </ul>
+                <aside class="notes">
+                    В числе результатов деятельности команды не только система постоянных небольших
+                    турниров NPL и памбстомпов, но и крупные мероприятия, как "Битва за Туран".
+                </aside>
             </section>
         </section>
 
-        <section>
-            <h2>Slides</h2>
-            <p>
-                Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-            </p>
-        </section>
 
         <section>
             <h2>Point of View</h2>
