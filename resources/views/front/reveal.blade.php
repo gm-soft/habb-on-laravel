@@ -12,10 +12,8 @@
     <link rel="stylesheet" href="{{ asset('thirdparty/reveal/css/reveal.css') }}">
     <link rel="stylesheet" href="{{ asset('thirdparty/reveal/css/theme/black.css') }}" id="theme">
 
-
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="{{ asset('thirdparty/reveal/css/zenburn.css') }}">
-
 
     <!--[if lt IE 9]>
     <script src="{{ asset('thirdparty/reveal/js/html5shiv.js') }}"></script>
@@ -36,9 +34,10 @@
             </p>
         </section>
 
+        <!-- Назначение приложения -->
         <section>
             <section>
-                <h2>Назначение</h2>
+                <h2>Назначение приложения</h2>
                 <p class="mt-3">
                     Система предназначена для сбора, хранения и учета информации, обрабатываемой командой "Habb"
                 </p>
@@ -65,7 +64,7 @@
             </section>
         </section>
 
-
+        <!-- Цель проекта -->
         <section>
             <section>
                 <h2>Цель проекта</h2>
@@ -147,6 +146,7 @@
 
         </section>
 
+        <!-- Принцип работы над проектом -->
         <section>
             <h2>Принцип работы над проектом</h2>
             <ul>
@@ -155,6 +155,7 @@
             </ul>
         </section>
 
+        <!-- Два пути разработки -->
         <section>
             <section>
                 <h2>Два пути разработки</h2>
@@ -224,6 +225,7 @@
             </section>
         </section>
 
+        <!-- Agile методология -->
         <section>
             <section>
                 <h2>Agile методология</h2>
@@ -254,6 +256,8 @@
             </section>
         </section>
 
+
+        <!-- Требования к системе "Habb" -->
         <section>
             <section>
                 <h2>Требования к системе "Habb"</h2>
@@ -319,281 +323,280 @@
 
         </section>
 
-
-
-        <section data-markdown>
-            <script type="text/template">
-                ## Markdown support
-
-                Write content using inline or external Markdown.
-                Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-                ```
-                <section data-markdown>
-                    ## Markdown support
-
-                    Write content using inline or external Markdown.
-                    Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-                </section>
-                ```
-            </script>
-        </section>
-
+        <!-- Проектирование и технологии -->
         <section>
-            <section id="fragments">
-                <h2>Fragments</h2>
-                <p>Hit the next arrow...</p>
-                <p class="fragment">... to step through ...</p>
-                <p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+            <section>
+                <h2>Проектирование приложения</h2>
+                <p>
+                    Архитектура приложения, структурные компоненты, платформа веб-приложения.
+                </p>
+            </section>
 
-                <aside class="notes">
-                    This slide has fragments which are also stepped through in the notes window.
-                </aside>
+            <section>
+                <h2>Структура приложения</h2>
+                <ul>
+                    <li>Веб-портал (Laravel 5.4 - PHP7)</li>
+                    <li>База данных (MySQL)</li>
+                    <li>Веб-сервер (Apache)</li>
+                    <li>Хостинг VPS (Virtual Private Server)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Структурные модули веб-портала</h2>
+                <ul>
+                    <li>Работа CRUD с аккаунтами пользователей, командами, новостными постами и турнирами</li>
+                    <li>Синхронизация с CRM "Битрикс24"</li>
+                    <li>Внешний интерфейс (фронт-энд)</li>
+                    <li>Сайт для администратора (бэк-энд)</li>
+                    <li>Формы регистрации</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Архитектура веб-портала</h2>
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>Model</th>
+                        <td>Абстракции в БД</td>
+                        <td>Объекты реального мира в виде абстракций</td>
+                    </tr>
+
+                    <tr>
+                        <th>View</th>
+                        <td>Представление модели</td>
+                        <td>Веб-страницы, на которых отображены модели БД</td>
+                    </tr>
+
+                    <tr>
+                        <th>Controller</th>
+                        <td>Взаимодействие моделей и представлений</td>
+                        <td>Описывают взаимодействие и трансформации моделей и представлений</td>
+                    </tr>
+                    </tbody>
+                </table>
             </section>
             <section>
-                <h2>Fragment Styles</h2>
-                <p>There's different types of fragments, like:</p>
-                <p class="fragment grow">grow</p>
-                <p class="fragment shrink">shrink</p>
-                <p class="fragment fade-out">fade-out</p>
-                <p class="fragment fade-up">fade-up (also down, left and right!)</p>
-                <p class="fragment current-visible">current-visible</p>
-                <p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
-            </section>
-        </section>
-
-        <section id="transitions">
-            <h2>Transition Styles</h2>
-            <p>
-                You can select from different transitions, like: <br>
-                <a href="?transition=none#/transitions">None</a> -
-                <a href="?transition=fade#/transitions">Fade</a> -
-                <a href="?transition=slide#/transitions">Slide</a> -
-                <a href="?transition=convex#/transitions">Convex</a> -
-                <a href="?transition=concave#/transitions">Concave</a> -
-                <a href="?transition=zoom#/transitions">Zoom</a>
-            </p>
-        </section>
-
-        <section id="themes">
-            <h2>Themes</h2>
-            <p>
-                reveal.js comes with a few themes built in: <br>
-                <!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-                <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-            </p>
-        </section>
-
-        <section>
-            <section data-background="#dddddd">
-                <h2>Slide Backgrounds</h2>
+                <h2>Архитектура веб-портала</h2>
                 <p>
-                    Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
+                    Конструирование внешнего интерфейса веб-портала
                 </p>
-                <a href="#" class="navigate-down">
-                    <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-                </a>
-            </section>
-            <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-                <h2>Image Backgrounds</h2>
-                <pre><code class="hljs">&lt;section data-background="image.png"&gt;</code></pre>
-            </section>
-            <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-                <h2>Tiled Backgrounds</h2>
-                <pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-            </section>
-            <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-                <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-                    <h2>Video Backgrounds</h2>
-                    <pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-                </div>
-            </section>
-            <section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-                <h2>... and GIFs!</h2>
+                <ul>
+                    <li>Bootstrap 4 (https://v4-alpha.getbootstrap.com/) - панель администратора</li>
+                    <li>UIKit 3 (https://getuikit.com/) - внешний интерфейс</li>
+                </ul>
             </section>
         </section>
 
-        <section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-            <h2>Background Transitions</h2>
-            <p>
-                Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-            </p>
-            <pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-        </section>
+        <section>
+            <section>
+                <h2>Программная реализация проекта</h2>
+                <p>
+                    Примеры программного кода
+                </p>
+            </section>
 
-        <section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-            <h2>Background Transitions</h2>
-            <p>
-                You can override background transitions per-slide.
-            </p>
-            <pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
+            <section>
+                <h2>Модель "Аккаунт"</h2>
+                <p>
+                    Код, описывающий свойства и поведение модели
+                </p>
+                <pre>
+                    <code class="hljs" data-trim contenteditable style="font-size: 16px;">
+                    class Gamer extends Ardent
+                        implements ISelectableOption, ITournamentParticipant
+                    {
+                        use FormAccessible, SoftDeletes;
+
+                        public static $rules = [
+                            'name'      => 'required',
+                            'last_name' => 'required',
+                            'email'     => 'required|between:3,100|email|unique:gamers',
+                            'phone'     => 'required|unique:gamers',
+                        ];
+
+                        protected $table = "gamers";
+                        protected $fillable = array(
+                            'name','last_name','phone',
+                            'email','birthday','city',
+                            'vk_page','status','institution',
+                            'comment','lead_id'
+                        );
+
+                        protected $dates = [
+                            'birthday', 'deleted_at'
+                        ];
+                        protected $casts = [
+                            'secondary_games' => 'array'
+                        ];
+                        public static $relationsData = [
+                            'scores' => [self::HAS_MANY, 'GamerScore']
+                        ];
+
+                        /**
+                         * Массив привязанных очков GamerScore
+                         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+                         */
+                        public function scores()
+                        {
+                            return $this->hasMany('App\Models\GamerScore');
+                        }
+                    }
+                    </code>
+                </pre>
+            </section>
+
+            <section>
+                <h2>Модель "Очки аккаунта"</h2>
+                <p>Набор очков аккаунта по дисциплинам</p>
+                <pre>
+                        <code class="hljs" data-trim contenteditable style="font-size: 16px;">
+                            class GamerScore extends Ardent implements IScoreInstance
+                            {
+                                protected $table = 'gamer_scores';
+                                protected $fillable = ['game_name'];
+
+                                public static $relationsData = [
+                                    'gamer' => [self::BELONGS_TO, 'Gamer']
+                                ];
+
+                                public function gamer()
+                                {
+                                    return $this->belongsTo('App\Models\Gamer');
+                                }
+
+                                /**
+                                 * Возвращает массив стандартных очков
+                                 * @param null $games
+                                 * @return array
+                                 */
+                                public static function getScoreSet($games = null) {
+                                    $games = !is_null($games) ? $games : Constants::getGameArray();
+                                    $result = [];
+                                    foreach ($games as $game) {
+                                        $result[] = new self(['game_name' => $game]);
+                                    }
+                                    return $result;
+                                }
+                            }
+                        </code>
+                    </pre>
+            </section>
+
+            <section>
+                <h2>Миграции БД</h2>
+                <pre>
+                    <code class="hljs" data-trim contenteditable style="font-size: 16px;">
+                        class CreateGamersTable extends Migration
+                        {
+                            public function up()
+                            {
+                                Schema::create('gamers', function (Blueprint $table) {
+                                    $table->increments('id');
+                                    $table->string('name')
+                                        ->comment("Имя");
+                                    $table->string('last_name')
+                                        ->comment("Фамилия");
+                                    $table->string('phone')
+                                        ->unique()->comment("Номер телефона");
+                                    $table->string('email')
+                                        ->unique()->comment("Email");
+                                    $table->dateTime('birthday')
+                                        ->comment("День рождения человека");
+                                    $table->string('city')
+                                        ->comment("Город, указанный при регистрации");
+                                    $table->string('vk_page')
+                                        ->comment("Ссылка на профиль Вконтакте");
+
+                                    $table->string('status')
+                                        ->comment("Ученик/Студент/Работает/Тунеядец");
+                                    $table->string('institution')
+                                        ->comment("Место, где занят человек");
+
+                                    $table->text('comment')->nullable()
+                                        ->comment("Комментарий пользователя к данному аккаунту");
+
+                                    $table->string('lead_id')
+                                        ->nullable()->comment("Связанный лид в CRM");
+                                    $table->timestamps();
+                                });
+                            }
+
+                            public function down()
+                            {
+                                Schema::dropIfExists('gamers');
+                            }
+                        }
+                    </code>
+                </pre>
+            </section>
+
+            <section>
+                <h2>Маршрутизация</h2>
+                <pre>
+                    <code class="hljs" data-trim contenteditable>
+                        Route::get('/home', 'HomeController@index');
+                        Route::get('/news', 'FrontController@news');
+                        Route::get('/news/{id}', 'FrontController@openPost');
+
+                        Route::group(['prefix' => 'admin', 'middleware' => 'admin.access'], function () {
+                            Route::get('/', 'AdminController@index');
+                            // Геймеры
+                            Route::resource('gamers', 'GamerController');
+                            Route::post('gamerScoreUpdate', 'GamerController@scoreUpdate');
+                        });
+                    </code>
+                </pre>
+            </section>
+
+            <section>
+                <h2>Контроллеры</h2>
+                <pre>
+                    <code class="hljs" data-trim contenteditable style="font-size: 16px;">
+                        class FrontController extends Controller
+                        {
+                            public function openPost($id){
+                                $post = Post::find($id);
+                                $user = \Auth::user();
+                                if (\Auth::guest() || !$user->hasBackendRight()) {
+                                    $post->views = $post->views+1;
+                                    $post->save();
+                                }
+                                $post->decodeHtmlContent();
+                                return view('front.posts.show', ["post" => $post]);
+                            }
+
+                            public function news() {
+                                $posts = Post::all();
+                                foreach ($posts as $post) {
+                                    $post->decodeHtmlContent();
+                                }
+                                $model = new NewsViewModel($posts);
+
+                                return view('front.posts.index', ["model" => $model]);
+                            }
+                        }
+                    </code>
+                </pre>
+            </section>
+
+            <section>
+                <h2>Шаблоны представления</h2>
+                <img src="{{ asset('images/reveal/blade.png') }}" height="400">
+            </section>
+
+            <section>
+                <h2>Шаблоны представления. Макет</h2>
+                <img src="{{ asset('images/reveal/layout.png') }}" height="400">
+            </section>
+
         </section>
 
         <section>
-            <h2>Pretty Code</h2>
-            <pre><code class="hljs" data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-            <p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+            <h2>Q & A</h2>
+            <h4>Вопросы и ответы</h4>
         </section>
-
-        <section>
-            <h2>Marvelous List</h2>
-            <ul>
-                <li>No order here</li>
-                <li>Or here</li>
-                <li>Or here</li>
-                <li>Or here</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>Fantastic Ordered List</h2>
-            <ol>
-                <li>One is smaller than...</li>
-                <li>Two is smaller than...</li>
-                <li>Three!</li>
-            </ol>
-        </section>
-
-        <section>
-            <h2>Tabular Tables</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Value</th>
-                    <th>Quantity</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Apples</td>
-                    <td>$1</td>
-                    <td>7</td>
-                </tr>
-                <tr>
-                    <td>Lemonade</td>
-                    <td>$2</td>
-                    <td>18</td>
-                </tr>
-                <tr>
-                    <td>Bread</td>
-                    <td>$3</td>
-                    <td>2</td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section>
-            <h2>Clever Quotes</h2>
-            <p>
-                These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-                    &ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-            </p>
-            <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-                &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-                reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-            </blockquote>
-        </section>
-
-        <section>
-            <h2>Intergalactic Interconnections</h2>
-            <p>
-                You can link between slides internally,
-                <a href="#/2/3">like this</a>.
-            </p>
-        </section>
-
-        <section>
-            <h2>Speaker View</h2>
-            <p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-            <p>Press the <em>S</em> key to try it out.</p>
-
-            <aside class="notes">
-                Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-            </aside>
-        </section>
-
-        <section>
-            <h2>Export to PDF</h2>
-            <p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-            <iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-        </section>
-
-        <section>
-            <h2>Global State</h2>
-            <p>
-                Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-                will be added as a class to the document element when the slide is open. This lets you
-                apply broader style changes, like switching the page background.
-            </p>
-        </section>
-
-        <section data-state="customevent">
-            <h2>State Events</h2>
-            <p>
-                Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-            </p>
-            <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-        </section>
-
-        <section>
-            <h2>Take a Moment</h2>
-            <p>
-                Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-            </p>
-        </section>
-
-        <section>
-            <h2>Much more</h2>
-            <ul>
-                <li>Right-to-left support</li>
-                <li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-                <li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-                <li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-                <li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-            </ul>
-        </section>
-
-        <section style="text-align: left;">
-            <h1>THE END</h1>
-            <p>
-                - <a href="http://slides.com">Try the online editor</a> <br>
-                - <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-            </p>
-        </section>
-
-    </div>
-
 </div>
 
 <script src="{{ asset('thirdparty/jquery-3.1.1.min.js') }}"></script>
