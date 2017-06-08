@@ -1,5 +1,5 @@
 <footer class="">
     <div class="uk-container">
-        HE:LLO
+        HABB.KZ - Киберспортивная организация. 2017 год
     </div>
 </footer>

@@ -61,7 +61,13 @@
                         </div>
                     </li>
             @else
-                <li><a href="{{ route('register') }}">Зарегистрироваться <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span></a></li>
+                <li>
+                    <a href="{{ url('register/gamer') }}">
+                        <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
+                        Регистрация
+                    </a>
+                </li>
+                <!--li><a href="{{ route('register') }}">Зарегистрироваться <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span></a></li-->
                 <li><a href="{{ route('login') }}">Авторизоваться <span class="uk-icon uk-margin-small-right" uk-icon="icon: sign-in"></span></a></li>
             @endif
         </ul>
