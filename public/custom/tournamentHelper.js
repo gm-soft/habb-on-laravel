@@ -14,7 +14,7 @@ habb.tournamentHelper = {
         var name = optionSelected.text();
         if (id == '') return;
         //console.log(name+ ". id:"+id);
-        this.addParticipantToOutputDiv(id, name);
+        habb.tournamentHelper.addParticipantToOutputDiv(id, name);
     },
 
     // Нужно вызывать при генерации страницы
