@@ -144,8 +144,14 @@
                     </ul>
                 </li>
             @else
-                <li>
+                <!--li>
                     <a href="{{ route('register') }}">
+                        Зарегистрироваться
+                        <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
+                    </a>
+                </li-->
+                <li>
+                    <a href="{{ url('register/gamer') }}">
                         Зарегистрироваться
                         <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
                     </a>
