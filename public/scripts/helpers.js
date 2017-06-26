@@ -54,8 +54,8 @@
         accountModalTitle   : null,
         accountModalBody    : null,
         vkInput             : null,
-        dangerClass         : "uk-form-danger",
-        successClass        : "uk-form-success",
+        dangerInputClass         : "form-control-danger",
+        successinputClass        : "form-control-success",
 
         _markFields : function(field, statement) {
 
@@ -63,16 +63,16 @@
 
                 if (field == "phone") {
 
-                    this.phoneInput.addClass(this.dangerClass);
-                    this.phoneInput.removeClass(this.successClass);
+                    this.phoneInput.addClass(this.dangerInputClass);
+                    this.phoneInput.removeClass(this.successinputClass);
 
                     //this.divPhone.addClass("has-danger");
                     //this.divPhone.removeClass("has-success");
 
 
                 } else if (field == "email") {
-                    this.emailInput.addClass(this.dangerClass);
-                    this.emailInput.removeClass(this.successClass);
+                    this.emailInput.addClass(this.dangerInputClass);
+                    this.emailInput.removeClass(this.successinputClass);
 
                     //this.divEmail.addClass("has-danger");
                     //this.divEmail.removeClass("has-success");
@@ -83,15 +83,15 @@
             } else {
                 if (field == "phone") {
 
-                    this.phoneInput.addClass(this.successClass);
-                    this.phoneInput.removeClass(this.dangerClass);
+                    this.phoneInput.addClass(this.successinputClass);
+                    this.phoneInput.removeClass(this.dangerInputClass);
 
                     //this.divPhone.addClass("has-success");
                     //this.divPhone.removeClass("has-danger");
 
                 } else if (field == "email") {
-                    this.emailInput.addClass(this.successClass);
-                    this.emailInput.removeClass(this.dangerClass);
+                    this.emailInput.addClass(this.successinputClass);
+                    this.emailInput.removeClass(this.dangerInputClass);
 
                     //this.divEmail.addClass("has-success");
                     //this.divEmail.removeClass("has-danger");
@@ -121,7 +121,7 @@
 
                     habb.registrationHelpers._markFields(field, exists);
                     if (exists == false) return;
-                    UIkit.modal('#accountModal').show();
+                    $('#accountModal').modal('show');
                     //$('#accountModal').modal('show');
                 }
             });
@@ -158,8 +158,8 @@
             this.phoneInput.blur(function(){
                 if ($(this).val() == "")  {
 
-                    $(this).removeClass(habb.registrationHelpers.dangerClass);
-                    $(this).removeClass(habb.registrationHelpers.successClass);
+                    $(this).removeClass(habb.registrationHelpers.dangerInputClass);
+                    $(this).removeClass(habb.registrationHelpers.successinputClass);
                     //registrationHelpers.divPhone.removeClass("has-danger");
                     //registrationHelpers.divPhone.removeClass("has-success");
                     return;
@@ -172,8 +172,8 @@
 
                 if ($(this).val() == "")  {
 
-                    $(this).removeClass(habb.registrationHelpers.dangerClass);
-                    $(this).removeClass(habb.registrationHelpers.successClass);
+                    $(this).removeClass(habb.registrationHelpers.dangerInputClass);
+                    $(this).removeClass(habb.registrationHelpers.successinputClass);
                     //registrationHelpers.divEmail.removeClass("has-danger");
                     //registrationHelpers.divEmail.removeClass("has-success");
                     return;

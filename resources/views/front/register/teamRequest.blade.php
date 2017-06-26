@@ -3,10 +3,12 @@
 @section('title', 'Регистрация заявки на команду')
 
 @section('content')
-    <div class="uk-container">
-        <div class="uk-margin uk-text-center">
+    <div class="container mt-2">
+        
+        <div class="my-2 text-center">
             <h1>Заявка на создание команды</h1>
         </div>
+
         {!! Form::open(['action' => ['TeamCreateRequestController@registerTeamFormPost'], 'id' => 'form']) !!}
 
         <div class="uk-grid" uk-grid>

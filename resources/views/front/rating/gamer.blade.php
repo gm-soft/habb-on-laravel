@@ -3,18 +3,20 @@
 @section('title', 'Рейтинг игроков')
 
 @section('content')
-    <div class="uk-container uk-margin">
-        <h1 class="uk-margin">Топ игроков <span class="uk-float-right">{{ $game }}</span></h1>
+    <div class="container mt-2">
+        <h1 class="my-1">
+            Топ игроков <span class="float-md-right">{{ $game }}</span>
+        </h1>
 
-        <div class="uk-margin uk-float-right">
-            <div class="uk-button-group">
-                <a href="{{ url('rating/gamers', ['game' => 'cs:go']) }}" class="uk-button uk-button-default">CS:GO</a>
-                <a href="{{ url('rating/gamers', ['game' => 'dota']) }}" class="uk-button uk-button-default">Dota 2</a>
-                <a href="{{ url('rating/gamers', ['game' => 'hearthstone']) }}" class="uk-button uk-button-default">Hearthstone</a>
+        <div class="my-2 float-md-right">
+            <div class="btn-group" role="group">
+                <a href="{{ url('rating/gamers', ['game' => 'cs:go']) }}" class="btn btn-secondary">CS:GO</a>
+                <a href="{{ url('rating/gamers', ['game' => 'dota']) }}" class="btn btn-secondary">Dota 2</a>
+                <a href="{{ url('rating/gamers', ['game' => 'hearthstone']) }}" class="btn btn-secondary">Hearthstone</a>
             </div>
         </div>
 
-        <table class="uk-table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th>Позиция</th>
@@ -85,10 +87,6 @@
             @endfor
             </tbody>
         </table>
-
-        <div class="uk-margin uk-text-center">
-            <a href="#" uk-totop uk-scroll class="uk-button uk-button-default">Наверх</a>
-        </div>
     </div>
 
 @endsection
