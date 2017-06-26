@@ -1,15 +1,17 @@
-<nav class="navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{{url('admin/')}}">
+<nav class="navbar navbar-toggleable-md navbar-inverse navbar-dark">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button"
+                data-toggle="collapse" data-target="#backendNavbar"
+                aria-controls="backendNavbar" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{{url('admin')}}">
             Habb Админка
         </a>
 
-        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
-        <div class="collapse navbar-toggleable-md" id="navbarResponsive">
-
-            <ul class="nav navbar-nav">
-
+        <div class="collapse navbar-collapse" id="backendNavbar">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="front" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Фронт</a>
                     <div class="dropdown-menu" aria-labelledby="front">
@@ -50,29 +52,18 @@
                         <a class="dropdown-item" href="{{ url('phpmyadmin') }}"><i class="fa fa-database" aria-hidden="true"></i> PhpMyAdmin</a>
                     </div>
                 </li>
+            </ul>
 
-                @if(Auth::check())
-                    <li class="nav-item dropdown  float-sm-right">
-                        <a class="nav-link dropdown-toggle" href="#" id="profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="profile">
-                            <a class="dropdown-item" href="{{ url('profile') }}"><i class="fa fa-cog" aria-hidden="true"></i> Профайл</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Выйти</a>
-                        </div>
-                    </li>
-                @else
-                    <li class="nav-item float-sm-right">
-                        <a class="nav-link" href="{{ route('register') }}">Зарегистрироваться</a>
-                    </li>
-                    <li class="nav-item float-sm-right">
-                        <a class="nav-link" href="{{ route('login') }}">Авторизоваться</a>
-                    </li>
-                @endif
-
-
-
-
+            <ul class="navbar-nav float-md-right">
+                <li class="nav-item dropdown  float-md-right">
+                    <a class="nav-link dropdown-toggle" href="#" id="profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="profile">
+                        <a class="dropdown-item" href="{{ url('profile') }}"><i class="fa fa-cog" aria-hidden="true"></i> Профайл</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Выйти</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
