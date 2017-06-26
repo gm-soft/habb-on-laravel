@@ -30,6 +30,9 @@
         Route::get('/error503', function() {
             return view('errors.503');
         });
+        Route::get('/error500', function() {
+            return view('errors.500');
+        });
         Route::get('/error404', function() {
             return view('errors.404');
         });

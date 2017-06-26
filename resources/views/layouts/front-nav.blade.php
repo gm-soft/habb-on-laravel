@@ -13,9 +13,6 @@
 
         <div class="collapse navbar-collapse" id="frontendNavbar">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
@@ -28,6 +25,20 @@
                         <a class="dropdown-item" href="{{ url('rating/teams') }}">Командный рейтинг</a>
 
                         <a class="dropdown-item" href="{{ url('rating/gamers') }}">Персональный рейтинг</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Регистрации заявок
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="ratingsMenu">
+
+                        <a class="dropdown-item" href="{{ url('register/team') }}">Заявка на команду</a>
+
+                        <a class="dropdown-item" href="{{ url('register/gamer') }}">Аккаунт игрока</a>
                     </div>
                 </li>
 

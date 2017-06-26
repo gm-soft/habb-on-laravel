@@ -3,10 +3,10 @@
 
 @section('content')
 
-    <div class="uk-container">
-        <div class="uk-text-center my-3">
+    <div class="container">
+        <div class="my-3 text-center">
             <h1 class="display-2">Сайт на реконструкции</h1>
-            <p class="uk-text-lead">
+            <p class="lead">
                 Не беспокойтесь, мы скоро вернемся!
             </p>
         </div>

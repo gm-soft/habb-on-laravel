@@ -4,18 +4,21 @@
 
 @section('content')
     <div class="container">
-        <div class="mt-1">
+        <div class="my-2">
             <h1>Заявка №{{ $instance->id }}</h1>
-            <span class="text-muted float-sm-left">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</span>
-            <span class="float-sm-right">
-                {{ link_to_action('TeamCreateRequestController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
-                {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-secondary']) }}
-                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
-            </span>
+            <div class="d-flex d-inline justify-content-between">
+                <div class="text-muted">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</div>
+                <div class="">
+                    {{ link_to_action('TeamCreateRequestController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
+                    {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-secondary']) }}
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
+                </div>
+            </div>
+
         </div>
 
-        <div class="row mt-3">
-            <div class="col-sm-6">
+        <div class="row mt-2">
+            <div class="col-md-6">
                 <dl class="row">
                     <dt class="col-sm-6">Название</dt>       <dd class="col-sm-6 text-sm-right">{{ $instance->name }}</dd>
                     <dt class="col-sm-6">Город</dt>          <dd class="col-sm-6 text-sm-right">{{ $instance->city }}</dd>
@@ -57,7 +60,8 @@
 
 
             </div>
-            <div class="col-sm-6">
+
+            <div class="col-md-6">
                 <table class="table table-striped table-small">
                     <thead>
                     <tr>
@@ -89,9 +93,6 @@
                 </table>
 
             </div>
-
-        </div>
-        <div class="mt-1">
 
         </div>
     </div>
