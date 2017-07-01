@@ -8,11 +8,11 @@
 
 @section('content')
 
-    <div class="uk-container uk-margin">
+    <div class="container">
 
-        <h1>Профиль {{ $model->name }}</h1>
+        <h1 class="mt-2">Профиль {{ $model->name }}</h1>
 
-        <dl class="uk-description-list">
+        <dl class="">
             <dt>Роль</dt>
             <dd>{{ $model->role }}</dd>
 
@@ -21,8 +21,8 @@
         </dl>
 
         <hr>
-        <div class="uk-margin">
-            <a class="uk-button uk-button-text" href="{{ url('password/reset') }}">Сбросить пароль</a>
+        <div class="mt-2">
+            <a class="btn btn-link" href="{{ url('password/reset') }}">Сбросить пароль</a>
         </div>
 
     </div>

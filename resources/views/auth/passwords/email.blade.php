@@ -4,17 +4,17 @@
 
 @section('content')
 
-    <div class="uk-container">
-        <h1>Восстановление пароля</h1>
+    <div class="container">
+        <h1 class="mt-2">Восстановление пароля</h1>
 
         <form method="POST" action="{{ route('password.email') }}">
             {{ csrf_field() }}
 
-            <div class="form-group{{ $errors->has('email') ? 'uk-form-danger' : '' }}">
-                <input id="email" type="email" class="uk-input" name="email" value="{{ old('email') }}" required placeholder="Адрес email">
+            <div class="form-group {{ $errors->has('email') ? 'has-feedback' : '' }}">
+                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required placeholder="Адрес email">
 
                 @if ($errors->has('email'))
-                    <span class="uk-text-danger">
+                    <span class="text-danger">
                         <strong>{{ $errors->first('email') }}</strong>
                     </span><br>
                 @endif
@@ -22,8 +22,8 @@
             </div>
 
             <div class="form-group">
-                <div class="uk-float-right">
-                    <button type="submit" class="uk-button uk-button-primary">
+                <div class="float-md-right">
+                    <button type="submit" class="btn btn-primary">
                         Послать запрос на восстановление пароля
                     </button>
                 </div>

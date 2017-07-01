@@ -4,57 +4,60 @@
 
 @section('content')
 
-    <div class="uk-container">
-        <h1>Регристрация</h1>
+    <div class="container">
+        <h1 class="mt-3 text-md-center">Регистрация</h1>
 
         <form method="POST" action="{{ route('register') }}">
             {{ csrf_field() }}
 
-            <div class="uk-margin">
-                <input type="text" class="uk-input"
-                       name="name" value="{{ old('name') }}" placeholder="Введите ваше имя" required>
+            <div class="form-group">
+
+                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Введите ваше имя" required>
+
                 @if ($errors->has('name'))
-                    <span class="uk-text-danger">
+                    <span class="text-danger">
                         <strong>{{ $errors->first('name') }}</strong>
                     </span><br>
                 @endif
+
                 <small>Скажите нам, как Вас зовут</small>
             </div>
 
-            <div class="uk-margin">
-                <input type="email" class="uk-input" name="email" value="{{ old('email') }}"
-                       placeholder="Введите ваш email" required>
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Введите ваш email" required>
+
                 @if ($errors->has('email'))
-                    <span class="uk-text-danger">
+                    <span class="text-danger">
                         <strong>{{ $errors->first('email') }}</strong>
                     </span><br>
                 @endif
+
                 <small>Email будет использоваться как логин</small>
             </div>
 
-            <div class="uk-margin">
-                <input type="password" class="uk-input" name="password"
-                       placeholder="Введите пароль" required>
+            <div class="form-group">
+                <input type="password" class="form-control" name="password" placeholder="Введите пароль" required>
 
                 @if ($errors->has('password'))
-                    <span class="uk-text-danger">
+                    <span class="text-danger">
                         <strong>{{ $errors->first('password') }}</strong>
                     </span><br>
                 @endif
+
                 <small>Минимальная длина пароля: 6 символов</small>
             </div>
 
-            <div class="uk-margin">
-                <input type="password" class="uk-input" name="password_confirmation" placeholder="Подтвердите пароль">
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" name="password_confirmation" placeholder="Подтвердите пароль">
                 <small>Введите пароль еще раз</small>
             </div>
 
-            <div class="uk-margin">
-                <div class="uk-float-right">
-                    <button type="submit" class="uk-button uk-button-primary">
+            <div class="form-group">
+                <div class="float-md-right">
+                    <button type="submit" class="btn btn-primary">
                         Зарегистрироваться
                     </button>
-                    <a href="{{ route('password.request') }}" class="uk-button uk-button-text uk-margin-left">Забыли ваш пароль?</a>
+                    <a href="{{ route('password.request') }}" class="btn btn-link float-md-left">Забыли ваш пароль?</a>
                 </div>
 
             </div>
