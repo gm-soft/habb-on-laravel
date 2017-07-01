@@ -2,10 +2,14 @@
 @extends('layouts.front-layout')
 @section('title', 'Рейтинг команд')
 
+@php
+    /** @var \App\ViewModels\Front\TeamRatingViewModel $model */
+@endphp
+
 @section('content')
     <div class="container mt-2">
         <h1 class="uk-margin">
-            Топ команд <span class="float-md-right">{{ $game }}</span>
+            Топ команд <span class="float-md-right">{{ $model->game }}</span>
         </h1>
 
         <div class="my-2 float-md-right">
@@ -33,7 +37,7 @@
             <tbody>
             {{-- Выводим список команд, у которых очков больше указанного значения --}}
             @php($position = 0)
-            @for($i = 0; $i < count($greater); $i++)
+            @for($i = 0; $i < count($model->greater); $i++)
 
                 @if ($i == 0)
                     {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Premium", 9) !!}
@@ -56,12 +60,12 @@
                 @endif
 
                 @php
-                    $team = $greater[$i];
+                    $team = $model->greater[$i];
                     $position++;
                     $name = "<b>".$team->name."</b><br>"."ID ".$team->id;
                     $score = $team->total_value. " (". \App\Helpers\HtmlWrappers::WrapScoreChange($team->total_change) .")";
 
-                    $teamGamers = $gamers[$team->name];
+                    $teamGamers = $model->gamers[$team->name];
                 @endphp
                 <tr>
                     <td>{{ $position }}</td>
@@ -90,18 +94,18 @@
 
 
             {{-- Cписок участников, у которых очков меньше указанного значения --}}
-            @for($i = 0; $i < count($bellow); $i++)
+            @for($i = 0; $i < count($model->bellow); $i++)
 
                 @if ($i == 0)
                     {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Below the line", 9) !!}
                 @endif
 
                 @php
-                    $team = $bellow[$i];
+                    $team = $model->bellow[$i];
                     $position++;
                     $name = "ID ".$team->id." <b>".$team->name."</b>";
                     $score = $team->total_value. " (". \App\Helpers\HtmlWrappers::WrapScoreChange($team->total_change) .")";
-                    $teamGamers = $gamers[$team->name];
+                    $teamGamers = $model->gamers[$team->name];
 
                 @endphp
                 <tr>

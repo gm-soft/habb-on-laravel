@@ -2,10 +2,13 @@
 @extends('layouts.front-layout')
 @section('title', 'Рейтинг игроков')
 
+    @php
+        /** @var \App\ViewModels\Front\RatingViewModelBase $model */
+    @endphp
 @section('content')
     <div class="container mt-2">
         <h1 class="my-1">
-            Топ игроков <span class="float-md-right">{{ $game }}</span>
+            Топ игроков <span class="float-md-right">{{ $model->game }}</span>
         </h1>
 
         <div class="my-2 float-md-right">
@@ -28,7 +31,7 @@
             <tbody>
             {{-- Выводим список участников, у которых очков больше указанного значения --}}
             @php($position = 0)
-            @for($i = 0; $i < count($greater); $i++)
+            @for($i = 0; $i < count($model->greater); $i++)
 
                 @if ($i == 0)
                     {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Premium") !!}
@@ -51,7 +54,7 @@
                 @endif
 
                 @php
-                    $row = $greater[$i];
+                    $row = $model->greater[$i];
                     $position++;
                     $name = "ID ".$row->id." <b>".$row->name." ".$row->last_name."</b>";
                     $score = $row->total_value. " (". \App\Helpers\HtmlWrappers::WrapScoreChange($row->total_change) .")";
@@ -65,14 +68,14 @@
                 </tr>
             @endfor
             {{-- Cписок участников, у которых очков меньше указанного значения --}}
-            @for($i = 0; $i < count($bellow); $i++)
+            @for($i = 0; $i < count($model->bellow); $i++)
 
                 @if ($i == 0)
                     {!! \App\Helpers\HtmlWrappers::AddRatingHeaderRow("Below the line") !!}
                 @endif
 
                 @php
-                    $row = $bellow[$i];
+                    $row = $model->bellow[$i];
                     $position++;
                     $name = "ID ".$row->id." <b>".$row->name." ".$row->last_name."</b>";
                     $score = $row->total_value. " (". \App\Helpers\HtmlWrappers::WrapScoreChange($row->total_change) .")";

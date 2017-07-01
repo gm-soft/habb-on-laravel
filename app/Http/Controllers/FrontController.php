@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Models\Post;
+use App\ViewModels\Front\RatingViewModelBase;
+use App\ViewModels\Front\TeamRatingViewModel;
 use App\ViewModels\NewsViewModel;
 use Illuminate\Http\Request;
 
@@ -52,14 +54,18 @@ class FrontController extends Controller
             else $bellowTheLine[] = $item;
         }
 
-        return view('front.rating.gamer', [
-            'game' => $game,
-            'greater' => $graterPoint,
-            'bellow' => $bellowTheLine
-        ]);
+        $model = new RatingViewModelBase();
+        $model->game = $game;
+        $model->greater = $graterPoint;
+        $model->bellow = $bellowTheLine;
+
+        return view('front.rating.gamer', [ 'model' => $model ]);
     }
 
     public function teamRating($game = Constants::CsGo){
+
+        $model = new TeamRatingViewModel();
+        $model->game = $game;
         $rating = \DB::table('teams')
             ->join('team_scores', 'teams.id', '=', 'team_scores.team_id')
             ->where('team_scores.game_name', '=', $game)
@@ -67,7 +73,7 @@ class FrontController extends Controller
             ->orderBy('team_scores.total_value', 'desc')
             ->get();
 
-        $gamers = [];
+        $model->gamers = [];
 
         foreach ($rating as $item) {
             $gamerIds = explode(', ', $item->gamer_ids);
@@ -87,22 +93,17 @@ class FrontController extends Controller
                     ->first();
                 $gamersToAdd[] = $row;
             }
-            $gamers[$item->name] = $gamersToAdd;
+            $model->gamers[$item->name] = $gamersToAdd;
         }
 
-        $graterPoint = [];
-        $bellowTheLine = [];
+        $model->greater = [];
+        $model->bellow = [];
         foreach ($rating as $item) {
-            if ($item->total_value > 5) $graterPoint[] = $item;
-            else $bellowTheLine[] = $item;
+            if ($item->total_value > 5) $model->greater[] = $item;
+            else $model->bellow[] = $item;
         }
 
-        return view('front.rating.team', [
-            'game' => $game,
-            'gamers' => $gamers,
-            'greater' => $graterPoint,
-            'bellow' => $bellowTheLine
-        ]);
+        return view('front.rating.team', [ 'model' => $model]);
     }
     #endregion
 
