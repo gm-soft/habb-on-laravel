@@ -109,7 +109,6 @@
                         @endif
                     </div>
                 </div>
-                </p>
             </div>
         </div>
     </div>
@@ -200,7 +199,7 @@
 
 </div>
 
-<div class="form-group">
+<div class="form-group mt-2">
     <button type="submit" id="submit-btn" class="btn btn-primary">Сохранить</button>
 
 </div>

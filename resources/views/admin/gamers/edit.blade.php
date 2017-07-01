@@ -1,13 +1,18 @@
 
 @extends('layouts.admin-layout')
 @section('title', 'Редактирование записи')
-
+@php
+    /** @var \App\ViewModels\Back\GamerShowViewModel $model */
+@endphp
 @section('content')
     <div class="container">
-        <h1 class="mt-1">Редактирование записи {{ $gamer->name }}</h1>
+        <h1 class="mt-1">Редактирование записи {{ $model->gamer->name }}</h1>
         <div class="">
 
-            {!! Form::model($gamer, ['method' => 'put', 'action' => ['GamerController@update', $gamer->id]]) !!}
+            {!! Form::model($model->gamer, ['method' => 'put', 'action' => ['GamerController@update', $model->gamer->id]]) !!}
+            @php
+                $gamer = $model->gamer;
+            @endphp
             @include('admin/gamers/form')
             {!! Form::close() !!}
 

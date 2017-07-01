@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property mixed name
  * @property string email
  * @property string password
+ * @property string gamer_id
  *
  * @package App\Models
  */
@@ -21,20 +22,10 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
@@ -75,5 +66,12 @@ class User extends Authenticatable
 
     public function getName() {
         return $this->name;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne | \App\Models\Gamer
+     */
+    public function gamer(){
+        return $this->hasOne('App\Gamer');
     }
 }

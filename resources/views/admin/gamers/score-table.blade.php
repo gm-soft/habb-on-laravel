@@ -1,4 +1,8 @@
 
+@php
+    /** @var \App\ViewModels\Back\GamerShowViewModel $model */
+@endphp
+
 <table class="table table-striped">
     <thead>
     <tr>
@@ -10,7 +14,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($gamer->scores as $score)
+    @foreach($model->gamer->scores as $score)
 
         @php( $monthChanged = $score->total_value - $score->month_value)
         <tr>
@@ -19,7 +23,7 @@
             <td>{{ $score->total_change }}</td>
             <td>{{ $monthChanged }}</td>
             <td>
-                {!! Form::open(['method' => 'post', 'action' => ['GamerController@scoreUpdate', $gamer->id]]) !!}
+                {!! Form::open(['method' => 'post', 'action' => ['GamerController@scoreUpdate', $model->gamer->id]]) !!}
                 <input type="hidden" name="gamer_id" value="{{$score->gamer_id}}">
                 <input type="hidden" name="game_name" value="{{$score->game_name}}">
                 <div class="input-group">

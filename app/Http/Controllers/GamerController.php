@@ -67,20 +67,20 @@ class GamerController extends Controller
     {
         /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
-        return view('admin.gamers.show', [
-            'gamer' => $gamer,
-            'scores' => $gamer->scores
-        ]);
+        $model = new \App\ViewModels\Back\GamerShowViewModel();
+        $model->gamer = $gamer;
+        $model->scores = $gamer->scores;
+        return view('admin.gamers.show', [ 'model' => $model]);
     }
 
     public function edit($id)
     {
         /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
-        return view('admin.gamers.edit', [
-            'gamer' => $gamer,
-            'scores' => $gamer->scores
-        ]);
+        $model = new \App\ViewModels\Back\GamerShowViewModel();
+        $model->gamer = $gamer;
+        $model->scores = $gamer->scores;
+        return view('admin.gamers.edit', ['model' => $model]);
     }
 
     public function update(Request $request, $id)

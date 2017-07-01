@@ -59,7 +59,8 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'secondary_games' => 'array'
     ];
     public static $relationsData = [
-        'scores' => [self::HAS_MANY, 'GamerScore']
+        'scores' => [self::HAS_MANY, 'GamerScore'],
+        'users' => [self::BELONGS_TO, 'User']
     ];
 
     /**
@@ -69,6 +70,10 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     public function scores()
     {
         return $this->hasMany('App\Models\GamerScore');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User');
     }
 
     #region Кастомные функции модели
