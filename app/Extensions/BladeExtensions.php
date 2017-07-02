@@ -73,9 +73,9 @@ class BladeExtensions
             return Constants::VkPageRegexPattern;
         });
 
-        Blade::directive('VkFieldPattern', function() {
+        /*Blade::directive('VkFieldPattern', function() {
             return '^(https:\/\/)?(vk\.com)([\/\w \.-]{1,50})*\/?$';
-        });
+        });*/
     }
     public static function AddSelectSnippets() {
         Blade::directive('renderCitiesSelect', function($selectedCity = null,

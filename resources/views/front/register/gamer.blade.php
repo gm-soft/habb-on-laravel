@@ -3,98 +3,79 @@
 @section('title', 'Регистрация игрока')
 
 @section('content')
-    <div class="container mt-2">
-        <div class="text-center my-3">
-            <h1 class="">Регистрация участника HABB</h1>
+    <div class="container mt-2 registration-container">
+        <div class="my-3">
+            <h1 class="text-center ">Регистрация участника HABB</h1>
         </div>
 
 
-        {!! Form::open(['action' => ['GamerController@createGamerAccount'], 'id' => 'form']) !!}
+        {!! Form::open(['action' => ['GamerController@createGamerAccount'], 'class' => 'habb_form__tag']) !!}
 
-        <div class="row">
-            <div class="col-md-6">
+        <div class="mt-1">
 
-                <div class="form-group">
-                    <div class="input-group">
+            <div class="form-group">
+                <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </span>
-                        <input type="text" id="name" name="name" class="form-control" required placeholder="Имя" maxlength="50" >
+                    <input type="text" id="name" name="name" class="form-control" required placeholder="Имя" maxlength="50" >
 
-                    </div>
                 </div>
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                        </span>
-                        <input type="text" id="last_name" name="last_name" class="form-control" required placeholder="Фамилия" maxlength="50">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                        </span>
-
-                        @if ($iOsDevice)
-
-                            <input type="date" class="form-control" id="birthday" name="birthday" required placeholder="Дата рождения">
-
-                        @else
-                            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')"
-                                   class="form-control" id="birthday" name="birthday" required placeholder="Дата рождения">
-
-                        @endif
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <select class="form-control" name="city" required title="ВЫберите город">
-                        <option value="" disabled selected>Город</option>
-                        @for($i = 0; $i < count($cities); $i++)
-                            <option value='{{ $cities[$i] }}'>{{ $cities[$i] }}</option>
-                        @endfor
-                    </select>
-                </div>
-
             </div>
 
-            <div class="col-md-6">
-                <div id="divPhone" class="form-group">
-                    <div class="input-group">
+            <div class="form-group">
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </span>
+                    <input type="text" id="last_name" name="last_name" class="form-control" required placeholder="Фамилия" maxlength="50">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control habb_input-birthday__tag"
+                       name="birthday" placeholder="Дата рождения" required>
+            </div>
+
+
+            <div class="form-group">
+                <select class="form-control" name="city" required title="Выберите город">
+                    <option value="" disabled selected>Город</option>
+                    @for($i = 0; $i < count($cities); $i++)
+                        <option value='{{ $cities[$i] }}'>{{ $cities[$i] }}</option>
+                    @endfor
+                </select>
+            </div>
+
+            <div class="form-group habb_form-group-phone__tag">
+                <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-mobile" aria-hidden="true"></i>
                         </span>
-                        <input type="tel" class="form-control" id="phone" name="phone" required placeholder="Мобильный телефон">
+                    <input type="tel" class="form-control habb_input-phone__tag" name="phone" required placeholder="Мобильный телефон">
 
-                    </div>
                 </div>
+            </div>
 
-                <div id="divEmail" class="form-group">
-                    <div class="input-group">
+            <div class="form-group habb_form-group-email__tag">
+                <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </span>
-                        <input type="email" class="form-control" id="email"
-                               name="email" pattern="@EmailFieldPattern()" required placeholder="yourname@example.com" maxlength="100">
+                    <input type="email" class="form-control habb_input-email__tag"
+                           name="email" pattern="@EmailFieldPattern()" required placeholder="yourname@example.com" maxlength="100">
 
-                    </div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <div class="input-group">
+            <div class="form-group">
+                <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-vk" aria-hidden="true"></i>
                         </span>
-                        <input type="text" class="form-control" id="vk_page" name="vk_page"
-                               pattern="@VkFieldPattern()" required placeholder="https://vk.com/" maxlength="50">
-                    </div>
+                    <input type="text" class="form-control habb_input-vk__tag" name="vk_page"
+                           pattern="@VkFieldPattern()" required placeholder="https://vk.com/" maxlength="50">
                 </div>
-
             </div>
         </div>
 
@@ -162,13 +143,13 @@
 
         <div class="form-group form-check">
             <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" id="inqured" name="inqured" required>
+                <input type="checkbox" class="form-check-input habb_form-check-input__tag" name="inqured" required>
                 Ознакомлен с <a href="#" data-toggle="modal" data-target="#resolution">условиями</a> и даю согласие на обработку моих данных
             </label>
         </div>
 
         <div class="form-group">
-            <button type="submit" id="submit-btn" class="btn btn-primary">Отправить</button>
+            <button type="submit" id="submit-btn" class="btn btn-primary btn-block">Отправить</button>
         </div>
     {!! Form::close() !!}
 
@@ -219,13 +200,13 @@
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="modalConfirmButton" class="btn btn-primary" data-dismiss="modal">Согласен</button>
+                        <button type="button" class="btn btn-primary habb_modal-confirm-btn__tag" data-dismiss="modal">Согласен</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModal" aria-hidden="true">
+        <div class="modal fade habb_account_modal__tag" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -252,25 +233,11 @@
 @section('scripts')
     <script src="{{ asset('thirdparty/select2/select2.js') }}"></script>
     <script src="{{ asset('thirdparty/inputmask/jquery.inputmask.bundle.js') }}"></script>
+    <script src="{{ asset('scripts/registrationHelpers.js') }}"></script>
     <script type="text/javascript">
 
-        $('.select2').select2();
-        $(".select2-multiple").select2({
-            placeholder: "Иногда играю (можно выбрать несколько)",
-        });
-
-        $(".select2-single").select2({
-            placeholder: "Играю активно",
-        });
-
-        $('#form').submit(function(){
-            $("#submit-btn").prop('disabled',true);
-        });
-
-        $(document).ready(function(){
+        $(function(){
             habb.registrationHelpers.RegisterListeners();
-            $('#phone').inputmask({"mask": "8(999)999-9999"});
-
         });
     </script>
 @endsection

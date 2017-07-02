@@ -1,80 +1,93 @@
-/**
- * Created by Next on 19.03.2017.
- */
 
+(function() {
 
-habb.tournamentHelper = {
+    habb.tournamentHelpers = {
+        registerListeners : registerListeners,
+        deleteParticipantDiv : deleteParticipantDiv
+    };
+
+    // Нужно вызывать при генерации страницы
+    function registerListeners () {
+        var addPartButton = $('#addPartButton');
+        var typeSelect = $('#tournament_type');
+
+        addPartButton.on('click', _addParticipant);
+        typeSelect.on('change', _selectChangeListener);
+
+        var removeButton = $('.habb_btn-participant-remove__tag');
+        removeButton.click(function(){
+            var id = $(this).attr('data-participant-id');
+            habb.tournamentHelpers.deleteParticipantDiv(id);
+        });
+    }
+
     // Листенер по нажатию кнопки добавления
-    addParticipant : function(){
+    function _addParticipant (){
 
         var select = $('#part_select');
         var optionSelected = select.find('option:selected');
 
         var id = optionSelected.val();
         var name = optionSelected.text();
-        if (id == '') return;
-        //console.log(name+ ". id:"+id);
-        habb.tournamentHelper.addParticipantToOutputDiv(id, name);
-    },
+        if (id === '') return;
 
-    // Нужно вызывать при генерации страницы
-    registerListeners : function () {
-        var addPartButton = $('#addPartButton');
-        var typeSelect = $('#tournament_type');
+        _addParticipantToOutputDiv(id, name);
+    }
 
-        addPartButton.on('click', habb.tournamentHelper.addParticipant);
-        typeSelect.on('change', habb.tournamentHelper.selectChangeListener);
-    },
+
 
     // Добавляет див участника по его имени и айди
-    addParticipantToOutputDiv : function(id, name) {
+    function _addParticipantToOutputDiv(id, name) {
 
         var outputDiv = $('#outputDiv');
 
-        var displDiv = document.createElement('div');
+        var displayDiv = document.createElement('div');
         var buttonDiv = document.createElement('div');
 
-        $(displDiv).addClass('col-sm-8');
+        $(displayDiv).addClass('col-sm-8');
         $(buttonDiv).addClass('col-sm-4').addClass('text-sm-right');
 
         var deleteButton = document.createElement('a');
         deleteButton.href = "#";
         deleteButton.innerHTML = "Удалить <i class=\"fa fa-times\" aria-hidden=\"true\"></i>";
         $(deleteButton)
+            .attr('data-participant-id', id)
             .addClass('btn btn-outline-danger')
-            .click({id: id}, habb.tournamentHelper.deleteParticipantEvent)
+            .addClass('habb_div-participant-remove__tag')
+            .click({id: id}, _deleteParticipantEvent)
             .appendTo(buttonDiv);
 
-        displDiv.innerHTML = "<b>"+name+"</b>";
-        $(displDiv).append('<input type=hidden name="participant_ids[]" value="'+id+'">');
+        displayDiv.innerHTML = "<b>"+name+"</b>";
+        $(displayDiv).append('<input type=hidden name="participant_ids[]" value="'+id+'">');
 
 
         var participantDiv = document.createElement('div');
-        participantDiv.id = 'participant_'+id;
         $(participantDiv)
+            .attr('data-participant-id', id)
             .addClass('row')
             .addClass('mt-1')
-            .append(displDiv)
+            .append(displayDiv)
             .append(buttonDiv)
             .appendTo(outputDiv);
-    },
+    }
 
     // Удаление дива участника
-    deleteParticipantDiv : function(id) {
-        console.log(id);
-        var participantDiv = $('#participant_'+id);
-        participantDiv.remove();
-    },
+    function deleteParticipantDiv (id) {
+
+        var divs = $('.habb_participant-wrapper__tag');
+        var div = divs.find("[data-participant-id="+id+"]");
+        div.remove();
+    }
 
     // Слушатель нажатия кнопки удаления
-    deleteParticipantEvent : function(event) {
+    function _deleteParticipantEvent (event) {
         // Слушатель нажатия "Удалить" напротив участника
         var data = event.data;
         var id = data.id;
-        habb.tournamentHelper.deleteParticipantDiv(id);
-    },
+        habb.tournamentHelpers.deleteParticipantDiv(id);
+    }
 
-    fillSelect2List : function (selectOptions) {
+    function _fillSelect2List (selectOptions) {
 
         var select = $('#part_select');
         select.find('option').remove();
@@ -88,30 +101,31 @@ habb.tournamentHelper = {
             select.append(option);
         }
         select.prop('disabled', false);
-    },
+    }
 
-    getParticipants : function (type) {
+    function getParticipants (type) {
         var data = {type : type};
-        console.log(data);
+
         var url = '/ajax/participantsForSelect';
+
         var onSuccess = function(res) {
-            habb.tournamentHelper.fillSelect2List(res);
+            _fillSelect2List(res);
         };
-        var onError = function (res) {
+        var onError = function (xhr, status, errorThrown) {
             $('#part_select').prop('disabled', false);
         }
-        habb.httpHelpers.AjaxRequest(url, data, onSuccess, onError);
-    },
+        habb.utils.AjaxRequest(url, data, onSuccess, onError);
+    }
 
-    selectChangeListener : function() {
+    function _selectChangeListener () {
         var typeSelect = $('#tournament_type');
         $('#part_select').prop('disabled', true);
 
         var option = typeSelect.find('option:selected');
-        habb.tournamentHelper.getParticipants(option.val());
+        getParticipants(option.val());
     }
 
-};
+}());
 
 
 

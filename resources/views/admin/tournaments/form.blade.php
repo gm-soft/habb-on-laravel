@@ -112,18 +112,19 @@
         </div>
 
         <h4>Выбранные участники</h4>
-        <div id="outputDiv">
+        <div id="outputDiv" class="habb_participant-wrapper__tag">
             @if($current_participants ?? null)
                 @for($i = 0; $i < count($current_participants); $i++)
 
-                    <div id="participant_{{ $current_participants[$i]->getIdentifier() }}" class="row mt-1">
+                    <div class="row mt-1" data-participant-id="{{$current_participants[$i]->getIdentifier()}}">
                         <div class="col-sm-8">
                             <b>{{ $current_participants[$i]->getName() }}</b>
                             <input type="hidden" name="participant_ids[]" value="{{ $current_participants[$i]->getIdentifier() }}">
                         </div>
 
                         <div class="col-sm-4 text-sm-right">
-                            <a href="#" class="btn btn-outline-danger" onclick="habb.tournamentHelper.deleteParticipantDiv({{ $current_participants[$i]->getIdentifier() }})">
+                            <a href="#" class="btn btn-outline-danger habb_btn-participant-remove__tag"
+                               data-participant-id="{{$current_participants[$i]->getIdentifier()}}">
                                 Удалить <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                         </div>

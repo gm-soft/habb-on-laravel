@@ -14,17 +14,19 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('custom/tournamentHelper.js') }}"></script>
+    <script src="{{ asset('scripts/tournamentHelpers.js') }}"></script>
     <script src="{{ asset('thirdparty/select2/select2.min.js') }}"></script>
     <script type="text/javascript">
 
         $(".select2-single").select2({
             placeholder: "Выберите участников",
         });
-        habb.tournamentHelper.registerListeners();
 
-        $('#form').submit(function(){
-            $("#submit-btn").prop('disabled',true);
+        $(function(){
+            $('#form').submit(function(){
+                $("#submit-btn").prop('disabled',true);
+            });
+            habb.tournamentHelpers.registerListeners();
         });
     </script>
 @endsection

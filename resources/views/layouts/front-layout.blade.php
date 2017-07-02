@@ -24,7 +24,8 @@
         <script src="{{ asset('thirdparty/jquery-3.1.1.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/tether.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('scripts/helpers.js') }}"></script>
+        <script src="{{ asset('scripts/framework.js') }}"></script>
+        <script src="{{ asset('scripts/utils.js') }}"></script>
 
         @yield('scripts')
     </body>
