@@ -20,8 +20,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return \Redirect::action('FrontController@news');
-        //return view('front.home.index');
+        return view('front.home.index');
     }
 
     public function news() {
