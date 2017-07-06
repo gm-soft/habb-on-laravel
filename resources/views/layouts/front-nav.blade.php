@@ -78,21 +78,24 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="#" title="Наше сообщество Вконтакте" data-toggle="tooltip" data-placement="bottom">
+                        <a class="nav-link" href="https://vk.com/habb_kz" title="Наше сообщество Вконтакте"
+                           data-toggle="tooltip" data-placement="bottom">
                             <i class="fa fa-vk fa-2x nav-icons" aria-hidden="true"></i>
                         </a>
 
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#" title="Мы в инстаграме" data-toggle="tooltip" data-placement="bottom">
+                        <a class="nav-link" href="https://www.instagram.com/habb.kz/" title="Мы в инстаграме"
+                           data-toggle="tooltip" data-placement="bottom">
                             <i class="fa fa-instagram fa-2x nav-icons" aria-hidden="true"></i>
                         </a>
 
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#" title="Наш канал на youtube" data-toggle="tooltip" data-placement="bottom">
+                        <a class="nav-link" href="https://www.youtube.com/channel/UCyqFsI2CP2k29A1Uk14asxQ/featured"
+                           title="Наш канал на youtube" data-toggle="tooltip" data-placement="bottom">
                             <i class="fa fa-youtube-play fa-2x nav-icons" aria-hidden="true"></i>
                         </a>
 
