@@ -4,16 +4,31 @@
 }
 
 footer {
-    background-color: #292E3A;
+    background-color: #080817;
     color: #e2e2e4;
 }
 
-.bg-challonge {
-   background-color: #292E3A !important;
+
+.bg-habb {
+    background-color: #080817 !important;
 }
 
-.bg-custom {
-    background-color: #c8eaf3 !important;
+.bg-habb-with-color {
+    background-color: #080817 !important;
+    color: #e2e2e4 !important;
+}
+
+.habb-div-bar {
+    background-color: #1DD2F2;
+    height: 1px;
+}
+
+.nav-icons {
+    color: #e2e2e4;
+}
+
+.habb_home-option-block {
+    min-height: 200px !important;
 }
 
 .input-group-addon {

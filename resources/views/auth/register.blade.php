@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="container registration-container">
         <h1 class="mt-3 text-md-center">Регистрация</h1>
 
         <form method="POST" action="{{ route('register') }}">

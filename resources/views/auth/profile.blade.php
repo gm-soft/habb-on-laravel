@@ -8,7 +8,7 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="container registration-container">
 
         <h1 class="mt-2">Профиль {{ $model->name }}</h1>
 

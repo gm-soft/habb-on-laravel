@@ -28,11 +28,12 @@ abstract class HtmlWrappers
      * @return string
      */
     public static function AddRatingHeaderRow($tdContent, $tdCount = 4, $contentPos = 2){
-        $result = "<tr class=\"bg-custom\">";
+        $result = "<tr class=\"bg-habb-with-color\">";
         for ($i = 1; $i <= $tdCount; $i++){
             $result .= $i == $contentPos ? "<td><b>$tdContent</b></td>" : "<td></td>";
         }
         $result .= "</tr>";
+        $result .= "<tr class='habb-div-bar'></tr>";
         return $result;
     }
 
