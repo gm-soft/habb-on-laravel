@@ -18,9 +18,9 @@ class AdminAccess
      */
     public function handle($request, Closure $next)
     {
-        if ($request->ajax()) {
+        /*if ($request->ajax()) {
             return $next($request);
-        }
+        }*/
 
         if (!Auth::check()) {
             flash(Messages::PermissionRequired, Constants::Error);

@@ -25,6 +25,8 @@ abstract class Constants
     const Info = "info";
     const Warning = "warning";
 
+    const NotFoundSmile = '¯\_(ツ)_/¯';
+
     const EmailRegexPattern = '^([A-Za-z0-9_\.-]+)@([A-Za-z0-9_\.-]+)\.([a-z\.]{2,10})$';
     const PhoneRegexPattern = '^(8)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$';
     const VkPageRegexPattern = '^(https:\/\/)?(vk\.com)([\/\w \.-]{1,50})*\/?$';

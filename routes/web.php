@@ -59,6 +59,9 @@
         Route::resource('tournaments', 'TournamentController');
         Route::post('tournamentScoreUpdate', 'TournamentController@scoreUpdate');
 
+        // Пользователи системы
+        Route::resource('users', 'UserController');
+
         // Заявки
         Route::group(['prefix' => 'requests'], function() {
             // на создание команды
