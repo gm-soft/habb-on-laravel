@@ -70,7 +70,6 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     public function scores()
     {
         $scores = $this->hasMany('App\Models\GamerScore');
-        logger(\GuzzleHttp\json_encode($scores));
         return $scores;
     }
 
