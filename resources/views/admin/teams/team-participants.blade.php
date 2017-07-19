@@ -12,7 +12,7 @@
 
         @php
             /** @var \App\Models\GamerScore[] $scores */
-            $scores = $gamer->scores;
+            $scores = $gamer->getScores();
             $fullName = $gamer->name. " " . $gamer->last_name;
 
         @endphp

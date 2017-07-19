@@ -69,7 +69,7 @@ class GamerController extends Controller
         $gamer = Gamer::find($id);
         $model = new \App\ViewModels\Back\GamerShowViewModel();
         $model->gamer = $gamer;
-        $model->scores = $gamer->scores;
+        $model->scores = $gamer->getScores();
         return view('admin.gamers.show', [ 'model' => $model]);
     }
 

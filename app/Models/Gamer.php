@@ -69,7 +69,9 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function scores()
     {
-        return $this->hasMany('App\Models\GamerScore');
+        $scores = $this->hasMany('App\Models\GamerScore');
+        logger(\GuzzleHttp\json_encode($scores));
+        return $scores;
     }
 
     public function user(){
@@ -159,6 +161,17 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     public function getClass()
     {
         return strtolower(class_basename($this));
+    }
+
+    /**
+     * @return GamerScore[]|array
+     */
+    public function getScores(){
+        if (is_null($this->scores) || count($this->scores) == 0) {
+            $this->scores = GamerScore::getScoreSet();
+            $this->scores()->saveMany($this->scores);
+        }
+        return $this->scores;
     }
 
 
