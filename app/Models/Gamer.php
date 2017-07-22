@@ -185,7 +185,12 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         }
 
         foreach ($gamers as $gamer) {
-            $gamerOptionList[$gamer->getIdentifier()] = $gamer->getName() + "[ID"+$gamer->getIdentifier()+"]";
+
+            $id = $gamer->getIdentifier();
+            $name = $gamer->getName();
+            $fullName = "$name [ID$id]";
+
+            $gamerOptionList[$id] = $fullName;
         }
         return $gamerOptionList;
     }
