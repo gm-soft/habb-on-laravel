@@ -76,8 +76,8 @@ class FrontController extends Controller
         $model->gamers = [];
 
         foreach ($rating as $item) {
-            $gamerIds = explode(', ', $item->gamer_ids);
-            $gamerRoles = explode(', ', $item->gamer_roles);
+            $gamerIds = explode(',', $item->gamer_ids);
+            $gamerRoles = explode(',', $item->gamer_roles);
             $gamersToAdd = [];
 
             for($i = 0; $i < count($gamerIds); $i++) {
