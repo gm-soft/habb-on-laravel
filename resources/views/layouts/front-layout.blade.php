@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/frontend.css') }}">
     @yield('styles')
+    @include("layouts.Metrika")
+
 </head>
     <body>
         @include("layouts.front-nav")
