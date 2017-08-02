@@ -34,7 +34,7 @@
                     <td><b>{{ link_to_action('GamerController@show', $name, ['id' => $gamers[$i]->id]) }}</b></td>
                     <td>{{ $gamers[$i]->phone  }}</td>
                     <td>{{ $gamers[$i]->email  }}</td>
-                    <td>{{ $gamers[$i]->vk_page  }}</td>
+                    <td><a href="{{ $gamers[$i]->vk_page  }}">{{ $gamers[$i]->vk_page  }}</a></td>
                     <td>{{ $gamers[$i]->primary_game  }}</td>
                 </tr>
 
