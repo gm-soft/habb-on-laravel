@@ -45,17 +45,28 @@ trait GamerConstructor
         $phone = $this->formatPhone($input['phone']);
         $gamer->phone       = $phone;
         $gamer->email       = $input['email'];
-        $gamer->birthday    = $input['birthday'];
-        $gamer->city        = $input['city'];
-        $gamer->vk_page     = $input['vk_page'];
-        $gamer->status      = $input['status'];
-        $gamer->institution = $input['institution'];
-        $gamer->comment     = isset($input['comment']) ? $input['comment'] : null;
-        $gamer->lead_id     = isset($input['lead_id']) ? $input['lead_id'] : null;
 
-        $gamer->primary_game = $input['primary_game'];
-        $gamer->secondary_games = $input['secondary_games'];
+        $gamer->birthday    = $this->getValueOrDefault($input, 'birthday');
+        $gamer->city        = $this->getValueOrDefault($input, 'city');
+        $gamer->vk_page     = $this->getValueOrDefault($input, 'vk_page');
+        $gamer->status      = $this->getValueOrDefault($input, 'status');
+        $gamer->institution = $this->getValueOrDefault($input, 'institution');
+        $gamer->comment     = $this->getValueOrDefault($input, 'comment');
+        $gamer->lead_id     = $this->getValueOrDefault($input, 'lead_id');
+
+        $gamer->primary_game = $this->getValueOrDefault($input, 'primary_game');
+        $gamer->secondary_games = $this->getValueOrDefault($input, 'secondary_games');
 
         return $gamer;
+    }
+
+    /**
+     * @param array $input
+     * @param string $key
+     * @param mixed|null $defaultValue
+     * @return mixed|null
+     */
+    private function getValueOrDefault(array $input, $key, $defaultValue = null){
+        return isset($input[$key]) ? $input[$key] : $defaultValue;
     }
 }

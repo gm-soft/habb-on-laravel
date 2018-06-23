@@ -113,6 +113,18 @@
     });
     #endregion
 
+    #region Api-routes
+    Route::group(['prefix' => 'api'], function() {
+
+        Route::post('create_gamer', 'ApiController@createGamer');
+
+        /* Разрешаю и пост, и гет запросы. Чего блокировать-то? */
+        Route::get('get_gamer', 'ApiController@getGamer');
+        Route::post('get_gamer', 'ApiController@getGamer');
+    });
+
+    #endregion
+
     #region Авторизационные пути
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('login', 'Auth\LoginController@login');
