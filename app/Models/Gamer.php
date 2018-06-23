@@ -34,7 +34,10 @@ use LaravelArdent\Ardent\Ardent;
  * @property Carbon created_at
  * @property Carbon deleted_at
  *
+ * @property int external_service_id
+ *
  * @property GamerScore[] scores
+ * @property ExternalService externalService
  */
 class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 {
@@ -60,8 +63,9 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'secondary_games' => 'array'
     ];
     public static $relationsData = [
-        'scores' => [self::HAS_MANY, 'GamerScore'],
-        'users' => [self::BELONGS_TO, 'User']
+        'scores'            => [self::HAS_MANY, 'GamerScore'],
+        'users'             => [self::BELONGS_TO, 'User'],
+        'external_services' => [self::BELONGS_TO, 'ExternalService', "external_services"]
     ];
 
     /**
@@ -76,6 +80,10 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 
     public function user(){
         return $this->belongsTo('App\User');
+    }
+
+    public function externalService(){
+        return $this->belongsTo('App\ExternalService');
     }
 
     #region Кастомные функции модели

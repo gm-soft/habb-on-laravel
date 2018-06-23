@@ -54,6 +54,7 @@
         });
     </script>
 @endsection
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('thirdparty/dataTables/dataTables.min.css') }}">
 @endsection

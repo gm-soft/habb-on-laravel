@@ -73,7 +73,7 @@
         // Ключ-Значение
         Route::resource('keyValues', 'KeyValueController');
 
-
+        Route::resource('external_services', 'ExternalServicesController');
     });
     #endregion
 
