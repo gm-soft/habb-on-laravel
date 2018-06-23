@@ -239,8 +239,11 @@ class GamerController extends Controller
         }
 
         $gamer = DB::table('gamers')->where($field , '=', $searchable)->first();
-        $result = ['result' => true, 'exists' => !is_null($gamer)];
-        return response()->json($result);
+
+        return response()->json([
+            'result' => true,
+            'exists' => !is_null($gamer)
+        ]);
     }
 
 

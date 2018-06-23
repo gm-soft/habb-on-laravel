@@ -114,7 +114,7 @@
     Route::group(['prefix' => 'api'], function () {
 
         Route::group(['prefix' => 'gamers'], function () {
-            Route::post('/create', 'ApiController@createGamer');
+            Route::match(['get', 'post'], '/create', 'ApiController@createGamer');
 
             Route::match(['get', 'post'], '/{id}', 'ApiController@getGamer');
         });

@@ -17,5 +17,8 @@ abstract class HttpStatuses
 
     const NotFound = 404;
 
+    // 422 - Unprocessable entity
+    const NotValidData = 422;
+
     const ServerError = 500;
 }

@@ -28,12 +28,6 @@ class GamerNullableFields extends Migration
                 -> change();
 
             $table
-                ->string('vk_page')
-                ->nullable()
-                ->comment("Ссылка на профиль Вконтакте")
-                -> change();
-
-            $table
                 ->string('status')
                 ->nullable()
                 ->comment("Ученик/Студент/Работает/Тунеядец")
@@ -65,12 +59,6 @@ class GamerNullableFields extends Migration
                 ->string('city')
                 ->nullable(false)
                 ->comment("Город, указанный при регистрации")
-                -> change();
-
-            $table
-                ->string('vk_page')
-                ->nullable(false)
-                ->comment("Ссылка на профиль Вконтакте")
                 -> change();
 
             $table

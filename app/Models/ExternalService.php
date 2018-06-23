@@ -63,4 +63,8 @@ class ExternalService extends Ardent
     public function UpdatedAt($format = "d.m.Y"){
         return $this->updated_at->format($format);
     }
+
+    public static function findByApiKey($apiKey) {
+        return (new ExternalService)->where('api_key', '=', $apiKey)->get();
+    }
 }

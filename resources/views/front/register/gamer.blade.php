@@ -19,7 +19,11 @@
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </span>
                     <input type="text" id="name" name="name" class="form-control" required placeholder="Имя" maxlength="50" >
-
+                    @if ($errors->has('name'))
+                        <div class="help-block text-danger">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </div><br>
+                    @endif
                 </div>
             </div>
 
@@ -29,12 +33,22 @@
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </span>
                     <input type="text" id="last_name" name="last_name" class="form-control" required placeholder="Фамилия" maxlength="50">
+                    @if ($errors->has('last_name'))
+                        <div class="help-block text-danger">
+                            <strong>{{ $errors->first('last_name') }}</strong>
+                        </div><br>
+                    @endif
                 </div>
             </div>
 
             <div class="form-group">
                 <input type="text" class="form-control habb_input-birthday__tag"
                        name="birthday" placeholder="Дата рождения" required>
+                @if ($errors->has('birthday'))
+                    <div class="help-block text-danger">
+                            <strong>{{ $errors->first('birthday') }}</strong>
+                        </div><br>
+                @endif
             </div>
 
 
@@ -53,7 +67,11 @@
                             <i class="fa fa-mobile" aria-hidden="true"></i>
                         </span>
                     <input type="tel" class="form-control habb_input-phone__tag" name="phone" required placeholder="Мобильный телефон">
-
+                    @if ($errors->has('phone'))
+                        <div class="help-block text-danger">
+                            <strong>{{ $errors->first('phone') }}</strong>
+                        </div><br>
+                    @endif
                 </div>
             </div>
 
@@ -64,7 +82,11 @@
                         </span>
                     <input type="email" class="form-control habb_input-email__tag"
                            name="email" pattern="@EmailFieldPattern()" required placeholder="yourname@example.com" maxlength="100">
-
+                    @if ($errors->has('email'))
+                        <div class="help-block text-danger">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </div><br>
+                    @endif
                 </div>
             </div>
 
@@ -75,6 +97,11 @@
                         </span>
                     <input type="text" class="form-control habb_input-vk__tag" name="vk_page"
                            pattern="@VkFieldPattern()" required placeholder="https://vk.com/" maxlength="50">
+                    @if ($errors->has('vk_page'))
+                        <div class="help-block text-danger">
+                            <strong>{{ $errors->first('vk_page') }}</strong>
+                        </div><br>
+                    @endif
                 </div>
             </div>
         </div>
@@ -97,12 +124,21 @@
                         <option value="dumbass">В активном поиске себя</option>
                     </select>
                 </div>
+                @if ($errors->has('status'))
+                    <div class="help-block text-danger">
+                            <strong>{{ $errors->first('status') }}</strong>
+                        </div><br>
+                @endif
 
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-university" aria-hidden="true"></i></span>
                         <input type="text" class="form-control" id="institution" name="institution" placeholder="Название учреждения" required maxlength="50">
-
+                        @if ($errors->has('institution'))
+                            <div class="help-block text-danger">
+                            <strong>{{ $errors->first('institution') }}</strong>
+                        </div><br>
+                        @endif
                     </div>
                 </div>
 
@@ -124,7 +160,11 @@
                         <option value="cod">Call of Duty (серия игр)</option>
                     </select>
                 </div>
-
+                @if ($errors->has('primary_game'))
+                    <div class="help-block text-danger">
+                            <strong>{{ $errors->first('primary_game') }}</strong>
+                        </div><br>
+                @endif
                 <div class="form-group">
                     <select class="form-control select2 select2-multiple" name="secondary_games[]" required multiple="multiple" title="Выберите доп. дисциплины">
                         <option value="dota">Dota</option>
@@ -136,6 +176,11 @@
                         <option value="cod">Call of Duty (серия игр)</option>
                     </select>
                 </div>
+                @if ($errors->has('secondary_games'))
+                    <div class="help-block text-danger">
+                            <strong>{{ $errors->first('secondary_games') }}</strong>
+                        </div><br>
+                @endif
 
             </div>
 
