@@ -11,7 +11,7 @@
         <div class="">
 
             {!! Form::model($model, ['method' => 'put', 'action' => ['ExternalServicesController@update', $model->id]]) !!}
-            @include('admin/externalServices/form')
+                @include('admin/externalServices/form')
             {!! Form::close() !!}
         </div>
     </div>

@@ -17,16 +17,16 @@
                 <dd class="col-sm-9">{{ $model->comment }}</dd>
 
                 <dt class="col-sm-3">API KEY</dt>
-                <dd class="col-sm-9">{{ $model->api_key }}</dd>
+                <dd class="col-sm-9 apiKey__tag">{{ $model->api_key }}</dd>
 
             </dl>
         </div>
         <hr>
         <div class="">
             <div class="row">
-                <div class="col-sm-9 text-sm-right">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Создание {{ $model->UpdatedAt() }}.
-                    <i class="fa fa-pencil" aria-hidden="true"></i> Обновление {{ $model->CreatedAt() }}
+                <div class="col-sm-9">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Создан {{ $model->UpdatedAt() }}.
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Обновлен {{ $model->CreatedAt() }}
                 </div>
 
             </div>
@@ -38,7 +38,10 @@
                 </div>
 
                 <div class="col-sm-6 text-sm-right">
+                    <button type="button" class="btn btn-outline-secondary changeApiKeyBtn__tag">Сменить API KEY</button>
+
                     {{ link_to_action('ExternalServicesController@edit', 'Редактировать', ['id' => $model->id], ['class' => 'btn btn-primary']) }}
+
                     <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
                 </div>
 
@@ -68,5 +71,25 @@
             </div>
         </div>
     </div>
+
+@endsection
+
+@section('scripts')
+
+    <script>
+        $(function(){
+
+            $(".changeApiKeyBtn__tag").click(function(){
+                var url = "{{ action('ExternalServicesController@updateApiKey') }}";
+                var data = {
+                    id : {{ $model->id }}
+                };
+                habb.utils.AjaxRequest(url, data, function(response){
+                    $(".apiKey__tag").html(response.api_key);
+                })
+            });
+
+        });
+    </script>
 
 @endsection

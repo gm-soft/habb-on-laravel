@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\HttpStatuses;
+use App\Helpers\MiscUtils;
 use App\Models\ExternalService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -44,8 +46,7 @@ class ExternalServicesController extends Controller
         $model-> title = Input::get('title');
         $model->comment = Input::get('comment');
 
-        // TODO Генерить ключ
-        $model->api_key = "api_key";
+        $model->api_key = MiscUtils::generateSha1RandomString();
 
         if (!$model->save()) {
 
@@ -104,9 +105,6 @@ class ExternalServicesController extends Controller
         $model-> title = Input::get('title');
         $model->comment = Input::get('comment');
 
-        // TODO Генерить ключ
-        $model->api_key = "api_key";
-
         if (!$model->save()) {
             $errors = $model->errors();
             $this->flashErrors($errors);
@@ -118,6 +116,30 @@ class ExternalServicesController extends Controller
 
         flash("Данные сохранены!", Constants::Success);
         return Redirect::action('ExternalServicesController@show', ["id" => $model->id]);
+    }
+
+    public function updateApiKey(Request $request){
+
+        /** @var ExternalService $model */
+        $model = ExternalService::find($request["id"]);
+
+        if (!isset($model)){
+            return response()->json([
+                'error' => "Объекта не существует"
+            ], HttpStatuses::NotFound);
+        }
+
+        $newApiKey = MiscUtils::generateSha1RandomString();
+        $model->api_key = $newApiKey;
+
+        if ($model->save())
+            return response()->json([
+                'api_key' => $newApiKey
+            ], HttpStatuses::Ok);
+
+        return response()->json([
+            'error' => $model->errors()->jsonSerialize()
+        ], HttpStatuses::ServerError);
     }
 
     public function destroy($id)

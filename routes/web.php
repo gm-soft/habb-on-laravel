@@ -17,11 +17,6 @@
     Route::get('/about', 'HomeController@about');
     Route::get('/contacts', 'HomeController@contacts');
 
-    // Route::get('/news', 'FrontController@news');
-    // Route::get('/news/{id}', 'FrontController@openPost');
-
-    Route::get('/reveal', 'FrontController@revealPresentation');
-
     #endregion
 
     #region Ошибки
@@ -74,6 +69,7 @@
         Route::resource('keyValues', 'KeyValueController');
 
         Route::resource('external_services', 'ExternalServicesController');
+        Route::post('update_api_key', 'ExternalServicesController@updateApiKey');
     });
     #endregion
 
@@ -113,14 +109,15 @@
     });
     #endregion
 
-    #region Api-routes
-    Route::group(['prefix' => 'api'], function() {
+    #region Api-routes\
 
-        Route::post('create_gamer', 'ApiController@createGamer');
+    Route::group(['prefix' => 'api'], function () {
 
-        /* Разрешаю и пост, и гет запросы. Чего блокировать-то? */
-        Route::get('get_gamer', 'ApiController@getGamer');
-        Route::post('get_gamer', 'ApiController@getGamer');
+        Route::group(['prefix' => 'gamers'], function () {
+            Route::post('/create', 'ApiController@createGamer');
+
+            Route::match(['get', 'post'], '/{id}', 'ApiController@getGamer');
+        });
     });
 
     #endregion

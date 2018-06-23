@@ -106,8 +106,4 @@ class FrontController extends Controller
         return view('front.rating.team', [ 'model' => $model]);
     }
     #endregion
-
-    public function revealPresentation(){
-        return view('front.reveal');
-    }
 }
