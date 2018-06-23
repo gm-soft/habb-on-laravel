@@ -50,7 +50,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'name'      => 'required|regex:/^[А-Яа-яA-Za-z]+$/',
         'last_name' => 'required|regex:/^[А-Яа-яA-Za-z]+$/',
         'email'     => 'required|between:3,100|email|unique:gamers',
-        'phone'     => 'required|regex:/^[0-9()-]+$/|unique:gamers',
+        'phone'     => 'required|regex:/^[+0-9()-]+$/|unique:gamers',
         'vk_page'   => 'required|regex:/'.Constants::VkPageRegexPattern.'/'
     ];
 

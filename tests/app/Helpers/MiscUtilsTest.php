@@ -52,4 +52,16 @@ class MiscUtilsTest extends TestCase
         $this->assertEquals("87017620787", MiscUtils::formatPhone($phone));
     }
 
+    public function test_formatPhone_МаксированноеЗначение_ТелефонНачинаетсяССемерки(){
+        $phone = "7(701)762-07-87";
+
+        $this->assertEquals("87017620787", MiscUtils::formatPhone($phone));
+    }
+
+    public function test_formatPhone_МаксированноеЗначение_ЕстьПробелы(){
+        $phone = "7(701) 762-07-87";
+
+        $this->assertEquals("87017620787", MiscUtils::formatPhone($phone));
+    }
+
 }

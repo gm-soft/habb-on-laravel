@@ -53,9 +53,24 @@ abstract class MiscUtils
      */
     public static function formatPhone($phone) {
         $phone = str_replace('+7','8',$phone);
-        $phone = str_replace('-','',$phone);
-        $phone = str_replace('(','',$phone);
-        $phone = str_replace(')','',$phone);
+        $phone = str_replace('-', '',$phone);
+        $phone = str_replace('(', '',$phone);
+        $phone = str_replace(')', '',$phone);
+        $phone = str_replace(' ', '', $phone);
+
+        // Если телефон начинается с семерки, а не с восьмерки 77019997733
+        if (self::startsWith($phone, "7") && strlen($phone) === 11){
+            $phone = "8".substr($phone, 1);
+        }
         return $phone;
+    }
+
+    /**
+     * @param string $source Строка, в которой будет осуществлен поиск
+     * @param string $query Искомое значение
+     * @return bool
+     */
+    public static function startsWith($source, $query){
+        return substr($source, 0, strlen($query)) === $query;
     }
 }
