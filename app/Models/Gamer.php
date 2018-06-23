@@ -76,7 +76,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     public static $relationsData = [
         'scores'            => [self::HAS_MANY, 'GamerScore'],
         'users'             => [self::BELONGS_TO, 'User'],
-        'external_services' => [self::BELONGS_TO, 'ExternalService', "external_services"]
+        'external_services' => [self::BELONGS_TO, 'ExternalService']
     ];
 
     /**
@@ -94,12 +94,12 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     }
 
     public function externalService(){
-        return $this->belongsTo('App\ExternalService');
+        return $this->belongsTo('App\Models\ExternalService', 'external_service_id');
     }
 
     #region Кастомные функции модели
     public function getGamerAge(){
-        
+
         if (is_null($this->birthday))
             return null;
 
