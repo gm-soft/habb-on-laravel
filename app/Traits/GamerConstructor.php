@@ -9,6 +9,7 @@
 namespace App\Traits;
 
 
+use App\Helpers\MiscUtils;
 use App\Models\Gamer;
 
 /**
@@ -20,18 +21,6 @@ use App\Models\Gamer;
 trait GamerConstructor
 {
     /**
-     * Удаляет специсимволы из телефона
-     * @param $phone
-     * @return mixed
-     */
-    protected function formatPhone($phone) {
-        $phone = str_replace('-','',$phone);
-        $phone = str_replace('(','',$phone);
-        $phone = str_replace(')','',$phone);
-        return $phone;
-    }
-
-    /**
      * Конструирует запись геймера. Без сохранения
      * @param array $input
      * @param null $id
@@ -42,31 +31,21 @@ trait GamerConstructor
         $gamer->name        = $input['name'];
         $gamer->last_name   = $input['last_name'];
 
-        $phone = $this->formatPhone($input['phone']);
+        $phone = MiscUtils::formatPhone($input['phone']);
         $gamer->phone       = $phone;
         $gamer->email       = $input['email'];
 
-        $gamer->birthday    = $this->getValueOrDefault($input, 'birthday');
-        $gamer->city        = $this->getValueOrDefault($input, 'city');
-        $gamer->vk_page     = $this->getValueOrDefault($input, 'vk_page');
-        $gamer->status      = $this->getValueOrDefault($input, 'status');
-        $gamer->institution = $this->getValueOrDefault($input, 'institution');
-        $gamer->comment     = $this->getValueOrDefault($input, 'comment');
-        $gamer->lead_id     = $this->getValueOrDefault($input, 'lead_id');
+        $gamer->birthday    = MiscUtils::getValueOrDefault($input, 'birthday');
+        $gamer->city        = MiscUtils::getValueOrDefault($input, 'city');
+        $gamer->vk_page     = MiscUtils::getValueOrDefault($input, 'vk_page');
+        $gamer->status      = MiscUtils::getValueOrDefault($input, 'status');
+        $gamer->institution = MiscUtils::getValueOrDefault($input, 'institution');
+        $gamer->comment     = MiscUtils::getValueOrDefault($input, 'comment');
+        $gamer->lead_id     = MiscUtils::getValueOrDefault($input, 'lead_id');
 
-        $gamer->primary_game = $this->getValueOrDefault($input, 'primary_game');
-        $gamer->secondary_games = $this->getValueOrDefault($input, 'secondary_games');
+        $gamer->primary_game = MiscUtils::getValueOrDefault($input, 'primary_game');
+        $gamer->secondary_games = MiscUtils::getValueOrDefault($input, 'secondary_games');
 
         return $gamer;
-    }
-
-    /**
-     * @param array $input
-     * @param string $key
-     * @param mixed|null $defaultValue
-     * @return mixed|null
-     */
-    private function getValueOrDefault(array $input, $key, $defaultValue = null){
-        return isset($input[$key]) ? $input[$key] : $defaultValue;
     }
 }

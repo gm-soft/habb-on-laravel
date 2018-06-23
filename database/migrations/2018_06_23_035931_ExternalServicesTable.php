@@ -27,7 +27,9 @@ class ExternalServicesTable extends Migration
 
         Schema::table('gamers', function (Blueprint $table) {
 
-            $table->integer('external_service_id')->nullable()->comment("Внешний сервис, который создал этот аккаунт");
+            $table->integer('external_service_id')->unsigned()->nullable()->comment("Внешний сервис, который создал этот аккаунт");
+
+            $table->foreign('external_service_id', 'gamers_external_service_id_foreign')->references('id')->on('external_services');
         });
     }
 
@@ -39,6 +41,8 @@ class ExternalServicesTable extends Migration
     public function down()
     {
         Schema::table('gamers', function (Blueprint $table) {
+
+            $table->dropForeign('gamers_external_service_id_foreign');
             $table->dropColumn(['external_service_id']);
         });
 

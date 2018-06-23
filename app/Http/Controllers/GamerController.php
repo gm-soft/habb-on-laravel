@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\MiscUtils;
 use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\Traits\GamerConstructor;
@@ -234,7 +235,7 @@ class GamerController extends Controller
         $searchable = Input::get('value');
 
         if ($field == 'phone') {
-            $searchable = $this->formatPhone($searchable);
+            $searchable = MiscUtils::formatPhone($searchable);
         }
 
         $gamer = DB::table('gamers')->where($field , '=', $searchable)->first();

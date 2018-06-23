@@ -35,4 +35,26 @@ abstract class MiscUtils
     public static function generateSha1RandomString($length = 10){
         return sha1(self::generateRandomString($length));
     }
+
+    /**
+     * @param array $input
+     * @param string $key
+     * @param mixed|null $defaultValue
+     * @return mixed|null
+     */
+    public static function getValueOrDefault(array $input, $key, $defaultValue = null){
+        return isset($input[$key]) ? $input[$key] : $defaultValue;
+    }
+
+    /**
+     * Удаляет специсимволы из телефона
+     * @param $phone
+     * @return mixed
+     */
+    public static function formatPhone($phone) {
+        $phone = str_replace('-','',$phone);
+        $phone = str_replace('(','',$phone);
+        $phone = str_replace(')','',$phone);
+        return $phone;
+    }
 }
