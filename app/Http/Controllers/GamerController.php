@@ -20,9 +20,16 @@ class GamerController extends Controller
     use GamerConstructor;
 
     #region Ресурсные методы
-    public function index()
+    public function index(Request $request)
     {
-        $gamers = Gamer::all();
+        $filterByExternalServiceId = $request->get('external_service_id');
+        if (isset($filterByExternalServiceId))
+        {
+            $gamers = Gamer::where('external_service_id', '=', $filterByExternalServiceId)->get();
+        } else{
+            $gamers = Gamer::all();
+        }
+
         return view('admin.gamers.index', [
             "gamers" => $gamers
         ]);

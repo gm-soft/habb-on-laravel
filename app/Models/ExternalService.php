@@ -64,7 +64,11 @@ class ExternalService extends Ardent
         return $this->updated_at->format($format);
     }
 
+    /**
+     * @param $apiKey
+     * @return ExternalService|\Illuminate\Database\Eloquent\Model|null
+     */
     public static function findByApiKey($apiKey) {
-        return (new ExternalService)->where('api_key', '=', $apiKey)->get();
+        return (new ExternalService)->where('api_key', '=', $apiKey)->first();
     }
 }
