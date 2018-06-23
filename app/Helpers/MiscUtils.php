@@ -52,6 +52,7 @@ abstract class MiscUtils
      * @return mixed
      */
     public static function formatPhone($phone) {
+        $phone = str_replace('+7','8',$phone);
         $phone = str_replace('-','',$phone);
         $phone = str_replace('(','',$phone);
         $phone = str_replace(')','',$phone);

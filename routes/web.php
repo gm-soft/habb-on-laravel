@@ -73,8 +73,6 @@
     });
     #endregion
 
-
-
     #region Рейтинги во фронте
     Route::group(['prefix' => 'rating'], function () {
         Route::get('/gamers/{game?}', 'FrontController@gamerRating');
@@ -114,9 +112,11 @@
     Route::group(['prefix' => 'api'], function () {
 
         Route::group(['prefix' => 'gamers'], function () {
-            Route::match(['get', 'post'], '/create', 'ApiController@createGamer');
+            Route::post('/create', 'ApiController@createGamer');
 
-            Route::match(['get', 'post'], '/{id}', 'ApiController@getGamer');
+            Route::get('/exists', 'ApiController@doesGamerExists');
+
+            Route::get('/{id}', 'ApiController@getGamer');
         });
     });
 

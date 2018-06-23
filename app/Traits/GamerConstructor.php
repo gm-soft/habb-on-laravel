@@ -48,4 +48,24 @@ trait GamerConstructor
 
         return $gamer;
     }
+
+    /**
+     * Конструирует запись геймера только с обязательными полями. Без сохранения
+     * @param array $input
+     * @param null $id
+     * @return Gamer
+     */
+    protected function constructGamerInstanceWithRequiredOnly(array $input, $id = null) {
+        $gamer              = is_null($id) ? new Gamer : Gamer::find($id);
+        $gamer->name        = $input['name'];
+        $gamer->last_name   = $input['last_name'];
+
+        $phone = MiscUtils::formatPhone($input['phone']);
+        $gamer->phone       = $phone;
+        $gamer->email       = $input['email'];
+        $gamer->city        = $input['city'];
+        $gamer->vk_page     = $input['vk_page'];
+
+        return $gamer;
+    }
 }

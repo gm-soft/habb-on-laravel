@@ -49,6 +49,7 @@ class MiscUtilsTest extends TestCase
     public function test_formatPhone_МаксированноеЗначение(){
         $phone = "+7(701)762-07-87";
 
-        $this->assertEquals("+77017620787", MiscUtils::formatPhone($phone));
+        $this->assertEquals("87017620787", MiscUtils::formatPhone($phone));
     }
+
 }

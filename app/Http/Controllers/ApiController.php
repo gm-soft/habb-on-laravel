@@ -9,6 +9,7 @@ use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\Traits\GamerConstructor;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;
 
 class ApiController extends Controller
@@ -16,8 +17,6 @@ class ApiController extends Controller
     use GamerConstructor;
 
     public function createGamer(Request $request){
-
-        //return response()->json(Gamer::getApiRules());
 
         $apiKey = $request["api_key"];
 
@@ -48,15 +47,15 @@ class ApiController extends Controller
             ], HttpStatuses::NotValidData);
         }
 
-        if (Gamer::hasGamerFoundByEmailAndPhone($input["phone"], $input["email"])){
+        $existingGamer = Gamer::getGamerFoundByEmailAndPhone($input["phone"], $input["email"]);
+        if (!is_null($existingGamer)) {
             return response()->json([
                 "result" => false,
-                "message" => "Аккаунт с переданными телефоном или email уже существует в базе",
-                "errors" => $validator->errors()->jsonSerialize()
+                "message" => "Аккаунт с переданными телефоном или email уже существует в базе"
             ], HttpStatuses::NotValidData);
         }
 
-        $gamer = $this->constructGamerInstance($request->all());
+        $gamer = $this->constructGamerInstanceWithRequiredOnly($request->all());
         $gamer->external_service_id = 1;
 
         if ($gamer->save())
@@ -77,7 +76,57 @@ class ApiController extends Controller
         ], HttpStatuses::NotValidData);
     }
 
+    public function doesGamerExists(Request $request){
+        $apiKey = $request["api_key"];
+
+        if (!isset($apiKey)){
+            return response()->json([
+                "result" => false,
+                "message" => "Не указан ключ идентификации клиента API"
+            ], HttpStatuses::AuthorizeRequired);
+        }
+
+        $externalService = ExternalService::findByApiKey($apiKey);
+
+        if (!isset($externalService)){
+            return response()->json([
+                "result" => false,
+                "message" => "Прислан невалидный ключ аутентификации"
+            ], HttpStatuses::AuthorizeRequired);
+        }
+
+        $phone = $request->get('phone');
+        $email = $request->get('email');
+
+        if (!isset($phone) && !isset($email)){
+            return response()->json([
+                "result" => false,
+                "message" => "Не указаны телефон и email. Поиск аккаунта осуществляется либо по телефону (поле phone), либо email (поле email)"
+            ], HttpStatuses::NotValidData);
+        }
+
+        $gamer = Gamer::getGamerFoundByEmailAndPhone($phone, $email);
+
+        if (!is_null($gamer)){
+            return response()->json([
+                "result" => true,
+                "gamer" => "Пользователь найден",
+                "habb_id" => $gamer->id
+            ], HttpStatuses::Ok);
+        }
+
+        return response()->json([
+            "result" => false,
+            "message" => "Пользователь по указанным данным не найден"
+        ], HttpStatuses::NotFound);
+    }
+
     public function getGamer($id){
+
+        if (!env(Constants::APP_DEBUG)){
+            abort(HttpStatuses::NotFound);
+        }
+
         /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
 
