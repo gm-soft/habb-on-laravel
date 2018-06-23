@@ -9,7 +9,6 @@ use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\Traits\GamerConstructor;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;
 
 class ApiController extends Controller
@@ -110,7 +109,7 @@ class ApiController extends Controller
         if (!is_null($gamer)){
             return response()->json([
                 "result" => true,
-                "gamer" => "Пользователь найден",
+                "message" => "Пользователь найден",
                 "habb_id" => $gamer->id
             ], HttpStatuses::Ok);
         }
