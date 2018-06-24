@@ -9,8 +9,8 @@
             <div class="d-flex d-inline justify-content-between">
                 <div class="text-muted">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</div>
                 <div class="">
-                    {{ link_to_action('TeamCreateRequestController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
-                    {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-secondary']) }}
+                    {{ link_to_action('TeamCreateRequestController@index', 'В список', null, ['class' => 'btn btn-light']) }}
+                    {{ link_to_action('TeamCreateRequestController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-light']) }}
                     <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Отмена</button>
                         <button type="submit" class="btn btn-success">Утвердить</button>
                     </div>
                 {!! Form::close() !!}
@@ -183,7 +183,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Отмена</button>
                     <button type="submit" class="btn btn-danger">Отклонить</button>
                 </div>
                 {!! Form::close() !!}

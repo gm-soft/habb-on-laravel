@@ -17,7 +17,7 @@ $externalServicesCount = count($externalServices);
             </div>
 
             <div class="col-sm-6 text-sm-right">
-                <a href="{{ url('admin/external_services/create')}}" class="btn btn-secondary">Создать запись</a>
+                <a href="{{ url('admin/external_services/create')}}" class="btn btn-light">Создать запись</a>
             </div>
         </div>
         <table class="table table-striped dataTable__tag">

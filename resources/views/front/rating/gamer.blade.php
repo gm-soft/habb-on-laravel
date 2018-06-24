@@ -13,9 +13,9 @@
 
         <div class="my-2 float-md-right">
             <div class="btn-group" role="group">
-                <a href="{{ url('rating/gamers', ['game' => 'cs:go']) }}" class="btn btn-secondary">CS:GO</a>
-                <a href="{{ url('rating/gamers', ['game' => 'dota']) }}" class="btn btn-secondary">Dota 2</a>
-                <a href="{{ url('rating/gamers', ['game' => 'hearthstone']) }}" class="btn btn-secondary">Hearthstone</a>
+                <a href="{{ url('rating/gamers', ['game' => 'cs:go']) }}" class="btn btn-light">CS:GO</a>
+                <a href="{{ url('rating/gamers', ['game' => 'dota']) }}" class="btn btn-light">Dota 2</a>
+                <a href="{{ url('rating/gamers', ['game' => 'hearthstone']) }}" class="btn btn-light">Hearthstone</a>
             </div>
         </div>
 

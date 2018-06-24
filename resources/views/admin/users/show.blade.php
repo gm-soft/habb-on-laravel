@@ -17,7 +17,7 @@
         </div>
 
         <div class="mt-2 card">
-            <div class="card-block">
+            <div class="card-body">
 
                 <dl class="row">
                     <dt class="col-sm-3">Email</dt>
@@ -28,7 +28,7 @@
                 </dl>
             </div>
             <div class="card-footer">
-                {{ link_to_action('UserController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
+                {{ link_to_action('UserController@index', 'В список', [], ['class' => 'btn btn-light']) }}
                 <div class="float-sm-right">
 
                     {{ link_to_action('UserController@edit', 'Редактировать', ['id' => $model->user->id], ['class' => 'btn btn-primary']) }}
@@ -40,7 +40,7 @@
         </div>
 
         <div class="mt-1 card">
-            <div class="card-block">
+            <div class="card-body">
                 <div class="card-text">
                     @if (!is_null($model->gamer))
                         <div class="row">

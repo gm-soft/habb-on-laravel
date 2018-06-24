@@ -28,7 +28,6 @@ use LaravelArdent\Ardent\Ardent;
  * @property string institution
  * @property string comment
  * @property string lead_id
- * @property string creation_source
  *
  * @property string primary_game
  * @property array secondary_games

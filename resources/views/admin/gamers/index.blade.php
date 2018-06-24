@@ -1,10 +1,7 @@
 
 @extends('layouts.admin-layout')
 @section('title', 'Список игроков')
-@php
-$count = count($gamers);
 
-@endphp
     @section('content')
 
         <div class="container">
@@ -15,7 +12,7 @@ $count = count($gamers);
                 </div>
 
                 <div class="col-sm-6 text-sm-right">
-                    <a href="{{url('admin/gamers/create')}}" class="btn btn-secondary">Создать запись</a>
+                    <a href="{{url('admin/gamers/create')}}" class="btn btn-light">Создать запись</a>
                 </div>
             </div>
             <table class="table table-striped dataTable">
@@ -29,32 +26,6 @@ $count = count($gamers);
                     <th>Сторонний источник</th>
                 </tr>
                 </thead>
-                <tbody>
-                @for($i=0;$i<$count;$i++)
-                    @php
-                        $gamer = $gamers[$i];
-                        $name = $gamer->name." ".$gamer->last_name
-
-                @endphp
-                <tr>
-                    <td>{{ $gamer->id }}</td>
-                    <td><b>{{ link_to_action('GamerController@show', $name, ['id' => $gamer->id]) }}</b></td>
-                    <td>{{ $gamer->phone  }}</td>
-                    <td><a href="{{ $gamer->vk_page  }}">{{ $gamer->vk_page  }}</a></td>
-                    <td>{{ $gamer->primary_game  }}</td>
-                    <td>
-                        @if(is_null($gamer->external_service_id))
-                            Сайт HABB
-                        @else
-                            @php($externalService = $gamer->externalService)
-                            {{ link_to_action('ExternalServicesController@show', $externalService->title, ['id' => $externalService->id]) }}
-                        @endif
-                    </td>
-                </tr>
-
-            @endfor
-
-            </tbody>
         </table>
     </div>
 
@@ -64,7 +35,25 @@ $count = count($gamers);
     <script src="{{ asset('thirdparty/dataTables/dataTables.min.js') }}"></script>
     <script>
         $(document).ready(function(){
-            $('.dataTable').DataTable();
+            $('.dataTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax":{
+                    "url": "{{ action('GamerController@gamerReportForDatatable') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data":{ _token: "{{ csrf_token() }}"}
+                },
+                "columns": [
+                    { "data": "id" },
+                    { "data": "name" },
+                    { "data": "phone" },
+                    { "data": "vk_page" },
+                    { "data": "primary_game" },
+                    { "data": "source" }
+                ]
+
+            });
         });
     </script>
 @endsection

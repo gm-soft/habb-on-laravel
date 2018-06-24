@@ -41,6 +41,7 @@
 
         // Геймеры
         Route::resource('gamers', 'GamerController');
+        Route::post('gamerReportForDatatable', 'GamerController@gamerReportForDatatable');
         Route::post('gamerScoreUpdate', 'GamerController@scoreUpdate');
 
         // Команды

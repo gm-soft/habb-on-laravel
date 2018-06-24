@@ -25,8 +25,8 @@
         <div class="">
             <div class="row">
                 <div class="col-sm-9">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Создан {{ $model->UpdatedAt() }}.
-                    <i class="fa fa-pencil" aria-hidden="true"></i> Обновлен {{ $model->CreatedAt() }}
+                    <i class="fa fa-plus" aria-hidden="true"></i> Создан {{ $model->CreatedAt() }}.
+                    <i class="fa fa-pencil" aria-hidden="true"></i> Обновлен {{ $model->UpdatedAt() }}
                 </div>
 
             </div>
@@ -34,11 +34,11 @@
         <div class="mt-1">
             <div class="row">
                 <div class="col-sm-6">
-                    {{ link_to_action('ExternalServicesController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
+                    {{ link_to_action('ExternalServicesController@index', 'В список', null, ['class' => 'btn btn-light']) }}
                 </div>
 
                 <div class="col-sm-6 text-sm-right">
-                    <button type="button" class="btn btn-outline-secondary changeApiKeyBtn__tag">Сменить API KEY</button>
+                    <button type="button" class="btn btn-outline-dark changeApiKeyBtn__tag">Сменить API KEY</button>
 
                     {{ link_to_action('ExternalServicesController@edit', 'Редактировать', ['id' => $model->id], ['class' => 'btn btn-primary']) }}
 

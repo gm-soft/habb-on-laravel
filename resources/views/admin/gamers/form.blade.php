@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-sm-6">
         <div class="card">
-            <div class="card-block">
+            <div class="card-body">
                 <p class="card-text">
 
                 <input type="hidden" name="id" value="{{old('id')}}" >
@@ -117,7 +117,7 @@
     <div class="col-sm-6">
 
         <div class="card">
-            <div class="card-block">
+            <div class="card-body">
                 <p class="card-text">
 
                 <div class="form-group  row">

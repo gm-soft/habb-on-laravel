@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-sm-6">
         <div class="card">
-            <div class="card-block">
+            <div class="card-body">
                 <div class="card-text">
 
                     <input type="hidden" name="id" value="{{old('id')}}" >

@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="card">
-                    <div class="card-block">
+                    <div class="card-body">
                         <div class="card-text">
                             <dl class="row">
                                 <dt class="col-sm-4">Участники</dt>     <dd class="col-sm-8">{{ $team->getGamerIdsAsString() }}</dd>
@@ -24,7 +24,7 @@
 
                     </div>
                     <div class="card-footer">
-                        {{ link_to_action('TeamController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
+                        {{ link_to_action('TeamController@index', 'В список', [], ['class' => 'btn btn-light']) }}
                         <div class="float-sm-right">
 
                             {{ link_to_action('TeamController@edit', 'Редактировать', ['id' => $team->id], ['class' => 'btn btn-primary']) }}

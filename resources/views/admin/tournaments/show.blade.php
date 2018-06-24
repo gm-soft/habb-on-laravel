@@ -36,7 +36,7 @@
 
             </div>
             <div class="col-sm-4">
-                {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
+                {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-light']) }}
                 <div class="float-sm-right">
 
                     {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
