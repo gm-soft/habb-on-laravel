@@ -17,7 +17,7 @@
         <div class="mt-1">
             <div class="row">
                 <div class="col-sm-6">
-                    {{ link_to_action('KeyValueController@index', 'В список', null, ['class' => 'btn btn-secondary']) }}
+                    {{ link_to_action('KeyValueController@index', 'В список', null, ['class' => 'btn btn-light']) }}
                 </div>
 
                 <div class="col-sm-6 text-sm-right">

@@ -6,7 +6,7 @@
     <div class="container">
         <h1 class="mt-1">Турниры</h1>
         <div class="mb-1 text-sm-right">
-            <a href="{{url('admin/tournaments/create')}}" class="btn btn-secondary">Создать запись</a>
+            <a href="{{url('admin/tournaments/create')}}" class="btn btn-light">Создать запись</a>
         </div>
 
         <table class="table table-striped dataTable">

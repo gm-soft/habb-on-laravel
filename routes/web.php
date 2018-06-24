@@ -17,11 +17,6 @@
     Route::get('/about', 'HomeController@about');
     Route::get('/contacts', 'HomeController@contacts');
 
-    // Route::get('/news', 'FrontController@news');
-    // Route::get('/news/{id}', 'FrontController@openPost');
-
-    Route::get('/reveal', 'FrontController@revealPresentation');
-
     #endregion
 
     #region Ошибки
@@ -46,6 +41,7 @@
 
         // Геймеры
         Route::resource('gamers', 'GamerController');
+        Route::post('gamerReportForDatatable', 'GamerController@gamerReportForDatatable');
         Route::post('gamerScoreUpdate', 'GamerController@scoreUpdate');
 
         // Команды
@@ -73,11 +69,10 @@
         // Ключ-Значение
         Route::resource('keyValues', 'KeyValueController');
 
-
+        Route::resource('external_services', 'ExternalServicesController');
+        Route::post('update_api_key', 'ExternalServicesController@updateApiKey');
     });
     #endregion
-
-
 
     #region Рейтинги во фронте
     Route::group(['prefix' => 'rating'], function () {
@@ -111,6 +106,21 @@
         Route::get('/syncGamers', 'AjaxController@syncGamers');
         Route::get('/syncTeams', 'AjaxController@syncTeams');
     });
+    #endregion
+
+    #region Api-routes\
+
+    Route::group(['prefix' => 'api'], function () {
+
+        Route::group(['prefix' => 'gamers'], function () {
+            Route::post('/create', 'ApiController@createGamer');
+
+            Route::get('/exists', 'ApiController@doesGamerExists');
+
+            Route::get('/{id}', 'ApiController@getGamer');
+        });
+    });
+
     #endregion
 
     #region Авторизационные пути

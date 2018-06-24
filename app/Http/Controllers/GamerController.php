@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\MiscUtils;
 use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\Traits\GamerConstructor;
@@ -18,14 +19,89 @@ class GamerController extends Controller
 {
     use GamerConstructor;
 
-    #region Ресурсные методы
-    public function index()
+    public function index(Request $request)
     {
-        $gamers = Gamer::all();
-        return view('admin.gamers.index', [
-            "gamers" => $gamers
-        ]);
+        return view('admin.gamers.index');
     }
+
+    public function gamerReportForDatatable(Request $request){
+
+        $columns = [ "id", "name", "phone", "vk_page", "primary_game", "source"];
+
+        $totalData = Gamer::count();
+
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {
+            $gamers = Gamer::offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+        }
+        else {
+            $search = $request->input('search.value');
+
+            $filtered = Gamer::where('id','LIKE',"%{$search}%")
+                ->orWhere('name', 'LIKE',"%{$search}%")
+                ->orWhere('last_name', 'LIKE',"%{$search}%")
+                ->orWhere('phone', 'LIKE',"%{$search}%");
+
+            $gamers =  $filtered
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+
+            $totalFiltered = $filtered->count();
+        }
+        /** @var Gamer[] $gamers */
+        //----------
+        $data = [];
+        if(!empty($gamers))
+        {
+            foreach ($gamers as $gamer)
+            {
+                if(is_null($gamer->external_service_id))
+                {
+                    $source = "Сайт HABB";
+                }
+                else
+                {
+                    $externalService = $gamer->externalService;
+                    $link = action('ExternalServicesController@show', ['id' => $externalService->id]);
+                    $source = "<a href='{$link}' title='SHOW'>{$externalService->title}</a>";
+                }
+                $show =  action('GamerController@show',$gamer->id);
+                $nestedData['id'] = $gamer->id;
+                $nestedData['name'] = "<a href='{$show}' title='Открыть в новой вкладке' target='_blank' >{$gamer->getFullName()}</a>" ;
+                $nestedData['phone'] = $gamer->phone;
+                $nestedData['vk_page'] = $gamer->vk_page;
+                $nestedData['primary_game'] = $gamer->primary_game;
+                $nestedData['source'] = $source;
+
+                $data[] = $nestedData;
+
+            }
+        }
+
+        $json_data = [
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        ];
+
+        return response()->json($json_data);
+    }
+
+    #region Ресурсные методы
+
 
     public function create()
     {
@@ -234,12 +310,18 @@ class GamerController extends Controller
         $searchable = Input::get('value');
 
         if ($field == 'phone') {
-            $searchable = $this->formatPhone($searchable);
+            $searchable = MiscUtils::formatPhone($searchable);
         }
 
-        $gamer = DB::table('gamers')->where($field , '=', $searchable)->first();
-        $result = ['result' => true, 'exists' => !is_null($gamer)];
-        return response()->json($result);
+        $gamer = Gamer::getGamerFoundByEmailAndPhone($searchable, $searchable);
+
+        $exists = isset($gamer);
+
+        return response()->json([
+            'result' => true,
+            'exists' => $exists,
+            'habb_id' => $exists ? $gamer->id: null
+        ]);
     }
 
 

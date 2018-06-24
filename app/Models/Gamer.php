@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Helpers\Constants;
+use App\Helpers\MiscUtils;
 use App\Interfaces\ISelectableOption;
 use App\Interfaces\ITournamentParticipant;
 use Carbon\Carbon;
 use Collective\Html\Eloquent\FormAccessible;
+use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
 
@@ -33,18 +36,29 @@ use LaravelArdent\Ardent\Ardent;
  * @property Carbon created_at
  * @property Carbon deleted_at
  *
+ * @property int external_service_id
+ *
  * @property GamerScore[] scores
+ * @property ExternalService externalService
  */
 class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 {
     use FormAccessible, SoftDeletes;
 
     public static $rules = [
-        'name'      => 'required',
-        'last_name' => 'required',
+        'name'      => 'required|regex:/^[А-Яа-яA-Za-z]+$/',
+        'last_name' => 'required|regex:/^[А-Яа-яA-Za-z]+$/',
         'email'     => 'required|between:3,100|email|unique:gamers',
-        'phone'     => 'required|unique:gamers',
+        'phone'     => 'required|regex:/^[+0-9()-]+$/|unique:gamers',
+        'vk_page'   => 'required|regex:/'.Constants::VkPageRegexPattern.'/'
     ];
+
+    /**
+     * @return array
+     */
+    public static function getApiRules(){
+        return array_add(self::$rules, 'city', 'required|regex:/^[А-Яа-яA-Za-z]+$/');
+    }
 
     protected $table = "gamers";
 
@@ -59,8 +73,9 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'secondary_games' => 'array'
     ];
     public static $relationsData = [
-        'scores' => [self::HAS_MANY, 'GamerScore'],
-        'users' => [self::BELONGS_TO, 'User']
+        'scores'            => [self::HAS_MANY, 'GamerScore'],
+        'users'             => [self::BELONGS_TO, 'User'],
+        'external_services' => [self::BELONGS_TO, 'ExternalService']
     ];
 
     /**
@@ -77,8 +92,16 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         return $this->belongsTo('App\User');
     }
 
+    public function externalService(){
+        return $this->belongsTo('App\Models\ExternalService', 'external_service_id');
+    }
+
     #region Кастомные функции модели
     public function getGamerAge(){
+
+        if (is_null($this->birthday))
+            return null;
+
         Carbon::setLocale('ru');
         $now = time();
         $birthday = $this->birthday->getTimestamp();
@@ -86,6 +109,10 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     }
 
     public function getBirthday($format = "d.m.Y"){
+
+        if (is_null($this->birthday))
+            return null;
+
         return $this->birthday->format($format);
     }
 
@@ -115,15 +142,22 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     }
 
     public function getSecondaryGamesAttribute($value){
-        $result = explode(',', $value);
+        $result = !is_null($value) ? explode(',', $value) : $value;
         return $result;
     }
 
     public function setSecondaryGamesAttribute($value) {
-        $this->attributes['secondary_games']= join(',', $value);
+        if (!is_null($value))
+            $value = join(',', $value);
+
+        $this->attributes['secondary_games']= $value;
     }
 
     public function getSecondaryGamesAsString() {
+
+        if (is_null($this->secondary_games))
+            return $this->secondary_games;
+
         return join(', ', $this->secondary_games);
     }
 
@@ -195,4 +229,30 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         return $gamerOptionList;
     }
     #endregion
+
+    /**
+     * Возвращает запись геймера, если есть в базе. Иначе - null
+     * @param string $phone
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public static function findByPhone($phone) {
+        $phone = MiscUtils::formatPhone($phone);
+
+        return DB::table('gamers')->where('phone' , '=', $phone)->first();
+    }
+
+    /**
+     * Возвращает запись геймера, если есть в базе. Иначе - null
+     * @param string $phone
+     * @param string $email
+     * @return Gamer|\Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|null
+     */
+    public static function getGamerFoundByEmailAndPhone($phone, $email) {
+
+        if (isset($phone))
+            $phone = MiscUtils::formatPhone($phone);
+
+        $gamer = self::where('phone' , '=', $phone)->orWhere('email' , '=', $email)->first();
+        return $gamer;
+    }
 }

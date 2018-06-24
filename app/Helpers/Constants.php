@@ -31,6 +31,8 @@ abstract class Constants
     const PhoneRegexPattern = '^(8)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$';
     const VkPageRegexPattern = '^(https:\/\/)?(vk\.com)([\/\w \.-]{1,50})*\/?$';
 
+    const APP_DEBUG = 'APP_DEBUG';
+
     public static function getCities() {
         $cityString = 'Алматы,Астана,Шымкент,Караганда,Актобе,Тараз,Павлодар,Усть-Каменогорск,Семей,Уральск,Костанай,Кызылорда,Атырау,Петропавлоск,Актау,Темиртау,Туркестан,Кокшетау,Талдыкорган,Экибастуз,Рудный,Жанаозен';
         $cities = explode(",", $cityString);

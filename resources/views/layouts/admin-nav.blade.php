@@ -1,4 +1,4 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse navbar-dark">
+<nav class="navbar navbar-expand-sm navbar-inverse navbar-dark">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button"
                 data-toggle="collapse" data-target="#backendNavbar"
@@ -30,7 +30,10 @@
                         <a class="dropdown-item" href="{{ url('admin/tournaments/') }}">Турниры</a>
                         <div class="dropdown-divider"></div>
                         <!--a class="dropdown-item" href="{{ url('admin/posts/') }}">Посты</a-->
+                        <a class="dropdown-item" href="{{ url('admin/external_services/') }}">Внешние сервисы</a>
+
                         <a class="dropdown-item" href="{{ url('admin/users/') }}">Пользователи</a>
+
                         <a class="dropdown-item disabled" href="#">Записи статистики</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('admin/keyValues/') }}">Ключ-Значение</a>

@@ -14,7 +14,7 @@
         </div>
 
         <div class="mt-1 card">
-            <div class="card-block">
+            <div class="card-body">
                 <div class="card-text">
 
                     <div class="row">
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                {{ link_to_action('GamerController@index', 'В список', [], ['class' => 'btn btn-secondary']) }}
+                {{ link_to_action('GamerController@index', 'В список', [], ['class' => 'btn btn-light']) }}
                 <div class="float-sm-right">
 
                     {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $model->gamer->id], ['class' => 'btn btn-primary']) }}

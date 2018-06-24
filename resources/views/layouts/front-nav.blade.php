@@ -1,6 +1,9 @@
 
-<nav class="navbar navbar-toggleable-sm navbar-inverse  bg-habb">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark bg-habb">
     <div class="container">
+        <a class="navbar-brand" href="{{ url('home') }}">
+            <img src="{{ asset('images/habb-white.png') }}" width="150px">
+        </a>
 
         <button class="navbar-toggler navbar-toggler-right" type="button"
                 data-toggle="collapse" data-target="#frontendNavbar"
@@ -9,16 +12,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand" href="{{ url('home') }}">
-            <img src="{{ asset('images/habb-white.png') }}" width="150px">
-        </a>
-
         <div class="collapse navbar-collapse" id="frontendNavbar">
             <ul class="navbar-nav mr-auto mt-1">
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Рейтинги
                     </a>
 
@@ -43,17 +42,6 @@
                         <a class="dropdown-item" href="{{ url('register/gamer') }}">Аккаунт игрока</a>
                     </div>
                 </li>
-
-                <li class="nav-item">
-
-                </li>
-
-                <!--li class="nav-item">
-                    <a class="nav-link" href="{{ url('about') }}">О портале</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('contacts') }}">Контакты</a>
-                </li-->
             </ul>
             <!--form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">

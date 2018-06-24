@@ -27,11 +27,15 @@ footer {
     color: #e2e2e4;
 }
 
+.text-grey {
+    color: #222222;
+}
+
 .habb_home-option-block {
     min-height: 200px !important;
 }
 
-.input-group-addon {
+.input-group-text {
     min-width: 50px !important;
 }
 

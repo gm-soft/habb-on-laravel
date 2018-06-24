@@ -24,7 +24,7 @@
 
         @include('layouts.footer')
         <script src="{{ asset('thirdparty/jquery-3.1.1.min.js') }}"></script>
-        <script src="{{ asset('bootstrap/js/tether.min.js') }}"></script>
+        <script src="{{ asset('thirdparty/popper.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('scripts/framework.js') }}"></script>
         <script src="{{ asset('scripts/utils.js') }}"></script>

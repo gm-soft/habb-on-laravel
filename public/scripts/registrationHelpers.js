@@ -120,16 +120,20 @@
             "field" : field,
             "value" : value
         };
+        var habbIdSpan = $(".habb-id__tag");
 
         var successHandler = function(data, textStatus, xhr){
-            console.log(data);
-
             var result = data["result"];
             var exists = data["exists"];
+            var habbId = data["habb_id"];
 
             _markFields(field, exists);
-            if (exists === false) return;
+            if (exists === false) {
+                habbIdSpan.html("");
+                return;
+            }
 
+            habbIdSpan.html(habbId);
             _accountModal.modal('show');
         };
         habb.utils.AjaxRequest(url, paramsData, successHandler);
