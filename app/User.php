@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 /**
  * Class User
@@ -130,7 +129,7 @@ class User extends Authenticatable
      * @param bool $withoutPassword
      * @return bool
      */
-    public function Validate(array $input, bool $withoutPassword = false){
+    public function Validate(array $input, $withoutPassword = false){
         $this->validator = \Validator::make($input, $this->GetRules($withoutPassword));
         return $this->validator->passes();
     }

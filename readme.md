@@ -11,6 +11,9 @@
 * http://stackoverflow.com/questions/22405762/laravel-update-model-with-unique-validation-rule-for-attribute
 * https://laracasts.com/discuss/channels/requests/laravel-5-cant-use-ajax-post-request
 
+[Статья](https://shareurcodes.com/blog/laravel%20datatables%20server%20side%20processing) о том, как сделать обработку DataTables на сервере, чтоб не нагружать базу 
+
+
 ````
 artisan down
 
