@@ -1,5 +1,7 @@
 <footer class="">
     <div class="container">
-        HABB.KZ - Киберспортивная организация. 2017 год
+        <div class="w-auto d-inline">
+            HABB.KZ. 2018 год
+        </div>
     </div>
 </footer>

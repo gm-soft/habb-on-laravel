@@ -1,4 +1,4 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse navbar-dark">
+<nav class="navbar navbar-expand-sm navbar-inverse navbar-dark">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button"
                 data-toggle="collapse" data-target="#backendNavbar"
