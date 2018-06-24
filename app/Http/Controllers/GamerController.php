@@ -313,11 +313,14 @@ class GamerController extends Controller
             $searchable = MiscUtils::formatPhone($searchable);
         }
 
-        $gamer = DB::table('gamers')->where($field , '=', $searchable)->first();
+        $gamer = Gamer::getGamerFoundByEmailAndPhone($searchable, $searchable);
+
+        $exists = isset($gamer);
 
         return response()->json([
             'result' => true,
-            'exists' => !is_null($gamer)
+            'exists' => $exists,
+            'habb_id' => $exists ? $gamer->id: null
         ]);
     }
 

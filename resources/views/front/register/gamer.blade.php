@@ -262,13 +262,13 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>
-                            Скорее всего, у Вас уже есть HABB ID.
-                            Чтобы его узнать, обратитесь к администрации HABB.KZ <a href="https://vk.com/habbkz">https://vk.com/habbkz</a>
-                        </p>
+                        <div>
+                            <div class="mb-3">По введенным данным обнаружен аккаунт HABB ID</div>
+                            <div class="h3">Ваш HABB ID: <span class="habb-id__tag"></span></div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="https://vk.com/habbkz" class="btn btn-primary" data-dismiss="modal">Перейти</a>
+                        <a href="https://vk.com/habbkz" class="btn btn-dark" data-dismiss="modal">Ок, понятно</a>
                     </div>
                 </div>
             </div>
