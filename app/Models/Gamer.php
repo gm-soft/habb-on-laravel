@@ -46,8 +46,8 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     use FormAccessible, SoftDeletes;
 
     public static $rules = [
-        'name'      => 'required|regex:/^[А-Яа-яA-Za-z]+$/',
-        'last_name' => 'required|regex:/^[А-Яа-яA-Za-z]+$/',
+        'name'      => 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/',
+        'last_name' => 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/',
         'email'     => 'required|between:3,100|email|unique:gamers',
         'phone'     => 'required|regex:/^[+0-9()-]+$/|unique:gamers',
         'vk_page'   => 'required|regex:/'.Constants::VkPageRegexPattern.'/'
@@ -57,7 +57,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      * @return array
      */
     public static function getApiRules(){
-        return array_add(self::$rules, 'city', 'required|regex:/^[А-Яа-яA-Za-z]+$/');
+        return array_add(self::$rules, 'city', 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/');
     }
 
     protected $table = "gamers";
