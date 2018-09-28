@@ -6,7 +6,7 @@
         <div class="text-center my-3">
             <h1 class="display-1 text-danger"><b>404</b></h1>
             <p class="display-4">
-                Упс! Чего-то не нашлось на нашем сайте?
+                Хм! Чего-то не нашлось на нашем сайте?
             </p>
         </div>
 
