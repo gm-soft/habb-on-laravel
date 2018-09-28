@@ -10,7 +10,7 @@
 
     <div class="container mt-2">
 
-        <h1>Новости портала</h1>
+        <h1>Новости киберспорта</h1>
 
         @for($i = 0; $i < $model->postCount; $i++)
 
