@@ -15,6 +15,10 @@
         <div class="collapse navbar-collapse" id="frontendNavbar">
             <ul class="navbar-nav mr-auto mt-1">
 
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url("/news") }}">Новости</a>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

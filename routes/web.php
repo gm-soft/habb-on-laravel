@@ -17,6 +17,10 @@
     Route::get('/about', 'HomeController@about');
     Route::get('/contacts', 'HomeController@contacts');
 
+
+    Route::get('/news', 'FrontController@news');
+    Route::get('/news/{id}', 'FrontController@openPost');
+
     #endregion
 
     #region Ошибки

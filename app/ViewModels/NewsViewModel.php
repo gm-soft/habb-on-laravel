@@ -15,6 +15,8 @@ class NewsViewModel
     /** @var Post[] Переданные новости */
     public $posts;
 
+    public $postCount;
+
     /**
      * NewsViewModel constructor.
      * @param Post[] $posts
@@ -22,5 +24,7 @@ class NewsViewModel
     function __construct($posts)
     {
         $this->posts = $posts;
+
+        $this-> postCount = count($posts);
     }
 }

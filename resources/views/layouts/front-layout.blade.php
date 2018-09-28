@@ -9,7 +9,7 @@
 
     <title>@yield('title', "HABB - Киберспортивная организация")</title>
 
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('thirdparty/fa/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/frontend.css') }}">
@@ -23,9 +23,10 @@
         @yield('content')
 
         @include('layouts.footer')
-        <script src="{{ asset('thirdparty/jquery-3.1.1.min.js') }}"></script>
-        <script src="{{ asset('thirdparty/popper.js') }}"></script>
-        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('thirdparty/jquery-3.3.1.slim.min.js') }}"></script>
+        <script src="{{ asset('thirdparty/popper.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
+
         <script src="{{ asset('scripts/framework.js') }}"></script>
         <script src="{{ asset('scripts/utils.js') }}"></script>
 

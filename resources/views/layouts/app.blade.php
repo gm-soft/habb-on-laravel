@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/frontend.css') }}">
@@ -59,9 +59,9 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-    <script src="{{ asset('js/tether.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('thirdparty/jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ asset('thirdparty/popper.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
     <script src="{{ asset('custom/utils.js') }}"></script>
     <!-- Scripts -->
     <script>

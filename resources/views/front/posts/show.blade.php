@@ -3,23 +3,23 @@
 @section('title', 'Habb - '.$post->title)
 
 @section('content')
-    <div class="uk-container uk-margin">
+    <div class="container mt-2">
 
-        <article class="uk-article">
-            <h1 class="uk-article-title">
-                {{ $post->title }}
-            </h1>
-            <p class="uk-article-meta">
-                Просмотров: {{ $post->views }}. Публикация: {{ $post->UpdatedAt() }}
-            </p>
-            <p>
-                {!! $post->content  !!}
-            </p>
-        </article>
+        <h1 class="">
+            {{ $post->title }}
+        </h1>
+        <p class="uk-article-meta">
+            Просмотров: {{ $post->views }}. Публикация: {{ $post->UpdatedAt() }}
+        </p>
+        <p>
+            {!! $post->content  !!}
+        </p>
+
+
         <hr>
-        <div class="uk-grid-small uk-child-width-auto" uk-grid>
+        <div class="mt-2">
             <div>
-                <a class="uk-button uk-button-text" href="{{ url('news') }}">
+                <a class="btn btn-link" href="{{ url('news') }}">
                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                     В список новостей
                 </a>
