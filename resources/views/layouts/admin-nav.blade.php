@@ -22,6 +22,22 @@
                 </li>
 
                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="accounts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Новости</a>
+                    <div class="dropdown-menu" aria-labelledby="accounts">
+                        <a class="dropdown-item" href="{{ action('PostController@create') }}">Создать новость</a>
+                        <a class="dropdown-item" href="{{ url('admin/posts/') }}">Новости</a>
+                        <a class="dropdown-item" href="{{ url('admin/external_services/') }}">Внешние сервисы</a>
+
+                        <a class="dropdown-item" href="{{ url('admin/users/') }}">Пользователи</a>
+
+                        <a class="dropdown-item disabled" href="#">Записи статистики</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url('admin/keyValues/') }}">Ключ-Значение</a>
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="accounts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Объекты</a>
                     <div class="dropdown-menu" aria-labelledby="accounts">
 

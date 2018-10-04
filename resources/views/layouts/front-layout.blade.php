@@ -23,7 +23,7 @@
         @yield('content')
 
         @include('layouts.footer')
-        <script src="{{ asset('thirdparty/jquery-3.3.1.slim.min.js') }}"></script>
+        <script src="{{ asset('thirdparty/jquery-3.3.1.min.js') }}"></script>
         <script src="{{ asset('thirdparty/popper.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
 

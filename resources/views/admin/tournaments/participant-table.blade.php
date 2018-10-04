@@ -15,6 +15,7 @@
             @for($i = 0; $i < count($participants); $i++)
                 @php
                     $tournamentScore = $instance->participant_scores[$i];
+                    // TODO Gorbatyuk: Здесь выпадает NRE
                     $id = $participants[$i]->getIdentifier();
                     $participantScore = $participants[$i]->getScore($instance->game);
 
