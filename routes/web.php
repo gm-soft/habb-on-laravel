@@ -73,6 +73,11 @@
 
         Route::resource('external_services', 'ExternalServicesController');
         Route::post('update_api_key', 'ExternalServicesController@updateApiKey');
+
+        // загрузчик файлов
+        Route::get('files', 'UploadController@index');
+        Route::get('files/upload', 'UploadController@page');
+        Route::post('files/upload', 'UploadController@store');
     });
     #endregion
 

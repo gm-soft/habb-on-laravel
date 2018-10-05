@@ -131,8 +131,6 @@ class GamerController extends Controller
                 ->withInput($input);
 
         }
-        $scores = GamerScore::getScoreSet();
-        $gamer->scores()->saveMany($scores);
 
         return Redirect::action('GamerController@show', ["id" => $gamer->id])
             ->with('success', 'Данные сохранены');
@@ -242,8 +240,6 @@ class GamerController extends Controller
                 ->withInput($input);
 
         }
-        $scores = GamerScore::getScoreSet();
-        $gamer->scores()->saveMany($scores);
 
         session(['gamer_id' => $gamer->id]);
         return Redirect::action('GamerController@displayGamerRegisterResult');
