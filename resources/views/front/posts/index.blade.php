@@ -26,15 +26,17 @@
 
                 <div class="col-md-4 p-1">
                     <div class="card h-100">
+
+                        <!--img class="card-img-top" src="..." alt="Card image cap"-->
                         <div class="card-body">
-                            <h5 class="card-title">
-                                #{{ $post->title }}
+                            <h5 class="card-title text-truncate">
+                                {{ $post->title }}
                             </h5>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {{ $post->views }}
+                            <h6 class="card-subtitle small mb-2 text-muted">
+                                Просмотров: {{ $post->views }}
                             </h6>
                             <p class="card-text">
-                                {!! $post->getContentShortly(250) !!}
+                                {!! $post->getContentShortly(150) !!}
                             </p>
 
                             <a href="{{ $url }}" class="card-link">Перейти</a>

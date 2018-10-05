@@ -59,6 +59,29 @@ footer {
     min-width: 50px !important;
 }
 
+.habb-bg-cover {
+    background-size: cover;
+    color: white;
+    background-position: center center;
+    position: relative;
+    z-index: -2;
+}
+
+.habb-overlay {
+    background-color: #000;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.habb_jumbotron-text-background {
+
+}
+
 @media (min-width: 768px) {
     .registration-container{
         width:500px;

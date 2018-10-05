@@ -25,15 +25,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="accounts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Новости</a>
                     <div class="dropdown-menu" aria-labelledby="accounts">
                         <a class="dropdown-item" href="{{ action('PostController@create') }}">Создать новость</a>
-                        <a class="dropdown-item" href="{{ url('admin/posts/') }}">Новости</a>
-                        <a class="dropdown-item" href="{{ url('admin/external_services/') }}">Внешние сервисы</a>
-
-                        <a class="dropdown-item" href="{{ url('admin/users/') }}">Пользователи</a>
-
-                        <a class="dropdown-item disabled" href="#">Записи статистики</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url('admin/keyValues/') }}">Ключ-Значение</a>
-
+                        <a class="dropdown-item" href="{{ url('admin/posts/') }}">Список новостей</a>
                     </div>
                 </li>
 
@@ -44,16 +36,10 @@
                         <a class="dropdown-item" href="{{ url('admin/gamers/') }}">Аккаунты</a>
                         <a class="dropdown-item" href="{{ url('admin/teams/') }}">Команды</a>
                         <a class="dropdown-item" href="{{ url('admin/tournaments/') }}">Турниры</a>
+
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url('admin/posts/') }}">Посты</a>
                         <a class="dropdown-item" href="{{ url('admin/external_services/') }}">Внешние сервисы</a>
-
                         <a class="dropdown-item" href="{{ url('admin/users/') }}">Пользователи</a>
-
-                        <a class="dropdown-item disabled" href="#">Записи статистики</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url('admin/keyValues/') }}">Ключ-Значение</a>
-
                     </div>
                 </li>
 
@@ -67,7 +53,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Настройка</a>
                     <div class="dropdown-menu" aria-labelledby="settings">
-                        <a class="dropdown-item" href="{{ url('admin/server/') }}"><i class="fa fa-server" aria-hidden="true"></i> Сервер авторизации</a>
+                        <!--a class="dropdown-item" href="{{ url('admin/server/') }}"><i class="fa fa-server" aria-hidden="true"></i> Сервер авторизации</a-->
+
+                        <a class="dropdown-item" href="{{ url('admin/keyValues/') }}">Ключ-Значение</a>
                         <a class="dropdown-item" href="{{ url('phpmyadmin') }}"><i class="fa fa-database" aria-hidden="true"></i> PhpMyAdmin</a>
                     </div>
                 </li>
