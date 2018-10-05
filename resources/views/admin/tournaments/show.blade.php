@@ -44,11 +44,6 @@
                 </div>
             </div>
         </div>
-        <div class="mt-1">
-            @include('admin.tournaments.participant-table')
-        </div>
-
-
 
     </div>
 

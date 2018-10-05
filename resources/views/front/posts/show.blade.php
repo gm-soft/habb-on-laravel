@@ -4,14 +4,9 @@
 
 @section('content')
 
-    <div class="jumbotron jumbotron-fluid habb-bg-cover jumbotron-cover">
-        <div class="habb-overlay"></div>
-        <div class="container mt-5">
-            <h1 class="display-4">{{ $post->title }}</h1>
-        </div>
-    </div>
-
     <div class="container mt-2">
+
+        <h1 class="display-4">{{ $post->title }}</h1>
 
         <div class="my-3 text-muted">
             Просмотров: {{ $post->views }}. Публикация: {{ $post->UpdatedAt() }}
@@ -37,12 +32,4 @@
 
     </div>
 
-@endsection
-
-@section("styles")
-    <style type="text/css">
-        .jumbotron-cover {
-            background: url("http://disgustingmen.com/wp-content/uploads/2016/08/cybersport.jpg") fixed no-repeat center;
-        }
-    </style>
 @endsection

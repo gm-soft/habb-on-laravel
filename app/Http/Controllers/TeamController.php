@@ -58,8 +58,6 @@ class TeamController extends Controller
                 ->withInput($input);
 
         }
-        $scores = TeamScore::getScoreSet();
-        $instance->scores()->saveMany($scores);
 
         return Redirect::action('TeamController@show', ["id" => $instance->id])
             ->with('success', 'Данные сохранены');
@@ -72,7 +70,6 @@ class TeamController extends Controller
         $gamers = $instance->getGamers();
         return view('admin.teams.show', [
             'team' => $instance,
-            'scores' => $instance->scores,
             'gamers' => $gamers
         ]);
     }
@@ -111,42 +108,6 @@ class TeamController extends Controller
         }
         return Redirect::action('TeamController@show', ["id" => $instance->id])
             ->with('success', 'Данные сохранены');
-    }
-
-    public function scoreUpdate(Request $request)
-    {
-        /** @var Team $instance */
-        $id = Input::get('team_id');
-        $instance = Team::with('scores')->find($id);
-        $gameName = Input::get('game_name');
-        $scoreValue = Input::get('score_value');
-
-        if (is_null($gameName) || is_null($scoreValue)) {
-            Log::info("Прислан невалидный реквест на обновление очков команды");
-
-            flash("Название игры или очки пустые", Constants::Error);
-            return Redirect::action('GamerController@show', ["id" => $id]);
-        }
-
-
-        $result = $instance->addScoreValue($gameName, $scoreValue);
-        if (!is_null(Input::get('with_gamers'))) {
-            $gamers = $instance->getGamers(false);
-            foreach ($gamers as $gamer) {
-                $result = $result && $gamer->addScoreValue($gameName, $scoreValue);
-            }
-        }
-
-        if ($result == false) {
-
-            $message = "Не найдена запись очков игрока<br>";
-            $message .= join('<br>', $instance->errors());
-            flash($message, Constants::Error);
-            return Redirect::action('TeamController@show', ["id" => $id]);
-        }
-        flash("Очки обновлены", Constants::Success);
-        return Redirect::action('TeamController@show', ["id" => $id]);
-
     }
 
     public function destroy($id)
