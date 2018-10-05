@@ -46,11 +46,9 @@
         // Геймеры
         Route::resource('gamers', 'GamerController');
         Route::post('gamerReportForDatatable', 'GamerController@gamerReportForDatatable');
-        Route::post('gamerScoreUpdate', 'GamerController@scoreUpdate');
 
         // Команды
         Route::resource('teams', 'TeamController');
-        Route::post('teamsScoreUpdate', 'TeamController@scoreUpdate');
 
         // Посты/новости
         Route::resource('posts', 'PostController');
@@ -78,13 +76,6 @@
     });
     #endregion
 
-    #region Рейтинги во фронте
-    Route::group(['prefix' => 'rating'], function () {
-        Route::get('/gamers/{game?}', 'FrontController@gamerRating');
-        Route::get('/teams/{game?}', 'FrontController@teamRating');
-    });
-
-    #endregion
 
     #region Регистрации участников и команд
     Route::group(['prefix' => 'register'], function () {

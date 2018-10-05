@@ -21,20 +21,6 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
-                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Рейтинги
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="ratingsMenu">
-
-                        <a class="dropdown-item" href="{{ url('rating/teams') }}">Командный рейтинг</a>
-
-                        <a class="dropdown-item" href="{{ url('rating/gamers') }}">Персональный рейтинг</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Регистрации заявок
                     </a>
