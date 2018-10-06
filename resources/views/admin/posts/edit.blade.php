@@ -14,15 +14,11 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
-
-    <script>
-        CKEDITOR.replace('content');
-    </script>
-
+    <script src="{{ asset('thirdparty/ckeditor-5.11.0.js') }}"></script>
     <script src="{{ asset('scripts/formHelpers.js') }}"></script>
     <script>
         $(function(){
+            habb.formHelpers.CkEditorInit(".textarea__tag");
             habb.formHelpers.BackendImageListSelectorInit("{{ action('UploadController@getImagesAsJsonArray') }}");
         });
     </script>

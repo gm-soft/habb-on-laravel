@@ -31,12 +31,16 @@
                         </div>
 
                         <div class="mt-1">
-                            {{ link_to_action('PostController@index', 'В список', null, ['class' => 'btn btn-light']) }}
+                            {{ link_to_action('PostController@edit', 'Редактировать', ['id' => $post->id], ['class' => 'btn btn-primary btn-block mb-1']) }}
+
+                            {{ link_to_action('PostController@index', 'В список', null, ['class' => 'btn btn-light btn-block mb-3']) }}
+
+                            <hr>
+                            <button type="button" class="btn btn-outline-danger btn-block" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
                         </div>
 
                         <div class="mt-1">
-                            {{ link_to_action('PostController@edit', 'Редактировать', ['id' => $post->id], ['class' => 'btn btn-primary']) }}
-                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
+
                         </div>
 
                     </div>

@@ -45,7 +45,7 @@
         <div class="form-group">
             {{ Form::label('content', 'Контент') }}
             {{ Form::textarea('content', old('content'),
-                    array('class' => 'form-control', 'required', 'maxlength' => '10000',
+                    array('class' => 'form-control textarea__tag', 'required', 'maxlength' => '10000',
                     'placeholder' => 'Напечатайте контент статьи. Максимум 10000 знаков', 'id' => 'ckeditor')) }}
             @if ($errors->has('content'))
                 <span class="help-block text-danger">

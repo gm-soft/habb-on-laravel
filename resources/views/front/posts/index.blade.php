@@ -27,19 +27,17 @@
                 <div class="col-md-4 p-1">
                     <div class="card h-100">
 
-                        <!--img class="card-img-top" src="..." alt="Card image cap"-->
+                        <img class="card-img-top w-100" src="{{ asset($post->announce_image) }}" alt="">
                         <div class="card-body">
-                            <h5 class="card-title text-truncate">
+                            <h5 class="card-title">
                                 {{ $post->title }}
                             </h5>
-                            <h6 class="card-subtitle small mb-2 text-muted">
-                                Просмотров: {{ $post->views }}
-                            </h6>
-                            <p class="card-text">
-                                {!! $post->getContentShortly(150) !!}
-                            </p>
 
                             <a href="{{ $url }}" class="card-link">Перейти</a>
+                        </div>
+
+                        <div class="card-footer">
+                            <small class="text-muted">Просмотров: {{ $post->views }}</small>
                         </div>
                     </div>
                 </div>

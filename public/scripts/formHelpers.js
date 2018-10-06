@@ -2,12 +2,24 @@
 (function(){
 
     var formHelpers = {
+        CkEditorInit: CkEditorInit,
         RequestDataToSelect : RequestDataToSelect,
         BackendImageListSelectorInit: BackendImageListSelectorInit,
         setImagePathToInput: setImagePathToInput
     };
 
     habb.formHelpers = formHelpers;
+
+    function CkEditorInit(textAreaSelector){
+        ClassicEditor
+            .create( document.querySelector(textAreaSelector) )
+            .then( editor => {
+                console.log( editor );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+    }
 
     function RequestDataToSelect(selectElement, type, sourceTrigger) {
         selectElement.prop("disabled", true);

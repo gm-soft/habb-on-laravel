@@ -19,6 +19,7 @@
 
             <div class="col-md-4">
                 <div class="card">
+
                     <div class="card-body">
                         <a class="btn btn-link" href="{{ url('news') }}">
                             <i class="fa fa-chevron-left" aria-hidden="true"></i>
