@@ -8,7 +8,7 @@
 
 @section('content')
 
-    <div class="container mt-2">
+    <div class="container mt-5">
 
         <h1>Новости киберспорта</h1>
 
@@ -17,36 +17,17 @@
             @php
                 /** @var \App\Models\Post $post */
                 $post = $model->posts[$i];
-                $url = url('news/'.$post->id)
             @endphp
 
-        @if($i == 0 || $i % 3 == 0)
-            <div class="row mt-2">
-        @endif
+            @if($i == 0 || $i % 3 == 0)
+                <div class="row mt-3">
+            @endif
 
-                <div class="col-md-4 p-1">
-                    <div class="card h-100">
+            @include('front.posts._post-announce', $post)
 
-                        <img class="card-img-top w-100" src="{{ asset($post->announce_image) }}" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                {{ $post->title }}
-                            </h5>
-
-                            <a href="{{ $url }}" class="card-link">Перейти</a>
-                        </div>
-
-                        <div class="card-footer">
-                            <small class="text-muted">Просмотров: {{ $post->views }}</small>
-                        </div>
-                    </div>
+            @if($i == ($model->postCount - 1) || ($i - 2) % 3 == 0)
                 </div>
-
-
-
-                @if($i == ($model->postCount - 1) || ($i - 2) % 3 == 0)
-                    </div>
-                @endif
+            @endif
 
         @endfor
 

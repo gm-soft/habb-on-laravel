@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Constants;
 use Carbon\Carbon;
+use DB;
 use Html;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
@@ -99,11 +100,13 @@ class Post extends Ardent
     }
 
     public static function getTop($limit){
-        $rows = \DB::table('posts')
+
+        $rows = DB::table('posts')
             ->select()
             ->orderByDesc('updated_at')
             ->limit($limit)
             ->get();
+
         return $rows;
     }
 }

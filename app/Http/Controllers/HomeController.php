@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Models\Post;
+use App\ViewModels\Front\HomePageViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -20,11 +22,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('front.home.index');
-    }
+        $model = new HomePageViewModel();
+        $model->topPostCount = 3;
 
-    public function news() {
-        return view('front.home.news');
+        $model->posts = Post::getTop($model->topPostCount) ;
+
+        return view('front.home.index', ['model' => $model]);
     }
 
     public function about() {

@@ -32,6 +32,14 @@
                         <a class="dropdown-item" href="{{ url('register/gamer') }}">Аккаунт игрока</a>
                     </div>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ action("HomeController@about") }}">О нас</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ action("HomeController@contacts") }}">Контакты</a>
+                </li>
             </ul>
             <!--form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
