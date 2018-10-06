@@ -48,3 +48,24 @@ blockquote {
     border: 1px solid;
     /*border-radius:0px*/
 }
+
+.habb-post-link {
+    font-size: 21px;
+    color: #131313 !important;
+}
+
+.habb-post-link:hover {
+    color: #131313 !important;
+    text-decoration: underline !important;
+}
+
+.habb-post-link:focus, .btn-link-black.focus {
+    text-decoration: underline !important;
+    box-shadow: none !important;
+}
+
+.habb-post-link:disabled, .btn-link.disabled {
+    color: #6c757d !important;
+    pointer-events: none;
+}
+

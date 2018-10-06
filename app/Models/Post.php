@@ -99,14 +99,18 @@ class Post extends Ardent
         return $this->updated_at->format($format);
     }
 
-    public static function getTop($limit){
+    public static function getTop($limit, $postIdToFiler = null){
 
-        $rows = DB::table('posts')
+        $query = DB::table('posts')
             ->select()
-            ->orderByDesc('updated_at')
+            ->where('deleted_at', '=', null);
+
+        if (isset($postIdToFiler))
+            $query = $query->where('id', '<>', $postIdToFiler);
+
+        return $query
+            ->orderByDesc('created_at')
             ->limit($limit)
             ->get();
-
-        return $rows;
     }
 }

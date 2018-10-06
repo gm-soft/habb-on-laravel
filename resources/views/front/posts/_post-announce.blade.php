@@ -1,13 +1,12 @@
-<div class="col-md-4 p-1">
+<div class="col-md-4 px-3">
     <div class="card h-100 habb-post-announce-card">
 
         <img class="card-img-top w-100" src="{{ asset($post->announce_image) }}" alt="">
-        <div class="card-body">
-            <h5 class="card-title">
-                {{ $post->title }}
-            </h5>
 
-            <a href="{{ url('news/'.$post->id) }}" class="card-link">Перейти</a>
+        <div class="card-body">
+            <div class="card-title">
+                <a href="{{ action('HomeController@openPost', ['id' => $post->id]) }}" class="card-link habb-post-link">#{{ $post->title }}</a>
+            </div>
         </div>
 
         <div class="card-footer">
