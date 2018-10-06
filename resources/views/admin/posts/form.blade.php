@@ -60,7 +60,8 @@
     <div class="col-sm-3">
         <div class="form-group">
             <button type="submit" id="submit-btn" class="btn btn-primary btn-block mb-1">Опубликовать</button>
-            <button type="button" class="btn btn-secondary btn-block mb-1">Предпросмотр анонса</button>
+            <button type="button" class="btn btn-secondary btn-block mb-1 preview-announce-btn__tag">Предпросмотр анонса</button>
+            <button type="button" class="btn btn-secondary btn-block mb-1 preview-btn__tag">Предпросмотр новости</button>
             <a href="#" class="btn btn-outline-warning btn-block " onclick="window.history.back()">Отменить</a>
         </div>
     </div>

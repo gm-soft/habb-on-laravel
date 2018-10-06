@@ -40,7 +40,9 @@ class HomeController extends Controller
         foreach ($posts as $post) {
             $post->decodeHtmlContent();
         }
+
         $model = new NewsViewModel($posts);
+        $model->pageTitle = "Новости киберсопрта";
 
         return view('front.posts.index', ["model" => $model]);
     }

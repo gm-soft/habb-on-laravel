@@ -53,9 +53,16 @@
         // Посты/новости
         Route::resource('posts', 'PostController');
 
+        if (env('APP_DEBUG')){
+            Route::any('posts/preview/announce', 'PostController@postAnnouncePreview');
+            Route::any('posts/preview/post', 'PostController@postPreview');
+        } else {
+            Route::post('posts/preview/announce', 'PostController@postAnnouncePreview');
+            Route::post('posts/preview/post', 'PostController@postPreview');
+        }
+
         // Турниры
         Route::resource('tournaments', 'TournamentController');
-        Route::post('tournamentScoreUpdate', 'TournamentController@scoreUpdate');
 
         // Пользователи системы
         Route::resource('users', 'UserController');

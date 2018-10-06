@@ -1,16 +1,16 @@
 
 (function(){
 
-    var formHelpers = {
-        CkEditorInit: CkEditorInit,
+    habb.formHelpers = {
         RequestDataToSelect : RequestDataToSelect,
         BackendImageListSelectorInit: BackendImageListSelectorInit,
-        setImagePathToInput: setImagePathToInput
-    };
+        setImagePathToInput: setImagePathToInput,
+        sendPreviewRequest: sendPreviewRequest
+    };;
 
-    habb.formHelpers = formHelpers;
 
     function CkEditorInit(textAreaSelector){
+        // TODO Gorbatyuk: этот метод не используется, потмоу что поломан пробел в ckeditor 5
         ClassicEditor
             .create( document.querySelector(textAreaSelector) )
             .then( editor => {
@@ -76,5 +76,28 @@
 
     function setImagePathToInput(imagePath){
         $('.image_form_control__tag').val(imagePath);
+    }
+
+    function sendPreviewRequest(url){
+
+        // нужно заменить контент в массиве передаваемых значений, потому что его нет на самом деле
+        var data = $('.form__tag').serializeArray();
+        for(var key in data){
+            if( !data.hasOwnProperty(key))
+                continue;
+
+            if (data[key].name === 'content'){
+                data[key].value = CKEDITOR.instances['ckeditor'].getData();
+                break;
+            }
+        }
+
+        habb.utils.AjaxRequest(url, data, function(response){
+
+            var w = window.open('about:blank');
+            w.document.open();
+            w.document.write(response);
+            w.document.close();
+        });
     }
 }());

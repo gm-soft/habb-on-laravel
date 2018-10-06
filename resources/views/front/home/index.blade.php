@@ -99,6 +99,12 @@
 
             </div>
 
+            <div class="mt-3">
+                <a href="{{ action('HomeController@news') }}" class="btn btn-lg btn-light btn-block home-page-registration-btn pt-3">
+                    <span class="h3">Все новости киберспорта</span>
+                </a>
+            </div>
+
         </div>
 
     </div>

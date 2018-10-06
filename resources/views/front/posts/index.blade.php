@@ -1,6 +1,6 @@
 
 @extends('layouts.front-layout')
-@section('title', 'Новости портала')
+@section('title', 'HABB | Новости')
 
     @php
         /** @var \App\ViewModels\NewsViewModel $model */
@@ -10,7 +10,7 @@
 
     <div class="container mt-5">
 
-        <h1>Новости киберспорта</h1>
+        <h1>{{ $model->pageTitle }}</h1>
 
         @for($i = 0; $i < $model->postCount; $i++)
 
@@ -23,16 +23,13 @@
                 <div class="row mt-3">
             @endif
 
-            @include('front.posts._post-announce', $post)
+            @include('front.posts._post-announce')
 
             @if($i == ($model->postCount - 1) || ($i - 2) % 3 == 0)
                 </div>
             @endif
 
         @endfor
-
-
-
     </div>
 
 @endsection
