@@ -18,4 +18,11 @@
     <script>
         CKEDITOR.replace('content');
     </script>
+
+    <script src="{{ asset('scripts/formHelpers.js') }}"></script>
+    <script>
+        $(function(){
+            habb.formHelpers.BackendImageListSelectorInit("{{ action('UploadController@getImagesAsJsonArray') }}");
+        });
+    </script>
 @endsection

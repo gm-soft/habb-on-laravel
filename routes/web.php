@@ -78,6 +78,11 @@
         Route::get('files', 'UploadController@index');
         Route::get('files/upload', 'UploadController@page');
         Route::post('files/upload', 'UploadController@store');
+        Route::post('files/getAsJson', 'UploadController@getImagesAsJsonArray');
+
+        if (env('APP_DEBUG')){
+            Route::get('files/getAsJson', 'UploadController@getImagesAsJsonArray');
+        }
     });
     #endregion
 

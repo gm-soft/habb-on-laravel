@@ -41,7 +41,14 @@ class PostController extends Controller
         $post->title = HTML::entities(Input::get('title'));
         $post->encodeHtmlContent(Input::get('content'));
         //$post->content = HTML::entities(Input::get('content'));
-        $post->save();
+        $post->announce_image = Input::get('announce_image');
+
+        if (!$post->save()) {
+            return Redirect::to('admin/posts/create')
+                ->withErrors($post->errors())
+                ->withInput($input);
+        }
+
         flash("Данные сохранены!", Constants::Success);
         return Redirect::action('PostController@show', ["id" => $post->id])
             ->with('success', 'Данные сохранены');
@@ -82,6 +89,7 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->title = Input::get('title');
         $post->encodeHtmlContent(Input::get('content'));
+        $post->announce_image = Input::get('announce_image');
 
         if (!$post->save()) {
             return Redirect::to('admin/posts/edit')

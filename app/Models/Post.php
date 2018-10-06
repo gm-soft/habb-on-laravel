@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Constants;
 use Carbon\Carbon;
 use Html;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,6 +16,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property string $title Заголовок статьи
  * @property string $content Контент статьи
  * @property int $views ПРосмотры статьи
+ * @property string $announce_image Картинка для анонса
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -25,8 +27,9 @@ class Post extends Ardent
     use SoftDeletes;
 
     public static $rules = array(
-        'title'     => 'required|between:2,100',
-        'content'   => 'required|between:2,10000',
+        'title'          => 'required|between:2,100',
+        'content'        => 'required|between:2,10000',
+        'announce_image' => 'required|regex:/'.Constants::AnnounceImagePathRegexPattern.'/'
     );
     protected $table = "posts";
 
@@ -93,5 +96,14 @@ class Post extends Ardent
 
     public function UpdatedAt($format = "d.m.Y"){
         return $this->updated_at->format($format);
+    }
+
+    public static function getTop($limit){
+        $rows = \DB::table('posts')
+            ->select()
+            ->orderByDesc('updated_at')
+            ->limit($limit)
+            ->get();
+        return $rows;
     }
 }

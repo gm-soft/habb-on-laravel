@@ -12,6 +12,21 @@ class UploadController extends Controller
 {
     public function index(){
 
+        $result = $this->getFilesAsArray();
+
+        return view('admin.upload.index', ['files' => $result]);
+    }
+
+    public function getImagesAsJsonArray(){
+        $result = $this->getFilesAsArray();
+
+        return response()->json($result);
+    }
+
+    /**
+     * @return array|FileItem[]
+     */
+    private function getFilesAsArray(){
         $imageStorage = Storage::disk('public_images');
         $fileNames = $imageStorage->files();
 
@@ -30,7 +45,7 @@ class UploadController extends Controller
             $result[] = $item;
         }
 
-        return view('admin.upload.index', ['files' => $result]);
+        return $result;
     }
 
     public function page(){

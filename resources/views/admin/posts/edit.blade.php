@@ -13,12 +13,17 @@
 
 @endsection
 
-@section('styles')
-@endsection
-
 @section('scripts')
     <script src="https://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
+
     <script>
         CKEDITOR.replace('content');
+    </script>
+
+    <script src="{{ asset('scripts/formHelpers.js') }}"></script>
+    <script>
+        $(function(){
+            habb.formHelpers.BackendImageListSelectorInit("{{ action('UploadController@getImagesAsJsonArray') }}");
+        });
     </script>
 @endsection

@@ -2,7 +2,9 @@
 (function(){
 
     var formHelpers = {
-        RequestDataToSelect : RequestDataToSelect
+        RequestDataToSelect : RequestDataToSelect,
+        BackendImageListSelectorInit: BackendImageListSelectorInit,
+        setImagePathToInput: setImagePathToInput
     };
 
     habb.formHelpers = formHelpers;
@@ -36,5 +38,31 @@
                 sourceTrigger.prop("disabled", false);
             }
         })
+    }
+
+    function BackendImageListSelectorInit(urlToFilesJson){
+
+        $('.choose_btn__tag').click(function(){
+
+            if ($(this).attr('aria-expanded')){
+
+                var listDiv = $('.choose_image_list__tag');
+
+                habb.utils.AjaxRequest(urlToFilesJson, null, function(response){
+                    listDiv.empty();
+
+                    for (var index = 0; index < response.length; index++){
+                        var item = "<a href='#' class='dropdown-item choose_list_item__tag' " +
+                            "onclick='habb.formHelpers.setImagePathToInput(\"" + response[index].filepath +"\")'>" + response[index].filepath + "<a/>";
+                        listDiv.append(item);
+                    }
+                });
+            }
+
+        });
+    }
+
+    function setImagePathToInput(imagePath){
+        $('.image_form_control__tag').val(imagePath);
     }
 }());
