@@ -21,20 +21,6 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
-                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Рейтинги
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="ratingsMenu">
-
-                        <a class="dropdown-item" href="{{ url('rating/teams') }}">Командный рейтинг</a>
-
-                        <a class="dropdown-item" href="{{ url('rating/gamers') }}">Персональный рейтинг</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Регистрации заявок
                     </a>
@@ -45,6 +31,14 @@
 
                         <a class="dropdown-item" href="{{ url('register/gamer') }}">Аккаунт игрока</a>
                     </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ action("HomeController@about") }}">О нас</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ action("HomeController@contacts") }}">Контакты</a>
                 </li>
             </ul>
             <!--form class="form-inline my-2 my-lg-0">

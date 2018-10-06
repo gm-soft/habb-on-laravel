@@ -39,10 +39,6 @@
             </div>
 
         </div>
-
-        <div class="mt-1">
-            @include('admin/teams/score-table')
-        </div>
     </div>
 
     <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="deleteDialog" aria-hidden="true">

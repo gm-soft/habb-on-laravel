@@ -33,6 +33,8 @@ abstract class Constants
     // TODO Gorbatyuk: почему-то не получилось встроить в паттерн проверку типа А-Яа-я, только так приходится указывать русский алфавит
     const RussianAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
+    const AnnounceImagePathRegexPattern = "^([A-Za-z\\/0-9._-]+)$";
+
     const APP_DEBUG = 'APP_DEBUG';
 
     public static function getCities() {

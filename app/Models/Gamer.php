@@ -73,20 +73,9 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'secondary_games' => 'array'
     ];
     public static $relationsData = [
-        'scores'            => [self::HAS_MANY, 'GamerScore'],
         'users'             => [self::BELONGS_TO, 'User'],
         'external_services' => [self::BELONGS_TO, 'ExternalService']
     ];
-
-    /**
-     * Массив привязанных очков GamerScore
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function scores()
-    {
-        $scores = $this->hasMany('App\Models\GamerScore');
-        return $scores;
-    }
 
     public function user(){
         return $this->belongsTo('App\User');
@@ -97,6 +86,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     }
 
     #region Кастомные функции модели
+
     public function getGamerAge(){
 
         if (is_null($this->birthday))
@@ -121,25 +111,8 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     }
     #endregion
 
-    #region еРеализация интерфейсов
-    /**
-     * Добавляет переданные аргументом очки. Сразу же сохраняет и возвращает результат
-     * @param string $gameName
-     * @param int $scoreValueAdded
-     * @return bool
-     */
-    public function addScoreValue($gameName, $scoreValueAdded) {
-        $score = $this->getScore($gameName);
-        if (is_null($score)) {
-            $this->errors()->add('NotFound', 'Привязанные очки к игре '.$gameName.' не найдены');
-            return false;
-        }
-        $score->total_change = $scoreValueAdded;
-        $score->total_value = $scoreValueAdded + $score->total_value;
+    #region Реализация интерфейсов
 
-        $result = $score->update();
-        return $result;
-    }
 
     public function getSecondaryGamesAttribute($value){
         $result = !is_null($value) ? explode(',', $value) : $value;
@@ -176,35 +149,9 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         return $this->id;
     }
 
-    /**
-     * Возвращает определенный
-     * @param string $gameName
-     * @return GamerScore|null
-     */
-    public function getScore($gameName)
-    {
-        $scores = $this->scores;
-        foreach ($scores as $score) {
-            if ($score->game_name != $gameName) continue;
-            return $score;
-        }
-        return null;
-    }
-
     public function getClass()
     {
         return strtolower(class_basename($this));
-    }
-
-    /**
-     * @return GamerScore[]|array
-     */
-    public function getScores(){
-        if (is_null($this->scores) || count($this->scores) == 0) {
-            $this->scores = GamerScore::getScoreSet();
-            $this->scores()->saveMany($this->scores);
-        }
-        return $this->scores;
     }
 
 

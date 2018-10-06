@@ -131,8 +131,6 @@ class GamerController extends Controller
                 ->withInput($input);
 
         }
-        $scores = GamerScore::getScoreSet();
-        $gamer->scores()->saveMany($scores);
 
         return Redirect::action('GamerController@show', ["id" => $gamer->id])
             ->with('success', 'Данные сохранены');
@@ -145,7 +143,6 @@ class GamerController extends Controller
         $gamer = Gamer::find($id);
         $model = new \App\ViewModels\Back\GamerShowViewModel();
         $model->gamer = $gamer;
-        $model->scores = $gamer->getScores();
         return view('admin.gamers.show', [ 'model' => $model]);
     }
 
@@ -155,7 +152,6 @@ class GamerController extends Controller
         $gamer = Gamer::find($id);
         $model = new \App\ViewModels\Back\GamerShowViewModel();
         $model->gamer = $gamer;
-        $model->scores = $gamer->scores;
         return view('admin.gamers.edit', ['model' => $model]);
     }
 
@@ -199,40 +195,6 @@ class GamerController extends Controller
     }
 
     #endregion
-
-    /**
-     * Обновляет очки геймера
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
-    public function scoreUpdate(Request $request)
-    {
-        /** @var Gamer $gamer */
-        $id = Input::get('gamer_id');
-        $gamer = Gamer::with('scores')->find($id);
-        $gameName = Input::get('game_name');
-        $scoreValue = Input::get('score_value');
-
-        if (is_null($gameName) || is_null($scoreValue)) {
-            Log::info("Прислан невалидный реквест на обновление очков команды");
-
-            flash("Название игры или очки пустые", Constants::Error);
-            return Redirect::action('GamerController@show', ["id" => $id]);
-        }
-
-
-        $result = $gamer->addScoreValue($gameName, $scoreValue);
-        if ($result == false) {
-
-            $message = "Не найдена запись очков игрока<br>";
-            $message .= join('<br>', $gamer->errors());
-            flash($message, Constants::Error);
-            return Redirect::action('GamerController@show', ["id" => $id]);
-        }
-        flash("Очки обновлены", Constants::Success);
-        return Redirect::action('GamerController@show', ["id" => $id]);
-    }
 
     #region Форма регистрации участника HABB
     /**
@@ -278,8 +240,6 @@ class GamerController extends Controller
                 ->withInput($input);
 
         }
-        $scores = GamerScore::getScoreSet();
-        $gamer->scores()->saveMany($scores);
 
         session(['gamer_id' => $gamer->id]);
         return Redirect::action('GamerController@displayGamerRegisterResult');

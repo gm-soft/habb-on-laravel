@@ -179,40 +179,6 @@ class Tournament extends Ardent
         $this->participant_scores = $tmpScores;
     }
 
-    /**
-     * Возвращает значение очков, соответствующее айдишнику. Если не найден, то ноль
-     * @param $id
-     * @return int
-     */
-    public function getScoreValueOfId($id) {
-        $result = 0;
-        for($i = 0; $i < count($this->participant_ids);$i++) {
-
-            if ($this->participant_ids[$i] != $id) continue;
-            $result = $this->participant_scores[$i];
-            break;
-        }
-        return $result;
-    }
-
-    /**
-     * Добавляет очки учсастнику по id
-     * @param $id
-     * @param int $value
-     * @return bool
-     */
-    public function addScoreValueOfId($id, $value) {
-        $result = false;
-        $scores = $this->participant_scores;
-        for($i = 0; $i < count($this->participant_ids);$i++) {
-
-            if ($this->participant_ids[$i] != $id) continue;
-            $scores[$i] += $value;
-            $this->participant_scores = $scores;
-            break;
-        }
-        return $result;
-    }
 
     public function getParticipantCount() {
         return count($this->participant_ids);

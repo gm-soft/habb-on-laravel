@@ -18,8 +18,8 @@
     Route::get('/contacts', 'HomeController@contacts');
 
 
-    Route::get('/news', 'FrontController@news');
-    Route::get('/news/{id}', 'FrontController@openPost');
+    Route::get('/news', 'HomeController@news');
+    Route::get('/news/{id}', 'HomeController@openPost');
 
     #endregion
 
@@ -46,18 +46,23 @@
         // Геймеры
         Route::resource('gamers', 'GamerController');
         Route::post('gamerReportForDatatable', 'GamerController@gamerReportForDatatable');
-        Route::post('gamerScoreUpdate', 'GamerController@scoreUpdate');
 
         // Команды
         Route::resource('teams', 'TeamController');
-        Route::post('teamsScoreUpdate', 'TeamController@scoreUpdate');
 
         // Посты/новости
         Route::resource('posts', 'PostController');
 
+        if (env('APP_DEBUG')){
+            Route::any('posts/preview/announce', 'PostController@postAnnouncePreview');
+            Route::any('posts/preview/post', 'PostController@postPreview');
+        } else {
+            Route::post('posts/preview/announce', 'PostController@postAnnouncePreview');
+            Route::post('posts/preview/post', 'PostController@postPreview');
+        }
+
         // Турниры
         Route::resource('tournaments', 'TournamentController');
-        Route::post('tournamentScoreUpdate', 'TournamentController@scoreUpdate');
 
         // Пользователи системы
         Route::resource('users', 'UserController');
@@ -75,16 +80,19 @@
 
         Route::resource('external_services', 'ExternalServicesController');
         Route::post('update_api_key', 'ExternalServicesController@updateApiKey');
+
+        // загрузчик файлов
+        Route::get('files', 'UploadController@index');
+        Route::get('files/upload', 'UploadController@page');
+        Route::post('files/upload', 'UploadController@store');
+        Route::post('files/getAsJson', 'UploadController@getImagesAsJsonArray');
+
+        if (env('APP_DEBUG')){
+            Route::get('files/getAsJson', 'UploadController@getImagesAsJsonArray');
+        }
     });
     #endregion
 
-    #region Рейтинги во фронте
-    Route::group(['prefix' => 'rating'], function () {
-        Route::get('/gamers/{game?}', 'FrontController@gamerRating');
-        Route::get('/teams/{game?}', 'FrontController@teamRating');
-    });
-
-    #endregion
 
     #region Регистрации участников и команд
     Route::group(['prefix' => 'register'], function () {

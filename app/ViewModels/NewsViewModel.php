@@ -12,9 +12,17 @@ use App\Models\Post;
 
 class NewsViewModel
 {
+    /**
+     * @var string
+     */
+    public $pageTitle;
+
     /** @var Post[] Переданные новости */
     public $posts;
 
+    /**
+     * @var int
+     */
     public $postCount;
 
     /**

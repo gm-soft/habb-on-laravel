@@ -55,16 +55,6 @@ class TournamentController extends Controller
 
         $participantIds = Input::get('participant_ids');
 
-        if (!is_null($participantIds)) {
-            $scores = [];
-            for($i = 0; $i < count($participantIds); $i++) {
-                $scores[] = 0;
-            }
-        } else {
-            $scores = null;
-            //$participantIds = null;
-        }
-        $instance->participant_scores = $scores;
         $instance->participant_ids = $participantIds;
 
         //VarDumper::VarExport(Input::all());
