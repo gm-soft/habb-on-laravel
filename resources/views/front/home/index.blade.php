@@ -107,9 +107,6 @@
 @section('styles')
 
     <style>
-
-
-
         .habb-slider-block-first {
             background: url({{ url('storage/dote2.jpg') }}) no-repeat center;
         }
@@ -121,7 +118,6 @@
         .habb-slider-block-third {
             background: url({{ url('storage/tihall.jpg') }}) no-repeat center;
         }
-
     </style>
 
 @endsection

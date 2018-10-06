@@ -5,21 +5,12 @@ namespace App\Http\Controllers;
 use App\Helpers\Constants;
 use App\Models\Post;
 use App\ViewModels\Front\HomePageViewModel;
+use App\ViewModels\NewsViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
-    public function __construct()
-    {
-        //$this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
-     */
     public function index()
     {
         $model = new HomePageViewModel();
@@ -46,5 +37,30 @@ class HomeController extends Controller
             return \Redirect::to('/');
         }
         return view('auth.profile', ['model' => $currentUser]);
+    }
+
+    public function openPost($id){
+        /** @var Post $post */
+        $post = Post::find($id);
+
+        $user = \Auth::user();
+        if (\Auth::guest() || !$user->hasBackendRight()) {
+            $post->views = $post->views+1;
+            $post->save();
+        }
+        $post->decodeHtmlContent();
+
+
+        return view('front.posts.show', ["post" => $post]);
+    }
+
+    public function news() {
+        $posts = Post::all();
+        foreach ($posts as $post) {
+            $post->decodeHtmlContent();
+        }
+        $model = new NewsViewModel($posts);
+
+        return view('front.posts.index', ["model" => $model]);
     }
 }

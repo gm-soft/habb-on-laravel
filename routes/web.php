@@ -18,8 +18,8 @@
     Route::get('/contacts', 'HomeController@contacts');
 
 
-    Route::get('/news', 'FrontController@news');
-    Route::get('/news/{id}', 'FrontController@openPost');
+    Route::get('/news', 'HomeController@news');
+    Route::get('/news/{id}', 'HomeController@openPost');
 
     #endregion
 
