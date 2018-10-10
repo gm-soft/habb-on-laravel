@@ -8,6 +8,7 @@ use LaravelArdent\Ardent\Ardent;
 
 /**
  * Class Banner
+ * @property int id
  * @property string title
  * @property string subtitle
  * @property string image_path

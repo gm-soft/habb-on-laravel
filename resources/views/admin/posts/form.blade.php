@@ -27,18 +27,12 @@
                             aria-haspopup="true"
                             aria-expanded="false">Выбрать картинку</button>
 
-                    <div class="dropdown-menu choose_image_list__tag">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                    <div class="dropdown-menu choose_image_list__tag"></div>
                 </div>
             </div>
 
             @if ($errors->has('announce_image'))
-                <span class="help-block text-danger">
-            <strong>{{ $errors->first('announce_image') }}</strong>
-        </span><br>
+                <span class="help-block text-danger"><strong>{{ $errors->first('announce_image') }}</strong></span><br>
             @endif
         </div>
 

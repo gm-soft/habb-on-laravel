@@ -33,13 +33,17 @@
                     <a class="nav-link dropdown-toggle" href="#" id="accounts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Объекты</a>
                     <div class="dropdown-menu" aria-labelledby="accounts">
 
-                        <a class="dropdown-item" href="{{ url('admin/gamers/') }}">Аккаунты</a>
+                        <a class="dropdown-item" href="{{ url('admin/gamers/') }}">Аккаунты игроков</a>
                         <a class="dropdown-item" href="{{ url('admin/teams/') }}">Команды</a>
                         <a class="dropdown-item" href="{{ url('admin/tournaments/') }}">Турниры</a>
+                        <a class="dropdown-item" href="{{ url('admin/banners/') }}">Баннеры</a>
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('admin/external_services/') }}">Внешние сервисы</a>
-                        <a class="dropdown-item" href="{{ url('admin/users/') }}">Пользователи</a>
+                        <a class="dropdown-item" href="{{ url('admin/users/') }}">Модераторы</a>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url('admin/requests/teamCreate/') }}">Заявка на создание команды</a>
                     </div>
                 </li>
 
@@ -49,13 +53,6 @@
 
                         <a class="dropdown-item" href="{{ action('UploadController@page') }}">Загрузить файл</a>
                         <a class="dropdown-item" href="{{ action('UploadController@index') }}">Все файлы</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="requests" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Запросы</a>
-                    <div class="dropdown-menu" aria-labelledby="requests">
-                        <a class="dropdown-item" href="{{ url('admin/requests/teamCreate/') }}">На создание команды</a>
                     </div>
                 </li>
 

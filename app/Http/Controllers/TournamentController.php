@@ -32,6 +32,7 @@ class TournamentController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make(Input::all(), Tournament::$rules);
+
         if ($validator->fails()) {
             return Redirect::action('TournamentController@create')
                 ->withErrors($validator->errors())

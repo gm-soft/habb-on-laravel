@@ -61,6 +61,8 @@
             Route::post('posts/preview/post', 'PostController@postPreview');
         }
 
+        Route::resource('banners', 'BannerController');
+
         // Турниры
         Route::resource('tournaments', 'TournamentController');
 
