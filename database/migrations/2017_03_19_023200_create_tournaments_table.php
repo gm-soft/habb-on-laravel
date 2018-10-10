@@ -13,29 +13,22 @@ class CreateTournamentsTable extends Migration
     public function up()
     {
         Schema::create('tournaments', function (Blueprint $table) {
+
             $table->increments('id');
-            $table->string('name', 100)
-                ->comment('Название турнира');
-            $table->text('comment')->nullable()
-                ->comment('Комментарий пользователя');
-            $table->text('public_description')
-                ->comment('Публичное описание, доступное открыто');
 
-            $table->string('tournament_type', 20)
-                ->comment('Тип турнира. team или gamer');
+            $table->string('name', 100)->comment('Название турнира');
+            $table->text('comment')->nullable()->comment('Комментарий пользователя');
+            $table->text('public_description')->comment('Публичное описание, доступное открыто');
 
-            $table->integer('participant_max_count')->default(16)
-                ->comment('Максимальное кол-во участников');
+            $table->string('tournament_type', 20)->comment('Тип турнира. team или gamer');
 
-            $table->text('participant_ids')->nullable()
-                ->comment('Массив айдишников участников');
-            $table->text('participant_scores')->nullable()
-                ->comment('Массив очков');
+            $table->integer('participant_max_count')->default(16)->comment('Максимальное кол-во участников');
 
-            $table->dateTime('started_at')->nullable()
-                ->comment('Начало турнира');
-            $table->dateTime('reg_closed_at')->nullable()
-                ->comment('Время закрытия регистрации');
+            $table->text('participant_ids')->nullable()->comment('Массив айдишников участников');
+            $table->text('participant_scores')->nullable()->comment('Массив очков');
+
+            $table->dateTime('started_at')->nullable()->comment('Начало турнира');
+            $table->dateTime('reg_closed_at')->nullable()->comment('Время закрытия регистрации');
 
             $table->timestamps();
             $table->softDeletes();
