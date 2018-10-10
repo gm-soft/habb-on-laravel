@@ -15,15 +15,6 @@
                     <dt>Публичное описание</dt>
                     <dd>{{ $instance->public_description }}</dd>
 
-                    <dt>Тип турнира</dt>
-                    <dd>{{ $instance->tournament_type }}</dd>
-
-                    <dt>Максимальное кол-во участников</dt>
-                    <dd>{{ $instance->participant_max_count }}</dd>
-
-                    <dt>Игровая дисциплина</dt>
-                    <dd>{{ $instance->game ?? 'Не определена' }}</dd>
-
                     <dt>Начало турнира</dt>
                     <dd>{{ $instance->started_at }}</dd>
 

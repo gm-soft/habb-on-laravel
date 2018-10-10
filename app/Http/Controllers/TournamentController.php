@@ -7,6 +7,7 @@ use App\Helpers\VarDumper;
 use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\Tournament;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Redirect;
@@ -25,12 +26,7 @@ class TournamentController extends Controller
 
     public function create()
     {
-        $participants = Team::getSelectableOptionArray();
-        $games = Constants::getGamesForSelect();
-        return view('admin.tournaments.create', [
-            'participants' => $participants,
-            'games' => $games
-        ]);
+        return view('admin.tournaments.create');
     }
 
     public function store(Request $request)
@@ -46,16 +42,11 @@ class TournamentController extends Controller
         $instance->name                     = Input::get('name');
         $instance->comment                  = Input::get('comment');
         $instance->public_description       = Input::get('public_description');
-        $instance->tournament_type          = Input::get('tournament_type');
-        $instance->game                     = Input::get('game');
-        $instance->participant_max_count    = Input::get('participant_max_count');
 
         $instance->started_at               = Input::get('started_at');
         $instance->reg_closed_at            = Input::get('reg_closed_at');
-
-        $participantIds = Input::get('participant_ids');
-
-        $instance->participant_ids = $participantIds;
+        $instance->created_at               = Carbon::now();
+        $instance->updated_at               = $instance->created_at;
 
         //VarDumper::VarExport(Input::all());
         $result = $instance->save();
@@ -72,11 +63,9 @@ class TournamentController extends Controller
     {
         /** @var Tournament $instance */
         $instance = Tournament::find($id);
-        $participants = $instance->getParticipants();
 
         return view('admin.tournaments.show', [
-            'instance' => $instance,
-            'participants' => $participants
+            'instance' => $instance
         ]);
     }
 
@@ -84,26 +73,16 @@ class TournamentController extends Controller
     {
         /** @var Tournament $instance */
         $instance = Tournament::find($id);
-        if ($instance->tournament_type == Tournament::Gamer) {
-            $participants = Gamer::getSelectableOptionArray();
-        } else {
-            $participants = Team::getSelectableOptionArray();
-        }
-
-        $current_participants = $instance->getParticipants();
-        $games = Constants::getGamesForSelect();
 
         return view('admin.tournaments.edit', [
-                'instance' => $instance,
-            'participants'=>$participants,
-            'current_participants' => $current_participants,
-            'games' => $games
+                'instance' => $instance
         ]);
     }
 
     public function update(Request $request, $id)
     {
         $validator = Validator::make(Input::all(), Tournament::$rules);
+
         if ($validator->fails()) {
             return Redirect::action('TournamentController@create')
                 ->withErrors($validator->errors())
@@ -114,28 +93,10 @@ class TournamentController extends Controller
         $instance->name                     = Input::get('name');
         $instance->comment                  = Input::get('comment');
         $instance->public_description       = Input::get('public_description');
-        $instance->tournament_type          = Input::get('tournament_type');
-        $instance->game                     = Input::get('game');
-        $instance->participant_max_count    = Input::get('participant_max_count');
 
         $instance->started_at               = Input::get('started_at');
         $instance->reg_closed_at            = Input::get('reg_closed_at');
-
-        $participantIds = Input::get('participant_ids');
-
-        if (!is_null($participantIds)) {
-            $scores = [];
-
-            for($i = 0; $i < count($participantIds); $i++) {
-
-                $scores[] = $instance->getScoreValueOfId($participantIds[$i]);
-            }
-        } else {
-            $scores = null;
-            $participantIds = null;
-        }
-        $instance->participant_scores = $scores;
-        $instance->participant_ids = $participantIds;
+        $instance->updated_at               = Carbon::now();
 
         $result = $instance->save();
         if ($result == false) {
@@ -152,6 +113,7 @@ class TournamentController extends Controller
         /** @var Tournament $instance */
         $instance = Tournament::find($id);
         $result = $instance->delete();
+
         if ($result == true) {
             $message = "Запись ID".$instance->id." удалена из базы";
             $type = Constants::Success;
@@ -167,51 +129,4 @@ class TournamentController extends Controller
         return Redirect::action('TournamentController@index');
     }
     #endregion
-
-    public function scoreUpdate(Request $request) {
-        // TODO реализовать
-        $game = $request->input('game');
-        $tournamentId = $request->input('tournament_id');
-        $participantId = $request->input('participant_id');
-        $scoreValue = intval($request->input('score_value'));
-        $withGamers = !is_null($request->input('with_gamers')) ? boolval($request->input('with_gamers')) : false;
-
-        $redirect = Redirect::action('TournamentController@show', ["id" => $tournamentId]);
-
-        if (is_null($game)) {
-            flash('Определите игровую дисциплину турнира', Constants::Warning);
-            return $redirect;
-        }
-
-        /** @var Tournament $tournament */
-        $tournament = Tournament::find($tournamentId);
-        if ($tournament->tournament_type == Tournament::Gamer) {
-
-            /** @var Gamer $participant */
-            $participant = Gamer::find($participantId);
-            $participant->addScoreValue($game, $scoreValue);
-            $tournament->addScoreValueOfId($participantId, $scoreValue);
-
-        } else {
-            /** @var Team $participant */
-            $participant = Team::find($participantId);
-            $participant->addScoreValue($game, $scoreValue);
-            $tournament->addScoreValueOfId($participantId, $scoreValue);
-            if ($withGamers) {
-                $gamers = $participant->getGamers(false);
-                foreach ($gamers as $gamer) {
-                    $gamer->addScoreValue($game, $scoreValue);
-                }
-            }
-        }
-        $result = $tournament->save();
-
-
-        if ($result) {
-            flash('Очки сохранены', Constants::Success);
-            return $redirect;
-        }
-        flash('Произошла ошибка при сохранении', Constants::Error);
-        return $redirect;
-    }
 }

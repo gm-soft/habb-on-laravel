@@ -3,7 +3,7 @@
 @section('title', 'Создание турнира')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-2">
         <h1 class="mt-1">Создание турнира</h1>
         {!! Form::open(array('action' => array('TournamentController@store'))) !!}
             @include('admin.tournaments.form')
@@ -18,14 +18,11 @@
     <script src="{{ asset('thirdparty/select2/select2.min.js') }}"></script>
     <script type="text/javascript">
 
-        $(".select2-single").select2({
-            placeholder: "Выберите участников",
-        });
+
         $(function(){
             $('#form').submit(function(){
                 $("#submit-btn").prop('disabled',true);
             });
-            habb.tournamentHelpers.registerListeners();
         });
     </script>
 @endsection

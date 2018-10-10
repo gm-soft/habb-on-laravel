@@ -13,9 +13,6 @@
             <thead>
             <tr>
                 <th>Название</th>
-                <th>Тип</th>
-                <th>Максимум участников</th>
-                <th>Кол-во</th>
                 <th>Стартует</th>
                 <th>Регистрация до..</th>
             </tr>
@@ -24,9 +21,6 @@
             @for($i=0;$i<count($instances);$i++)
                 <tr>
                     <td><b>{{ link_to_action('TournamentController@show', $instances[$i]->name, ['id' => $instances[$i]->id]) }}</b></td>
-                    <td>{{ $instances[$i]->tournament_type }}</td>
-                    <td>{{ $instances[$i]->participant_max_count }}</td>
-                    <td>{{ $instances[$i]->getParticipantCount()  }}</td>
                     <td>{{ $instances[$i]->started_at  }}</td>
                     <td>{{ $instances[$i]->reg_closed_at  }}</td>
                 </tr>
