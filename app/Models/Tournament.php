@@ -40,11 +40,21 @@ class Tournament extends Ardent
         'public_description' => 'required|between:0,500'
     ];
 
+    // Связь many-to-many от Ardent
+    public static $relationsData = array(
+        'banners'  => array(self::BELONGS_TO_MANY, 'Banner', 'table' => 'tournament_banner')
+    );
+
     public function getStartedAt($format = "Y-m-d"){
         return $this->started_at->format($format);
     }
 
     public function getRegClosedAt($format = "Y-m-d"){
         return $this->reg_closed_at->format($format);
+    }
+
+    // стандартная связь many-to-many от laravel
+    public function banners(){
+        return $this->belongsToMany(Banner::class);
     }
 }
