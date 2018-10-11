@@ -6,7 +6,7 @@
 
         <div class="form-group">
             {{ Form::label('title', 'Заголовок') }}
-            {{ Form::text('title', old('title'), array('class' => 'form-control', 'required'=> true, 'maxlength' => '100', 'placeholder' => 'Введите заголовок баннера')) }}
+            {{ Form::text('title', old('title'), array('class' => 'form-control', 'maxlength' => '100', 'placeholder' => 'Введите заголовок баннера')) }}
 
             @if ($errors->has('title'))
                 <span class="help-block text-danger">
@@ -17,7 +17,7 @@
 
         <div class="form-group">
             {{ Form::label('subtitle', 'Подзаголовок') }}
-            {{ Form::text('subtitle', old('subtitle'), array('class' => 'form-control', 'required'=> true, 'maxlength' => '100', 'placeholder' => 'Введите подзаголовок')) }}
+            {{ Form::text('subtitle', old('subtitle'), array('class' => 'form-control', 'maxlength' => '100', 'placeholder' => 'Введите подзаголовок')) }}
 
             @if ($errors->has('subtitle'))
                 <span class="help-block text-danger">
@@ -55,6 +55,22 @@
     <div class="col-sm-4">
 
         {{-- TODO Вставить выбиральщик турниров --}}
+
+        <div class="form-group">
+            <label for="select2-multiple__tag">Выберите турниры, где будет висеть баннер</label>
+            <select id="select2-multiple__tag" class="select2-multiple__tag w-100" name="tournaments[]" multiple="multiple">
+
+                @foreach ($model->select_options as $select_option)
+
+                    @php
+                        $selected = $select_option->is_selected ? "selected=\"selected\"" : "";
+                    @endphp
+
+                    <option value="{{ $select_option->id }}" {{ $selected }}>{{ $select_option->title }}</option>
+                @endforeach
+            </select>
+        </div>
+
 
 
     </div>

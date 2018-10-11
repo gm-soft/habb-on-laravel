@@ -12,8 +12,11 @@
         <div class="row mt-3">
             <div class="col-sm-8">
                 <dl>
+                    <dt>Заголовок</dt>
+                    <dd>{{ $banner->title }}</dd>
+
                     <dt>Подзаголовок</dt>
-                    <dd>{{ $banner->started_at }}</dd>
+                    <dd>{{ $banner->subtitle }}</dd>
 
                     <dt>Присутствует на главной</dt>
                     <dd>{{ $banner->attached_to_main_page ? "Да" : "Нет" }}</dd>

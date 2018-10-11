@@ -27,7 +27,7 @@
                     <td>{{ $banners[$i]->id }}</td>
                     <td><b>{{ link_to_action('BannerController@show', $banners[$i]->title ?? "<Без заголовка>", ['id' => $banners[$i]->id]) }}</b></td>
                     <td>{{ $banners[$i]->attached_to_main_page ? "Да"  : "Нет"  }}</td>
-                    <td>{{ count($banners[$i]->tournaments()) }}</td>
+                    <td>{{ $banners[$i]->tournaments()->count() }}</td>
                     <td>{{ $banners[$i]->created_at  }}</td>
                 </tr>
 

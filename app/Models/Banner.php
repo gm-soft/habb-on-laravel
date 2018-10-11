@@ -39,7 +39,11 @@ class Banner extends Ardent
     );
 
     // стандартная связь many-to-many от laravel
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function tournaments(){
-        return $this->belongsToMany(Tournament::class);
+        return $this->belongsToMany(Tournament::class, 'tournament_banner');
     }
 }

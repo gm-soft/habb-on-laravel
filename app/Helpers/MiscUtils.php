@@ -73,4 +73,22 @@ abstract class MiscUtils
     public static function startsWith($source, $query){
         return substr($source, 0, strlen($query)) === $query;
     }
+
+    /**
+     * @param $needle
+     * @param $haystack
+     * @return bool
+     */
+    public static function search_array($needle, $haystack) {
+
+        if(in_array($needle, $haystack)) {
+            return true;
+        }
+
+        foreach($haystack as $element) {
+            if(is_array($element) && self::search_array($needle, $element))
+                return true;
+        }
+        return false;
+    }
 }
