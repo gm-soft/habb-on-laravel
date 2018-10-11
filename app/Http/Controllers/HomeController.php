@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Models\Banner;
 use App\Models\Post;
 use App\ViewModels\Front\HomePageViewModel;
 use App\ViewModels\Front\ShowPostViewModel;
@@ -14,10 +15,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $model = new HomePageViewModel();
+        $model = new HomePageViewModel;
         $model->topPostCount = 3;
 
-        $model->posts = Post::getTop($model->topPostCount) ;
+        $model->posts = Post::getTop($model->topPostCount);
+        $model->banners = Banner::getForMainPage();
+
+        $model->banners_count = count($model->banners);
 
         return view('front.home.index', ['model' => $model]);
     }

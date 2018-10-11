@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
 
@@ -45,5 +46,15 @@ class Banner extends Ardent
      */
     public function tournaments(){
         return $this->belongsToMany(Tournament::class, 'tournament_banner');
+    }
+
+    public static function getForMainPage(){
+
+        return DB::table('banners')
+            ->select()
+            ->where('deleted_at', '=', null)
+            ->where('attached_to_main_page', '=', true)
+            ->orderBy('created_at')
+            ->get();
     }
 }

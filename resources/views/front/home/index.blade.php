@@ -5,45 +5,45 @@
 
     <div id="carouselExampleIndicators" class="carousel slide w-100" data-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+
+            @for ($index = 0; $index < $model->banners_count; $index++)
+                @php
+                    if ($index == 0)
+                        $active = "class=\"active\"";
+                    else
+                        $active = "";
+                @endphp
+
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{ $index }}" {{ $active }}></li>
+            @endfor
+
         </ol>
         <div class="carousel-inner">
-            <div class="carousel-item active">
 
-                <div class="slider-block slider-bg-grey habb-slider-block habb-slider-block-first">
-                    <div class="habb-overlay"></div>
+            @for ($index = 0; $index < $model->banners_count; $index++)
 
-                    <div class="carousel-caption habb-carousel-caption">
-                        <h1 class="display-1">HABB</h1>
-                        <p>Сообщество геймеров Казахстана</p>
+                @php
+                    if ($index == 0)
+                        $active = "active";
+                    else
+                        $active = "";
+                @endphp
+
+                <div class="carousel-item {{ $active }}">
+
+                    <div class="slider-block slider-bg-grey habb-slider-block habb-slider-block-{{ $index }}">
+                        <div class="habb-overlay"></div>
+
+                        <div class="carousel-caption habb-carousel-caption">
+                            <h1 class="display-1">{{ $model->banners[$index]->title }}</h1>
+                            <p>{{ $model->banners[$index]->subtitle }}</p>
+                        </div>
                     </div>
+
                 </div>
 
-            </div>
-            <div class="carousel-item">
-                <div class="slider-block slider-bg-grey habb-slider-block habb-slider-block-second">
-                    <div class="habb-overlay"></div>
+            @endfor
 
-                    <div class="carousel-caption habb-carousel-caption">
-                        <div class="h1 display-3">Новости</div>
-                        <p>Мы рассказываем о самых интересных киберспортивных мероприятиях Казахстана</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="carousel-item">
-                <div class="slider-block slider-bg-grey habb-slider-block habb-slider-block-third">
-                    <div class="habb-overlay"></div>
-
-                    <div class="carousel-caption habb-carousel-caption">
-                        <div class="h1 display-3">Регистрация HABB ID</div>
-                        <p>У нас вы можете получить HABB ID и участвовать с ним в турнирах</p>
-                    </div>
-                </div>
-
-            </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -110,20 +110,17 @@
     </div>
 @endsection
 
+@php
+    $style = "";
+    for ($index = 0; $index < $model->banners_count; $index++)
+    {
+        $style .= ".habb-slider-block-".$index." { background: url(".url($model->banners[$index]->image_path).") no-repeat center; } \r\n";
+    }
+@endphp
+
 @section('styles')
-
     <style>
-        .habb-slider-block-first {
-            background: url({{ url('storage/dote2.jpg') }}) no-repeat center;
-        }
+        {!! $style !!}
 
-        .habb-slider-block-second {
-            background: url({{ url('storage/cybersport.jpg') }}) no-repeat center;
-        }
-
-        .habb-slider-block-third {
-            background: url({{ url('storage/tihall.jpg') }}) no-repeat center;
-        }
     </style>
-
 @endsection

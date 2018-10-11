@@ -80,7 +80,7 @@ class BannerController extends Controller
                 ->withErrors($banner->errors())
                 ->withInput(Input::all());
         }
-        
+
         $banner->tournaments()->attach(Input::get('tournaments'));
 
         return Redirect::action('BannerController@show', ["id" => $banner->id])->with('success', 'Данные сохранены');

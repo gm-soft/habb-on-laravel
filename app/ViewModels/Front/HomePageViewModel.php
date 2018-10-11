@@ -9,6 +9,7 @@
 namespace App\ViewModels\Front;
 
 
+use App\Models\Banner;
 use App\Models\Post;
 
 class HomePageViewModel
@@ -22,4 +23,10 @@ class HomePageViewModel
      * @var array|Post[]
      */
     public $posts;
+
+    /** @var Banner[] */
+    public $banners;
+
+    /** @var int */
+    public $banners_count;
 }
