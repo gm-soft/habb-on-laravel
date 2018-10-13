@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Tournament;
 use App\ViewModels\Front\HomePageViewModel;
 use App\ViewModels\Front\ShowPostViewModel;
+use App\ViewModels\Front\TournamentViewModel;
 use App\ViewModels\NewsViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -85,10 +86,23 @@ class HomeController extends Controller
         return view('front.posts.show', ["model" => $model]);
     }
 
-    public function tournaments() {
-        $tournaments = Tournament::getActive();
+    public function openTournament($id) {
 
+        /** @var Tournament $tournament */
+        $tournament = Tournament::find($id);
 
+        $tournament->decodeHtmlDescription();
+
+        $topNews = Post::getTop(3);
+
+        $model = new TournamentViewModel();
+        $model->tournament = $tournament;
+        $model->topNews = $topNews;
+
+        $model->banners = $tournament->banners()->get();
+        $model->banners_count = count($model->banners);
+
+        return view('front.tournaments.show', ["model" => $model]);
     }
 
 

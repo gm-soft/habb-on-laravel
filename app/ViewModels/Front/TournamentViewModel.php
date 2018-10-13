@@ -9,6 +9,7 @@
 namespace App\ViewModels\Front;
 
 
+use App\Models\Banner;
 use App\Models\Post;
 use App\Models\Tournament;
 
@@ -19,4 +20,10 @@ class TournamentViewModel
 
     /** @var Post[] */
     public $topNews;
+
+    /** @var Banner[] */
+    public $banners;
+
+    /** @var int */
+    public $banners_count;
 }

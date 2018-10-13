@@ -20,6 +20,7 @@
 
     Route::get('/news', 'HomeController@news');
     Route::get('/news/{id}', 'HomeController@openPost');
+    Route::get('/tournaments/{id}', 'HomeController@openTournament');
 
     #endregion
 

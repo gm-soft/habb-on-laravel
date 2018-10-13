@@ -38,7 +38,8 @@
             {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-light']) }}
             <div class="float-sm-right">
 
-                {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
+                {{ link_to_action('HomeController@openTournament', 'Показать на фронте', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
+                {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-outline-primary']) }}
                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
             </div>
         </div>
