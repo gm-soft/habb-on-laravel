@@ -70,7 +70,7 @@ class HomeController extends Controller
         }
 
         $model = new NewsViewModel($posts);
-        $model->pageTitle = $hasHashtag ? "Поиск по тегу #{$hashtagFilter}:" : "Новости киберсопрта";
+        $model->pageTitle = $hasHashtag ? "Поиск новостей по тегу #{$hashtagFilter}:" : "Новости киберсопрта";
 
         $frontHelper = new FrontDataFiller($model);
         $frontHelper->fill();
