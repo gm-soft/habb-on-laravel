@@ -11,13 +11,14 @@ namespace App\ViewModels\Back\Banner;
 
 use App\Models\Banner;
 use App\Models\Tournament;
+use App\ViewModels\Back\SelectOptionItem;
 
 class BannerEditViewModel
 {
     /** @var Banner */
     public $banner;
 
-    /** @var BannerEditOptionItem[] */
+    /** @var SelectOptionItem[] */
     public $select_options;
 
     /** @var Tournament[] */

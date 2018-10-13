@@ -6,8 +6,8 @@ use App\Helpers\Constants;
 use App\Helpers\VarDumper;
 use App\Models\Banner;
 use App\Models\Tournament;
-use App\ViewModels\Back\Banner\BannerEditOptionItem;
 use App\ViewModels\Back\Banner\BannerEditViewModel;
+use App\ViewModels\Back\SelectOptionItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -36,7 +36,7 @@ class BannerController extends Controller
         $select_options = [];
         foreach (Tournament::all() as $tournament){
 
-            $item = new BannerEditOptionItem;
+            $item = new SelectOptionItem;
             $item->id = $tournament->id;
             $item->title = $tournament->name;
             $item->is_selected = false;
@@ -102,7 +102,7 @@ class BannerController extends Controller
         $select_options = [];
         foreach (Tournament::all() as $tournament){
 
-            $item = new BannerEditOptionItem;
+            $item = new SelectOptionItem;
             $item->id = $tournament->id;
             $item->title = $tournament->name;
             $item->is_selected = \App\Helpers\MiscUtils::search_array($tournament->id, $attached_to_banners_ids);

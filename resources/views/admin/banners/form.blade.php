@@ -54,8 +54,6 @@
 
     <div class="col-sm-4">
 
-        {{-- TODO Вставить выбиральщик турниров --}}
-
         <div class="form-group">
             <label for="select2-multiple__tag">Выберите турниры, где будет висеть баннер</label>
             <select id="select2-multiple__tag" class="select2-multiple__tag w-100" name="tournaments[]" multiple="multiple">

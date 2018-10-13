@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Interfaces\ITournamentParticipant;
 use Carbon\Carbon;
+use Html;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
 
@@ -51,6 +52,21 @@ class Tournament extends Ardent
 
     public function getRegClosedAt($format = "Y-m-d"){
         return $this->reg_closed_at->format($format);
+    }
+
+    /**
+     * Кодирует разметку html в пригодную для сохранения в базе
+     * @param $content
+     */
+    public function encodeHtmlDescription($content) {
+        $this->public_description = HTML::entities($content);
+    }
+
+    /**
+     * Декодирует сохраненную кодированную разметку в базе в html-вью
+     */
+    public function decodeHtmlDescription() {
+        $this->public_description = HTML::decode($this->public_description);
     }
 
     // стандартная связь many-to-many от laravel

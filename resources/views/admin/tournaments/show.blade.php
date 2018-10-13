@@ -11,10 +11,10 @@
 
         <div class="row">
             <div class="col-sm-8">
+                {!! $instance->public_description !!}
+            </div>
+            <div class="col-sm-4">
                 <dl>
-                    <dt>Публичное описание</dt>
-                    <dd>{{ $instance->public_description }}</dd>
-
                     <dt>Начало турнира</dt>
                     <dd>{{ $instance->started_at }}</dd>
 
@@ -24,19 +24,22 @@
                     <dt>Комментарий</dt>
                     <dd>{{ $instance->comment ?? 'Без комментарий' }}</dd>
                 </dl>
-
             </div>
-            <div class="col-sm-4">
-                {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-light']) }}
-                <div class="float-sm-right">
+        </div>
 
-                    {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
-                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
-                </div>
+        <hr>
+        <div class="mt-2">
+            {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-light']) }}
+            <div class="float-sm-right">
+
+                {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
             </div>
         </div>
 
     </div>
+
+
 
     <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="deleteDialog" aria-hidden="true">
         <div class="modal-dialog" role="document">

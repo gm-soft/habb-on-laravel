@@ -6,10 +6,10 @@
  * Time: 9:27 PM
  */
 
-namespace App\ViewModels\Back\Banner;
+namespace App\ViewModels\Back;
 
 
-class BannerEditOptionItem
+class SelectOptionItem
 {
     /** @var int */
     public $id;
