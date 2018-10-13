@@ -6,10 +6,10 @@
     <div class="container">
 
         <div class="jumbotron">
-            <h1 class="display-2">HABB ID {{ $gamer->id }}</h1>
+            <h1 class="display-2">HABB ID {{ $model->gamer->id }}</h1>
             <p class="lead">
-                Имя: {{ $gamer->name }} {{ $gamer->last_name }}<br>
-                Email: {{ $gamer->email }}
+                Имя: {{ $model->gamer->name }} {{ $model->gamer->last_name }}<br>
+                Email: {{ $model->gamer->email }}
             </p>
             <hr>
             <p>

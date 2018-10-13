@@ -10,9 +10,12 @@ namespace App\ViewModels\Front;
 
 
 use App\Models\Post;
+use App\Traits\FrontDataTrait;
 
 class ShowPostViewModel
 {
+    use FrontDataTrait;
+
     /**
      * @var Post
      */

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\FrontDataFiller;
 use App\Helpers\MiscUtils;
 use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\Traits\GamerConstructor;
+use App\ViewModels\Front\Gamer\GamerRegisteredFrontViewModel;
+use App\ViewModels\Front\Gamer\RegisterFormViewModel;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -209,8 +212,13 @@ class GamerController extends Controller
             stripos($userAgent,"iPhone") ||
             stripos($userAgent,"iPad");
 
-        $cities = Constants::getCities();
-        return view('front.register.gamer', ['iOsDevice' => $iOsDevice, 'cities' => $cities]);
+        $model = new RegisterFormViewModel();
+        $model->cities = Constants::getCities();
+        $model->iOsDevice = $iOsDevice;
+
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.register.gamer', ['model' => $model]);
     }
 
 
@@ -254,7 +262,12 @@ class GamerController extends Controller
         }
         $gamer = Gamer::find($id);
         $request->session()->forget('gamer_id');
-        return view('front.register.gamer-result', ['gamer' => $gamer]);
+
+        $model = new GamerRegisteredFrontViewModel;
+        $model->gamer = $gamer;
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.register.gamer-result', ['model' => $model]);
     }
 
     #endregion

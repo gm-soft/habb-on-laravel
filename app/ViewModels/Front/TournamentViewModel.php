@@ -12,9 +12,12 @@ namespace App\ViewModels\Front;
 use App\Models\Banner;
 use App\Models\Post;
 use App\Models\Tournament;
+use App\Traits\FrontDataTrait;
 
 class TournamentViewModel
 {
+    use FrontDataTrait;
+
     /** @var Tournament */
     public $tournament;
 

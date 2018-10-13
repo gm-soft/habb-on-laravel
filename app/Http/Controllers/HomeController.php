@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\FrontDataFiller;
 use App\Models\Banner;
 use App\Models\Post;
 use App\Models\Tournament;
+use App\ViewModels\Front\Auth\ProfileFormViewModel;
+use App\ViewModels\Front\Home\AboutHomeViewModel;
+use App\ViewModels\Front\Home\ContactHomeViewModel;
 use App\ViewModels\Front\HomePageViewModel;
 use App\ViewModels\Front\ShowPostViewModel;
 use App\ViewModels\Front\TournamentViewModel;
@@ -25,19 +29,32 @@ class HomeController extends Controller
 
         $model->banners_count = count($model->banners);
 
+        $frontHelper = new FrontDataFiller($model);
+        $frontHelper->fill();
+
         return view('front.home.index', ['model' => $model]);
     }
 
 
 
     public function about() {
-        return view('front.home.about');
+
+        $model = new AboutHomeViewModel();
+        $frontHelper = new FrontDataFiller($model);
+        $frontHelper->fill();
+
+        return view('front.home.about', ['model' => $model]);
     }
 
 
 
     public function contacts() {
-        return view('front.home.contacts');
+
+        $model = new ContactHomeViewModel();
+        $frontHelper = new FrontDataFiller($model);
+        $frontHelper->fill();
+
+        return view('front.home.contacts', ['model' => $model]);
     }
 
 
@@ -50,6 +67,9 @@ class HomeController extends Controller
         $model = new NewsViewModel($posts);
         $model->pageTitle = "Новости киберсопрта";
 
+        $frontHelper = new FrontDataFiller($model);
+        $frontHelper->fill();
+
         return view('front.posts.index', ["model" => $model]);
     }
 
@@ -61,7 +81,13 @@ class HomeController extends Controller
             flash('Пользователь не авторизован', Constants::Warning);
             return \Redirect::to('/');
         }
-        return view('auth.profile', ['model' => $currentUser]);
+
+        $model = new ProfileFormViewModel;
+        $model->current_user = $currentUser;
+        FrontDataFiller::create($model)->fill();
+
+        // TODO Gorbatyuk: сделать вьюмодели с заполненным списком турниров в шапке во всех остальных страницах авторизации
+        return view('auth.profile', ['model' => $model]);
     }
 
     public function openPost($id){
@@ -82,6 +108,9 @@ class HomeController extends Controller
         $model->topPosts = $topPosts;
         $model->hasAnotherPosts = count($topPosts) > 0;
 
+        $frontHelper = new FrontDataFiller($model);
+        $frontHelper->fill();
+
 
         return view('front.posts.show', ["model" => $model]);
     }
@@ -101,6 +130,9 @@ class HomeController extends Controller
 
         $model->banners = $tournament->banners()->get();
         $model->banners_count = count($model->banners);
+
+        $frontHelper = new FrontDataFiller($model);
+        $frontHelper->fill();
 
         return view('front.tournaments.show', ["model" => $model]);
     }

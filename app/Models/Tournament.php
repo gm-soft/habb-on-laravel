@@ -80,4 +80,14 @@ class Tournament extends Ardent
             ->where('event_date', '>=', Carbon::now())
             ->get();
     }
+
+    public static function getAttachedToNavIds($limit) {
+
+        return \DB::table('tournaments')
+            ->where('attached_to_nav', '=', true)
+            ->orderByDesc('created_at')
+            ->select('id', 'name')
+            ->limit($limit)
+            ->get();
+    }
 }

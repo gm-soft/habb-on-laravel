@@ -9,9 +9,16 @@
 namespace App\Helpers;
 
 
+use App\Models\Tournament;
+
 abstract class HtmlHelpers
 {
-    public static function getStylesForBannerSlider($model){
+    /**
+     * @param $model
+     * @return string
+     */
+    public static function getStylesForBannerSlider($model)
+    {
         $style = "";
 
         for ($index = 0; $index < $model->banners_count; $index++)
