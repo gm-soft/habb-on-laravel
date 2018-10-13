@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Interfaces\ITournamentParticipant;
+use App\Helpers\Constants;
+use App\Traits\HashtagTrait;
 use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use Html;
@@ -21,6 +22,7 @@ use LaravelArdent\Ardent\Ardent;
  *
  * @property Carbon event_date - Дата турнира
  * @property boolean attached_to_nav
+ * @property string hashtags
  *
  * @property Carbon created_at
  * @property Carbon updated_at
@@ -28,7 +30,7 @@ use LaravelArdent\Ardent\Ardent;
  */
 class Tournament extends Ardent
 {
-    use SoftDeletes, TimestampModelTrait;
+    use SoftDeletes, TimestampModelTrait, HashtagTrait;
 
     protected $table = 'tournaments';
     protected $dates = [
@@ -37,8 +39,9 @@ class Tournament extends Ardent
     ];
 
     public static $rules = [
-        'name' => 'required|between:1,100',
-        'public_description' => 'required|between:0,500'
+        'name'                  => 'required|between:1,100',
+        'public_description'    => 'required|max:500',
+        'hashtags'              => 'max:'.Constants::HashTagFieldMaxLength
     ];
 
     // Связь many-to-many от Ardent

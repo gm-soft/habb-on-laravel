@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Constants;
+use App\Traits\HashtagTrait;
 use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use DB;
@@ -19,6 +20,8 @@ use LaravelArdent\Ardent\Ardent;
  * @property string $content Контент статьи
  * @property int $views ПРосмотры статьи
  * @property string $announce_image Картинка для анонса
+ * @property string hashtags
+ *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -26,12 +29,13 @@ use LaravelArdent\Ardent\Ardent;
  */
 class Post extends Ardent
 {
-    use SoftDeletes, TimestampModelTrait;
+    use SoftDeletes, TimestampModelTrait, HashtagTrait;
 
     public static $rules = array(
         'title'          => 'required|between:2,100',
         'content'        => 'required|between:2,10000',
-        'announce_image' => 'required|regex:/'.Constants::AnnounceImagePathRegexPattern.'/'
+        'announce_image' => 'required|regex:/'.Constants::AnnounceImagePathRegexPattern.'/',
+        'hashtags'       => 'max:'.Constants::HashTagFieldMaxLength
     );
     protected $table = "posts";
 
@@ -94,7 +98,7 @@ class Post extends Ardent
 
     public static function getTop($limit, $postIdToFiler = null){
 
-        $query = DB::table('posts')
+        $query = self::query()
             ->select()
             ->where('deleted_at', '=', null);
 
@@ -104,6 +108,35 @@ class Post extends Ardent
         return $query
             ->orderByDesc('created_at')
             ->limit($limit)
+            ->get();
+    }
+
+    public static function searchByHashtags($hashtags, $limit = null){
+
+        $query = self::query()
+            ->select()
+            ->where('deleted_at', '=', null);
+
+        if (is_array($hashtags)){
+
+            $query = $query->where('hashtags', 'LIKE', "%{$hashtags[0]}%");
+
+            if (count($hashtags) > 1)
+            {
+                for($index = 1; $index < count($hashtags); $index++)
+                    $query = $query->orWhere('hashtags', 'LIKE', "%{$hashtags[$index]}%");
+            }
+
+        } else {
+            $query = $query->where('hashtags', 'LIKE', "%{$hashtags}%");
+        }
+
+        if (isset($limit))
+            $query = $query->limit($limit);
+
+
+        return $query
+            ->orderByDesc('created_at')
             ->get();
     }
 }

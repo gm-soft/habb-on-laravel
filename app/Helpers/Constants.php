@@ -11,6 +11,8 @@ namespace App\Helpers;
 
 abstract class Constants
 {
+    const HashTagFieldMaxLength = 300;
+
     const FlashLayout    = "shared/flash";
     const ValidationLayout    = "shared/validation";
 

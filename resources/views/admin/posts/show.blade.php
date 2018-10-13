@@ -14,7 +14,15 @@
         <div class="mt-3 row">
 
             <div class="col-md-8">
-                {!! $post->content !!}
+                <div class="">
+                    {!! $post->content !!}
+                </div>
+
+                <div class="mt-1">
+                    @include('shared._hashtags', ['hashtags' => $post->getHashtagsAsArray()])
+                </div>
+
+
             </div>
 
             <div class="col-md-4">

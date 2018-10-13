@@ -58,14 +58,19 @@ class HomeController extends Controller
     }
 
 
-    public function news() {
-        $posts = Post::all();
+    public function news(Request $request) {
+
+        $hashtagFilter = $request->query('hashtag');
+        $hasHashtag = isset($hashtagFilter);
+
+        $posts = $hasHashtag ? Post::searchByHashtags($hashtagFilter) : Post::all();
+
         foreach ($posts as $post) {
             $post->decodeHtmlContent();
         }
 
         $model = new NewsViewModel($posts);
-        $model->pageTitle = "Новости киберсопрта";
+        $model->pageTitle = $hasHashtag ? "Поиск по тегу #{$hashtagFilter}:" : "Новости киберсопрта";
 
         $frontHelper = new FrontDataFiller($model);
         $frontHelper->fill();
@@ -122,7 +127,7 @@ class HomeController extends Controller
 
         $tournament->decodeHtmlDescription();
 
-        $topNews = Post::getTop(3);
+        $topNews = Post::searchByHashtags($tournament->getHashtagsAsArray(), 3);
 
         $model = new TournamentViewModel();
         $model->tournament = $tournament;

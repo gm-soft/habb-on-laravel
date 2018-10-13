@@ -12,6 +12,10 @@
         <div class="row">
             <div class="col-sm-8">
                 {!! $instance->public_description !!}
+
+                <div class="mt-1">
+                    @include('shared._hashtags', ['hashtags' => $instance->getHashtagsAsArray()])
+                </div>
             </div>
             <div class="col-sm-4">
                 <dl>

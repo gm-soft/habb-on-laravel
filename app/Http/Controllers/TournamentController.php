@@ -68,6 +68,7 @@ class TournamentController extends Controller
 
         $instance->event_date               = Input::get('event_date');
         $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
+        $instance->hashtags                 = Input::get('hashtags');
 
         $instance->created_at               = Carbon::now();
         $instance->updated_at               = $instance->created_at;
@@ -146,6 +147,7 @@ class TournamentController extends Controller
         $instance->comment                  = Input::get('comment');
         $instance->encodeHtmlDescription    (Input::get('public_description'));
         $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
+        $instance->hashtags                 = Input::get('hashtags');
 
         $instance->event_date               = Input::get('event_date');
         $instance->updated_at               = Carbon::now();

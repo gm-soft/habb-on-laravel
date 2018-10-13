@@ -1,6 +1,6 @@
 
 @extends('layouts.front-layout')
-@section('title', 'HABB | Тур'.$model->tournament->name)
+@section('title', 'HABB | '.$model->tournament->name)
 
 @section('content')
 
@@ -17,6 +17,10 @@
         <div class="row">
             <div class="col-md-8">
                 {!! $model->tournament->public_description  !!}
+
+                <div class="mt-1">
+                    @include('shared._hashtags', ['hashtags' => $model->tournament->getHashtagsAsArray()])
+                </div>
             </div>
 
             <div class="col-md-4">

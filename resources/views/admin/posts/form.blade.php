@@ -37,6 +37,21 @@
         </div>
 
         <div class="form-group">
+            {{ Form::text('hashtags', old('hashtags'),
+                    array('class' => 'form-control', 'maxlength' => \App\Helpers\Constants::HashTagFieldMaxLength, 'placeholder' => 'Введите хэштеги через запятую')) }}
+            @if ($errors->has('hashtags'))
+                <span class="help-block text-danger">
+                    <strong>{{ $errors->first('hashtags') }}</strong>
+                </span><br>
+            @endif
+            <small>
+                Введите хэштеги через запятую с пробелом. Примеры: <i>первый_хэштег, турнир_dota2</i>
+                <br>
+                Максимальное кол-во знаков: {{ \App\Helpers\Constants::HashTagFieldMaxLength }}
+            </small>
+        </div>
+
+        <div class="form-group">
             {{ Form::label('content', 'Контент') }}
             {{ Form::textarea('content', old('content'),
                     array('class' => 'form-control textarea__tag', 'required', 'maxlength' => '10000',
