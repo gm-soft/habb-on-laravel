@@ -66,8 +66,9 @@ class TournamentController extends Controller
         $instance->comment                  = Input::get('comment');
         $instance->encodeHtmlDescription    (Input::get('public_description'));
 
-        $instance->started_at               = Input::get('started_at');
-        $instance->reg_closed_at            = Input::get('reg_closed_at');
+        $instance->event_date               = Input::get('event_date');
+        $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
+
         $instance->created_at               = Carbon::now();
         $instance->updated_at               = $instance->created_at;
 
@@ -144,9 +145,9 @@ class TournamentController extends Controller
         $instance->name                     = Input::get('name');
         $instance->comment                  = Input::get('comment');
         $instance->encodeHtmlDescription    (Input::get('public_description'));
+        $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
 
-        $instance->started_at               = Input::get('started_at');
-        $instance->reg_closed_at            = Input::get('reg_closed_at');
+        $instance->event_date               = Input::get('event_date');
         $instance->updated_at               = Carbon::now();
 
         $result = $instance->save();

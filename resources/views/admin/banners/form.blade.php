@@ -50,6 +50,17 @@
             @endif
         </div>
 
+        <div class="form-group">
+            {{ Form::label('attached_to_main_page', 'Прикреплено ли к главной странице') }}
+            {{ Form::checkbox('attached_to_main_page', old('attached_to_main_page'), old('attached_to_main_page')) }}
+
+            @if ($errors->has('attached_to_main_page'))
+                <span class="help-block text-danger">
+                    <strong>{{ $errors->first('attached_to_main_page') }}</strong>
+                </span><br>
+            @endif
+        </div>
+
     </div>
 
     <div class="col-sm-4">

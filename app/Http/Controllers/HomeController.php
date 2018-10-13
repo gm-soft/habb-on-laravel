@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Constants;
 use App\Models\Banner;
 use App\Models\Post;
+use App\Models\Tournament;
 use App\ViewModels\Front\HomePageViewModel;
 use App\ViewModels\Front\ShowPostViewModel;
 use App\ViewModels\NewsViewModel;
@@ -82,6 +83,12 @@ class HomeController extends Controller
 
 
         return view('front.posts.show', ["model" => $model]);
+    }
+
+    public function tournaments() {
+        $tournaments = Tournament::getActive();
+
+
     }
 
 

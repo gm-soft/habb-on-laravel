@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,7 +23,7 @@ use LaravelArdent\Ardent\Ardent;
  */
 class Banner extends Ardent
 {
-    use SoftDeletes;
+    use SoftDeletes, TimestampModelTrait;
 
     public static $rules = [
         'title' => 'between:0,100',

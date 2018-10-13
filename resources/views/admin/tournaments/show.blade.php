@@ -6,7 +6,7 @@
     <div class="container">
         <div class="mt-1">
             <h1 class="mt-1">Турнир {{ $instance->name }} [ID {{ $instance->id }}]</h1>
-            <p class="text-muted">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</p>
+            <p class="text-muted">Создание: {{ $instance->CreatedAt() }}. Обновление: {{ $instance->UpdatedAt() }}</p>
         </div>
 
         <div class="row">
@@ -15,15 +15,21 @@
             </div>
             <div class="col-sm-4">
                 <dl>
-                    <dt>Начало турнира</dt>
-                    <dd>{{ $instance->started_at }}</dd>
-
-                    <dt>Регистрация закрывается</dt>
-                    <dd>{{ $instance->reg_closed_at }}</dd>
+                    <dt>Дата события</dt>
+                    <dd>{{ $instance->getEventDate() }}</dd>
 
                     <dt>Комментарий</dt>
                     <dd>{{ $instance->comment ?? 'Без комментарий' }}</dd>
                 </dl>
+
+                <div class="mt-1">
+                    @if($instance->attached_to_nav)
+                        <strong>Закреплен в панели навигации</strong>
+                    @else
+                        <span>Не закрепляется в панели навигации</span>
+                    @endif
+                </div>
+
             </div>
         </div>
 

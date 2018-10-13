@@ -13,16 +13,14 @@
             <thead>
             <tr>
                 <th>Название</th>
-                <th>Стартует</th>
-                <th>Регистрация до..</th>
+                <th>дата мероприятия</th>
             </tr>
             </thead>
             <tbody>
             @for($i=0;$i<count($instances);$i++)
                 <tr>
                     <td><b>{{ link_to_action('TournamentController@show', $instances[$i]->name, ['id' => $instances[$i]->id]) }}</b></td>
-                    <td>{{ $instances[$i]->started_at  }}</td>
-                    <td>{{ $instances[$i]->reg_closed_at  }}</td>
+                    <td>{{ $instances[$i]->EventDate()  }}</td>
                 </tr>
 
             @endfor

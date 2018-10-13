@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\ITournamentParticipant;
+use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use Html;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,8 +19,8 @@ use LaravelArdent\Ardent\Ardent;
  * @property string comment - Комментарий пользователя
  * @property string public_description - Публичное описание, доступное открыто
  *
- * @property Carbon started_at - Начало турнира
- * @property Carbon reg_closed_at - Время закрытия регистрации
+ * @property Carbon event_date - Дата турнира
+ * @property boolean attached_to_nav
  *
  * @property Carbon created_at
  * @property Carbon updated_at
@@ -27,13 +28,12 @@ use LaravelArdent\Ardent\Ardent;
  */
 class Tournament extends Ardent
 {
-    use SoftDeletes;
+    use SoftDeletes, TimestampModelTrait;
 
     protected $table = 'tournaments';
     protected $dates = [
         'deleted_at',
-        'started_at',
-        'reg_closed_at'
+        'event_date',
     ];
 
     public static $rules = [
@@ -46,12 +46,8 @@ class Tournament extends Ardent
         'banners'  => array(self::BELONGS_TO_MANY, 'Banner', 'table' => 'tournament_banner')
     );
 
-    public function getStartedAt($format = "Y-m-d"){
-        return $this->started_at->format($format);
-    }
-
-    public function getRegClosedAt($format = "Y-m-d"){
-        return $this->reg_closed_at->format($format);
+    public function getEventDate($format = "Y-m-d"){
+        return $this->event_date->format($format);
     }
 
     /**
@@ -72,5 +68,16 @@ class Tournament extends Ardent
     // стандартная связь many-to-many от laravel
     public function banners(){
         return $this->belongsToMany(Banner::class, 'tournament_banner');
+    }
+
+    public function EventDate($format = "d.m.Y"){
+        return $this->event_date->format($format);
+    }
+
+    public static function getActive() {
+
+        return \DB::table('tournaments')
+            ->where('event_date', '>=', Carbon::now())
+            ->get();
     }
 }

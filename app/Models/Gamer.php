@@ -6,6 +6,7 @@ use App\Helpers\Constants;
 use App\Helpers\MiscUtils;
 use App\Interfaces\ISelectableOption;
 use App\Interfaces\ITournamentParticipant;
+use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use Collective\Html\Eloquent\FormAccessible;
 use DB;
@@ -38,12 +39,11 @@ use LaravelArdent\Ardent\Ardent;
  *
  * @property int external_service_id
  *
- * @property GamerScore[] scores
  * @property ExternalService externalService
  */
 class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 {
-    use FormAccessible, SoftDeletes;
+    use FormAccessible, SoftDeletes, TimestampModelTrait;
 
     public static $rules = [
         'name'      => 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/',

@@ -11,6 +11,7 @@ use App\ViewModels\Back\SelectOptionItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Validation\Rules\In;
 use Redirect;
 use Validator;
 
@@ -67,11 +68,12 @@ class BannerController extends Controller
 
         $banner = new Banner;
 
-        $banner->title      = Input::get('title');
-        $banner->subtitle   = Input::get('subtitle');
-        $banner->image_path = Input::get('image_path');
-        $banner->created_at = Carbon::now();
-        $banner->updated_at = $banner->created_at;
+        $banner->title                  = Input::get('title');
+        $banner->subtitle               = Input::get('subtitle');
+        $banner->image_path             = Input::get('image_path');
+        $banner->attached_to_main_page  = Input::get('attached_to_main_page') == "on";
+        $banner->created_at             = Carbon::now();
+        $banner->updated_at             = $banner->created_at;
 
         $result = $banner->save();
 
@@ -134,10 +136,11 @@ class BannerController extends Controller
         /** @var Banner $banner */
         $banner = Banner::find($id);
 
-        $banner->title      = Input::get('title');
-        $banner->subtitle   = Input::get('subtitle');
-        $banner->image_path = Input::get('image_path');
-        $banner->updated_at = Carbon::now();
+        $banner->title                  = Input::get('title');
+        $banner->subtitle               = Input::get('subtitle');
+        $banner->image_path             = Input::get('image_path');
+        $banner->attached_to_main_page  = Input::get('attached_to_main_page') == "on";
+        $banner->updated_at             = Carbon::now();
 
         $result = $banner->save();
 

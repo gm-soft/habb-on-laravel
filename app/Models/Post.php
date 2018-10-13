@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Constants;
+use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use DB;
 use Html;
@@ -25,7 +26,7 @@ use LaravelArdent\Ardent\Ardent;
  */
 class Post extends Ardent
 {
-    use SoftDeletes;
+    use SoftDeletes, TimestampModelTrait;
 
     public static $rules = array(
         'title'          => 'required|between:2,100',
@@ -89,14 +90,6 @@ class Post extends Ardent
      */
     public function decodeHtmlContent() {
         $this->content = HTML::decode($this->content);
-    }
-
-    public function CreatedAt($format = "d.m.Y"){
-        return $this->created_at->format($format);
-    }
-
-    public function UpdatedAt($format = "d.m.Y"){
-        return $this->updated_at->format($format);
     }
 
     public static function getTop($limit, $postIdToFiler = null){
