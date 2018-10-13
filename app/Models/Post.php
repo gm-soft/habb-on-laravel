@@ -117,17 +117,25 @@ class Post extends Ardent
             ->select()
             ->where('deleted_at', '=', null);
 
+        // если преедали массив в качестве аргумента
         if (is_array($hashtags)){
 
-            $query = $query->where('hashtags', 'LIKE', "%{$hashtags[0]}%");
+            // массив может быть пустым, не будем с таким работать
+            if (!empty($hashtags)) {
 
-            if (count($hashtags) > 1)
-            {
-                for($index = 1; $index < count($hashtags); $index++)
-                    $query = $query->orWhere('hashtags', 'LIKE', "%{$hashtags[$index]}%");
+                // первый фильтр через where всегда
+                $query = $query->where('hashtags', 'LIKE', "%{$hashtags[0]}%");
+
+                if (count($hashtags) > 1)
+                {
+                    // последующие уже через orWhere
+                    for($index = 1; $index < count($hashtags); $index++)
+                        $query = $query->orWhere('hashtags', 'LIKE', "%{$hashtags[$index]}%");
+                }
             }
 
         } else {
+            // если передали не массив, а строку (или другой объект)
             $query = $query->where('hashtags', 'LIKE', "%{$hashtags}%");
         }
 

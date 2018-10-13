@@ -9,6 +9,8 @@
 namespace App\Traits;
 
 
+use App\Helpers\VarDumper;
+
 trait HashtagTrait
 {
 
@@ -21,7 +23,11 @@ trait HashtagTrait
 
         $result = [];
         foreach ($hashtags as $hashtag){
-            $result[] = trim($hashtag);
+
+            $trimmed = trim($hashtag);
+
+            if ($trimmed != '')
+                $result[] = $trimmed;
         }
 
         return $result;
