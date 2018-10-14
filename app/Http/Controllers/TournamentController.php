@@ -210,7 +210,7 @@ class TournamentController extends Controller
         $model->tournament = $tournament;
         $model->topNews = $topNews;
 
-        $model->banners = Banner::find([Input::get('banners')]);
+        $model->banners = Banner::find(Input::get('banners'));
         $model->banners_count = count($model->banners);
 
         FrontDataFiller::create($model)->fill();
