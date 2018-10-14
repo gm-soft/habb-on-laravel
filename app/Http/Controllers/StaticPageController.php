@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Helpers\FrontDataFiller;
+use App\Helpers\VarDumper;
 use App\Models\StaticPage;
 use App\ViewModels\Front\Home\StaticPageFrontViewModel;
 use Carbon\Carbon;
@@ -47,9 +48,12 @@ class StaticPageController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->input(), StaticPage::$rules);
+        // VarDumper::VarExport(StaticPage::getRulesWithUniqueId($id));
+        $validator = Validator::make($request->input(), StaticPage::getRulesWithUniqueId($id));
 
         if ($validator->fails()) {
+
+            flash("Падение первичной валидации", Constants::Error);
             return \Redirect::back()
                 ->withErrors($validator->errors())
                 ->withInput($request->input());
@@ -61,7 +65,10 @@ class StaticPageController extends Controller
         $static_page->encodeHtmlContent(Input::get('content'));
         $static_page->updated_at        = Carbon::now();
 
-        if (!$static_page->save()) {
+        if (!$static_page->update()) {
+
+            flash("Ошибка при сохранении", Constants::Error);
+
             return \Redirect::back()
                 ->withErrors($validator->errors())
                 ->withInput($request->input());

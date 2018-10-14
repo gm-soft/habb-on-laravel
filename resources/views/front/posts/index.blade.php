@@ -30,7 +30,7 @@
                     <div class="row mt-3">
                         @endif
 
-                        @include('front.posts._post-announce')
+                        @include('front.posts._post-announce', ['post' => $model->posts[$i]])
 
                         @if($i == ($model->postCount - 1) || ($i - 2) % 3 == 0)
                     </div>

@@ -67,7 +67,8 @@
             Route::get('/', 'StaticPageController@index');
             Route::get('/{id}', 'StaticPageController@show');
             Route::get('/{id}/edit', 'StaticPageController@edit');
-            Route::post('/{id}', 'StaticPageController@update');
+            Route::post('/update/{id}', 'StaticPageController@update');
+            Route::patch('/update/{id}', 'StaticPageController@update');
             Route::any('/preview', 'StaticPageController@preview');
         });
 

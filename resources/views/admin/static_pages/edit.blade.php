@@ -10,9 +10,9 @@
             ID: {{ $static_page->id }}
         </div>
 
-        {!! Form::model($static_page, ['method' => 'PATCH', 'action' => ['StaticPageController@update', $static_page->id], 'class'=> 'form__tag']) !!}
+        {!! Form::model($static_page, ['method' => 'POST', 'action' => ['StaticPageController@update', $static_page->id], 'class'=> 'form__tag']) !!}
 
-
+            {{ Form::hidden('unique_name', old('unique_name')) }}
         <div class="row mt-1">
             <div class="col-sm-9">
                 <div class="form-group">

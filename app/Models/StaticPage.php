@@ -35,10 +35,17 @@ class StaticPage extends Ardent
     use TimestampModelTrait, IHasHtmlContentTrait;
 
     public static $rules = [
-        'unique_name'   => 'required|max:100|unique:static_pages',
+        'unique_name'   => 'required|max:100|unique:static_pages,unique_name',
         'title'         => 'required|max:100',
         'content'       => 'between:0,2000',
     ];
+
+    public static function getRulesWithUniqueId($id){
+        $tmp = self::$rules;
+        $tmp['unique_name'] = 'required|max:100|unique:static_pages,unique_name,'.$id;
+
+        return $tmp;
+    }
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

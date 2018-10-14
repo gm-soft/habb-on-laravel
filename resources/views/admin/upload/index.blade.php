@@ -17,6 +17,7 @@
                 <thead>
                 <tr>
                     <td>Путь до файла</td>
+                    <td>Ссылка для вставки</td>
                     <td>Размер</td>
                     <td>Изменен/создан</td>
                 </tr>
@@ -26,6 +27,7 @@
                 @foreach($files as $file)
                     <tr>
                         <td><a href="{{ asset($file->filepath) }}" title="Открыть в новой вкладке" target="_blank">{{$file->filepath}}</a></td>
+                        <td>{{ asset($file->filepath) }}</td>
                         <td>{{ $file->size }}</td>
                         <td>{{ $file->lastModified }}</td>
                     </tr>

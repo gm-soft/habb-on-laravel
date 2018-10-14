@@ -99,6 +99,10 @@
             w.document.close();
         }
 
-        habb.utils.AjaxRequest(url, data, writeResponse, writeResponse);
+        habb.utils.AjaxRequest(url, data, function(response){
+            writeResponse(response);
+        }, function(response){
+            writeResponse(response);
+        });
     }
 }());
