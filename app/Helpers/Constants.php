@@ -11,6 +11,8 @@ namespace App\Helpers;
 
 abstract class Constants
 {
+    const HashTagFieldMaxLength = 300;
+
     const FlashLayout    = "shared/flash";
     const ValidationLayout    = "shared/validation";
 
@@ -37,6 +39,9 @@ abstract class Constants
 
     const APP_DEBUG = 'APP_DEBUG';
 
+    /**
+     * @return array
+     */
     public static function getCities() {
         $cityString = 'Алматы,Астана,Шымкент,Караганда,Актобе,Тараз,Павлодар,Усть-Каменогорск,Семей,Уральск,Костанай,Кызылорда,Атырау,Петропавлоск,Актау,Темиртау,Туркестан,Кокшетау,Талдыкорган,Экибастуз,Рудный,Жанаозен';
         $cities = explode(",", $cityString);

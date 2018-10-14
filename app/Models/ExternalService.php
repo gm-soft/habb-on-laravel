@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,7 +26,7 @@ use LaravelArdent\Ardent\Ardent;
  */
 class ExternalService extends Ardent
 {
-    use FormAccessible, SoftDeletes;
+    use FormAccessible, SoftDeletes, TimestampModelTrait;
 
     public static $rules = [
         'title'      => 'required',
@@ -54,14 +55,6 @@ class ExternalService extends Ardent
     {
         $gamers = $this->hasMany('App\Models\Gamer');
         return $gamers;
-    }
-
-    public function CreatedAt($format = "d.m.Y"){
-        return $this->created_at->format($format);
-    }
-
-    public function UpdatedAt($format = "d.m.Y"){
-        return $this->updated_at->format($format);
     }
 
     /**

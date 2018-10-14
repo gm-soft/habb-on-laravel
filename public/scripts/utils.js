@@ -24,7 +24,7 @@
 
         $.ajax({
             url : url,
-            type: 'post',
+            type: 'POST',
             headers: { 'X-CSRF-TOKEN': GetCsrfToken() },
             data : data,
             success  : onSuccess,

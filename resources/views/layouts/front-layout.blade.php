@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="robots" content="robots.txt">
 
-    <title>@yield('title', "HABB - Киберспортивная организация")</title>
+    <title>@yield('title', "HABB | Киберспортивная организация")</title>
 
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('thirdparty/fa/font-awesome.min.css') }}">

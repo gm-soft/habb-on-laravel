@@ -3,9 +3,9 @@
 @section('title', 'Редактирование турнира')
 
 @section('content')
-    <div class="container">
-        <h1 class="mt-1">Редактирование турнира {{ $instance->name }}</h1>
-        {!! Form::model($instance, ['method' => 'put', 'action' => ['TournamentController@update', $instance->id]]) !!}
+    <div class="container mt-2">
+        <h1 class="mt-1">Редактирование турнира #{{ $model->tournament->id }}</h1>
+        {!! Form::model($model->tournament, ['method' => 'put', 'action' => ['TournamentController@update', $model->tournament->id], 'class'=> 'form__tag']) !!}
             @include('admin.tournaments.form')
         {!! Form::close() !!}
     </div>
@@ -15,22 +15,29 @@
 
 @section('scripts')
     <script src="{{ asset('scripts/tournamentHelpers.js') }}"></script>
-    <script src="{{ asset('thirdparty/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('thirdparty/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('scripts/formHelpers.js') }}"></script>
+    <script src="//cdn.ckeditor.com/4.10.1/full/ckeditor.js"></script>
     <script type="text/javascript">
 
-        $(".select2-single").select2({
-            placeholder: "Выберите участников",
-        });
+        CKEDITOR.replace( 'public_description' );
 
         $(function(){
+
+            $(".select2-multiple__tag").select2();
+
+            $('.preview-btn__tag').click(function(){
+                // предпросмотр страницы
+                habb.formHelpers.sendPreviewRequest("{{ action('TournamentController@preview') }}");
+            });
+
             $('#form').submit(function(){
                 $("#submit-btn").prop('disabled',true);
             });
-            habb.tournamentHelpers.registerListeners();
         });
     </script>
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('thirdparty/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('thirdparty/select2/css/select2.min.css') }}">
 @endsection

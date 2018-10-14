@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\FrontDataFiller;
 use App\Helpers\VarDumper;
+use App\Models\Banner;
 use App\Models\Gamer;
+use App\Models\Post;
 use App\Models\Team;
 use App\Models\Tournament;
+use App\ViewModels\Back\SelectOptionItem;
+use App\ViewModels\Back\Tournament\TournamentEditViewModel;
+use App\ViewModels\Front\TournamentViewModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Redirect;
@@ -25,17 +32,32 @@ class TournamentController extends Controller
 
     public function create()
     {
-        $participants = Team::getSelectableOptionArray();
-        $games = Constants::getGamesForSelect();
+        $select_options = [];
+        foreach (Banner::all() as $banner){
+
+            $item = new SelectOptionItem;
+            $item->id = $banner->id;
+            $item->title = $banner->title ?? $banner->id;
+            $item->is_selected = false;
+
+            $select_options[] = $item;
+        }
+
+        $select_options = collect($select_options)->unique('id')->all();
+
+        $model = new TournamentEditViewModel();
+        $model->tournament = null;
+        $model->select_options = $select_options;
+
         return view('admin.tournaments.create', [
-            'participants' => $participants,
-            'games' => $games
+            'model' => $model
         ]);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make(Input::all(), Tournament::$rules);
+
         if ($validator->fails()) {
             return Redirect::action('TournamentController@create')
                 ->withErrors($validator->errors())
@@ -45,25 +67,24 @@ class TournamentController extends Controller
         $instance                           = new Tournament();
         $instance->name                     = Input::get('name');
         $instance->comment                  = Input::get('comment');
-        $instance->public_description       = Input::get('public_description');
-        $instance->tournament_type          = Input::get('tournament_type');
-        $instance->game                     = Input::get('game');
-        $instance->participant_max_count    = Input::get('participant_max_count');
+        $instance->encodeHtmlDescription    (Input::get('public_description'));
 
-        $instance->started_at               = Input::get('started_at');
-        $instance->reg_closed_at            = Input::get('reg_closed_at');
+        $instance->event_date               = Input::get('event_date');
+        $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
+        $instance->hashtags                 = Input::get('hashtags');
 
-        $participantIds = Input::get('participant_ids');
+        $instance->created_at               = Carbon::now();
+        $instance->updated_at               = $instance->created_at;
 
-        $instance->participant_ids = $participantIds;
-
-        //VarDumper::VarExport(Input::all());
         $result = $instance->save();
         if ($result == false) {
             return Redirect::action('TournamentController@create')
                 ->withErrors($instance->errors())
                 ->withInput(Input::all());
         }
+
+        $instance->banners()->attach(Input::get('banners'));
+
         return Redirect::action('TournamentController@show', ["id" => $instance->id])
             ->with('success', 'Данные сохранены');
     }
@@ -72,11 +93,10 @@ class TournamentController extends Controller
     {
         /** @var Tournament $instance */
         $instance = Tournament::find($id);
-        $participants = $instance->getParticipants();
+        $instance->decodeHtmlDescription();
 
         return view('admin.tournaments.show', [
-            'instance' => $instance,
-            'participants' => $participants
+            'instance' => $instance
         ]);
     }
 
@@ -84,26 +104,41 @@ class TournamentController extends Controller
     {
         /** @var Tournament $instance */
         $instance = Tournament::find($id);
-        if ($instance->tournament_type == Tournament::Gamer) {
-            $participants = Gamer::getSelectableOptionArray();
-        } else {
-            $participants = Team::getSelectableOptionArray();
+
+        $banners = $instance->banners()->get();
+
+        $attached_banners_ids = [];
+
+        foreach ($banners as $banner) {
+            $attached_banners_ids[] = $banner->id;
         }
 
-        $current_participants = $instance->getParticipants();
-        $games = Constants::getGamesForSelect();
+        $select_options = [];
+        foreach (Banner::all() as $banner){
+
+            $item = new SelectOptionItem;
+            $item->id = $banner->id;
+            $item->title = $banner->title ?? $banner->id;
+            $item->is_selected = \App\Helpers\MiscUtils::search_array($banner->id, $attached_banners_ids);
+
+            $select_options[] = $item;
+        }
+
+        $select_options = collect($select_options)->unique('id')->all();
+
+        $model = new TournamentEditViewModel();
+        $model->tournament = $instance;
+        $model->select_options = $select_options;
 
         return view('admin.tournaments.edit', [
-                'instance' => $instance,
-            'participants'=>$participants,
-            'current_participants' => $current_participants,
-            'games' => $games
+                'model' => $model
         ]);
     }
 
     public function update(Request $request, $id)
     {
         $validator = Validator::make(Input::all(), Tournament::$rules);
+
         if ($validator->fails()) {
             return Redirect::action('TournamentController@create')
                 ->withErrors($validator->errors())
@@ -113,29 +148,12 @@ class TournamentController extends Controller
         $instance                           = Tournament::find($id);
         $instance->name                     = Input::get('name');
         $instance->comment                  = Input::get('comment');
-        $instance->public_description       = Input::get('public_description');
-        $instance->tournament_type          = Input::get('tournament_type');
-        $instance->game                     = Input::get('game');
-        $instance->participant_max_count    = Input::get('participant_max_count');
+        $instance->encodeHtmlDescription    (Input::get('public_description'));
+        $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
+        $instance->hashtags                 = Input::get('hashtags');
 
-        $instance->started_at               = Input::get('started_at');
-        $instance->reg_closed_at            = Input::get('reg_closed_at');
-
-        $participantIds = Input::get('participant_ids');
-
-        if (!is_null($participantIds)) {
-            $scores = [];
-
-            for($i = 0; $i < count($participantIds); $i++) {
-
-                $scores[] = $instance->getScoreValueOfId($participantIds[$i]);
-            }
-        } else {
-            $scores = null;
-            $participantIds = null;
-        }
-        $instance->participant_scores = $scores;
-        $instance->participant_ids = $participantIds;
+        $instance->event_date               = Input::get('event_date');
+        $instance->updated_at               = Carbon::now();
 
         $result = $instance->save();
         if ($result == false) {
@@ -143,6 +161,9 @@ class TournamentController extends Controller
                 ->withErrors($instance->errors())
                 ->withInput(Input::all());
         }
+
+        $instance->banners()->sync(Input::get('banners'));
+
         return Redirect::action('TournamentController@show', ["id" => $instance->id])
             ->with('success', 'Данные сохранены');
     }
@@ -152,6 +173,7 @@ class TournamentController extends Controller
         /** @var Tournament $instance */
         $instance = Tournament::find($id);
         $result = $instance->delete();
+
         if ($result == true) {
             $message = "Запись ID".$instance->id." удалена из базы";
             $type = Constants::Success;
@@ -168,50 +190,31 @@ class TournamentController extends Controller
     }
     #endregion
 
-    public function scoreUpdate(Request $request) {
-        // TODO реализовать
-        $game = $request->input('game');
-        $tournamentId = $request->input('tournament_id');
-        $participantId = $request->input('participant_id');
-        $scoreValue = intval($request->input('score_value'));
-        $withGamers = !is_null($request->input('with_gamers')) ? boolval($request->input('with_gamers')) : false;
+    public function preview(){
 
-        $redirect = Redirect::action('TournamentController@show', ["id" => $tournamentId]);
-
-        if (is_null($game)) {
-            flash('Определите игровую дисциплину турнира', Constants::Warning);
-            return $redirect;
-        }
+        // СОХРАНЯТЬ НЕ НУЖНО! Напоминание себе и потомкам
 
         /** @var Tournament $tournament */
-        $tournament = Tournament::find($tournamentId);
-        if ($tournament->tournament_type == Tournament::Gamer) {
+        $tournament = new Tournament();
 
-            /** @var Gamer $participant */
-            $participant = Gamer::find($participantId);
-            $participant->addScoreValue($game, $scoreValue);
-            $tournament->addScoreValueOfId($participantId, $scoreValue);
+        $tournament->name               = Input::get('name');
+        $tournament->public_description = Input::get('public_description');
+        $tournament->event_date         = Input::get('event_date');
+        $tournament->hashtags           = Input::get('hashtags');
+        $tournament->created_at         = Carbon::now();
+        $tournament->updated_at         = Carbon::now();
 
-        } else {
-            /** @var Team $participant */
-            $participant = Team::find($participantId);
-            $participant->addScoreValue($game, $scoreValue);
-            $tournament->addScoreValueOfId($participantId, $scoreValue);
-            if ($withGamers) {
-                $gamers = $participant->getGamers(false);
-                foreach ($gamers as $gamer) {
-                    $gamer->addScoreValue($game, $scoreValue);
-                }
-            }
-        }
-        $result = $tournament->save();
+        $topNews = Post::searchByHashtags($tournament->getHashtagsAsArray(), 3);
 
+        $model = new TournamentViewModel();
+        $model->tournament = $tournament;
+        $model->topNews = $topNews;
 
-        if ($result) {
-            flash('Очки сохранены', Constants::Success);
-            return $redirect;
-        }
-        flash('Произошла ошибка при сохранении', Constants::Error);
-        return $redirect;
+        $model->banners = Banner::find(Input::get('banners'));
+        $model->banners_count = count($model->banners);
+
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.tournaments.show', ["model" => $model]);
     }
 }

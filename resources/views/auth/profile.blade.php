@@ -1,6 +1,6 @@
 
 @extends('layouts.front-layout')
-@section('title', 'Habb - Профиль пользователя')
+@section('title', 'HABB | - Профиль пользователя')
 
     @php
         /** @var App\User $model */
@@ -8,16 +8,16 @@
 
 @section('content')
 
-    <div class="container registration-container">
+    <div class="container mt-5">
 
-        <h1 class="mt-2">Профиль {{ $model->name }}</h1>
+        <h1 class="mt-2">Профиль {{ $model->current_user->name }}</h1>
 
         <dl class="">
             <dt>Роль</dt>
-            <dd>{{ $model->role }}</dd>
+            <dd>{{ $model->current_user->role }}</dd>
 
             <dt>Email</dt>
-            <dd>{{ $model->email }}</dd>
+            <dd>{{ $model->current_user->email }}</dd>
         </dl>
 
         <hr>

@@ -14,7 +14,15 @@
         <div class="mt-3 row">
 
             <div class="col-md-8">
-                {!! $post->content !!}
+                <div class="">
+                    {!! $post->content !!}
+                </div>
+
+                <div class="mt-1">
+                    @include('shared._hashtags', ['hashtags' => $post->getHashtagsAsArray()])
+                </div>
+
+
             </div>
 
             <div class="col-md-4">
@@ -31,7 +39,9 @@
                         </div>
 
                         <div class="mt-1">
-                            {{ link_to_action('PostController@edit', 'Редактировать', ['id' => $post->id], ['class' => 'btn btn-primary btn-block mb-1']) }}
+                            {{ link_to_action('HomeController@openPost', 'На фронте', ['id' => $post->id], ['class' => 'btn btn-primary btn-block mb-1']) }}
+
+                            {{ link_to_action('PostController@edit', 'Редактировать', ['id' => $post->id], ['class' => 'btn btn-outline-primary btn-block mb-1']) }}
 
                             {{ link_to_action('PostController@index', 'В список', null, ['class' => 'btn btn-light btn-block mb-3']) }}
 

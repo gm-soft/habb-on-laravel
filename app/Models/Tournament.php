@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use App\Interfaces\ITournamentParticipant;
+use App\Helpers\Constants;
+use App\Traits\HashtagTrait;
+use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
+use Html;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArdent\Ardent\Ardent;
 
@@ -16,15 +19,10 @@ use LaravelArdent\Ardent\Ardent;
  * @property string name - Название турнира
  * @property string comment - Комментарий пользователя
  * @property string public_description - Публичное описание, доступное открыто
- * @property string tournament_type - Тип турнира. team или gamer
- * @property string game - Игровая дисциплина
- * @property int participant_max_count - Максимальное кол-во участников
  *
- * @property array participant_ids - Массив айдишников участников
- * @property int[] participant_scores - Массив очков, полученных участниками в рамках турнира
- *
- * @property Carbon started_at - Начало турнира
- * @property Carbon reg_closed_at - Время закрытия регистрации
+ * @property Carbon event_date - Дата турнира
+ * @property boolean attached_to_nav
+ * @property string hashtags
  *
  * @property Carbon created_at
  * @property Carbon updated_at
@@ -32,163 +30,67 @@ use LaravelArdent\Ardent\Ardent;
  */
 class Tournament extends Ardent
 {
-    use SoftDeletes;
-    const Team = 'team';
-    const Gamer = 'gamer';
+    use SoftDeletes, TimestampModelTrait, HashtagTrait;
 
     protected $table = 'tournaments';
     protected $dates = [
         'deleted_at',
-        'started_at',
-        'reg_closed_at'
+        'event_date',
     ];
-    protected $casts = [
-        'participant_ids' => 'array',
-        'participant_scores' => 'array'
-    ];
+
     public static $rules = [
-        'name' => 'required|between:1,100',
-        'public_description' => 'required|between:0,500'
+        'name'                  => 'required|between:1,100',
+        'public_description'    => 'required|max:500',
+        'hashtags'              => 'max:'.Constants::HashTagFieldMaxLength
     ];
 
-    #region getAsString
-    public function getParticipantIdsAsString() {
-        return join(', ', $this->participant_ids);
-    }
+    // Связь many-to-many от Ardent
+    public static $relationsData = array(
+        'banners'  => array(self::BELONGS_TO_MANY, 'Banner', 'table' => 'tournament_banner')
+    );
 
-    public function getParticipantScoresAsString() {
-        return join(', ', $this->participant_scores);
-    }
-    #endregion
-
-    #region Attributes
-    public function getParticipantIdsAttribute($value){
-
-        if (is_null($value)) return $value;
-
-        $result = explode(',', $value);
-        return $result;
-    }
-
-    public function setParticipantIdsAttribute($value) {
-        $this->attributes['participant_ids'] = is_null($value) ? $value : join(',', $value);
-    }
-
-    public function getParticipantScoresAttribute($value){
-
-        if (is_null($value)) return $value;
-
-        $scores = explode(',', $value);
-        foreach ($scores as $key => $value) {
-            $scores[$key] = intval($value);
-        }
-        return $scores;
-    }
-
-    public function setParticipantScoresAttribute($value) {
-        $this->attributes['participant_scores'] = is_null($value) ? $value : join(',', $value);
-    }
-
-    #endregion
-
-    /**
-     * Возвращает конкретного участника
-     * @param $id
-     * @return ITournamentParticipant|null
-     */
-    public function getParticipant($id) {
-        /** @var ITournamentParticipant $result */
-        $result = null;
-        foreach ($this->participant_ids as $participant_id) {
-
-            if ($id != $participant_id) continue;
-
-            if ($this->tournament_type == self::Gamer) {
-                $result = Gamer::find($id);
-            } else {
-                $result = Team::find($id);
-            }
-            break;
-        }
-        return $result;
+    public function getEventDate($format = "Y-m-d"){
+        return $this->event_date->format($format);
     }
 
     /**
-     * Возвращает массив участников турнира
-     * @return ITournamentParticipant[]
+     * Кодирует разметку html в пригодную для сохранения в базе
+     * @param $content
      */
-    public function getParticipants() {
-
-        if (is_null($this->participant_ids)) return null;
-        /** @var ITournamentParticipant[] $result */
-        $result = [];
-        foreach ($this->participant_ids as $participant_id) {
-
-            if ($this->tournament_type == self::Gamer) {
-                $result[] = Gamer::find($participant_id);
-            } else {
-                $result[] = Team::find($participant_id);
-            }
-        }
-        return $result;
+    public function encodeHtmlDescription($content) {
+        $this->public_description = HTML::entities($content);
     }
 
     /**
-     * Добавляет участника по его id. Автоматически присваивает 0 к очкам
-     * @param $id
-     * @param int $score
+     * Декодирует сохраненную кодированную разметку в базе в html-вью
      */
-    public function addParticipant($id, $score = 0) {
-        $this->participant_ids[] = $id;
-        $this->participant_scores[] = $score;
+    public function decodeHtmlDescription() {
+        $this->public_description = HTML::decode($this->public_description);
     }
 
-    /**
-     * Находит участника по id и удаляет его из массива. ОЧки так же удаляются
-     * @param $id
-     */
-    public function removeParticipant($id) {
-        $tmpIds = [];
-        $tmpScores = [];
-
-        for($i = 0; $i < count($this->participant_ids);$i++) {
-
-            if ($this->participant_ids[$i] == $id) continue;
-            $tmpIds[]       = $this->participant_ids[$i];
-            $tmpScores[]    = $this->participant_scores[$i];
-        }
-        $this->participant_ids      = $tmpIds;
-        $this->participant_scores   = $tmpScores;
-
+    // стандартная связь many-to-many от laravel
+    public function banners(){
+        return $this->belongsToMany(Banner::class, 'tournament_banner');
     }
 
-    /**
-     * Устанавливает новый массив значений айдишников. Ищется и присваивается каждому айдишнику егшо значение очков.
-     * Если не найдено, то присваивается ноль
-     * @param array $ids
-     */
-    public function updateParticipantIdsArray(array $ids) {
-        $tmpIds = [];
-        $tmpScores = [];
-        for($i = 0; $i < count($ids); $i++) {
-
-            $tmpIds[] = $ids[$i];
-            $tmpScores[] = $this->getScoreValueOfId($ids[$i]);
-        }
-        $this->participant_ids = $tmpIds;
-        $this->participant_scores = $tmpScores;
+    public function EventDate($format = "d.m.Y"){
+        return $this->event_date->format($format);
     }
 
+    public static function getActive() {
 
-    public function getParticipantCount() {
-        return count($this->participant_ids);
+        return \DB::table('tournaments')
+            ->where('event_date', '>=', Carbon::now())
+            ->get();
     }
 
-    public function getStartedAt($format = "Y-m-d"){
-        return $this->started_at->format($format);
-    }
+    public static function getAttachedToNavIds($limit) {
 
-    public function getRegClosedAt($format = "Y-m-d"){
-        return $this->reg_closed_at->format($format);
+        return \DB::table('tournaments')
+            ->where('attached_to_nav', '=', true)
+            ->orderByDesc('created_at')
+            ->select('id', 'name')
+            ->limit($limit)
+            ->get();
     }
 }

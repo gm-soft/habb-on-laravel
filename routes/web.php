@@ -16,10 +16,12 @@
     Route::get('/home', 'HomeController@index');
     Route::get('/about', 'HomeController@about');
     Route::get('/contacts', 'HomeController@contacts');
+    Route::get('/event_schedule', 'HomeController@eventSchedule');
 
 
     Route::get('/news', 'HomeController@news');
     Route::get('/news/{id}', 'HomeController@openPost');
+    Route::get('/tournaments/{id}', 'HomeController@openTournament');
 
     #endregion
 
@@ -53,16 +55,26 @@
         // Посты/новости
         Route::resource('posts', 'PostController');
 
-        if (env('APP_DEBUG')){
-            Route::any('posts/preview/announce', 'PostController@postAnnouncePreview');
-            Route::any('posts/preview/post', 'PostController@postPreview');
-        } else {
-            Route::post('posts/preview/announce', 'PostController@postAnnouncePreview');
-            Route::post('posts/preview/post', 'PostController@postPreview');
-        }
+        Route::any('posts/preview/announce', 'PostController@postAnnouncePreview');
+        Route::any('posts/preview/post', 'PostController@postPreview');
+
+        //Баннеры
+        Route::resource('banners', 'BannerController');
+
+        // Статичные страницы
+        Route::group(['prefix' => 'static_pages'], function() {
+
+            Route::get('/', 'StaticPageController@index');
+            Route::get('/{id}', 'StaticPageController@show');
+            Route::get('/{id}/edit', 'StaticPageController@edit');
+            Route::post('/update/{id}', 'StaticPageController@update');
+            Route::patch('/update/{id}', 'StaticPageController@update');
+            Route::any('/preview', 'StaticPageController@preview');
+        });
 
         // Турниры
         Route::resource('tournaments', 'TournamentController');
+        Route::any('/tournament_preview', 'TournamentController@preview');
 
         // Пользователи системы
         Route::resource('users', 'UserController');

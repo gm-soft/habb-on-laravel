@@ -15,6 +15,10 @@
         <div class="row">
             <div class="col-md-8">
                 {!! $model->post->content  !!}
+
+                <div class="mt-1">
+                    @include('shared._hashtags', ['hashtags' => $model->post->getHashtagsAsArray()])
+                </div>
             </div>
 
             <div class="col-md-4">

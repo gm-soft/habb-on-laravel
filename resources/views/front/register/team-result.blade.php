@@ -8,9 +8,9 @@
         <div class="jumbotron">
             <h1 class="display-4">Заявка принята к обработке!</h1>
             <p class="lead">
-                Номер заявки: <b>{{ $request->id }}</b> <br>
-                Имя: {{ $request->requester_name }} ({{ $request->requester_phone }})<br>
-                Email: {{ $request->requester_email }}
+                Номер заявки: <b>{{ $model->team_request->id }}</b> <br>
+                Имя: {{ $model->team_request->requester_name }} ({{ $model->team_request->requester_phone }})<br>
+                Email: {{ $model->team_request->requester_email }}
             </p>
             <hr>
             <p>
@@ -21,7 +21,7 @@
             <p>
                 Заявка обычно рассматривается в течение пары дней, но срок рассмотрения может быть и дольше.
                 В случае, если такое произошло, Вы можете узнать о статусе рассмотрения у администрации,
-                указав уникальный номер заявки <b>{{ $request->id }}</b>
+                указав уникальный номер заявки <b>{{ $model->team_request->id }}</b>
             </p>
         </div>
 

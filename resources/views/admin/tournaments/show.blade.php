@@ -6,46 +6,51 @@
     <div class="container">
         <div class="mt-1">
             <h1 class="mt-1">Турнир {{ $instance->name }} [ID {{ $instance->id }}]</h1>
-            <p class="text-muted">Создание: {{ $instance->created_at }}. Обновление: {{ $instance->updated_at }}</p>
+            <p class="text-muted">Создание: {{ $instance->CreatedAt() }}. Обновление: {{ $instance->UpdatedAt() }}</p>
         </div>
 
         <div class="row">
             <div class="col-sm-8">
+                {!! $instance->public_description !!}
+
+                <div class="mt-1">
+                    @include('shared._hashtags', ['hashtags' => $instance->getHashtagsAsArray()])
+                </div>
+            </div>
+            <div class="col-sm-4">
                 <dl>
-                    <dt>Публичное описание</dt>
-                    <dd>{{ $instance->public_description }}</dd>
-
-                    <dt>Тип турнира</dt>
-                    <dd>{{ $instance->tournament_type }}</dd>
-
-                    <dt>Максимальное кол-во участников</dt>
-                    <dd>{{ $instance->participant_max_count }}</dd>
-
-                    <dt>Игровая дисциплина</dt>
-                    <dd>{{ $instance->game ?? 'Не определена' }}</dd>
-
-                    <dt>Начало турнира</dt>
-                    <dd>{{ $instance->started_at }}</dd>
-
-                    <dt>Регистрация закрывается</dt>
-                    <dd>{{ $instance->reg_closed_at }}</dd>
+                    <dt>Дата события</dt>
+                    <dd>{{ $instance->getEventDate() }}</dd>
 
                     <dt>Комментарий</dt>
                     <dd>{{ $instance->comment ?? 'Без комментарий' }}</dd>
                 </dl>
 
-            </div>
-            <div class="col-sm-4">
-                {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-light']) }}
-                <div class="float-sm-right">
-
-                    {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
-                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
+                <div class="mt-1">
+                    @if($instance->attached_to_nav)
+                        <strong>Закреплен в панели навигации</strong>
+                    @else
+                        <span>Не закрепляется в панели навигации</span>
+                    @endif
                 </div>
+
+            </div>
+        </div>
+
+        <hr>
+        <div class="mt-2">
+            {{ link_to_action('TournamentController@index', 'В список', [], ['class' => 'btn btn-light']) }}
+            <div class="float-sm-right">
+
+                {{ link_to_action('HomeController@openTournament', 'Показать на фронте', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
+                {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-outline-primary']) }}
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
             </div>
         </div>
 
     </div>
+
+
 
     <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="deleteDialog" aria-hidden="true">
         <div class="modal-dialog" role="document">

@@ -34,7 +34,7 @@
 
                 <div class="form-group">
                     {{ Form::label('city', 'Город команды')}}
-                    {{ Form::select('city', $cities, old('cities'), ['class'=>'form-control', 'required'=>true]) }}
+                    {{ Form::select('city', $model->cities, old('cities'), ['class'=>'form-control', 'required'=>true]) }}
                     <small>Укажите, пожалуйста, город команды</small>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 <div class="form-group {{ $errors->has('requester_email') ? "has-danger" : "" }}">
                     {{ Form::label('requester_email', 'Email запросившего') }}
                     {{ Form::text('requester_email', old('requester_email'),
-                            array('class' => 'form-control', 'placeholder' => 'Введите свой email', 'pattern' => $emailPattern, 'required' => true)) }}
+                            array('class' => 'form-control', 'placeholder' => 'Введите свой email', 'pattern' => $model->emailPattern, 'required' => true)) }}
 
                     @if ($errors->has('requester_email'))
                         <span class="form-control-feedback">

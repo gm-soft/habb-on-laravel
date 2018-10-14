@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Helpers\Constants;
+use App\Traits\HashtagTrait;
+use App\Traits\IHasHtmlContentTrait;
+use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use DB;
 use Html;
@@ -18,6 +21,8 @@ use LaravelArdent\Ardent\Ardent;
  * @property string $content Контент статьи
  * @property int $views ПРосмотры статьи
  * @property string $announce_image Картинка для анонса
+ * @property string hashtags
+ *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -25,12 +30,13 @@ use LaravelArdent\Ardent\Ardent;
  */
 class Post extends Ardent
 {
-    use SoftDeletes;
+    use SoftDeletes, TimestampModelTrait, HashtagTrait, IHasHtmlContentTrait;
 
     public static $rules = array(
         'title'          => 'required|between:2,100',
         'content'        => 'required|between:2,10000',
-        'announce_image' => 'required|regex:/'.Constants::AnnounceImagePathRegexPattern.'/'
+        'announce_image' => 'required|regex:/'.Constants::AnnounceImagePathRegexPattern.'/',
+        'hashtags'       => 'max:'.Constants::HashTagFieldMaxLength
     );
     protected $table = "posts";
 
@@ -68,40 +74,9 @@ class Post extends Ardent
         return $result;
     }
 
-    /**
-     * ВОзвращает размер статьи
-     * @return int
-     */
-    public function getContentLength() {
-        return strlen($this->content);
-    }
-
-    /**
-     * Кодирует разметку html в пригодную для сохранения в базе
-     * @param $content
-     */
-    public function encodeHtmlContent($content) {
-        $this->content = HTML::entities($content);
-    }
-
-    /**
-     * Декодирует сохраненную кодированную разметку в базе в html-вью
-     */
-    public function decodeHtmlContent() {
-        $this->content = HTML::decode($this->content);
-    }
-
-    public function CreatedAt($format = "d.m.Y"){
-        return $this->created_at->format($format);
-    }
-
-    public function UpdatedAt($format = "d.m.Y"){
-        return $this->updated_at->format($format);
-    }
-
     public static function getTop($limit, $postIdToFiler = null){
 
-        $query = DB::table('posts')
+        $query = self::query()
             ->select()
             ->where('deleted_at', '=', null);
 
@@ -111,6 +86,43 @@ class Post extends Ardent
         return $query
             ->orderByDesc('created_at')
             ->limit($limit)
+            ->get();
+    }
+
+    public static function searchByHashtags($hashtags, $limit = null){
+
+        $query = self::query()
+            ->select()
+            ->where('deleted_at', '=', null);
+
+        // если преедали массив в качестве аргумента
+        if (is_array($hashtags)){
+
+            // массив может быть пустым, не будем с таким работать
+            if (!empty($hashtags)) {
+
+                // первый фильтр через where всегда
+                $query = $query->where('hashtags', 'LIKE', "%{$hashtags[0]}%");
+
+                if (count($hashtags) > 1)
+                {
+                    // последующие уже через orWhere
+                    for($index = 1; $index < count($hashtags); $index++)
+                        $query = $query->orWhere('hashtags', 'LIKE', "%{$hashtags[$index]}%");
+                }
+            }
+
+        } else {
+            // если передали не массив, а строку (или другой объект)
+            $query = $query->where('hashtags', 'LIKE', "%{$hashtags}%");
+        }
+
+        if (isset($limit))
+            $query = $query->limit($limit);
+
+
+        return $query
+            ->orderByDesc('created_at')
             ->get();
     }
 }

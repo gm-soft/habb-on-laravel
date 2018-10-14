@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\FrontDataFiller;
 use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\TeamCreateRequest;
 use App\Models\TeamScore;
 use App\Traits\EmailSender;
 use App\Traits\TeamConstructor;
+use App\ViewModels\Front\TeamCreateRequest\RegisterTeamFormResultViewModel;
+use App\ViewModels\Front\TeamCreateRequest\RegisterTeamFormViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Redirect;
@@ -32,6 +35,9 @@ class TeamCreateRequestController extends Controller
     {
         $cities = Constants::getCities();
         $emailRegPattern = Constants::EmailRegexPattern;
+
+
+
         return view('admin.teamRequests.create',[
             'cities'=>$cities, 'emailRegPattern' => $emailRegPattern
             ]);
@@ -237,11 +243,13 @@ class TeamCreateRequestController extends Controller
     #endregion
 
     public function registerTeamFormView() {
-        $cities = Constants::getCities();
-        $emailPattern = Constants::EmailRegexPattern;
-        return view('front.register.teamRequest', [
-            'cities' => $cities, 'emailPattern' => $emailPattern
-        ]);
+        $model = new RegisterTeamFormViewModel;
+        $model->cities = Constants::getCities();
+        $model->emailPattern = Constants::EmailRegexPattern;
+
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.register.teamRequest', [ 'model' => $model ]);
     }
 
     public function registerTeamFormPost(Request $request) {
@@ -264,11 +272,16 @@ class TeamCreateRequestController extends Controller
         $id = $request->session()->get('request_id');
         if (is_null($id)) {
 
-            flash('Возникла непредвиденная ошибка при сохранении заявки.<br>Отправьте, пожалуйста, еще одну. Извините за неудобство =(', Constants::Warning);
+            flash('Возникла непредвиденная ошибка при сохранении заявки.<br>Заполните и отправьте, пожалуйста, еще раз. Извините за неудобство =(', Constants::Warning);
             return Redirect::action('TeamCreateRequestController@registerTeamFormView');
         }
         $teamRequest = TeamCreateRequest::find($id);
         $request->session()->forget('request_id');
-        return view('front.register.team-result', ['request' => $teamRequest]);
+
+        $model = new RegisterTeamFormResultViewModel();
+        $model->team_request = $teamRequest;
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.register.team-result', ['model' => $model]);
     }
 }

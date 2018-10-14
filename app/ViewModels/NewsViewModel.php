@@ -9,9 +9,12 @@
 namespace App\ViewModels;
 
 use App\Models\Post;
+use App\Traits\FrontDataTrait;
 
 class NewsViewModel
 {
+    use FrontDataTrait;
+
     /**
      * @var string
      */

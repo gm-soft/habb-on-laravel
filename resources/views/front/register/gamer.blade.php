@@ -53,8 +53,8 @@
             <div class="form-group">
                 <select class="form-control" name="city" required title="Выберите город">
                     <option value="" disabled selected>Город</option>
-                    @for($i = 0; $i < count($cities); $i++)
-                        <option value='{{ $cities[$i] }}'>{{ $cities[$i] }}</option>
+                    @for($i = 0; $i < count($model->cities); $i++)
+                        <option value='{{ $model->cities[$i] }}'>{{ $model->cities[$i] }}</option>
                     @endfor
                 </select>
             </div>
@@ -277,7 +277,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('thirdparty/select2/select2.js') }}"></script>
+    <script src="{{ asset('thirdparty/select2/js/select2.js') }}"></script>
     <script src="{{ asset('thirdparty/inputmask/jquery.inputmask.bundle.js') }}"></script>
     <script src="{{ asset('scripts/registrationHelpers.js') }}"></script>
     <script type="text/javascript">
@@ -289,5 +289,5 @@
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('thirdparty/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('thirdparty/select2/css/select2.min.css') }}">
 @endsection

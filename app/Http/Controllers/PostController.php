@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\FrontDataFiller;
 use App\Models\Post;
 use App\ViewModels\Front\ShowPostViewModel;
 use App\ViewModels\NewsViewModel;
@@ -40,10 +41,11 @@ class PostController extends Controller
                 ->withInput($input);
         }
 
-        $post = new Post;
-        $post->title = HTML::entities(Input::get('title'));
+        $post                   = new Post;
+        $post->title            = HTML::entities(Input::get('title'));
         $post->encodeHtmlContent(Input::get('content'));
-        $post->announce_image = Input::get('announce_image');
+        $post->announce_image   = Input::get('announce_image');
+        $post->hashtags         = Input::get('hashtags');
 
         if (!$post->save()) {
             return Redirect::to('admin/posts/create')
@@ -88,10 +90,11 @@ class PostController extends Controller
         }
 
         /** @var Post $post */
-        $post = Post::find($id);
-        $post->title = Input::get('title');
+        $post                   = Post::find($id);
+        $post->title            = Input::get('title');
         $post->encodeHtmlContent(Input::get('content'));
-        $post->announce_image = Input::get('announce_image');
+        $post->announce_image   = Input::get('announce_image');
+        $post->hashtags         = Input::get('hashtags');
 
         if (!$post->save()) {
             return Redirect::to('admin/posts/edit')
@@ -121,12 +124,13 @@ class PostController extends Controller
         /** @var Post $post */
         $post = new Post;
 
-        $post->title = Input::get('title');
-        $post->announce_image = Input::get('imageLink');
-        $post->content = Input::get('content');
-        $post->views = 1488;
-        $post->created_at = Carbon::now();
-        $post->updated_at = Carbon::now();
+        $post->title            = Input::get('title');
+        $post->announce_image   = Input::get('imageLink');
+        $post->content          = Input::get('content');
+        $post->views            = 1488;
+        $post->hashtags         = Input::get('hashtags');
+        $post->created_at       = Carbon::now();
+        $post->updated_at       = Carbon::now();
 
         $topPosts = Post::getTop(3);
 
@@ -135,7 +139,7 @@ class PostController extends Controller
         $model->topPosts = $topPosts;
         $model->hasAnotherPosts = count($topPosts) > 0;
 
-
+        FrontDataFiller::create($model)->fill();
         return view('front.posts.show', ["model" => $model]);
 
     }
@@ -146,21 +150,25 @@ class PostController extends Controller
 
         $previewPost = new Post;
 
-        $previewPost->id = 0;
-        $previewPost->title = HTML::entities(Input::get('title'));
-        $previewPost->announce_image = Input::get('announce_image');
+        $previewPost->id                = 0;
+        $previewPost->title             = Input::get('title');
+        $previewPost->announce_image    = Input::get('announce_image');
+        $previewPost->hashtags          = Input::get('hashtags');
 
-        $topPosts = Post::getTop(3)->toArray();
 
-        $posts = array();
-        $posts[] = $previewPost;
+
+        $posts = [$previewPost];
+
+        $topPosts = Post::getTop(3);
         foreach ($topPosts as $topPost){
-            $posts[] = $topPost;
+           $posts[] = $topPost;
         }
 
-        $viewModel = new NewsViewModel($posts);
-        $viewModel->pageTitle = "Предпросмотр анонса новости";
+        $model = new NewsViewModel($posts);
+        $model->pageTitle = "Предпросмотр анонса новости";
 
-        return view('front.posts.index', ['model' => $viewModel]);
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.posts.index', ['model' => $model]);
     }
 }

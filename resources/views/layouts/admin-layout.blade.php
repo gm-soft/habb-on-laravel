@@ -9,7 +9,7 @@
     <meta name="robots" content="robots.txt">
     <meta name="googlebot" content="noindex">
 
-    <title>@yield('title', "Управление Habb")</title>
+    <title>@yield('title', "HABB | Админка")</title>
 
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('thirdparty/fa/font-awesome.min.css') }}">

@@ -1,6 +1,6 @@
 
-@extends('layouts.front-layout')
-@section('title', 'Восстановление пароля')
+@extends('layouts.auth-layout')
+@section('title', 'HABB | Восстановление пароля')
 
 @section('content')
 

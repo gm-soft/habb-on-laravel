@@ -1,6 +1,6 @@
 
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-8">
         <input type="hidden" name="id" value="{{old('id')}}" >
 
         <div class="form-group">
@@ -15,6 +15,21 @@
         </div>
 
         <div class="form-group">
+            {{ Form::text('hashtags', old('hashtags'),
+                    array('class' => 'form-control', 'maxlength' => \App\Helpers\Constants::HashTagFieldMaxLength, 'placeholder' => 'Введите хэштеги через запятую')) }}
+            @if ($errors->has('hashtags'))
+                <span class="help-block text-danger">
+                    <strong>{{ $errors->first('hashtags') }}</strong>
+                </span><br>
+            @endif
+            <small>
+                Введите хэштеги через запятую с пробелом. Примеры: <i>первый_хэштег, турнир_dota2</i>
+                <br>
+                Максимальное кол-во знаков: {{ \App\Helpers\Constants::HashTagFieldMaxLength }}
+            </small>
+        </div>
+
+        <div class="form-group">
             {{ Form::label('public_description', 'Публичное описание турнира') }}
             {{ Form::textarea('public_description', old('public_description'),
                     array('class' => 'form-control', 'maxlength' => '500', 'placeholder' => 'Максимум 500 символов', 'required'=>true)) }}
@@ -26,57 +41,12 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('tournament_type', 'Тип турнира: Командный/индивидуальный') }}
-            {{ Form::select("tournament_type", [
-                                'team' => 'Командный',
-                                'gamer' => 'Индивидуальный',
-                            ], old("tournament_type"), ['class'=>'form-control', 'required' => true, 'id' => 'tournament_type']) }}
-            @if ($errors->has('tournament_type'))
-                <span class="help-block text-danger">
-                    <strong>{{ $errors->first('tournament_type') }}</strong>
-                </span><br>
-            @endif
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('game', 'Игровая дисциплина') }}
-            {{ Form::select("game", $games, old("game"), ['class'=>'form-control', 'required' => true]) }}
-            @if ($errors->has('game'))
-                <span class="help-block text-danger">
-                    <strong>{{ $errors->first('game') }}</strong>
-                </span><br>
-            @endif
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('participant_max_count', 'Максимальное кол-во участников') }}
-            {{ Form::number('participant_max_count', old('participant_max_count'),
-                    array('class' => 'form-control', 'required'=> true, 'placeholder' => 'Введите максимальное кол-во участников турнира')) }}
-            @if ($errors->has('participant_max_count'))
-                <span class="help-block text-danger">
-                    <strong>{{ $errors->first('participant_max_count') }}</strong>
-                </span><br>
-            @endif
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('started_at', 'Время начала турнира') }}
-            {{ Form::date('started_at', isset($instance) ? $instance->getStartedAt() : null,
+            {{ Form::label('event_date', 'Время начала турнира') }}
+            {{ Form::date('event_date', isset($model->tournament) ? $model->tournament->getEventDate() : null,
                     array('class' => 'form-control', 'required'=> true)) }}
-            @if ($errors->has('started_at'))
+            @if ($errors->has('event_date'))
                 <span class="help-block text-danger">
-                    <strong>{{ $errors->first('started_at') }}</strong>
-                </span><br>
-            @endif
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('reg_closed_at', 'Время закрытия регистрации на турнир') }}
-            {{ Form::date('reg_closed_at', isset($instance) ? $instance->getRegClosedAt() : null,
-                    array('class' => 'form-control', 'required'=> true)) }}
-            @if ($errors->has('reg_closed_at'))
-                <span class="help-block text-danger">
-                    <strong>{{ $errors->first('reg_closed_at') }}</strong>
+                    <strong>{{ $errors->first('event_date') }}</strong>
                 </span><br>
             @endif
         </div>
@@ -91,54 +61,49 @@
                 </span><br>
             @endif
         </div>
-
-
     </div>
 
-
-    <div class="col-sm-6">
+    <div class="col-sm-4">
 
         <div class="form-group">
-            {{ Form::label('part_select', 'Выберите участника и нажмите "Добавить"') }}
-            <div class="row">
-                <div class="col-sm-8">
-                    {{ Form::select("part_select", $participants, null, ['class'=>'form-control select2-single', 'id' => 'part_select']) }}
+            {{ Form::label('attached_to_nav', 'Прикреплен ли к панели навигации') }}
+            {{ Form::checkbox('attached_to_nav', old('attached_to_nav'), old('attached_to_nav')) }}
+
+            @if ($errors->has('attached_to_nav'))
+                <span class="help-block text-danger">
+                    <strong>{{ $errors->first('attached_to_nav') }}</strong>
+                </span><br>
+            @endif
+        </div>
+
+        <div class="form-group">
+            <label for="select2-multiple__tag">Баннеры, которые будут отображены в шапке турнира</label>
+            <select id="select2-multiple__tag" class="select2-multiple__tag w-100" name="banners[]" multiple="multiple">
+
+                @foreach ($model->select_options as $select_option)
+
+                    @php
+                        $selected = $select_option->is_selected ? "selected=\"selected\"" : "";
+                    @endphp
+
+                    <option value="{{ $select_option->id }}" {{ $selected }}>{{ $select_option->title }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-block">Сохранить</button>
+                    <button type="button" class="btn btn-secondary btn-block mb-1 preview-btn__tag">Предпросмотр</button>
+                    <a href="#" class="btn btn-outline-warning btn-block " onclick="window.history.back()">Отменить</a>
                 </div>
-                <div class="col-sm-4 text-sm-right">
-                    <a href="#" id="addPartButton" class="btn btn-primary">Добавить</a>
-                </div>
+
             </div>
 
         </div>
-
-        <h4>Выбранные участники</h4>
-        <div id="outputDiv" class="habb_participant-wrapper__tag">
-            @if($current_participants ?? null)
-                @for($i = 0; $i < count($current_participants); $i++)
-
-                    <div class="row mt-1" data-participant-id="{{$current_participants[$i]->getIdentifier()}}">
-                        <div class="col-sm-8">
-                            <b>{{ $current_participants[$i]->getName() }}</b>
-                            <input type="hidden" name="participant_ids[]" value="{{ $current_participants[$i]->getIdentifier() }}">
-                        </div>
-
-                        <div class="col-sm-4 text-sm-right">
-                            <a href="#" class="btn btn-outline-danger habb_btn-participant-remove__tag"
-                               data-participant-id="{{$current_participants[$i]->getIdentifier()}}">
-                                Удалить <i class="fa fa-times" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                @endfor
-            @endif
-        </div>
     </div>
 
 </div>
 
-<div class="form-group">
-    <div class="float-sm-right">
-        <button type="submit" id="submit-btn" class="btn btn-primary">Сохранить</button>
-    </div>
-</div>

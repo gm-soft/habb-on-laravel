@@ -1,6 +1,6 @@
 
-@extends('layouts.front-layout')
-@section('title', 'Авторизация')
+@extends('layouts.auth-layout')
+@section('title', 'HABB | Авторизация')
 
 
 @section('content')

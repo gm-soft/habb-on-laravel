@@ -16,7 +16,7 @@
             <ul class="navbar-nav mr-auto mt-1">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url("/news") }}">Новости</a>
+                    <a class="nav-link" href="{{ action("HomeController@news") }}">Новости</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -34,12 +34,23 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ action("HomeController@eventSchedule") }}">Расписание</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="{{ action("HomeController@about") }}">О нас</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ action("HomeController@contacts") }}">Контакты</a>
                 </li>
+
+                @foreach($model->attached_tournaments_links as $tournamentLink)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ $tournamentLink->url }}">{{ $tournamentLink->title }}</a>
+                    </li>
+                @endforeach
+
             </ul>
             <!--form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">

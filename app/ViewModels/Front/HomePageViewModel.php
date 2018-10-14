@@ -9,10 +9,14 @@
 namespace App\ViewModels\Front;
 
 
+use App\Models\Banner;
 use App\Models\Post;
+use App\Traits\FrontDataTrait;
 
 class HomePageViewModel
 {
+    use FrontDataTrait;
+
     /**
      * @var int
      */
@@ -22,4 +26,10 @@ class HomePageViewModel
      * @var array|Post[]
      */
     public $posts;
+
+    /** @var Banner[] */
+    public $banners;
+
+    /** @var int */
+    public $banners_count;
 }
