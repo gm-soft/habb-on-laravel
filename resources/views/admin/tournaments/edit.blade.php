@@ -5,7 +5,7 @@
 @section('content')
     <div class="container mt-2">
         <h1 class="mt-1">Редактирование турнира #{{ $model->tournament->id }}</h1>
-        {!! Form::model($model->tournament, ['method' => 'put', 'action' => ['TournamentController@update', $model->tournament->id]]) !!}
+        {!! Form::model($model->tournament, ['method' => 'put', 'action' => ['TournamentController@update', $model->tournament->id], 'class'=> 'form__tag']) !!}
             @include('admin.tournaments.form')
         {!! Form::close() !!}
     </div>
@@ -16,6 +16,7 @@
 @section('scripts')
     <script src="{{ asset('scripts/tournamentHelpers.js') }}"></script>
     <script src="{{ asset('thirdparty/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('scripts/formHelpers.js') }}"></script>
     <script src="//cdn.ckeditor.com/4.10.1/full/ckeditor.js"></script>
     <script type="text/javascript">
 
@@ -24,6 +25,11 @@
         $(function(){
 
             $(".select2-multiple__tag").select2();
+
+            $('.preview-btn__tag').click(function(){
+                // предпросмотр страницы
+                habb.formHelpers.sendPreviewRequest("{{ action('TournamentController@preview') }}");
+            });
 
             $('#form').submit(function(){
                 $("#submit-btn").prop('disabled',true);

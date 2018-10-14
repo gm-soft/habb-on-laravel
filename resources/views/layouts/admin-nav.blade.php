@@ -37,6 +37,7 @@
                         <a class="dropdown-item" href="{{ url('admin/teams/') }}">Команды</a>
                         <a class="dropdown-item" href="{{ url('admin/tournaments/') }}">Турниры</a>
                         <a class="dropdown-item" href="{{ url('admin/banners/') }}">Баннеры</a>
+                        <a class="dropdown-item" href="{{ action('StaticPageController@index') }}">Статичные страницы</a>
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('admin/external_services/') }}">Внешние сервисы</a>

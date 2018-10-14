@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Helpers\FrontDataFiller;
+use App\Helpers\VarDumper;
 use App\Models\Banner;
 use App\Models\Post;
+use App\Models\StaticPage;
 use App\Models\Tournament;
 use App\ViewModels\Front\Auth\ProfileFormViewModel;
 use App\ViewModels\Front\Home\AboutHomeViewModel;
 use App\ViewModels\Front\Home\ContactHomeViewModel;
+use App\ViewModels\Front\Home\StaticPageFrontViewModel;
 use App\ViewModels\Front\HomePageViewModel;
 use App\ViewModels\Front\ShowPostViewModel;
 use App\ViewModels\Front\TournamentViewModel;
 use App\ViewModels\NewsViewModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
@@ -29,8 +31,7 @@ class HomeController extends Controller
 
         $model->banners_count = count($model->banners);
 
-        $frontHelper = new FrontDataFiller($model);
-        $frontHelper->fill();
+        FrontDataFiller::create($model)->fill();
 
         return view('front.home.index', ['model' => $model]);
     }
@@ -40,8 +41,7 @@ class HomeController extends Controller
     public function about() {
 
         $model = new AboutHomeViewModel();
-        $frontHelper = new FrontDataFiller($model);
-        $frontHelper->fill();
+        FrontDataFiller::create($model)->fill();
 
         return view('front.home.about', ['model' => $model]);
     }
@@ -51,8 +51,7 @@ class HomeController extends Controller
     public function contacts() {
 
         $model = new ContactHomeViewModel();
-        $frontHelper = new FrontDataFiller($model);
-        $frontHelper->fill();
+        FrontDataFiller::create($model)->fill();
 
         return view('front.home.contacts', ['model' => $model]);
     }
@@ -72,8 +71,7 @@ class HomeController extends Controller
         $model = new NewsViewModel($posts);
         $model->pageTitle = $hasHashtag ? "Поиск новостей по тегу #{$hashtagFilter}:" : "Новости киберсопрта";
 
-        $frontHelper = new FrontDataFiller($model);
-        $frontHelper->fill();
+        FrontDataFiller::create($model)->fill();
 
         return view('front.posts.index', ["model" => $model]);
     }
@@ -113,9 +111,7 @@ class HomeController extends Controller
         $model->topPosts = $topPosts;
         $model->hasAnotherPosts = count($topPosts) > 0;
 
-        $frontHelper = new FrontDataFiller($model);
-        $frontHelper->fill();
-
+        FrontDataFiller::create($model)->fill();
 
         return view('front.posts.show', ["model" => $model]);
     }
@@ -136,10 +132,25 @@ class HomeController extends Controller
         $model->banners = $tournament->banners()->get();
         $model->banners_count = count($model->banners);
 
-        $frontHelper = new FrontDataFiller($model);
-        $frontHelper->fill();
+        FrontDataFiller::create($model)->fill();
 
         return view('front.tournaments.show', ["model" => $model]);
+    }
+
+    public function eventSchedule(){
+
+        /** @var StaticPage $eventSchedule */
+        $eventSchedule = StaticPage::getByUniqueName(StaticPage::EventSchedule_RowName);
+
+        $eventSchedule->decodeHtmlContent();
+
+        $model = new StaticPageFrontViewModel();
+        $model->pageTitle = $eventSchedule->title;
+        $model->staticPage = $eventSchedule;
+
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.home.static_page', ["model" => $model]);
     }
 
 

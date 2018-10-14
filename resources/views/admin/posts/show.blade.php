@@ -39,7 +39,9 @@
                         </div>
 
                         <div class="mt-1">
-                            {{ link_to_action('PostController@edit', 'Редактировать', ['id' => $post->id], ['class' => 'btn btn-primary btn-block mb-1']) }}
+                            {{ link_to_action('HomeController@openPost', 'На фронте', ['id' => $post->id], ['class' => 'btn btn-primary btn-block mb-1']) }}
+
+                            {{ link_to_action('PostController@edit', 'Редактировать', ['id' => $post->id], ['class' => 'btn btn-outline-primary btn-block mb-1']) }}
 
                             {{ link_to_action('PostController@index', 'В список', null, ['class' => 'btn btn-light btn-block mb-3']) }}
 

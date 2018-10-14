@@ -34,6 +34,10 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ action("HomeController@eventSchedule") }}">Расписание</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="{{ action("HomeController@about") }}">О нас</a>
                 </li>
 

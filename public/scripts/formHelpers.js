@@ -92,12 +92,13 @@
             }
         }
 
-        habb.utils.AjaxRequest(url, data, function(response){
-
+        function writeResponse(response){
             var w = window.open('about:blank');
             w.document.open();
             w.document.write(response);
             w.document.close();
-        });
+        }
+
+        habb.utils.AjaxRequest(url, data, writeResponse, writeResponse);
     }
 }());

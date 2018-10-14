@@ -90,10 +90,20 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-block">Сохранить</button>
+                    <button type="button" class="btn btn-secondary btn-block mb-1 preview-btn__tag">Предпросмотр</button>
+                    <a href="#" class="btn btn-outline-warning btn-block " onclick="window.history.back()">Отменить</a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
 </div>
 
-<div class="form-group">
-    <button type="submit" id="submit-btn" class="btn btn-primary btn-block">Сохранить</button>
-</div>

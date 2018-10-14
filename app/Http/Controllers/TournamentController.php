@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\FrontDataFiller;
 use App\Helpers\VarDumper;
 use App\Models\Banner;
 use App\Models\Gamer;
+use App\Models\Post;
 use App\Models\Team;
 use App\Models\Tournament;
 use App\ViewModels\Back\SelectOptionItem;
 use App\ViewModels\Back\Tournament\TournamentEditViewModel;
+use App\ViewModels\Front\TournamentViewModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -186,4 +189,32 @@ class TournamentController extends Controller
         return Redirect::action('TournamentController@index');
     }
     #endregion
+
+    public function preview(){
+
+        // СОХРАНЯТЬ НЕ НУЖНО! Напоминание себе и потомкам
+
+        /** @var Tournament $tournament */
+        $tournament = new Tournament();
+
+        $tournament->name               = Input::get('name');
+        $tournament->public_description = Input::get('public_description');
+        $tournament->event_date         = Input::get('event_date');
+        $tournament->hashtags           = Input::get('hashtags');
+        $tournament->created_at         = Carbon::now();
+        $tournament->updated_at         = Carbon::now();
+
+        $topNews = Post::searchByHashtags($tournament->getHashtagsAsArray(), 3);
+
+        $model = new TournamentViewModel();
+        $model->tournament = $tournament;
+        $model->topNews = $topNews;
+
+        $model->banners = Banner::find([Input::get('banners')]);
+        $model->banners_count = count($model->banners);
+
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.tournaments.show', ["model" => $model]);
+    }
 }

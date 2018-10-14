@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Constants;
 use App\Traits\HashtagTrait;
+use App\Traits\IHasHtmlContentTrait;
 use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use DB;
@@ -29,7 +30,7 @@ use LaravelArdent\Ardent\Ardent;
  */
 class Post extends Ardent
 {
-    use SoftDeletes, TimestampModelTrait, HashtagTrait;
+    use SoftDeletes, TimestampModelTrait, HashtagTrait, IHasHtmlContentTrait;
 
     public static $rules = array(
         'title'          => 'required|between:2,100',
@@ -71,29 +72,6 @@ class Post extends Ardent
     public function contentToHtml(){
         $result = HTML::decode($this->content);
         return $result;
-    }
-
-    /**
-     * ВОзвращает размер статьи
-     * @return int
-     */
-    public function getContentLength() {
-        return strlen($this->content);
-    }
-
-    /**
-     * Кодирует разметку html в пригодную для сохранения в базе
-     * @param $content
-     */
-    public function encodeHtmlContent($content) {
-        $this->content = HTML::entities($content);
-    }
-
-    /**
-     * Декодирует сохраненную кодированную разметку в базе в html-вью
-     */
-    public function decodeHtmlContent() {
-        $this->content = HTML::decode($this->content);
     }
 
     public static function getTop($limit, $postIdToFiler = null){
