@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Helpers\FrontDataFiller;
+use App\Helpers\HttpStatuses;
 use App\Helpers\MiscUtils;
 use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\Traits\GamerConstructor;
+use App\ViewModels\Back\Gamer\GamersExcelExportViewModel;
 use App\ViewModels\Front\Gamer\GamerRegisteredFrontViewModel;
 use App\ViewModels\Front\Gamer\RegisterFormViewModel;
 use Carbon\Carbon;
@@ -101,6 +103,21 @@ class GamerController extends Controller
         ];
 
         return response()->json($json_data);
+    }
+
+    public function gamersTableToExcel(Request $request){
+
+        $filename = "gamers.xls";
+        // Выгрузка в файл взята отсюда https://stackoverflow.com/a/12541019
+
+        $gamers = Gamer::all();
+
+        $headers = [
+            'Content-type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename=$filename"
+        ];
+
+        return response()->view('admin.gamers.excel', ['model' => $gamers], HttpStatuses::Ok, $headers);
     }
 
     #region Ресурсные методы

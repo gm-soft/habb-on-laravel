@@ -4,15 +4,16 @@
 
     @section('content')
 
-        <div class="container">
-            <div class="row mt-1 mb-1">
+        <div class="container mt-3">
+            <div class="row mb-1">
 
                 <div class="col-sm-6">
                     <h1>Игроки</h1>
                 </div>
 
                 <div class="col-sm-6 text-sm-right">
-                    <a href="{{url('admin/gamers/create')}}" class="btn btn-light">Создать запись</a>
+                    <a href="{{ action('GamerController@gamersTableToExcel') }}" class="btn btn-outline-primary" target="_blank">Экспорт в Excel</a>
+                    <a href="{{ url('admin/gamers/create') }}" class="btn btn-light">Создать запись</a>
                 </div>
             </div>
             <table class="table table-striped dataTable">
@@ -26,8 +27,8 @@
                     <th>Сторонний источник</th>
                 </tr>
                 </thead>
-        </table>
-    </div>
+            </table>
+        </div>
 
 @endsection
 

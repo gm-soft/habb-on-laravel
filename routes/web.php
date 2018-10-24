@@ -48,6 +48,7 @@
         // Геймеры
         Route::resource('gamers', 'GamerController');
         Route::post('gamerReportForDatatable', 'GamerController@gamerReportForDatatable');
+        Route::get('gamersTableToExcel', 'GamerController@gamersTableToExcel');
 
         // Команды
         Route::resource('teams', 'TeamController');
