@@ -34,10 +34,9 @@
 
         <div class="mt-5">
             <div class="text-center display-4 my-3">Последние новости сообщества</div>
-
             <div class="mt-3 row">
 
-                @for($index = 0; $index < $model->topPostCount; $index++)
+                @for($index = 0; $index < $model->posts_count; $index++)
 
                     @php
                         $post = $model->posts[$index]

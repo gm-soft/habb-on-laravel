@@ -17,15 +17,17 @@ class HomePageViewModel
 {
     use FrontDataTrait;
 
-    /**
-     * @var int
-     */
-    public $topPostCount = 3;
+    const TopPostCount = 3;
 
     /**
      * @var array|Post[]
      */
     public $posts;
+
+    /**
+     * @var int
+     */
+    public $post_count;
 
     /** @var Banner[] */
     public $banners;

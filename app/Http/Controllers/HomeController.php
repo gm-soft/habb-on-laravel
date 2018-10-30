@@ -24,11 +24,12 @@ class HomeController extends Controller
     public function index()
     {
         $model = new HomePageViewModel;
-        $model->topPostCount = 3;
 
-        $model->posts = Post::getTop($model->topPostCount);
+        $model->posts = Post::getTop(HomePageViewModel::TopPostCount);
+        $model->posts_count = count($model->posts);
+
+
         $model->banners = Banner::getForMainPage();
-
         $model->banners_count = count($model->banners);
 
         FrontDataFiller::create($model)->fill();
