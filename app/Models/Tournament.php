@@ -40,7 +40,7 @@ class Tournament extends Ardent
 
     public static $rules = [
         'name'                  => 'required|between:1,100',
-        'public_description'    => 'required|max:500',
+        'public_description'    => 'required|max:10000',
         'hashtags'              => 'max:'.Constants::HashTagFieldMaxLength
     ];
 
