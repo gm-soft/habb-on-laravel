@@ -29,41 +29,25 @@ trait TeamConstructor
      * @return Team
      */
     protected function constructTeamFromInput($id = null, array $input) {
-        $gamerIds = [];
-        $gamerRoles = [];
-        $gamerIdsSource = $input['gamer_ids'];
-        $gamerRolesSource = $input['gamer_roles'];
 
-        for ($i = 0; $i < count($gamerIdsSource); $i++) {
-
-            if ($gamerIdsSource[$i] == 'null') continue;
-            $gamerIds[] = $gamerIdsSource[$i];
-            $gamerRoles[] = $gamerRolesSource[$i];
-        }
-
-        for ($i = 0; $i < count($gamerRoles); $i++) {
-
-            if ($gamerRoles[$i] != 'captain') continue;
-            if ($i == 0) continue;
-
-            $tmp = $gamerIds[0];
-            $gamerIds[0] = $gamerIds[$i];
-            $gamerIds[$i] = $tmp;
-            //----
-            $tmp = $gamerRoles[0];
-            $gamerRoles[0] = $gamerRoles[$i];
-            $gamerRoles[$i] = $tmp;
-            break;
-        }
         /** @var Team $instance */
         $instance = !is_null($id) ? Team::find($id) : new Team();
         $instance->name = $input['name'];
-        $instance->comment = $input['comment'];
+        $instance->comment = isset($input['comment']) ? $input['comment'] : null;
         $instance->city = $input['city'];
-        $instance->gamer_ids = $gamerIds;
-        $instance->gamer_roles = $gamerRoles;
+
+        $instance->captain_gamer_id = $this->getValueOrNull($input['captain_gamer_id']);
+        $instance->second_gamer_id  = $this->getValueOrNull($input['second_gamer_id']);
+        $instance->third_gamer_id   = $this->getValueOrNull($input['third_gamer_id']);
+        $instance->forth_gamer_id   = $this->getValueOrNull($input['forth_gamer_id']);
+        $instance->fifth_gamer_id   = $this->getValueOrNull($input['fifth_gamer_id']);
+        $instance->optional_gamer_id = $this->getValueOrNull($input['optional_gamer_id']);
 
         return $instance;
+    }
+
+    private function getValueOrNull($value){
+        return isset($value) && $value !== "null" ? $value : null;
     }
 
 

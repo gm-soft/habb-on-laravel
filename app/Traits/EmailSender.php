@@ -25,7 +25,7 @@ trait EmailSender
      * @return bool
      * @throws \phpmailerException
      */
-    protected function sendEmail(string $subject, string $body, $to, $cc = null, $bcc = null) {
+    protected function sendEmail($subject, $body, $to, $cc = null, $bcc = null) {
         $this->mailer = $this->getPhpMailerInstance();
 
         $this->mailer->Subject = $subject;
@@ -74,7 +74,7 @@ trait EmailSender
      * @return PHPMailer
      * @throws \phpmailerException
      */
-    private function getPhpMailerInstance(bool $isHtml = true) {
+    private function getPhpMailerInstance($isHtml = true) {
         $mail = new PHPMailer;
         $login          = env('MAIL_USERNAME');
         $pass           = env('MAIL_PASSWORD');

@@ -44,11 +44,22 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
     use TimestampModelTrait;
 
     const Captain_ForeignColumn         = "captain_gamer_id";
+    const Captain_Field                 = "captain";
+
     const SecondGamer_ForeignColumn     = "second_gamer_id";
+    const SecondGamer_Field             = "second_gamer";
+
     const ThirdGamer_ForeignColumn      = "third_gamer_id";
+    const ThirdGamer_Field              = "third_gamer";
+
     const ForthGamer_ForeignColumn      = "forth_gamer_id";
+    const ForthGamer_Field              = "forth_gamer";
+
     const FifthGamer_ForeignColumn      = "fifth_gamer_id";
+    const FifthGamer_Field              = "fifth_gamer";
+
     const OptionalGamer_ForeignColumn   = "optional_gamer_id";
+    const OptionalGamer_Field           = "optional_gamer";
 
     const Gamer_ModelName = "App\Models\Gamer";
 
@@ -56,10 +67,24 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
 
     protected $table = "teams";
 
-
+    protected $fillable = array(
+        'name',
+        'city',
+        'comment',
+        self::Captain_ForeignColumn,
+        self::SecondGamer_ForeignColumn,
+        self::ThirdGamer_ForeignColumn,
+        self::ForthGamer_ForeignColumn,
+        self::FifthGamer_ForeignColumn ,
+        self::OptionalGamer_ForeignColumn,
+    );
 
     public static $rules = [
-        'name' => 'between:1,100'
+        'name'                          => 'between:1,100',
+        self::Captain_ForeignColumn     => 'required',
+        self::ThirdGamer_ForeignColumn  => 'required',
+        self::ForthGamer_ForeignColumn  => 'required',
+        self::FifthGamer_ForeignColumn  => 'required',
     ];
 
     protected $dates = [
@@ -67,12 +92,12 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
     ];
 
     public static $relationsData = [
-        self::Captain_ForeignColumn         => [self::HAS_ONE, Gamer::class],
-        self::SecondGamer_ForeignColumn     => [self::HAS_ONE, Gamer::class],
-        self::ThirdGamer_ForeignColumn      => [self::HAS_ONE, Gamer::class],
-        self::ForthGamer_ForeignColumn      => [self::HAS_ONE, Gamer::class],
-        self::FifthGamer_ForeignColumn      => [self::HAS_ONE, Gamer::class],
-        self::OptionalGamer_ForeignColumn   => [self::HAS_ONE, Gamer::class],
+        self::Captain_Field         => [self::HAS_ONE, Gamer::class],
+        self::SecondGamer_Field     => [self::HAS_ONE, Gamer::class],
+        self::ThirdGamer_Field      => [self::HAS_ONE, Gamer::class],
+        self::ForthGamer_Field      => [self::HAS_ONE, Gamer::class],
+        self::FifthGamer_Field      => [self::HAS_ONE, Gamer::class],
+        self::OptionalGamer_Field   => [self::HAS_ONE, Gamer::class],
 
         // ключ должен называться как называается имя метода связи
         'tournamentsThatTakePart'           => [self::BELONGS_TO_MANY, Tournament::class, 'table' => self::TeamTournamentParticipants_ManyToManyTableName]
@@ -83,7 +108,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function captain()
     {
-        return $this->hasOne(self::Gamer_ModelName, self::Captain_ForeignColumn );
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::Captain_ForeignColumn );
     }
 
     /**
@@ -91,7 +116,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function secondGamer()
     {
-        return $this->hasOne(self::Gamer_ModelName, self::SecondGamer_ForeignColumn );
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::SecondGamer_ForeignColumn );
     }
 
     /**
@@ -99,7 +124,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function thirdGamer()
     {
-        return $this->hasOne(self::Gamer_ModelName, self::ThirdGamer_ForeignColumn );
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::ThirdGamer_ForeignColumn );
     }
 
     /**
@@ -107,7 +132,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function forthGamer()
     {
-        return $this->hasOne(self::Gamer_ModelName, self::ForthGamer_ForeignColumn);
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::ForthGamer_ForeignColumn);
     }
 
     /**
@@ -115,7 +140,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function fifthGamer()
     {
-        return $this->hasOne(self::Gamer_ModelName, self::FifthGamer_ForeignColumn );
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::FifthGamer_ForeignColumn );
     }
 
     /**
@@ -123,7 +148,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function optionalGamer()
     {
-        return $this->hasOne(self::Gamer_ModelName, self::OptionalGamer_ForeignColumn);
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::OptionalGamer_ForeignColumn);
     }
 
     public function tournamentsThatTakePart(){

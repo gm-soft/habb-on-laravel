@@ -6,7 +6,7 @@
     <div class="container">
         <h1 class="mt-1">Команды</h1>
         <div class="mb-1 text-sm-right">
-            <a href="{{url('admin/teams/create')}}" class="btn btn-light">Создать запись</a>
+            <a href="{{ action('TeamController@create') }}" class="btn btn-light">Создать команду</a>
         </div>
         <table class="table table-striped dataTable">
             <thead>
@@ -14,31 +14,23 @@
                 <th>ID</th>
                 <th>Название</th>
                 <th>Капитан</th>
-                <th>Игрок</th>
-                <th>Игрок</th>
-                <th>Игрок</th>
-                <th>Игрок</th>
+                <th>Участие в турнирах</th>
+                <th>Создана</th>
             </tr>
             </thead>
             <tbody>
-            @for($i=0;$i<count($teams);$i++)
+            @for($i = 0; $i < count($teams); $i++)
                 @php
-                    $gamersArray = $gamers[$teams[$i]->name];
-                    $cap = isset($gamersArray[0]) ? $gamersArray[0]->getFullName() : 'Без игрока';
-                    $g1 = isset($gamersArray[1]) ? $gamersArray[1]->getFullName() : 'Без игрока';
-                    $g2 = isset($gamersArray[2]) ? $gamersArray[2]->getFullName() : 'Без игрока';
-                    $g3 = isset($gamersArray[3]) ? $gamersArray[3]->getFullName() : 'Без игрока';
-                    $g4 = isset($gamersArray[4]) ? $gamersArray[4]->getFullName() : 'Без игрока';
+                    $team = $teams[$i];
+                    $captain = $team->captain;
 
                 @endphp
                 <tr>
                     <td>{{ $teams[$i]->id }}</td>
-                    <td><b>{{ link_to_action('TeamController@show', $teams[$i]->name, ['id' => $teams[$i]->id]) }}</b></td>
-                    <td><i>{{ $cap }}</i></td>
-                    <td>{{ $g1 }}</td>
-                    <td>{{ $g2  }}</td>
-                    <td>{{ $g3  }}</td>
-                    <td>{{ $g4  }}</td>
+                    <td><b>{{ link_to_action('TeamController@show', $team->name, ['id' => $team->id]) }}</b></td>
+                    <td>{{ link_to_action('GamerController@show', $captain->getFullName(), ['id' => $captain->id]) }}</td>
+                    <td>{{ $team->tournamentsThatTakePart()->count() }}</td>
+                    <td>{{ $team->CreatedAt()  }}</td>
                 </tr>
 
             @endfor

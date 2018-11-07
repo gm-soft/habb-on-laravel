@@ -74,6 +74,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     ];
     public static $relationsData = [
         'users'             => [self::BELONGS_TO, 'User'],
+        'teams'             => [self::BELONGS_TO, Team::class],
         'external_services' => [self::BELONGS_TO, 'ExternalService']
     ];
 
@@ -83,6 +84,11 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 
     public function externalService(){
         return $this->belongsTo('App\Models\ExternalService', 'external_service_id');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, Team::Captain_ForeignColumn);
     }
 
     #region Кастомные функции модели

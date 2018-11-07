@@ -21,6 +21,11 @@
                 <div class="mt-1">
                     @include('shared._hashtags', ['hashtags' => $model->tournament->getHashtagsAsArray()])
                 </div>
+
+                <div class="mt-1">
+                    <a href="{{ action('') }}"
+                </div>
+
             </div>
 
             <div class="col-md-4">
