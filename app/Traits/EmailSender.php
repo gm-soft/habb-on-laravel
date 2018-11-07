@@ -23,6 +23,7 @@ trait EmailSender
      * @param array|string|null $cc
      * @param array|string|null $bcc
      * @return bool
+     * @throws \phpmailerException
      */
     protected function sendEmail(string $subject, string $body, $to, $cc = null, $bcc = null) {
         $this->mailer = $this->getPhpMailerInstance();
@@ -71,6 +72,7 @@ trait EmailSender
      * Возвращает новый инстанс PHPMailer'а
      * @param bool $isHtml
      * @return PHPMailer
+     * @throws \phpmailerException
      */
     private function getPhpMailerInstance(bool $isHtml = true) {
         $mail = new PHPMailer;
