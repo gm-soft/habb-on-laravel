@@ -74,6 +74,15 @@ class Post extends Ardent
         return $result;
     }
 
+    public static function getAllActiveForFront(){
+
+        return self::query()
+            ->select()
+            ->where('deleted_at', '=', null)
+            ->orderByDesc('created_at')
+            ->get();
+    }
+
     public static function getTop($limit, $postIdToFiler = null){
 
         $query = self::query()

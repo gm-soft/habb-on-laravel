@@ -63,7 +63,7 @@ class HomeController extends Controller
         $hashtagFilter = $request->query('hashtag');
         $hasHashtag = isset($hashtagFilter);
 
-        $posts = $hasHashtag ? Post::searchByHashtags($hashtagFilter) : Post::all();
+        $posts = $hasHashtag ? Post::searchByHashtags($hashtagFilter) : Post::getAllActiveForFront();
 
         foreach ($posts as $post) {
             $post->decodeHtmlContent();

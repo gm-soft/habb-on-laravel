@@ -47,7 +47,7 @@
 
                 @foreach($model->attached_tournaments_links as $tournamentLink)
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ $tournamentLink->url }}">{{ $tournamentLink->title }}</a>
+                        <a class="nav-link text-nowrap" href="{{ $tournamentLink->url }}">{{ $tournamentLink->title }}</a>
                     </li>
                 @endforeach
 
