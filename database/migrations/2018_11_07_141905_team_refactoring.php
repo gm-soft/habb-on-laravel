@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -49,6 +50,20 @@ class TeamRefactoring extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        // таблица Many-To-Many между Team и Tournament
+
+        Schema::create(Team::TeamTournamentParticipants_ManyToManyTableName, function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->integer('team_id')->unsigned();
+            $table->foreign('team_id')->references('id')->on('teams');
+
+            $table->integer('tournament_id')->unsigned();
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -58,6 +73,8 @@ class TeamRefactoring extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists(Team::TeamTournamentParticipants_ManyToManyTableName);
+
         Schema::dropIfExists('teams');
 
         // Скопипастчено с миграции CreateTeamsTable

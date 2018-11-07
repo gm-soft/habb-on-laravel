@@ -52,6 +52,8 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
 
     const Gamer_ModelName = "App\Models\Gamer";
 
+    const TeamTournamentParticipants_ManyToManyTableName = "team_tournament_participants";
+
     protected $table = "teams";
 
 
@@ -71,6 +73,9 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         self::ForthGamer_ForeignColumn      => [self::HAS_ONE, Gamer::class],
         self::FifthGamer_ForeignColumn      => [self::HAS_ONE, Gamer::class],
         self::OptionalGamer_ForeignColumn   => [self::HAS_ONE, Gamer::class],
+
+        // ключ должен называться как называается имя метода связи
+        'tournamentsThatTakePart'           => [self::BELONGS_TO_MANY, Tournament::class, 'table' => self::TeamTournamentParticipants_ManyToManyTableName]
     ];
 
     /**
@@ -119,6 +124,10 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
     public function optionalGamer()
     {
         return $this->hasOne(self::Gamer_ModelName, self::OptionalGamer_ForeignColumn);
+    }
+
+    public function tournamentsThatTakePart(){
+        return $this->belongsToMany(Tournament::class, self::TeamTournamentParticipants_ManyToManyTableName);
     }
 
 
