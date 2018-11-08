@@ -10,34 +10,31 @@
         </div>
 
 
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                            <dl class="row">
-                                <dt class="col-sm-4">Участники</dt>     <dd class="col-sm-8">{{ $team->getGamerIdsAsString() }}</dd>
-                                <dt class="col-sm-4">Город</dt>         <dd class="col-sm-8">{{ $team->city }}</dd>
-                                <dt class="col-sm-4">Комментарий</dt>   <dd class="col-sm-8">{{ $team->comment }}</dd>
-                            </dl>
-                        </div>
-
+        <div class="mt-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-text">
+                        <dl class="row">
+                            <dt class="col-sm-4">Город</dt>         <dd class="col-sm-8">{{ $team->city }}</dd>
+                            <dt class="col-sm-4">Комментарий</dt>   <dd class="col-sm-8">{{ $team->comment }}</dd>
+                        </dl>
                     </div>
-                    <div class="card-footer">
-                        {{ link_to_action('TeamController@index', 'В список', [], ['class' => 'btn btn-light']) }}
-                        <div class="float-sm-right">
 
-                            {{ link_to_action('TeamController@edit', 'Редактировать', ['id' => $team->id], ['class' => 'btn btn-primary']) }}
-                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
-                        </div>
+                </div>
+                <div class="card-footer">
+                    {{ link_to_action('TeamController@index', 'В список', [], ['class' => 'btn btn-light']) }}
+                    <div class="float-sm-right">
+
+                        {{ link_to_action('TeamController@edit', 'Редактировать', ['id' => $team->id], ['class' => 'btn btn-primary']) }}
+                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
                     </div>
                 </div>
-
-            </div>
-            <div class="col-sm-6">
-                @include('admin/teams/team-participants')
             </div>
 
+        </div>
+
+        <div class="mt-2">
+            @include('admin.teams.team-participants')
         </div>
     </div>
 

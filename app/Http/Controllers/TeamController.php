@@ -22,13 +22,9 @@ class TeamController extends Controller
     {
         /** @var Team[] $instances */
         $instances = Team::all();
-        $gamers = [];
-        foreach ($instances as $instance){
-            $gamers[$instance->name] = $instance->getGamers();
-        }
-        return view('admin/teams/index', [
+
+        return view('admin.teams.index', [
             "teams" => $instances,
-            'gamers' => $gamers
         ]);
     }
 
@@ -67,10 +63,9 @@ class TeamController extends Controller
     {
         /** @var Team $instance */
         $instance = Team::find($id);
-        $gamers = $instance->getGamers();
+
         return view('admin.teams.show', [
             'team' => $instance,
-            'gamers' => $gamers
         ]);
     }
 

@@ -114,9 +114,9 @@
         Route::post('/gamer', 'GamerController@createGamerAccount');
         Route::get('/gamer/result', 'GamerController@displayGamerRegisterResult');
 
-        Route::get('/team', 'TeamCreateRequestController@registerTeamFormView');
-        Route::post('/team', 'TeamCreateRequestController@registerTeamFormPost');
-        Route::get('/team/result', 'TeamCreateRequestController@registerTeamFromResult');
+        Route::get('/team', 'RegisterFormController@teamRegisterForTournament');
+        Route::post('/team', 'RegisterFormController@saveTeamRegisterForTournament');
+        Route::get('/team/result', 'RegisterFormController@teamRegisterForTournamentResult');
 
     });
     #endregion

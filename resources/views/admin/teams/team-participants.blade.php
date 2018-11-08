@@ -1,23 +1,64 @@
 
-<table class="table table-sm">
+<table class="table table-striped">
     <thead>
     <tr>
-        <th>ID</th>
+        <th>HABB ID</th>
         <th>Имя</th>
+        <th>Роль</th>
     </tr>
     </thead>
     <tbody>
-    @foreach($gamers as $gamer)
 
+    <tr>
         @php
-            $fullName = $gamer->name. " " . $gamer->last_name;
-
+            $gamer = $team->captain;
         @endphp
+        <td>{{ $gamer->id }}</td>
+        <td>{{ link_to_action('GamerController@show', $gamer->getFullName(), ['id' => $gamer->id]) }}</td>
+        <td>Капитан</td>
+    </tr>
+
+    <tr>
+        @php( $gamer = $team->secondGamer)
+        <td>{{ $gamer->id }}</td>
+        <td>{{ link_to_action('GamerController@show', $gamer->getFullName(), ['id' => $gamer->id]) }}</td>
+        <td>Игрок 2</td>
+    </tr>
+
+    <tr>
+        @php( $gamer = $team->thirdGamer)
+        <td>{{ $gamer->id }}</td>
+        <td>{{ link_to_action('GamerController@show', $gamer->getFullName(), ['id' => $gamer->id]) }}</td>
+        <td>Игрок 3</td>
+    </tr>
+
+    <tr>
+        @php( $captain = $team->forthGamer)
+        <td>{{ $gamer->id }}</td>
+        <td>{{ link_to_action('GamerController@show', $gamer->getFullName(), ['id' => $gamer->id]) }}</td>
+        <td>Игрок 4</td>
+    </tr>
+
+    <tr>
+        @php( $gamer = $team->fifthGamer)
+        <td>{{ $gamer->id }}</td>
+        <td>{{ link_to_action('GamerController@show', $gamer->getFullName(), ['id' => $gamer->id]) }}</td>
+        <td>Игрок 5</td>
+    </tr>
+
+    @php($gamer = $team->optionalGamer)
+    @if(isset($gamer))
+
         <tr>
-            <td>{{  $gamer->id }}</td>
-            <td>{{ link_to_action('GamerController@show', $fullName, ['id' => $gamer->id]) }}</td>
+
+            <td>{{ $gamer->id }}</td>
+            <td>{{ link_to_action('GamerController@show', $gamer->getFullName(), ['id' => $gamer->id]) }}</td>
+            <td>Запасной игрок</td>
         </tr>
-    @endforeach
+
+    @endif
+
+
 
     </tbody>
 </table>

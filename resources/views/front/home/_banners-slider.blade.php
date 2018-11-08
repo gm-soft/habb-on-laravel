@@ -27,7 +27,7 @@
             <div class="carousel-item {{ $active }}">
 
                 <div class="slider-block slider-bg-grey habb-slider-block habb-slider-block-{{ $index }}">
-                    <div class="habb-overlay"></div>
+                    <!--div class="habb-overlay"></div-->
 
                     <div class="carousel-caption habb-carousel-caption">
                         <h1 class="display-1">{{ $model->banners[$index]->title }}</h1>

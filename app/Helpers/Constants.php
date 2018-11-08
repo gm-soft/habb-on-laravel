@@ -37,6 +37,8 @@ abstract class Constants
 
     const AnnounceImagePathRegexPattern = "^([A-Za-z\\/0-9._-]+)$";
 
+    const DigitsOnlyRegexPattern = "\d*";
+
     const APP_DEBUG = 'APP_DEBUG';
 
     /**

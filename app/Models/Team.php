@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Interfaces\ISelectableOption;
 use App\Interfaces\ITournamentParticipant;
+use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
 use LaravelArdent\Ardent\Ardent;
 
@@ -15,73 +16,163 @@ use LaravelArdent\Ardent\Ardent;
  * @property string name
  * @property string city
  * @property string comment
- * @property array gamer_ids
- * @property array gamer_roles
  *
- * @property TeamScore[] scores
+ * @property int captain_gamer_id
+ * @property Gamer captain_gamer
+ *
+ * @property int second_gamer_id
+ * @property Gamer second_gamer
+ *
+ * @property int third_gamer_id
+ * @property Gamer third_gamer
+ *
+ * @property int forth_gamer_id
+ * @property Gamer forth_gamer
+ *
+ * @property int fifth_gamer_id
+ * @property Gamer fifth_gamer
+ *
+ * @property int optional_gamer_id
+ * @property Gamer optional_gamer
+ *
+ * @property Carbon deleted_at
  * @property Carbon updated_at
  * @property Carbon created_at
  */
 class Team extends Ardent implements ISelectableOption, ITournamentParticipant
 {
+    use TimestampModelTrait;
+
+    const Captain_ForeignColumn         = "captain_gamer_id";
+    const Captain_Field                 = "captain";
+
+    const SecondGamer_ForeignColumn     = "second_gamer_id";
+    const SecondGamer_Field             = "second_gamer";
+
+    const ThirdGamer_ForeignColumn      = "third_gamer_id";
+    const ThirdGamer_Field              = "third_gamer";
+
+    const ForthGamer_ForeignColumn      = "forth_gamer_id";
+    const ForthGamer_Field              = "forth_gamer";
+
+    const FifthGamer_ForeignColumn      = "fifth_gamer_id";
+    const FifthGamer_Field              = "fifth_gamer";
+
+    const OptionalGamer_ForeignColumn   = "optional_gamer_id";
+    const OptionalGamer_Field           = "optional_gamer";
+
+    const Gamer_ModelName = "App\Models\Gamer";
+
+    const TeamTournamentParticipants_ManyToManyTableName = "team_tournament_participants";
+
     protected $table = "teams";
-    protected $casts = [
-        'gamer_ids' => 'array',
-        'gamer_roles' => 'array'
-    ];
+
+    protected $fillable = array(
+        'name',
+        'city',
+        'comment',
+        self::Captain_ForeignColumn,
+        self::SecondGamer_ForeignColumn,
+        self::ThirdGamer_ForeignColumn,
+        self::ForthGamer_ForeignColumn,
+        self::FifthGamer_ForeignColumn ,
+        self::OptionalGamer_ForeignColumn,
+    );
+
     public static $rules = [
-        'name' => 'between:1,100'
+        'name'                          => 'required|between:1,100',
+        'city'                          => 'required',
+        self::Captain_ForeignColumn     => 'required',
+        self::SecondGamer_ForeignColumn => 'required',
+        self::ThirdGamer_ForeignColumn  => 'required',
+        self::ForthGamer_ForeignColumn  => 'required',
+        self::FifthGamer_ForeignColumn  => 'required',
     ];
 
-    public function getGamerIdsAsString() {
-        return join(', ', $this->gamer_ids);
-    }
+    protected $dates = [
+        'deleted_at'
+    ];
 
-    public function getGamerRolesAsString() {
-        return join(', ', $this->gamer_roles);
+    public static $relationsData = [
+        self::Captain_Field         => [self::HAS_ONE, Gamer::class],
+        self::SecondGamer_Field     => [self::HAS_ONE, Gamer::class],
+        self::ThirdGamer_Field      => [self::HAS_ONE, Gamer::class],
+        self::ForthGamer_Field      => [self::HAS_ONE, Gamer::class],
+        self::FifthGamer_Field      => [self::HAS_ONE, Gamer::class],
+        self::OptionalGamer_Field   => [self::HAS_ONE, Gamer::class],
+
+        // ключ должен называться как называается имя метода связи
+        'tournamentsThatTakePart'           => [self::BELONGS_TO_MANY, Tournament::class, 'table' => self::TeamTournamentParticipants_ManyToManyTableName]
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne|Gamer
+     */
+    public function captain()
+    {
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::Captain_ForeignColumn );
     }
 
     /**
-     * @param bool $all
-     * @return Gamer[]
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne|Gamer
      */
-    public function getGamers($all = true) {
-        $result = [];
-        $gamerIds = $this->gamer_ids;
-        $gamerRoles = $this->gamer_roles;
-
-        for ($i = 0; $i < count($gamerIds); $i++) {
-
-            $gamer_id = $gamerIds[$i];
-            if ($all == false && ($gamerRoles[$i] == 'coach' || $gamerRoles[$i] == 'reserve')) continue;
-
-            $gamer = Gamer::find($gamer_id);
-            $gamer["role"] = isset($gamerRoles[$i]) ? $gamerRoles[$i] : null;
-            $result[] = $gamer;
-        }
-        return $result;
+    public function secondGamer()
+    {
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::SecondGamer_ForeignColumn );
     }
 
-    #region Attributes
-    public function getGamerIdsAttribute($value){
-        $result = explode(',', $value);
-        return $result;
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne|Gamer
+     */
+    public function thirdGamer()
+    {
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::ThirdGamer_ForeignColumn );
     }
 
-    public function setGamerIdsAttribute($value) {
-        $this->attributes['gamer_ids']= join(',', $value);
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne|Gamer
+     */
+    public function forthGamer()
+    {
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::ForthGamer_ForeignColumn);
     }
 
-    public function getGamerRolesAttribute($value){
-        $result = explode(',', $value);
-        return $result;
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne|Gamer
+     */
+    public function fifthGamer()
+    {
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::FifthGamer_ForeignColumn );
     }
 
-    public function setGamerRolesAttribute($value) {
-        $this->attributes['gamer_roles']= join(',', $value);
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne|Gamer
+     */
+    public function optionalGamer()
+    {
+        return $this->hasOne(self::Gamer_ModelName, 'id', self::OptionalGamer_ForeignColumn);
     }
 
-    #endregion
+    public function tournamentsThatTakePart(){
+        return $this->belongsToMany(Tournament::class, self::TeamTournamentParticipants_ManyToManyTableName);
+    }
+
+    public static function findTeamByParticipants($captainId, $secondId, $thirdId, $forthId, $fifthId) {
+
+        $values = [$captainId, $secondId, $thirdId, $forthId, $fifthId];
+        $item = self::query()
+            ->whereIn(self::Captain_ForeignColumn, $values)
+            ->whereIn(self::SecondGamer_ForeignColumn, $values)
+            ->whereIn(self::ThirdGamer_ForeignColumn, $values)
+            ->whereIn(self::ForthGamer_ForeignColumn, $values)
+            ->whereIn(self::FifthGamer_ForeignColumn, $values)
+            //->select()
+            ->first();
+
+        return $item;
+    }
+
+    #region Interfaces
 
     public function getIdentifier()
     {
@@ -103,6 +194,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         /** @var Team[] $gamers */
         $gamers = self::all();
         $gamerOptionList = [];
+
         if ($withEmpty == true) {
             $gamerOptionList[''] = 'Выберите участника';
         }
@@ -112,17 +204,5 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         return $gamerOptionList;
     }
 
-    /**
-     * Возвращает список электронных адресов игроков
-     * @param bool $all
-     * @return array
-     */
-    public function getGamerEmailAddresses($all = true) {
-        $addresses = [];
-        $gamers = $this->getGamers($all);
-        foreach ($gamers as $gamer) {
-            $addresses[] = $gamer->email;
-        }
-        return $addresses;
-    }
+    #endregion
 }

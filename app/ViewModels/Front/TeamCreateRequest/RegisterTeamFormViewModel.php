@@ -15,6 +15,10 @@ class RegisterTeamFormViewModel
 {
     use FrontDataTrait;
 
+    public $tournamentId;
+
+    public $tournamentName;
+
     /** @var string[] */
     public $cities;
 

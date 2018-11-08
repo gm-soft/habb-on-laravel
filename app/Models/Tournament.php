@@ -32,6 +32,9 @@ class Tournament extends Ardent
 {
     use SoftDeletes, TimestampModelTrait, HashtagTrait;
 
+    const TournamentBanner_ManyToManyTableName = "tournament_banner";
+
+
     protected $table = 'tournaments';
     protected $dates = [
         'deleted_at',
@@ -46,7 +49,10 @@ class Tournament extends Ardent
 
     // Связь many-to-many от Ardent
     public static $relationsData = array(
-        'banners'  => array(self::BELONGS_TO_MANY, 'Banner', 'table' => 'tournament_banner')
+        'banners'           => [self::BELONGS_TO_MANY, Banner::class, 'table' => self::TournamentBanner_ManyToManyTableName],
+
+        // ключ должен называться как называается имя метода связи (https://www.sitepoint.com/ardent-laravel-models-steroids/)
+        'teamParticipants'           => [self::BELONGS_TO_MANY, Team::class, 'table' => Team::TeamTournamentParticipants_ManyToManyTableName]
     );
 
     public function getEventDate($format = "Y-m-d"){
@@ -70,7 +76,11 @@ class Tournament extends Ardent
 
     // стандартная связь many-to-many от laravel
     public function banners(){
-        return $this->belongsToMany(Banner::class, 'tournament_banner');
+        return $this->belongsToMany(Banner::class, self::TournamentBanner_ManyToManyTableName);
+    }
+
+    public function teamParticipants(){
+        return $this->belongsToMany(Team::class, Team::TeamTournamentParticipants_ManyToManyTableName);
     }
 
     public function EventDate($format = "d.m.Y"){

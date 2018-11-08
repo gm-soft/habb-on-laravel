@@ -48,6 +48,11 @@
             </div>
         </div>
 
+        <div class="mt-3">
+            <a href="{{ action('RegisterFormController@teamRegisterForTournament', ['t' => $model->tournament->id]) }}"
+               class="btn btn-primary btn-block btn-lg">Участвовать в турнире</a>
+        </div>
+
 
     </div>
 

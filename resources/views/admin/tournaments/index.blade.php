@@ -13,7 +13,8 @@
             <thead>
             <tr>
                 <th>Название</th>
-                <th>дата мероприятия</th>
+                <th>Дата мероприятия</th>
+                <th>Участники</th>
             </tr>
             </thead>
             <tbody>
@@ -21,6 +22,7 @@
                 <tr>
                     <td><b>{{ link_to_action('TournamentController@show', $instances[$i]->name, ['id' => $instances[$i]->id]) }}</b></td>
                     <td>{{ $instances[$i]->EventDate()  }}</td>
+                    <td>{{ $instances[$i]->teamParticipants()->count() }}</td>
                 </tr>
 
             @endfor

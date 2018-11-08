@@ -14,7 +14,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('thirdparty/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('thirdparty/select2/js/select2.js') }}"></script>
     <script type="text/javascript">
 
         $(".select2-single").select2({
@@ -28,5 +28,5 @@
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('thirdparty/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('thirdparty/select2/css/select2.css') }}">
 @endsection
