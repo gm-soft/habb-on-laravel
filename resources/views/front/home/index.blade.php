@@ -26,7 +26,7 @@
         </div>
 
         <div class="mt-5">
-            <a href="{{ url('register/gamer') }}" class="btn btn-lg btn-primary btn-block home-page-registration-btn pt-3">
+            <a href="{{ action('GamerController@registerForm', ['from' => 'main_page']) }}" class="btn btn-lg btn-primary btn-block home-page-registration-btn pt-3">
                 <span class="h3">Получить HABB ID</span>
             </a>
         </div>
