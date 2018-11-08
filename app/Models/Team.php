@@ -80,8 +80,10 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
     );
 
     public static $rules = [
-        'name'                          => 'between:1,100',
+        'name'                          => 'required|between:1,100',
+        'city'                          => 'required',
         self::Captain_ForeignColumn     => 'required',
+        self::SecondGamer_ForeignColumn => 'required',
         self::ThirdGamer_ForeignColumn  => 'required',
         self::ForthGamer_ForeignColumn  => 'required',
         self::FifthGamer_ForeignColumn  => 'required',
@@ -155,6 +157,20 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         return $this->belongsToMany(Tournament::class, self::TeamTournamentParticipants_ManyToManyTableName);
     }
 
+    public static function findTeamByParticipants($captainId, $secondId, $thirdId, $forthId, $fifthId) {
+
+        $values = [$captainId, $secondId, $thirdId, $forthId, $fifthId];
+        $item = self::query()
+            ->whereIn(self::Captain_ForeignColumn, $values)
+            ->whereIn(self::SecondGamer_ForeignColumn, $values)
+            ->whereIn(self::ThirdGamer_ForeignColumn, $values)
+            ->whereIn(self::ForthGamer_ForeignColumn, $values)
+            ->whereIn(self::FifthGamer_ForeignColumn, $values)
+            //->select()
+            ->first();
+
+        return $item;
+    }
 
     #region Interfaces
 

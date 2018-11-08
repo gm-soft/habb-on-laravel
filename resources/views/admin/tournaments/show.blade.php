@@ -16,6 +16,9 @@
                 <div class="mt-1">
                     @include('shared._hashtags', ['hashtags' => $instance->getHashtagsAsArray()])
                 </div>
+
+
+
             </div>
             <div class="col-sm-4">
                 <dl>
@@ -32,6 +35,18 @@
                     @else
                         <span>Не закрепляется в панели навигации</span>
                     @endif
+                </div>
+
+                <div class="mt-3">
+
+                    <div class="h5">Участники турнира</div>
+                    @php($participants = $instance->teamParticipants()->get())
+                    <ul>
+                        @for($i = 0; $i < count($participants); $i++)
+
+                            <li><a href="{{ action('TeamController@show', ['id' => $participants[$i]->id]) }}">{{ $participants[$i]->name }}</a></li>
+                        @endfor
+                    </ul>
                 </div>
 
             </div>

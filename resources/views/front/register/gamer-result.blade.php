@@ -19,6 +19,10 @@
             </p>
         </div>
 
+        <div class="mt-5">
+            <a href="{{ action('HomeController@index') }}" class="btn btn-primary btn-lg btn-block">На главную страницу</a>
+        </div>
+
     </div>
 
 @endsection

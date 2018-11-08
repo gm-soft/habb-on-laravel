@@ -21,11 +21,6 @@
                 <div class="mt-1">
                     @include('shared._hashtags', ['hashtags' => $model->tournament->getHashtagsAsArray()])
                 </div>
-
-                <div class="mt-1">
-                    <a href="{{ action('') }}"
-                </div>
-
             </div>
 
             <div class="col-md-4">
@@ -51,6 +46,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ action('RegisterFormController@teamRegisterForTournament', ['t' => $model->tournament->id]) }}"
+               class="btn btn-primary btn-block btn-lg">Участвовать в турнире</a>
         </div>
 
 

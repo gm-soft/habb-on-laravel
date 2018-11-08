@@ -313,8 +313,4 @@ class GamerController extends Controller
             'habb_id' => $exists ? $gamer->id: null
         ]);
     }
-
-
-
-
 }

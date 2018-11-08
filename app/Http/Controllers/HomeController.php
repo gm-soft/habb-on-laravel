@@ -15,6 +15,7 @@ use App\ViewModels\Front\Home\ContactHomeViewModel;
 use App\ViewModels\Front\Home\StaticPageFrontViewModel;
 use App\ViewModels\Front\HomePageViewModel;
 use App\ViewModels\Front\ShowPostViewModel;
+use App\ViewModels\Front\TeamCreateRequest\RegisterTeamFormViewModel;
 use App\ViewModels\Front\TournamentViewModel;
 use App\ViewModels\NewsViewModel;
 use Illuminate\Http\Request;
@@ -153,6 +154,4 @@ class HomeController extends Controller
 
         return view('front.home.static_page', ["model" => $model]);
     }
-
-
 }
