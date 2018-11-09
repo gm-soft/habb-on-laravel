@@ -6,6 +6,7 @@ use App\Helpers\Constants;
 use App\Helpers\FrontDataFiller;
 use App\Helpers\HttpStatuses;
 use App\Helpers\MiscUtils;
+use App\Helpers\VarDumper;
 use App\Models\Gamer;
 use App\Models\GamerScore;
 use App\Traits\GamerConstructor;
@@ -163,6 +164,10 @@ class GamerController extends Controller
         $gamer = Gamer::find($id);
         $model = new \App\ViewModels\Back\GamerShowViewModel();
         $model->gamer = $gamer;
+        $model->teams = $gamer->getTeamsWhereTakeApart()->get()->toArray();
+        //VarDumper::VarExport($model->teams);
+        $model->teamsCount = count($model->teams);
+
         return view('admin.gamers.show', [ 'model' => $model]);
     }
 

@@ -6,6 +6,7 @@ use App\Interfaces\ISelectableOption;
 use App\Interfaces\ITournamentParticipant;
 use App\Traits\TimestampModelTrait;
 use Carbon\Carbon;
+use DB;
 use LaravelArdent\Ardent\Ardent;
 
 /**
@@ -65,7 +66,8 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
 
     const TeamTournamentParticipants_ManyToManyTableName = "team_tournament_participants";
 
-    protected $table = "teams";
+    const TableName = 'teams';
+    protected $table = self::TableName;
 
     protected $fillable = array(
         'name',
@@ -170,6 +172,21 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
             ->first();
 
         return $item;
+    }
+
+    /**
+     * @param int $gamerId HABB ID игрока
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function getTeamsWhereGamerTakeApart($gamerId) {
+
+        return DB::table(self::TableName)
+            ->where(self::Captain_ForeignColumn, '=', $gamerId)
+            ->orWhere(self::SecondGamer_ForeignColumn, '=', $gamerId)
+            ->orWhere(self::ThirdGamer_ForeignColumn, '=', $gamerId)
+            ->orWhere(self::ForthGamer_ForeignColumn, '=', $gamerId)
+            ->orWhere(self::FifthGamer_ForeignColumn, '=', $gamerId)
+            ->select();
     }
 
     #region Interfaces

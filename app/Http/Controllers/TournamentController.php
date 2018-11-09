@@ -95,8 +95,11 @@ class TournamentController extends Controller
         $instance = Tournament::find($id);
         $instance->decodeHtmlDescription();
 
+        $participants = $instance->teamParticipants()->get();
+
         return view('admin.tournaments.show', [
-            'instance' => $instance
+            'instance' => $instance,
+            'participants' => $participants
         ]);
     }
 

@@ -91,6 +91,10 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         return $this->belongsTo(Team::class, Team::Captain_ForeignColumn);
     }
 
+    public function getTeamsWhereTakeApart(){
+        return Team::getTeamsWhereGamerTakeApart($this->id);
+    }
+
     #region Кастомные функции модели
 
     public function getGamerAge(){

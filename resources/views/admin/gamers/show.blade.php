@@ -59,6 +59,43 @@
                 </div>
             </div>
         </div>
+
+        @if($model->teamsCount > 0)
+
+            <div class="mt-3">
+
+                <div class="">
+                    Команды, где участвует игрок
+                </div>
+
+                <table class="table table-striped mt-2">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Создана</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for($index = 0; $index < $model->teamsCount; $index++)
+
+                        @php($team = $model->teams[$index])
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $team->id }}</td>
+                            <td><a href="{{ action('TeamController@show', ['id' => $team->id]) }}">{{ $team->name }}</a></td>
+                            <td>{{ $team->created_at }}</td>
+                        </tr>
+
+                    @endfor
+                    </tbody>
+
+                </table>
+            </div>
+
+        @endif
+
     </div>
 
     <div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="deleteDialog" aria-hidden="true">

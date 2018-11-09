@@ -37,17 +37,7 @@
                     @endif
                 </div>
 
-                <div class="mt-3">
 
-                    <div class="h5">Участники турнира</div>
-                    @php($participants = $instance->teamParticipants()->get())
-                    <ul>
-                        @for($i = 0; $i < count($participants); $i++)
-
-                            <li><a href="{{ action('TeamController@show', ['id' => $participants[$i]->id]) }}">{{ $participants[$i]->name }}</a></li>
-                        @endfor
-                    </ul>
-                </div>
 
             </div>
         </div>
@@ -61,6 +51,41 @@
                 {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-outline-primary']) }}
                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
             </div>
+        </div>
+
+        <div class="mt-3">
+
+            <div class="h5">Участники турнира</div>
+
+            <table class="table table-striped mt-3">
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Капитан</th>
+                    <th>Телефон капитана</th>
+                    <th>VK капитана</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for($i = 0; $i < count($participants); $i++)
+
+                    @php($captain = $participants[$i]->captain)
+
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $participants[$i]->id }}</td>
+                        <td><a href="{{ action('TeamController@show', ['id' => $participants[$i]->id]) }}">{{ $participants[$i]->name }}</a></td>
+                        <td><a href="{{ action('GamerController@show', ['id' => $captain->id]) }}">{{ $captain->getFullName() }}</a></td>
+                        <td>{{ $captain->phone }}</td>
+                        <td><a href="{{ $captain->vk_page }}" target="_blank" title="Открыть в новой вкладке">{{ $captain->vk_page }}</a></td>
+                    </tr>
+                @endfor
+                </tbody>
+            </table>
+
         </div>
 
     </div>
