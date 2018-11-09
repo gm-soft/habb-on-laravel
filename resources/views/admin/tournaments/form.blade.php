@@ -41,14 +41,16 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('event_date', 'Время начала турнира') }}
-            {{ Form::date('event_date', isset($model->tournament) ? $model->tournament->getEventDate() : null,
+
+            {{ Form::label('event_date', 'Дата турнира') }}
+            {{ Form::datetimeLocal('event_date', isset($model->tournament) ? $model->tournament->event_date : null,
                     array('class' => 'form-control', 'required'=> true)) }}
             @if ($errors->has('event_date'))
                 <span class="help-block text-danger">
                     <strong>{{ $errors->first('event_date') }}</strong>
                 </span><br>
             @endif
+
         </div>
 
         <div class="form-group">

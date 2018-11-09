@@ -29,4 +29,10 @@ class TournamentViewModel
 
     /** @var int */
     public $banners_count;
+
+    /** @var string */
+    public $eventDateString;
+
+    /** @var bool */
+    public $showRegisterButton;
 }

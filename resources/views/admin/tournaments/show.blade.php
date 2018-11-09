@@ -23,7 +23,7 @@
             <div class="col-sm-4">
                 <dl>
                     <dt>Дата события</dt>
-                    <dd>{{ $instance->getEventDate() }}</dd>
+                    <dd>{{ $instance->EventDate() }}</dd>
 
                     <dt>Комментарий</dt>
                     <dd>{{ $instance->comment ?? 'Без комментарий' }}</dd>

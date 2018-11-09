@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Helpers\FrontDataFiller;
+use App\Helpers\MiscUtils;
 use App\Helpers\VarDumper;
 use App\Models\Banner;
 use App\Models\Post;
@@ -18,6 +19,7 @@ use App\ViewModels\Front\ShowPostViewModel;
 use App\ViewModels\Front\TeamCreateRequest\RegisterTeamFormViewModel;
 use App\ViewModels\Front\TournamentViewModel;
 use App\ViewModels\NewsViewModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -118,6 +120,7 @@ class HomeController extends Controller
         return view('front.posts.show', ["model" => $model]);
     }
 
+
     public function openTournament($id) {
 
         /** @var Tournament $tournament */
@@ -133,6 +136,10 @@ class HomeController extends Controller
 
         $model->banners = $tournament->banners()->get();
         $model->banners_count = count($model->banners);
+
+        $model->showRegisterButton = $tournament->event_date->gt(MiscUtils::getLocalDatetimeNow());
+
+        $model->eventDateString = $tournament->EventDate();
 
         FrontDataFiller::create($model)->fill();
 

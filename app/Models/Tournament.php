@@ -55,10 +55,6 @@ class Tournament extends Ardent
         'teamParticipants'           => [self::BELONGS_TO_MANY, Team::class, 'table' => Team::TeamTournamentParticipants_ManyToManyTableName]
     );
 
-    public function getEventDate($format = "Y-m-d"){
-        return $this->event_date->format($format);
-    }
-
     /**
      * Кодирует разметку html в пригодную для сохранения в базе
      * @param $content

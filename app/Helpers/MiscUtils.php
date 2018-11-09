@@ -9,6 +9,8 @@
 namespace App\Helpers;
 
 
+use Carbon\Carbon;
+
 abstract class MiscUtils
 {
     /**
@@ -90,5 +92,25 @@ abstract class MiscUtils
                 return true;
         }
         return false;
+    }
+
+
+    const AlmatyLocalTimezone = 'Asia/Almaty';
+
+    /**
+     * @param string $value
+     * @return Carbon
+     */
+    public static function parseLocalDatetime($value) {
+        $date = Carbon::parse($value, self::AlmatyLocalTimezone)->setTimezone('UTC');
+        return $date;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public static function getLocalDatetimeNow(){
+        $date = Carbon::now(self::AlmatyLocalTimezone)->setTimezone('UTC');
+        return $date;
     }
 }

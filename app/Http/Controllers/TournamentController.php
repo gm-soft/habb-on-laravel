@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Helpers\FrontDataFiller;
+use App\Helpers\MiscUtils;
 use App\Helpers\VarDumper;
 use App\Models\Banner;
 use App\Models\Gamer;
@@ -69,7 +70,7 @@ class TournamentController extends Controller
         $instance->comment                  = Input::get('comment');
         $instance->encodeHtmlDescription    (Input::get('public_description'));
 
-        $instance->event_date               = Input::get('event_date');
+        $instance->event_date               = Carbon::parse(Input::get('event_date'));
         $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
         $instance->hashtags                 = Input::get('hashtags');
 
@@ -155,7 +156,7 @@ class TournamentController extends Controller
         $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
         $instance->hashtags                 = Input::get('hashtags');
 
-        $instance->event_date               = Input::get('event_date');
+        $instance->event_date               = MiscUtils::parseLocalDatetime(Input::get('event_date'));
         $instance->updated_at               = Carbon::now();
 
         $result = $instance->save();
@@ -202,7 +203,7 @@ class TournamentController extends Controller
 
         $tournament->name               = Input::get('name');
         $tournament->public_description = Input::get('public_description');
-        $tournament->event_date         = Input::get('event_date');
+        $tournament->event_date         = MiscUtils::parseLocalDatetime(Input::get('event_date'));
         $tournament->hashtags           = Input::get('hashtags');
         $tournament->created_at         = Carbon::now();
         $tournament->updated_at         = Carbon::now();
@@ -215,6 +216,10 @@ class TournamentController extends Controller
 
         $model->banners = Banner::find(Input::get('banners'));
         $model->banners_count = count($model->banners);
+
+        $model->showRegisterButton = $tournament->event_date->gt(MiscUtils::getLocalDatetimeNow());
+
+        $model->eventDateString = $tournament->EventDate();
 
         FrontDataFiller::create($model)->fill();
 
