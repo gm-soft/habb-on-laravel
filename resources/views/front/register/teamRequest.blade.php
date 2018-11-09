@@ -45,7 +45,12 @@
 
                 <div class="form-group">
                     {{ Form::label('city', 'Город команды')}}
-                    {{ Form::select('city', $model->cities, old('cities'), ['class'=>'form-control', 'required'=>true]) }}
+                    <select class="form-control" name="city" required title="Выберите город">
+                        <option value="" disabled selected>Город</option>
+                        @for($i = 0; $i < count($model->cities); $i++)
+                            <option value='{{ $model->cities[$i] }}'>{{ $model->cities[$i] }}</option>
+                        @endfor
+                    </select>
                     <small>Укажите, пожалуйста, город команды</small>
                 </div>
             </div>
