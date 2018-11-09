@@ -41,7 +41,7 @@
     </tr>
 
     <tr>
-        @php( $captain = $team->forthGamer)
+        @php( $gamer = $team->forthGamer)
         <td>{{ $gamer->id }}</td>
         <td>{{ link_to_action('GamerController@show', $gamer->getFullName(), ['id' => $gamer->id]) }}</td>
         <td>Игрок 4</td>

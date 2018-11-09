@@ -112,7 +112,7 @@
                         {{ Form::label(\App\Models\Team::ThirdGamer_ForeignColumn, 'Третий игрок: *') }}
                     </div>
                     <div class="col-sm-8">
-                        {{ Form::input('tel', \App\Models\Team::ThirdGamer_ForeignColumn, old('third_gamer_habb_id'),
+                        {{ Form::input('tel', \App\Models\Team::ThirdGamer_ForeignColumn, old(\App\Models\Team::ThirdGamer_ForeignColumn),
                         ['class' => 'form-control',
                          'maxlength' => '10',
                          'placeholder' => 'HABB ID третьего игрока',

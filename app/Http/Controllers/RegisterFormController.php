@@ -57,10 +57,15 @@ class RegisterFormController extends Controller
 
         // TODO implement
         $captainId = Input::get(Team::Captain_ForeignColumn);
+
         $secondId = Input::get(Team::SecondGamer_ForeignColumn);
+
         $thirdId = Input::get(Team::ThirdGamer_ForeignColumn);
+
         $forthId = Input::get(Team::ForthGamer_ForeignColumn);
+
         $fifthId = Input::get(Team::FifthGamer_ForeignColumn);
+
         $optionalId = Input::get(Team::OptionalGamer_ForeignColumn);
 
         $tournamentId = Input::get('t');
