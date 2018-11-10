@@ -126,10 +126,7 @@
         Route::post('search-gamer', 'GamerController@searchGamerForDuplicate');
         Route::get('test', 'AjaxController@test');
 
-        Route::post('participantsForSelect', 'AjaxController@getParticipantsForSelect');
-
-        Route::get('/syncGamers', 'AjaxController@syncGamers');
-        Route::get('/syncTeams', 'AjaxController@syncTeams');
+        Route::post('/participantsForSelect', 'AjaxController@getParticipantsForSelect');
     });
     #endregion
 

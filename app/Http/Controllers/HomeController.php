@@ -93,7 +93,6 @@ class HomeController extends Controller
         $model->current_user = $currentUser;
         FrontDataFiller::create($model)->fill();
 
-        // TODO Gorbatyuk: сделать вьюмодели с заполненным списком турниров в шапке во всех остальных страницах авторизации
         return view('auth.profile', ['model' => $model]);
     }
 
