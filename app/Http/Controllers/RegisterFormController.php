@@ -71,6 +71,25 @@ class RegisterFormController extends Controller
 
         $tournamentId = Input::get('t');
 
+        if (isset($tournamentId)){
+
+            /** @var Tournament $tournament */
+            $tournament = Tournament::findOrFail($tournamentId);
+
+            if (MiscUtils::getLocalDatetimeNow()->gt($tournament->event_date)){
+
+                // если дата ивента уже прошла, то и нечего регаться на нее
+                flash('Турнир завершен, регистрация на него закрыта', Constants::Error);
+
+                return Redirect::action('HomeController@openTournament', ['id' => $tournamentId]);
+            }
+
+        } else {
+
+            flash('Не выбран турнир для регистрации', Constants::Error);
+            return Redirect::action('HomeController@index');
+        }
+
         $returnRedirectErrorResult = Redirect::action('RegisterFormController@teamRegisterForTournament', ['t' => $tournamentId])
             ->withInput(Input::all());
 
@@ -82,11 +101,23 @@ class RegisterFormController extends Controller
         }
 
         $existingTeam = Team::findTeamByParticipants($captainId, $secondId, $thirdId, $forthId, $fifthId);
+
         if (isset($existingTeam)){
 
             // TODO REDIRECT To error page
-            flash('Команда с указанными участниками уже существует', Constants::Error);
-            return $returnRedirectErrorResult;
+            $currentTournamentIds = $existingTeam->tournamentsIdsThatTakePart();
+
+            $currentTournamentIds[] = $tournamentId;
+
+            $currentTournamentIds = collect($currentTournamentIds)->unique()->values();
+
+            $existingTeam->tournamentsThatTakePart()->sync($currentTournamentIds);
+
+            //TODO не направлять сюда людей, когда у них уже есть команда
+            flash("Команда с указанными участниками уже существует и зарегистрирована на этот турнир.".
+                    "<br>Айди команды ".$existingTeam->id.", название ".$existingTeam->name, Constants::Success);
+
+            return Redirect::action('HomeController@openTournament', ['id' => $tournamentId]);
         }
 
         if (!$this->doesAllGamersExists($captainId, $secondId, $thirdId, $forthId, $fifthId, $optionalId))
@@ -128,7 +159,7 @@ class RegisterFormController extends Controller
 
         }
 
-        $team->tournamentsThatTakePart()->sync([ $tournamentId ]);
+        $team->tournamentsThatTakePart()->attach([ $tournamentId ]);
         session(['team_id' => $team->id]);
 
         return Redirect::action('RegisterFormController@teamRegisterForTournamentResult');

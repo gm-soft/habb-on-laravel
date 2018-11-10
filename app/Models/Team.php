@@ -159,6 +159,18 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
         return $this->belongsToMany(Tournament::class, self::TeamTournamentParticipants_ManyToManyTableName);
     }
 
+    /**
+     * @return array
+     */
+    public function tournamentsIdsThatTakePart(){
+        $tournaments = $this->tournamentsThatTakePart();
+        $ids = [];
+        foreach ($tournaments as $tournament)
+            $ids[] = $tournament->id;
+
+        return $ids;
+    }
+
     public static function findTeamByParticipants($captainId, $secondId, $thirdId, $forthId, $fifthId) {
 
         $values = [$captainId, $secondId, $thirdId, $forthId, $fifthId];

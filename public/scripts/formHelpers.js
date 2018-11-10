@@ -5,8 +5,15 @@
         RequestDataToSelect : RequestDataToSelect,
         BackendImageListSelectorInit: BackendImageListSelectorInit,
         setImagePathToInput: setImagePathToInput,
-        sendPreviewRequest: sendPreviewRequest
-    };;
+        sendPreviewRequest: sendPreviewRequest,
+        setSubmitButtonDisabledAfterSubmit: setSubmitButtonDisabledAfterSubmit
+    };
+
+    function setSubmitButtonDisabledAfterSubmit(formId){
+        $('#' + formId).submit(function(){
+            $("[type='submit']").prop('disabled',true);
+        });
+    }
 
 
     function CkEditorInit(textAreaSelector){
