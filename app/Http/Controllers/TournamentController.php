@@ -131,6 +131,7 @@ class TournamentController extends Controller
         $select_options = collect($select_options)->unique('id')->all();
 
         $model = new TournamentEditViewModel();
+        $instance->event_date = $instance->event_date->setTimezone(MiscUtils::AlmatyLocalTimezone);
         $model->tournament = $instance;
         $model->select_options = $select_options;
 
