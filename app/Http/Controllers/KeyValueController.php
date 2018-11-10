@@ -12,7 +12,6 @@ use Validator;
 
 class KeyValueController extends Controller
 {
-    // TODO Реализовать
     #region CRUD
     public function index()
     {

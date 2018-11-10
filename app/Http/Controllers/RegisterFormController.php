@@ -56,7 +56,6 @@ class RegisterFormController extends Controller
 
     public function saveTeamRegisterForTournament(Request $request) {
 
-        // TODO implement
         $captainId = Input::get(Team::Captain_ForeignColumn);
 
         $secondId = Input::get(Team::SecondGamer_ForeignColumn);
@@ -104,7 +103,6 @@ class RegisterFormController extends Controller
 
         if (isset($existingTeam)){
 
-            // TODO REDIRECT To error page
             $currentTournamentIds = $existingTeam->tournamentsIdsThatTakePart();
 
             $currentTournamentIds[] = $tournamentId;
@@ -122,7 +120,6 @@ class RegisterFormController extends Controller
 
         if (!$this->doesAllGamersExists($captainId, $secondId, $thirdId, $forthId, $fifthId, $optionalId))
         {
-            // TODO ERROR
             flash('Некоторые HABB ID не существуют. Проверьте верность введенных данных', Constants::Error);
             return $returnRedirectErrorResult;
         }

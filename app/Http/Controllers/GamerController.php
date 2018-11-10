@@ -251,7 +251,6 @@ class GamerController extends Controller
      * @return GamerController|\Illuminate\Http\RedirectResponse
      */
     public function createGamerAccount(Request $request){
-        // TODO Нужно проверить как работает валидация
         $input = $request->input();
         $validator = Validator::make($input, Gamer::$rules);
 

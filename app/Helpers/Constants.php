@@ -32,7 +32,8 @@ abstract class Constants
     const EmailRegexPattern = '^([A-Za-z0-9_\.-]+)@([A-Za-z0-9_\.-]+)\.([a-z\.]{2,10})$';
     const PhoneRegexPattern = '^(8)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7}$';
     const VkPageRegexPattern = '^(https:\/\/)?(vk\.com)([\/\w \.-]{1,50})*\/?$';
-    // TODO Gorbatyuk: почему-то не получилось встроить в паттерн проверку типа А-Яа-я, только так приходится указывать русский алфавит
+
+    // Gorbatyuk: почему-то не получилось встроить в паттерн проверку типа А-Яа-я, только так приходится указывать русский алфавит
     const RussianAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
     const AnnounceImagePathRegexPattern = "^([A-Za-z\\/0-9._-]+)$";
