@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Helpers\FrontDataFiller;
+use App\Helpers\MiscUtils;
 use App\Helpers\VarDumper;
 use App\Models\Gamer;
 use App\Models\Team;
@@ -30,7 +31,7 @@ class RegisterFormController extends Controller
             /** @var Tournament $tournament */
             $tournament = Tournament::findOrFail($tournamentId);
 
-            if ($tournament->event_date > Carbon::now()){
+            if (MiscUtils::getLocalDatetimeNow()->gt($tournament->event_date)){
                 // если дата ивента уже прошла, то и нечего регаться на нее
                 flash('Турнир завершен, регистрация на него закрыта', Constants::Error);
                 return \Redirect::back();
