@@ -94,6 +94,16 @@
         Route::resource('external_services', 'ExternalServicesController');
         Route::post('update_api_key', 'ExternalServicesController@updateApiKey');
 
+        //бэкапы
+        Route::group(['prefix' => 'backups'], function() {
+
+            Route::get('/', 'BackupController@index');
+            Route::get('/create', 'BackupController@create');
+            Route::get('/download', 'BackupController@download');
+            Route::post('/delete', 'BackupController@delete');
+        });
+
+
         // загрузчик файлов
         Route::get('files', 'UploadController@index');
         Route::get('files/upload', 'UploadController@page');
