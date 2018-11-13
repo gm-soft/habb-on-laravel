@@ -23,6 +23,7 @@ use LaravelArdent\Ardent\Ardent;
  * @property Carbon event_date - Дата турнира
  * @property boolean attached_to_nav
  * @property string hashtags
+ * @property Team[] teamParticipants
  *
  * @property Carbon created_at
  * @property Carbon updated_at

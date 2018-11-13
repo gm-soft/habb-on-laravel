@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\ExcelExporter;
 use App\Helpers\FrontDataFiller;
 use App\Helpers\MiscUtils;
 use App\Helpers\VarDumper;
@@ -96,12 +97,25 @@ class TournamentController extends Controller
         $instance = Tournament::find($id);
         $instance->decodeHtmlDescription();
 
-        $participants = $instance->teamParticipants()->get();
+        $participants = $instance->teamParticipants;
 
         return view('admin.tournaments.show', [
             'instance' => $instance,
             'participants' => $participants
         ]);
+    }
+
+    public function export($id){
+        /** @var Tournament $instance */
+        $instance = Tournament::find($id);
+
+        $participants = $instance->teamParticipants;
+        $participantsCount = $instance->teamParticipants()->count();
+
+        return ExcelExporter::createInstance('admin.tournaments.excel',
+            ['tournament' => $instance, 'participants' => $participants, 'participantsCount' => $participantsCount],
+            "$instance->name.xls")
+            ->getResult();
     }
 
     public function edit($id)

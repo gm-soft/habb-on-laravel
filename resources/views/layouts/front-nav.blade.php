@@ -19,19 +19,9 @@
                     <a class="nav-link" href="{{ action("HomeController@news") }}">Новости</a>
                 </li>
 
-                <!--li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="ratingsMenu"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Регистрации
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="ratingsMenu">
-
-                        <a class="dropdown-item" href="{{ url('register/team') }}">Заявка на команду</a>
-
-                        <a class="dropdown-item" href="{{ url('register/gamer') }}">Аккаунт игрока</a>
-                    </div>
-                </li-->
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap" href="{{ action('GamerController@registerForm', ['from' => 'nav']) }}">HABB ID</a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ action("HomeController@eventSchedule") }}">Расписание</a>

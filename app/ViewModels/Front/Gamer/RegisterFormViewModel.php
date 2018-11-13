@@ -16,7 +16,7 @@ class RegisterFormViewModel
     use FrontDataTrait;
 
     /** @var boolean */
-    public $iOsDevice;
+    public $isAppleDevice;
 
     /** @var string[] */
     public $cities;

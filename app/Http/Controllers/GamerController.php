@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\ExcelExporter;
 use App\Helpers\FrontDataFiller;
 use App\Helpers\HttpStatuses;
 use App\Helpers\MiscUtils;
@@ -108,17 +109,9 @@ class GamerController extends Controller
 
     public function gamersTableToExcel(Request $request){
 
-        $filename = "gamers.xls";
-        // Выгрузка в файл взята отсюда https://stackoverflow.com/a/12541019
-
         $gamers = Gamer::all();
 
-        $headers = [
-            'Content-type' => 'application/vnd.ms-excel',
-            'Content-Disposition' => "attachment; filename=$filename"
-        ];
-
-        return response()->view('admin.gamers.excel', ['model' => $gamers], HttpStatuses::Ok, $headers);
+        return ExcelExporter::createInstance('admin.gamers.excel', ['model' => $gamers], "gamers.xls")->getResult();
     }
 
     #region Ресурсные методы
@@ -230,13 +223,13 @@ class GamerController extends Controller
     public function registerForm(Request $request) {
 
         $userAgent = $request->header('User-Agent');
-        $iOsDevice = stripos($userAgent,"iPod")||
+        $isAppleDevice = stripos($userAgent,"iPod")||
             stripos($userAgent,"iPhone") ||
             stripos($userAgent,"iPad");
 
         $model = new RegisterFormViewModel();
         $model->cities = Constants::getCities();
-        $model->iOsDevice = $iOsDevice;
+        $model->isAppleDevice = $isAppleDevice;
 
         FrontDataFiller::create($model)->fill();
 

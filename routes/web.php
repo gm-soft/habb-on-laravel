@@ -76,6 +76,7 @@
         // Турниры
         Route::resource('tournaments', 'TournamentController');
         Route::any('/tournament_preview', 'TournamentController@preview');
+        Route::get('/tournaments/{id}/export', 'TournamentController@export');
 
         // Пользователи системы
         Route::resource('users', 'UserController');

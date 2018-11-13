@@ -40,8 +40,17 @@
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control habb_input-birthday__tag"
-                       name="birthday" placeholder="Дата рождения" required>
+
+                @if ($model->isAppleDevice)
+
+                    <label for="birthday">Дата рождения</label>
+                    <input type="date" class="form-control" id="birthday" name="birthday" required placeholder="Дата рождения">
+
+                @else
+                    <input type="text" class="form-control habb_input-birthday__tag" name="birthday" placeholder="Дата рождения" required>
+
+                @endif
+
                 @if ($errors->has('birthday'))
                     <br><div class="help-block text-danger">
                             <strong>{{ $errors->first('birthday') }}</strong>

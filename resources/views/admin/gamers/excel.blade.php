@@ -1,5 +1,5 @@
 
-<table>
+<table border="1px">
     <thead>
     <tr>
         <th>HABB ID</th>

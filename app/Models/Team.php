@@ -19,22 +19,22 @@ use LaravelArdent\Ardent\Ardent;
  * @property string comment
  *
  * @property int captain_gamer_id
- * @property Gamer captain_gamer
+ * @property Gamer captain
  *
  * @property int second_gamer_id
- * @property Gamer second_gamer
+ * @property Gamer secondGamer
  *
  * @property int third_gamer_id
- * @property Gamer third_gamer
+ * @property Gamer thirdGamer
  *
  * @property int forth_gamer_id
- * @property Gamer forth_gamer
+ * @property Gamer forthGamer
  *
  * @property int fifth_gamer_id
- * @property Gamer fifth_gamer
+ * @property Gamer fifthGamer
  *
  * @property int optional_gamer_id
- * @property Gamer optional_gamer
+ * @property Gamer optionalGamer
  *
  * @property Carbon deleted_at
  * @property Carbon updated_at

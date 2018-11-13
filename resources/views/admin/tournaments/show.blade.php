@@ -3,8 +3,8 @@
 @section('title', 'Информация о турнире')
 
 @section('content')
-    <div class="container">
-        <div class="mt-1">
+    <div class="container mt-1">
+        <div class="">
             <h1 class="mt-1">Турнир {{ $instance->name }} [ID {{ $instance->id }}]</h1>
             <p class="text-muted">Создание: {{ $instance->CreatedAt() }}. Обновление: {{ $instance->UpdatedAt() }}</p>
         </div>
@@ -16,9 +16,6 @@
                 <div class="mt-1">
                     @include('shared._hashtags', ['hashtags' => $instance->getHashtagsAsArray()])
                 </div>
-
-
-
             </div>
             <div class="col-sm-4">
                 <dl>
@@ -49,6 +46,7 @@
 
                 {{ link_to_action('HomeController@openTournament', 'Показать на фронте', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
                 {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-outline-primary']) }}
+                {{ link_to_action('TournamentController@export', 'Экспорт в Excel', ['id' => $instance->id], ['class' => 'btn btn-outline-primary', 'target'=>'_blank']) }}
                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
             </div>
         </div>
@@ -64,6 +62,7 @@
                     <th>#</th>
                     <th>ID</th>
                     <th>Название</th>
+                    <th>Город</th>
                     <th>Капитан</th>
                     <th>Телефон капитана</th>
                     <th>VK капитана</th>
@@ -78,6 +77,7 @@
                         <td>{{ $i + 1 }}</td>
                         <td>{{ $participants[$i]->id }}</td>
                         <td><a href="{{ action('TeamController@show', ['id' => $participants[$i]->id]) }}">{{ $participants[$i]->name }}</a></td>
+                        <td>{{ $participants[$i]->city }}</td>
                         <td><a href="{{ action('GamerController@show', ['id' => $captain->id]) }}">{{ $captain->getFullName() }}</a></td>
                         <td>{{ $captain->phone }}</td>
                         <td><a href="{{ $captain->vk_page }}" target="_blank" title="Открыть в новой вкладке">{{ $captain->vk_page }}</a></td>
