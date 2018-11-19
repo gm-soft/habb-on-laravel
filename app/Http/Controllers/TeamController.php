@@ -109,6 +109,9 @@ class TeamController extends Controller
     {
         /** @var Team $instance */
         $instance = Team::find($id);
+
+        $instance->tournamentsThatTakePart()->sync([]);
+
         $result = $instance->delete();
         if ($result == true) {
             $message = "Запись ID".$instance->id." удалена из базы";

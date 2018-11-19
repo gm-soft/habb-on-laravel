@@ -83,11 +83,14 @@
 @section('scripts')
 
     <script src="{{ asset('scripts/formHelpers.js') }}"></script>
+    <script src="{{ asset('thirdparty/inputmask/jquery.inputmask.bundle.js') }}"></script>
     <script type="text/javascript">
 
         $(function(){
 
             habb.formHelpers.setSubmitButtonDisabledAfterSubmit("form");
+
+            $('#captain_phone').inputmask({"mask": "8(999)999-9999"});
 
             $('#modalConfirmButton').on('click', function(){
                 $('#inqured').prop('checked', true);

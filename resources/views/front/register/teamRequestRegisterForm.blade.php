@@ -32,6 +32,26 @@
             </select>
             <small>Укажите, пожалуйста, город команды</small>
         </div>
+
+        <div class="form-group {{ $errors->has('captain_phone') ? "has-danger" : "" }}">
+            <div class="text-nowrap">
+                {{ Form::label('captain_phone', 'Мобильный телефон капитана *') }}
+            </div>
+            {{ Form::input('tel', 'captain_phone', old('captain_phone'),
+                ['class' => 'form-control',
+                 'id' => 'captain_phone',
+                 'maxlength' => '14',
+                 'placeholder' => 'Мобильный телефон',
+                 'required' => true]) }}
+
+            @if ($errors->has('captain_phone'))
+                <span class="form-control-feedback">
+                    <strong>{{ $errors->first('captain_phone') }}</strong>
+                </span><br>
+            @endif
+            <small>Номер телефона необходим, чтобы мы могли связаться с вами в случае появления каких-то проблем</small>
+        </div>
+
     </div>
 
     <div class="col-md-6">
@@ -60,8 +80,6 @@
                         </span><br>
                 @endif
             </div>
-
-
         </div>
 
         <div class="form-group row {{ $errors->has(\App\Models\Team::SecondGamer_ForeignColumn) ? "has-danger" : "" }}">

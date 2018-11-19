@@ -158,7 +158,6 @@ class GamerController extends Controller
         $model = new \App\ViewModels\Back\GamerShowViewModel();
         $model->gamer = $gamer;
         $model->teams = $gamer->getTeamsWhereTakeApart()->get()->toArray();
-        //VarDumper::VarExport($model->teams);
         $model->teamsCount = count($model->teams);
 
         return view('admin.gamers.show', [ 'model' => $model]);

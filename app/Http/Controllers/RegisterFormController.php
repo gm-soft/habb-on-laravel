@@ -70,6 +70,8 @@ class RegisterFormController extends Controller
 
         $tournamentId = Input::get('t');
 
+        $captainMobilePhone = Input::get('captain_phone');
+
         if (isset($tournamentId)){
 
             /** @var Tournament $tournament */
@@ -91,6 +93,12 @@ class RegisterFormController extends Controller
 
         $returnRedirectErrorResult = Redirect::action('RegisterFormController@teamRegisterForTournament', ['t' => $tournamentId])
             ->withInput(Input::all());
+
+        // Проверим, что теелфон указали
+        if (!isset($captainMobilePhone)){
+            flash('Укажите номер телефона для связи', Constants::Error);
+            return $returnRedirectErrorResult;
+        }
 
 
         if (!$this->areUniqueIds($captainId, $secondId, $thirdId, $forthId, $fifthId, $optionalId)){
@@ -128,12 +136,34 @@ class RegisterFormController extends Controller
         if ($validator->fails()) {
 
             flash('Ошибка валидации. Ошибок: '.$validator->errors()->count(), Constants::Error);
-
-            return Redirect::action('RegisterFormController@teamRegisterForTournament', ['t' => $tournamentId])
-                ->withErrors($validator->errors())
-                ->withInput(Input::all());
+            return $this->returnRedirectResultWithErrors($tournamentId, $validator->errors());
         }
 
+        // попытаемся актуализировать номер телефона капитана перед тем, как сохранить команду
+
+        $captainMobilePhone = MiscUtils::formatPhone($captainMobilePhone);
+        $gamer = Gamer::findByPhone($captainMobilePhone);
+
+        if (is_null($gamer)){
+            // если игрока нет, то точно переписываем номер телефона капитана
+            /** @var Gamer $gamer */
+            $gamer = Gamer::findOrFail($captainId);
+            $gamer->phone = $captainMobilePhone;
+            $gamerSaveResult = $gamer->save();
+
+            if ($gamerSaveResult == false){
+                flash('Не удалось обновить номер телефона капитана', Constants::Error);
+
+                return $this->returnRedirectResultWithErrors($tournamentId, $validator->errors());
+            }
+        }
+        else if ($gamer->id !== $captainId){
+            // если игрок найден, но его хабб айди принадлежит другому игроку, то выбрасываем ошибку
+            flash('Указанный номер телефона принадлежит другому игроку. Укажите другой номер телефона для связи', Constants::Error);
+            return $this->returnRedirectResultWithErrors($tournamentId, $validator->errors());
+        }
+
+        // сохраняем команду
         $team = new Team();
         $team->name = Input::get('name');
         $team->city = Input::get('city');
@@ -149,11 +179,7 @@ class RegisterFormController extends Controller
         if ($success == false) {
 
             flash('Ошибка при сохранении данных', Constants::Error);
-
-            return Redirect::action('RegisterFormController@teamRegisterForTournament', ['t' => $tournamentId])
-                ->withErrors($team->errors())
-                ->withInput(Input::all());
-
+            return $this->returnRedirectResultWithErrors($tournamentId, $team->errors());
         }
 
         $team->tournamentsThatTakePart()->attach([ $tournamentId ]);
@@ -161,6 +187,18 @@ class RegisterFormController extends Controller
 
         return Redirect::action('RegisterFormController@teamRegisterForTournamentResult');
     }
+
+    /**
+     * @param $tournamentId
+     * @param $errors
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    private function returnRedirectResultWithErrors($tournamentId, $errors) {
+        return Redirect::action('RegisterFormController@teamRegisterForTournament', ['t' => $tournamentId])
+            ->withErrors($errors)
+            ->withInput(Input::all());
+    }
+
 
     /**
      * @param $captainId

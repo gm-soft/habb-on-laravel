@@ -190,12 +190,12 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     /**
      * Возвращает запись геймера, если есть в базе. Иначе - null
      * @param string $phone
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return Gamer|\Illuminate\Database\Eloquent\Model|null
      */
     public static function findByPhone($phone) {
         $phone = MiscUtils::formatPhone($phone);
 
-        return DB::table('gamers')->where('phone' , '=', $phone)->first();
+        return self::where('phone' , '=', $phone)->first();
     }
 
     /**
