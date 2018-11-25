@@ -41,7 +41,7 @@
                             <div class="card-text">
                                 <div class="h3">Турниры, где участвует</div>
                                 @php
-                                    $tournaments = $team->tournaments
+                                    $tournaments = $team->tournamentsThatTakePart
                                 @endphp
 
                                 <ul>
