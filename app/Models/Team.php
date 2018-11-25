@@ -36,6 +36,8 @@ use LaravelArdent\Ardent\Ardent;
  * @property int optional_gamer_id
  * @property Gamer optionalGamer
  *
+ * @property Tournament[] tournamentsThatTakePart
+ *
  * @property Carbon deleted_at
  * @property Carbon updated_at
  * @property Carbon created_at
@@ -163,7 +165,7 @@ class Team extends Ardent implements ISelectableOption, ITournamentParticipant
      * @return array
      */
     public function tournamentsIdsThatTakePart(){
-        $tournaments = $this->tournamentsThatTakePart();
+        $tournaments = $this->tournamentsThatTakePart;
         $ids = [];
         foreach ($tournaments as $tournament)
             $ids[] = $tournament->id;
