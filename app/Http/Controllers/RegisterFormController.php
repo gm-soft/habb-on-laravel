@@ -157,7 +157,7 @@ class RegisterFormController extends Controller
                 return $this->returnRedirectResultWithErrors($tournamentId, $validator->errors());
             }
         }
-        else if ($gamer->id !== $captainId){
+        else if ($gamer->id != $captainId){
             // если игрок найден, но его хабб айди принадлежит другому игроку, то выбрасываем ошибку
             flash('Указанный номер телефона принадлежит другому игроку. Укажите другой номер телефона для связи', Constants::Error);
             return $this->returnRedirectResultWithErrors($tournamentId, $validator->errors());
