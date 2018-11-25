@@ -41,13 +41,13 @@
                             <div class="card-text">
                                 <div class="h3">Турниры, где участвует</div>
                                 @php
-                                    $tournaments = $team->tournamentsThatTakePart()->get()
+                                    $tournaments = $team->tournamentsThatTakePart
                                 @endphp
 
                                 <ul>
                                 @foreach($tournaments as $tournament)
                                     <li>
-                                        <a href="{{ action('TournamentsController@show', ['id' => $tournament->id]) }}">{{ $tournament->name }}</a>
+                                        <a href="{{ action('TournamentController@show', ['id' => $tournament->id]) }}">{{ $tournament->name }}</a>
                                     </li>
                                 @endforeach
                                 </ul>
