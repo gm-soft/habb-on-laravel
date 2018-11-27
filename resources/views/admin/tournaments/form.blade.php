@@ -42,12 +42,25 @@
 
         <div class="form-group">
 
-            {{ Form::label('event_date', 'Дата турнира') }}
+            {{ Form::label('event_date', 'Когда будет проведен турнир') }}
             {{ Form::datetimeLocal('event_date', isset($model->tournament) ? $model->tournament->event_date : null,
                     array('class' => 'form-control', 'required'=> true)) }}
             @if ($errors->has('event_date'))
                 <span class="help-block text-danger">
                     <strong>{{ $errors->first('event_date') }}</strong>
+                </span><br>
+            @endif
+
+        </div>
+
+        <div class="form-group">
+
+            {{ Form::label('registration_deadline', 'Когда будет закрыта регистрация команд) }}
+            {{ Form::datetimeLocal('registration_deadline', isset($model->tournament) ? $model->tournament->registration_deadline : null,
+                    array('class' => 'form-control', 'required'=> true)) }}
+            @if ($errors->has('registration_deadline'))
+                <span class="help-block text-danger">
+                    <strong>{{ $errors->first('registration_deadline') }}</strong>
                 </span><br>
             @endif
 

@@ -136,8 +136,10 @@ class HomeController extends Controller
         $model->banners = $tournament->banners()->get();
         $model->banners_count = count($model->banners);
 
-        $model->showRegisterButton = $tournament->event_date->gt(MiscUtils::getLocalDatetimeNow());
+        $model->showRegisterForTournamentButton = $tournament->registration_deadline->gt(MiscUtils::getLocalDatetimeNow());
+        $model->showRegisterForEventButton = $tournament->event_date->gt(MiscUtils::getLocalDatetimeNow());
 
+        $model->registrationDeadlineString = $tournament->RegistrationDeadline();
         $model->eventDateString = $tournament->EventDate();
 
         FrontDataFiller::create($model)->fill();

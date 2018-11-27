@@ -35,6 +35,8 @@ trait GamerConstructor
         $gamer->phone       = $phone;
         $gamer->email       = $input['email'];
 
+        $gamer->is_active = true;
+
         $gamer->birthday    = MiscUtils::getValueOrDefault($input, 'birthday');
         $gamer->city        = MiscUtils::getValueOrDefault($input, 'city');
         $gamer->vk_page     = MiscUtils::getValueOrDefault($input, 'vk_page');
@@ -45,6 +47,7 @@ trait GamerConstructor
 
         $gamer->primary_game = MiscUtils::getValueOrDefault($input, 'primary_game');
         $gamer->secondary_games = MiscUtils::getValueOrDefault($input, 'secondary_games');
+
 
         return $gamer;
     }
@@ -65,6 +68,8 @@ trait GamerConstructor
         $gamer->email       = $input['email'];
         $gamer->city        = $input['city'];
         $gamer->vk_page     = $input['vk_page'];
+
+        $gamer->is_active = true;
 
         return $gamer;
     }

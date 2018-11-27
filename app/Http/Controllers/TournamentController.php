@@ -71,7 +71,8 @@ class TournamentController extends Controller
         $instance->comment                  = Input::get('comment');
         $instance->encodeHtmlDescription    (Input::get('public_description'));
 
-        $instance->event_date               = Carbon::parse(Input::get('event_date'));
+        $instance->event_date               = MiscUtils::parseLocalDatetimeInput::get('event_date'));
+        $instance->registration_deadline    = MiscUtils::parseLocalDatetime(Input::get('registration_deadline'));
         $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
         $instance->hashtags                 = Input::get('hashtags');
 
@@ -172,6 +173,7 @@ class TournamentController extends Controller
         $instance->hashtags                 = Input::get('hashtags');
 
         $instance->event_date               = MiscUtils::parseLocalDatetime(Input::get('event_date'));
+        $instance->registration_deadline    = MiscUtils::parseLocalDatetime(Input::get('registration_deadline'));
         $instance->updated_at               = Carbon::now();
 
         $result = $instance->save();
@@ -216,12 +218,13 @@ class TournamentController extends Controller
         /** @var Tournament $tournament */
         $tournament = new Tournament();
 
-        $tournament->name               = Input::get('name');
-        $tournament->public_description = Input::get('public_description');
-        $tournament->event_date         = MiscUtils::parseLocalDatetime(Input::get('event_date'));
-        $tournament->hashtags           = Input::get('hashtags');
-        $tournament->created_at         = Carbon::now();
-        $tournament->updated_at         = Carbon::now();
+        $tournament->name                   = Input::get('name');
+        $tournament->public_description     = Input::get('public_description');
+        $tournament->event_date             = MiscUtils::parseLocalDatetime(Input::get('event_date'));
+        $tournament->registration_deadline  = MiscUtils::parseLocalDatetime(Input::get('registration_deadline'));
+        $tournament->hashtags               = Input::get('hashtags');
+        $tournament->created_at             = Carbon::now();
+        $tournament->updated_at             = Carbon::now();
 
         $topNews = Post::searchByHashtags($tournament->getHashtagsAsArray(), 3);
 

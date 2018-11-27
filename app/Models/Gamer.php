@@ -7,6 +7,7 @@ use App\Helpers\MiscUtils;
 use App\Interfaces\ISelectableOption;
 use App\Interfaces\ITournamentParticipant;
 use App\Traits\TimestampModelTrait;
+use App\User;
 use Carbon\Carbon;
 use Collective\Html\Eloquent\FormAccessible;
 use DB;
@@ -23,6 +24,9 @@ use LaravelArdent\Ardent\Ardent;
  * @property string phone
  * @property string email
  * @property Carbon birthday
+ *
+ * @property bool is_active
+ *
  * @property string city
  * @property string vk_page
  * @property string status
@@ -37,8 +41,9 @@ use LaravelArdent\Ardent\Ardent;
  * @property Carbon created_at
  * @property Carbon deleted_at
  *
- * @property int external_service_id
+ * @property Tournament[] guestInTournaments
  *
+ * @property int external_service_id
  * @property ExternalService externalService
  */
 class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
@@ -49,15 +54,18 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'name'      => 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/',
         'last_name' => 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/',
         'email'     => 'required|between:3,100|email|unique:gamers',
-        'phone'     => 'required|regex:/^[+0-9()-]+$/|unique:gamers',
-        'vk_page'   => 'required|regex:/'.Constants::VkPageRegexPattern.'/'
+        'phone'     => 'required|regex:/^[+0-9()-]+$/|unique:gamers'
     ];
+
+    public static function getHabbIdRegistrationRules(){
+        return array_add(self::$rules, 'vk_page', 'required|regex:/'.Constants::VkPageRegexPattern.'/');
+    }
 
     /**
      * @return array
      */
     public static function getApiRules(){
-        return array_add(self::$rules, 'city', 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/');
+        return array_add(self::getHabbIdRegistrationRules(), 'city', 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/');
     }
 
     protected $table = "gamers";
@@ -69,26 +77,37 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
     protected $dates = [
         'birthday', 'deleted_at'
     ];
+
     protected $casts = [
         'secondary_games' => 'array'
     ];
+
     public static $relationsData = [
-        'users'             => [self::BELONGS_TO, 'User'],
-        'teams'             => [self::BELONGS_TO, Team::class],
-        'external_services' => [self::BELONGS_TO, 'ExternalService']
+        'users'                 => [self::BELONGS_TO, User::class],
+        'teams'                 => [self::BELONGS_TO, Team::class],
+        'external_services'     => [self::BELONGS_TO, ExternalService::class],
+        'guest_in_tournaments'  => [self::BELONGS_TO_MANY, Tournament::class, 'table' => Tournament::Gamers_EventGuests_ManyToManyTableName]
     ];
 
+    public static function getActiveAccounts(){
+        return self::where('is_active', '=', true);
+    }
+
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function externalService(){
-        return $this->belongsTo('App\Models\ExternalService', 'external_service_id');
+        return $this->belongsTo(Team::class, 'external_service_id');
     }
 
     public function team()
     {
         return $this->belongsTo(Team::class, Team::Captain_ForeignColumn);
+    }
+
+    public function guestInTournaments(){
+        return $this->belongsToMany(Tournament::class, Tournament::Gamers_EventGuests_ManyToManyTableName);
     }
 
     public function getTeamsWhereTakeApart(){

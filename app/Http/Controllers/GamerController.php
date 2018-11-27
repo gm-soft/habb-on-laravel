@@ -109,7 +109,7 @@ class GamerController extends Controller
 
     public function gamersTableToExcel(Request $request){
 
-        $gamers = Gamer::all();
+        $gamers = Gamer::getActiveAccounts();
 
         return ExcelExporter::createInstance('admin.gamers.excel', ['model' => $gamers], "gamers.xls")->getResult();
     }
@@ -244,7 +244,7 @@ class GamerController extends Controller
      */
     public function createGamerAccount(Request $request){
         $input = $request->input();
-        $validator = Validator::make($input, Gamer::$rules);
+        $validator = Validator::make($input, Gamer::getHabbIdRegistrationRules());
 
         if ($validator->fails()) {
             return Redirect::action('GamerController@registerForm')

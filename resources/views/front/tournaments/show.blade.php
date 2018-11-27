@@ -49,9 +49,17 @@
         </div>
 
         <div class="mt-3">
-            @if($model->showRegisterButton)
+            @if($model->showRegisterForTournamentButton)
                 <a href="{{ action('RegisterFormController@teamRegisterForTournament', ['t' => $model->tournament->id]) }}"
                    class="btn btn-primary btn-block btn-lg">Участвовать в турнире</a>
+
+            @elseif($model->showRegisterForEventButton)
+
+                <p>Регистрация команд на участие в турнире закрыта {{ $model->registrationDeadlineString }}, однако вы можете принять участие как гость на ивенте</p>
+                <div>
+                    <a href="{{ action('RegisterFormController@teamRegisterForTournament', ['t' => $model->tournament->id]) }}"
+                       class="btn btn-info btn-block btn-lg">Участвовать в ивенте</a>
+                </div>
             @else
                 <p>
                     К сожалению, турнир прошел {{ $model->eventDateString }}. Следите за нашими новостями, чтобы не пропустить новые мероприятия.
