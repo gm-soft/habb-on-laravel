@@ -121,8 +121,7 @@ class GamerController extends Controller
 
     public function create()
     {
-        $userAgent = request()->header('User-Agent');
-        $isIosDevice = stripos($userAgent,"iPod")||stripos($userAgent,"iPhone")||stripos($userAgent,"iPad");
+        $isAppleDevice = MiscUtils::isIosDevice(request());
 
         return view('admin.gamers.create');
     }
@@ -230,10 +229,7 @@ class GamerController extends Controller
      */
     public function registerForm(Request $request) {
 
-        $userAgent = $request->header('User-Agent');
-        $isAppleDevice = stripos($userAgent,"iPod")||
-            stripos($userAgent,"iPhone") ||
-            stripos($userAgent,"iPad");
+        $isAppleDevice = MiscUtils::isIosDevice($request);
 
         $model = new RegisterFormViewModel();
         $model->cities = Constants::getCities();

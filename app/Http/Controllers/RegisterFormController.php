@@ -9,6 +9,7 @@ use App\Helpers\VarDumper;
 use App\Models\Gamer;
 use App\Models\Team;
 use App\Models\Tournament;
+use App\ViewModels\Front\RegisterForm\RegisterAsGuestForTournamentViewModel;
 use App\ViewModels\Front\RegisterForm\TeamRegisterResultViewModel;
 use App\ViewModels\Front\TeamCreateRequest\RegisterTeamFormViewModel;
 use Carbon\Carbon;
@@ -19,6 +20,50 @@ use Validator;
 
 class RegisterFormController extends Controller
 {
+    public function registerAsGuestForTournamentForm(Request $request){
+        $tournamentId = Input::get('t');
+
+        $tournament = null;
+        $model = new RegisterAsGuestForTournamentViewModel();
+
+        if (!isset($tournamentId)){
+
+            flash('Выберите ивент для регистрации', Constants::Error);
+            return \Redirect::back();
+        }
+        else
+        {
+            /** @var Tournament $tournament */
+            $tournament = Tournament::findOrFail($tournamentId);
+
+            if (MiscUtils::getLocalDatetimeNow()->gt($tournament->event_date)){
+                // если дата ивента уже прошла, то и нечего регаться на нее
+                flash('Ивент прошел, вы не можете в нем участвовать', Constants::Error);
+                return \Redirect::back();
+            }
+
+            $model->tournamentName = $tournament->name;
+        }
+
+        $model->isIosDevice = MiscUtils::isIosDevice($request);
+        $model->tournamentId = $tournamentId;
+
+        FrontDataFiller::create($model)->fill();
+
+        return view('front.register.tournament-guest', ['model' => $model]);
+    }
+
+    public function saveGuestForTournamentForm(Request $request){
+        // TODO имплементировать сохранение участника
+    }
+
+    public function registerAsGuestForTournamentResult(Request $request){
+        // TODO имплементировать показ результата регистрации как участника
+    }
+
+    //---------------
+    //---------------
+
     public function teamRegisterForTournament(Request $request) {
 
         $tournamentId = Input::get('t');
@@ -26,28 +71,27 @@ class RegisterFormController extends Controller
         $tournament = null;
         $model = new RegisterTeamFormViewModel();
 
-        if (isset($tournamentId)){
+        if (!isset($tournamentId)){
 
+            flash('Выберите турнир для регистрации', Constants::Error);
+            return \Redirect::back();
+        }
+        else
+        {
             /** @var Tournament $tournament */
             $tournament = Tournament::findOrFail($tournamentId);
 
-            if (MiscUtils::getLocalDatetimeNow()->gt($tournament->event_date)){
+            if (MiscUtils::getLocalDatetimeNow()->gt($tournament->registration_deadline)){
                 // если дата ивента уже прошла, то и нечего регаться на нее
                 flash('Турнир завершен, регистрация на него закрыта', Constants::Error);
                 return \Redirect::back();
             }
 
             $model->tournamentName = $tournament->name;
-
-        } else {
-
-            flash('Выберите турнир для регистрации', Constants::Error);
-            return \Redirect::back();
         }
 
         $model->tournamentId = $tournamentId;
         $model->cities = Constants::getCities();
-        $model->emailPattern = Constants::EmailRegexPattern;
 
         FrontDataFiller::create($model)->fill();
 

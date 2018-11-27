@@ -120,6 +120,10 @@
         Route::post('/team', 'RegisterFormController@saveTeamRegisterForTournament');
         Route::get('/team/result', 'RegisterFormController@teamRegisterForTournamentResult');
 
+        Route::get('/event_guest', 'RegisterFormController@registerAsGuestForTournamentForm');
+        Route::post('/event_guest', 'RegisterFormController@saveGuestForTournamentForm');
+        Route::get('/event_guest/result', 'RegisterFormController@registerAsGuestForTournamentResult');
+
     });
     #endregion
 
