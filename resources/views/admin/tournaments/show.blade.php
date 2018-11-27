@@ -23,7 +23,7 @@
                     <dd>{{ $instance->EventDate() }}</dd>
 
                     <dt>Комментарий</dt>
-                    <dd>{{ $instance->comment ?? 'Без комментарий' }}</dd>
+                    <dd>{{ $instance->comment ?? 'Без комментария' }}</dd>
                 </dl>
 
                 <div class="mt-1">
@@ -47,13 +47,14 @@
                 {{ link_to_action('HomeController@openTournament', 'Показать на фронте', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
                 {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-outline-primary']) }}
                 {{ link_to_action('TournamentController@export', 'Экспорт в Excel', ['id' => $instance->id], ['class' => 'btn btn-outline-primary', 'target'=>'_blank']) }}
+                {{ link_to_action('TournamentController@exportEventGuests', 'Гости ивента в Excel', ['id' => $instance->id], ['class' => 'btn btn-outline-primary', 'target'=>'_blank']) }}
                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
             </div>
         </div>
 
         <div class="mt-3">
 
-            <div class="h5">Участники турнира</div>
+            <div class="h5">Участники турнира (всего {{ $participantsCount }})</div>
 
             <table class="table table-striped mt-3">
 
@@ -69,7 +70,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @for($i = 0; $i < count($participants); $i++)
+                @for($i = 0; $i < $participantsCount; $i++)
 
                     @php($captain = $participants[$i]->captain)
 
@@ -81,6 +82,46 @@
                         <td><a href="{{ action('GamerController@show', ['id' => $captain->id]) }}">{{ $captain->getFullName() }}</a></td>
                         <td>{{ $captain->phone }}</td>
                         <td><a href="{{ $captain->vk_page }}" target="_blank" title="Открыть в новой вкладке">{{ $captain->vk_page }}</a></td>
+                    </tr>
+                @endfor
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="mt-3">
+
+            <div class="h5">Гости ивента (всего {{ $guestsCount }})</div>
+
+            <table class="table table-striped mt-3">
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>HABB ID (Если есть)</th>
+                    <th>ФИО</th>
+                    <th>Телефон</th>
+                    <th>Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for($i = 0; $i < $guestsCount; $i++)
+
+                    @php($guest = $guests[$i])
+
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $guest->is_active ? $guest->id : "Нет HABB ID" }}</td>
+                        <td>
+                            @if($guest->is_active)
+                                <a href="{{ action('GamerController@show', ['id' => $guest->id]) }}">{{ $guest->getFullName() }}</a>
+                            @else
+                                {{ $guest->getFullName() }}
+                            @endif
+
+                        </td>
+                        <td>{{ $guest->phone }}</td>
+                        <td>{{ $guest->email }}</td>
                     </tr>
                 @endfor
                 </tbody>

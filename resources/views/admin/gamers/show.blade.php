@@ -9,11 +9,23 @@
 @section('content')
     <div class="container">
         <div class="mt-1">
-            <h1>Игрок {{ $model->gamer->name }} {{ $model->gamer->last_name }} [ID {{ $model->gamer->id }}]</h1>
+            <h1>Игрок {{ $model->gamer->name }} {{ $model->gamer->last_name }} [HABB ID {{ $model->gamer->id }}]</h1>
             <p class="text-muted">Создание: {{ $model->gamer->created_at }}. Обновление: {{ $model->gamer->updated_at }}</p>
         </div>
 
-        <div class="mt-1 card">
+        @if(!$model->gamer->is_active)
+            <div class="mt-3 card border-danger">
+                <div class="card-body">
+                    <div class="card-text text-danger">
+                        <p>
+                            Аккаунт еще не был активирован. Пользователь этого аккаунта регистрировался только как участник ивента без указания своего HABB ID
+                        </p>
+                    </div>
+            </div>
+        @endif
+
+
+        <div class="mt-3 card">
             <div class="card-body">
                 <div class="card-text">
 
@@ -54,7 +66,9 @@
                 {{ link_to_action('GamerController@index', 'В список', [], ['class' => 'btn btn-light']) }}
                 <div class="float-sm-right">
 
-                    {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $model->gamer->id], ['class' => 'btn btn-primary']) }}
+                    @if($model->gamer->is_active)
+                        {{ link_to_action('GamerController@edit', 'Редактировать', ['id' => $model->gamer->id], ['class' => 'btn btn-primary']) }}
+                    @endif
                     <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
                 </div>
             </div>

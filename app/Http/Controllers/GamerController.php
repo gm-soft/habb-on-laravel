@@ -167,6 +167,12 @@ class GamerController extends Controller
     {
         /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
+
+        if(!$gamer->is_active){
+            flash('Аккаунт игрока еще не был активирован. Нельзя его редактировать', Constants::Error);
+            return Redirect::back();
+        }
+
         $model = new \App\ViewModels\Back\GamerShowViewModel();
         $model->gamer = $gamer;
         return view('admin.gamers.edit', ['model' => $model]);
@@ -175,6 +181,7 @@ class GamerController extends Controller
     public function update(Request $request, $id)
     {
         /** @var Gamer $gamer */
+        // TODO Maxim: не позволять редактировать, если аккаунт не активирован
         $gamer = $this->constructGamerInstance(Input::all(), $id);
         $res = $gamer->updateUniques();
 

@@ -99,10 +99,17 @@ class TournamentController extends Controller
         $instance->decodeHtmlDescription();
 
         $participants = $instance->teamParticipants;
+        $participantsCount = $instance->teamParticipants()->count();
+
+        $guests = $instance->eventGuests;
+        $guestsCount = $instance->eventGuests()->count();
 
         return view('admin.tournaments.show', [
             'instance' => $instance,
-            'participants' => $participants
+            'participants' => $participants,
+            'participantsCount' => $participantsCount,
+            'guests' => $guests,
+            'guestsCount' => $guestsCount
         ]);
     }
 
@@ -116,6 +123,20 @@ class TournamentController extends Controller
         return ExcelExporter::createInstance('admin.tournaments.excel',
             ['tournament' => $instance, 'participants' => $participants, 'participantsCount' => $participantsCount],
             "$instance->name.xls")
+            ->getResult();
+    }
+
+    // TODO MAxim: add a link to this action
+    public function exportEventGuests($id) {
+        /** @var Tournament $instance */
+        $instance = Tournament::find($id);
+
+        $guests = $instance->teamParticipants;
+        $guestsCount = $instance->teamParticipants()->count();
+
+        return ExcelExporter::createInstance('admin.tournaments-guests.excel',
+            ['tournament' => $instance, 'guests' => $guests, 'guestsCount' => $guestsCount],
+            "$instance->name-guests.xls")
             ->getResult();
     }
 
