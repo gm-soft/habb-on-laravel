@@ -111,7 +111,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" id="submit-btn" class="btn btn-primary btn-lg btn-block">Отправить заявку</button>
+                <button type="submit" id="submit-btn" class="btn btn-info btn-lg btn-block">Отправить заявку</button>
             </div>
             {!! Form::close() !!}
 
