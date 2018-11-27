@@ -131,10 +131,10 @@ class TournamentController extends Controller
         /** @var Tournament $instance */
         $instance = Tournament::find($id);
 
-        $guests = $instance->teamParticipants;
-        $guestsCount = $instance->teamParticipants()->count();
+        $guests = $instance->eventGuests;
+        $guestsCount = $instance->eventGuests()->count();
 
-        return ExcelExporter::createInstance('admin.tournaments-guests.excel',
+        return ExcelExporter::createInstance('admin.tournaments.guests',
             ['tournament' => $instance, 'guests' => $guests, 'guestsCount' => $guestsCount],
             "$instance->name-guests.xls")
             ->getResult();
