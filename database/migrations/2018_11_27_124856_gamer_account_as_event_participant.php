@@ -30,7 +30,7 @@ class GamerAccountAsEventParticipant extends Migration
         });
 
         Schema::table('tournaments', function (Blueprint $table) {
-            $table->dateTime('registration_deadline')->after('event_date')->comment('Если true, значит аккаунт активирован');
+            $table->dateTime('registration_deadline')->after('event_date')->comment('Дэдлайн регистрации команд на участие');
         });
     }
 
