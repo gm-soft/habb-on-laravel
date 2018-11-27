@@ -71,7 +71,7 @@ class TournamentController extends Controller
         $instance->comment                  = Input::get('comment');
         $instance->encodeHtmlDescription    (Input::get('public_description'));
 
-        $instance->event_date               = MiscUtils::parseLocalDatetimeInput::get('event_date'));
+        $instance->event_date               = MiscUtils::parseLocalDatetime(Input::get('event_date'));
         $instance->registration_deadline    = MiscUtils::parseLocalDatetime(Input::get('registration_deadline'));
         $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
         $instance->hashtags                 = Input::get('hashtags');

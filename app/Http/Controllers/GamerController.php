@@ -35,7 +35,7 @@ class GamerController extends Controller
 
         $columns = [ "id", "name", "phone", "vk_page", "primary_game", "source"];
 
-        $totalData = Gamer::count();
+        $totalData = Gamer::getActiveAccounts()->count();
 
         $totalFiltered = $totalData;
 
@@ -46,7 +46,8 @@ class GamerController extends Controller
 
         if(empty($request->input('search.value')))
         {
-            $gamers = Gamer::offset($start)
+            $gamers = Gamer::getActiveAccounts()
+                ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
                 ->get();
@@ -54,7 +55,8 @@ class GamerController extends Controller
         else {
             $search = $request->input('search.value');
 
-            $filtered = Gamer::where('id','LIKE',"%{$search}%")
+            $filtered = Gamer::getActiveAccounts()
+                ->where('id','LIKE',"%{$search}%")
                 ->orWhere('name', 'LIKE',"%{$search}%")
                 ->orWhere('last_name', 'LIKE',"%{$search}%")
                 ->orWhere('phone', 'LIKE',"%{$search}%");
@@ -109,7 +111,7 @@ class GamerController extends Controller
 
     public function gamersTableToExcel(Request $request){
 
-        $gamers = Gamer::getActiveAccounts();
+        $gamers = Gamer::getActiveAccounts()->get();
 
         return ExcelExporter::createInstance('admin.gamers.excel', ['model' => $gamers], "gamers.xls")->getResult();
     }

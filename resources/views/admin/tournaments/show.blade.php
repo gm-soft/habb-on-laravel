@@ -46,8 +46,8 @@
 
                 {{ link_to_action('HomeController@openTournament', 'Показать на фронте', ['id' => $instance->id], ['class' => 'btn btn-primary']) }}
                 {{ link_to_action('TournamentController@edit', 'Редактировать', ['id' => $instance->id], ['class' => 'btn btn-outline-primary']) }}
-                {{ link_to_action('TournamentController@export', 'Экспорт в Excel', ['id' => $instance->id], ['class' => 'btn btn-outline-primary', 'target'=>'_blank']) }}
-                {{ link_to_action('TournamentController@exportEventGuests', 'Гости ивента в Excel', ['id' => $instance->id], ['class' => 'btn btn-outline-primary', 'target'=>'_blank']) }}
+                {{ link_to_action('TournamentController@export', 'Экспорт в Excel', ['id' => $instance->id], ['class' => 'btn btn-outline-info', 'target'=>'_blank']) }}
+                {{ link_to_action('TournamentController@exportEventGuests', 'Гости ивента в Excel', ['id' => $instance->id], ['class' => 'btn btn-outline-info', 'target'=>'_blank']) }}
                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteDialog">Удалить</button>
             </div>
         </div>
@@ -111,7 +111,7 @@
 
                     <tr>
                         <td>{{ $i + 1 }}</td>
-                        <td>{{ $guest->is_active ? $guest->id : "Нет HABB ID" }}</td>
+                        <td>{{ $guest->is_active ? $guest->id : "-" }}</td>
                         <td>
                             @if($guest->is_active)
                                 <a href="{{ action('GamerController@show', ['id' => $guest->id]) }}">{{ $guest->getFullName() }}</a>
