@@ -106,8 +106,23 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         return $this->belongsTo(Team::class, Team::Captain_ForeignColumn);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|Tournament[]
+     */
     public function guestInTournaments(){
         return $this->belongsToMany(Tournament::class, Tournament::Gamers_EventGuests_ManyToManyTableName);
+    }
+
+    /**
+     * @return array
+     */
+    public function guestInTournamentsIds(){
+        $tournaments = $this->guestInTournaments;
+        $ids = [];
+        foreach ($tournaments as $tournament)
+            $ids[] = $tournament->id;
+
+        return $ids;
     }
 
     public function getTeamsWhereTakeApart(){

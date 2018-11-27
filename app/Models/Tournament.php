@@ -98,7 +98,7 @@ class Tournament extends Ardent
     }
 
     public function RegistrationDeadline($format = "d.m.Y"){
-        return $this->registration_deadline->format($format);
+        return $this->registration_deadline ? $this->registration_deadline->format($format) : "-";
     }
 
     public static function getActive() {

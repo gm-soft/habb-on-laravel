@@ -55,7 +55,7 @@
 
         <div class="form-group">
 
-            {{ Form::label('registration_deadline', 'Когда будет закрыта регистрация команд) }}
+            {{ Form::label('registration_deadline', 'Когда будет закрыта регистрация команд') }}
             {{ Form::datetimeLocal('registration_deadline', isset($model->tournament) ? $model->tournament->registration_deadline : null,
                     array('class' => 'form-control', 'required'=> true)) }}
             @if ($errors->has('registration_deadline'))

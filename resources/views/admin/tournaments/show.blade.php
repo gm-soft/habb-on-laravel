@@ -19,8 +19,11 @@
             </div>
             <div class="col-sm-4">
                 <dl>
-                    <dt>Дата события</dt>
+                    <dt>Дата ивента</dt>
                     <dd>{{ $instance->EventDate() }}</dd>
+
+                    <dt>Дэдлайн регистрации команд</dt>
+                    <dd>{{ $instance->RegistrationDeadline() }}</dd>
 
                     <dt>Комментарий</dt>
                     <dd>{{ $instance->comment ?? 'Без комментария' }}</dd>

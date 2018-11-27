@@ -167,7 +167,16 @@ class TournamentController extends Controller
         $select_options = collect($select_options)->unique('id')->all();
 
         $model = new TournamentEditViewModel();
+
+
         $instance->event_date = $instance->event_date->setTimezone(MiscUtils::AlmatyLocalTimezone);
+
+        // При добавлении столбца поле даты почему-то имеет совсем невалидную дату с минусом в начале. Проставим сегодня в таком случае
+
+        $instance->registration_deadline = $instance->registration_deadline
+            ? $instance->registration_deadline->setTimezone(MiscUtils::AlmatyLocalTimezone)
+            : Carbon::now()->setTimezone(MiscUtils::AlmatyLocalTimezone);
+
         $model->tournament = $instance;
         $model->select_options = $select_options;
 
