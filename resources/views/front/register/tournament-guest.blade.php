@@ -63,13 +63,15 @@
 
                                 {{ Form::label('habb_id', 'Ваш HABB ID')}}
                                 {{ Form::tel('habb_id', old('habb_id'),
-                                    ['class' => 'form-control has-habb_input__tag', 'maxlength' => '100', 'placeholder' => 'Введите HABB ID']) }}
+                                    ['class' => 'form-control has-habb_input__tag', 'maxlength' => '100',
+                                    'placeholder' => 'Введите HABB ID', 'pattern' => \App\Helpers\Constants::DigitsOnlyRegexPattern]) }}
 
                                 @if ($errors->has('habb_id'))
                                 <span class="form-control-feedback">
                                     <strong>{{ $errors->first('habb_id') }}</strong>
                                 </span><br>
                                 @endif
+                                <small>Разрешены только цифры</small>
                             </div>
 
                         </div>
@@ -92,6 +94,7 @@
                             <strong>{{ $errors->first('name') }}</strong>
                         </span><br>
                                 @endif
+
                             </div>
 
                             <div class="form-group {{ $errors->has('last_name') ? "has-danger" : "" }}">
@@ -257,8 +260,6 @@
 
             $(".btn-yes__habb-id__tag").click(function(){
 
-                submitBtn.removeAttr("disabled");
-
                 hasHabbBlockInputs.attr("required", "true");
                 noHabbBlockInputs.removeAttr("required");
 
@@ -268,8 +269,6 @@
 
             $(".btn-no__habb-id__tag").click(function(){
 
-                submitBtn.removeAttr("disabled");
-
                 noHabbBlockInputs.attr("required", "true");
                 hasHabbBlockInputs.removeAttr("required");
 
@@ -277,14 +276,21 @@
                     block__hasHabbId.collapse("hide");
             });
 
-            block__hasHabbId.on("hidden.bs.collapse", function(){
-                if (!block__noHabbId.hasClass("show"))
-                    submitBtn.attr("disabled", "true");
+            block__hasHabbId.on("hide.bs.collapse", function(){
+                submitBtn.attr("disabled", "true");
+
             });
 
-            block__noHabbId.on("hidden.bs.collapse", function(){
-                if (!block__hasHabbId.hasClass("show"))
-                    submitBtn.attr("disabled", "true");
+            block__noHabbId.on("hide.bs.collapse", function(){
+                submitBtn.attr("disabled", "true");
+            });
+
+            block__hasHabbId.on("shown.bs.collapse", function(){
+                submitBtn.removeAttr("disabled");
+            });
+
+            block__noHabbId.on("shown.bs.collapse", function(){
+                submitBtn.removeAttr("disabled");
             });
 
         });

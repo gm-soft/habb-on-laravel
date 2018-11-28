@@ -55,6 +55,10 @@ class RegisterFormController extends Controller
 
     public function saveGuestForTournamentForm(Request $request){
         // TODO имплементировать сохранение участника
+
+        $habbId = Input::get('habb_id');
+
+
     }
 
     public function registerAsGuestForTournamentResult(Request $request){
