@@ -1,6 +1,6 @@
 
 @extends('layouts.front-layout')
-@section('title', 'HABB | Участвовать в турнире')
+@section('title', 'HABB | Участвовать в ивенте')
 
 @php
     $formName = "Записаться гостем на ивент ".$model->tournamentName;
@@ -14,156 +14,96 @@
         </div>
 
         <div class="mt-3">
-            Регистрация на ивент в качестве гостя обязательна для того, чтобы мы могли подарить фишки и лотерейки :)
-            Для записи не нужен HABB ID, но если вы хотите стать частью нашего сообщества, то можете перейти к
-            <a href="{{ action('GamerController@registerForm', ['from' => 'team_registration']) }}" target="_blank">форме регистрации</a>,
-            получить HABB ID и вернуться сюда.
-
+            <div class="card border-info">
+                <div class="card-body">
+                    <div class="card-text text-info">
+                        Регистрация на ивент в качестве гостя обязательна для того, чтобы мы могли подарить фишки и лотерейки :)
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="mt-3">
 
-            {!! Form::open(['action' => ['RegisterFormController@saveTeamRegisterForTournament'], 'id' => 'form']) !!}
+            {!! Form::open(['action' => ['RegisterFormController@saveGuestForTournamentForm'], 'id' => 'form']) !!}
 
             <input type="hidden" name="t" value="{{$model->tournamentId}}" >
 
-            <div class="">
-                <div class="text-center h3">
-                    У вас есть HABB ID?
-                </div>
-
-                <div class="mt-2 row">
-
-                    <div class="col-md-6 p-3">
-                        <button type="button" class="btn btn-lg btn-primary btn-block btn-yes__habb-id__tag"
-                                data-toggle="collapse"
-                                data-target="#block__has-habb-id__tag"
-                                aria-expanded="false"
-                                aria-controls="block__has-habb-id__tag">Да</button>
-                    </div>
-
-                    <div class="col-md-6 p-3">
-                        <button type="button" class="btn btn-lg btn-primary btn-block btn-no__habb-id__tag"
-                                data-toggle="collapse"
-                                data-target="#block__no-habb-id__tag"
-                                aria-expanded="false"
-                                aria-controls="block__no-habb-id__tag">Нет</button>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="collapse block__has-habb-id__tag" id="block__has-habb-id__tag">
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                            <div class="form-group {{ $errors->has('habb_id') ? "has-danger" : "" }}">
-
-                                {{ Form::label('habb_id', 'Ваш HABB ID')}}
-                                {{ Form::tel('habb_id', old('habb_id'),
-                                    ['class' => 'form-control has-habb_input__tag', 'maxlength' => '100',
-                                    'placeholder' => 'Введите HABB ID', 'pattern' => \App\Helpers\Constants::DigitsOnlyRegexPattern]) }}
-
-                                @if ($errors->has('habb_id'))
-                                <span class="form-control-feedback">
-                                    <strong>{{ $errors->first('habb_id') }}</strong>
-                                </span><br>
-                                @endif
-                                <small>Разрешены только цифры</small>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="collapse block__no-habb-id__tag" id="block__no-habb-id__tag">
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-text">
-                            <div class="form-group {{ $errors->has('name') ? "has-danger" : "" }}">
-                                {{ Form::label('name', 'Имя')}}
-                                {{ Form::text('name', old('name'),
-                                        array('class' => 'form-control no-habb_input__tag', 'maxlength' => '100', 'placeholder' => 'Введите имя')) }}
-                                @if ($errors->has('name'))
-                                    <span class="form-control-feedback">
+            <div class="form-group {{ $errors->has('name') ? "has-danger" : "" }}">
+                {{ Form::label('name', 'Имя')}}
+                {{ Form::text('name', old('name'),
+                        array('class' => 'form-control', 'maxlength' => '100', 'placeholder' => 'Введите имя', 'required' => true)) }}
+                @if ($errors->has('name'))
+                    <div class="form-control-feedback">
                             <strong>{{ $errors->first('name') }}</strong>
-                        </span><br>
-                                @endif
-
-                            </div>
-
-                            <div class="form-group {{ $errors->has('last_name') ? "has-danger" : "" }}">
-                                {{ Form::label('last_name', 'Фамилия')}}
-                                {{ Form::text('last_name', old('last_name'),
-                                        array('class' => 'form-control no-habb_input__tag', 'maxlength' => '100', 'placeholder' => 'Введите фамилию')) }}
-                                @if ($errors->has('last_name'))
-                                    <span class="form-control-feedback">
-                            <strong>{{ $errors->first('last_name') }}</strong>
-                        </span><br>
-                                @endif
-                            </div>
-
-                            <div class="form-group {{ $errors->has('phone') ? "has-danger" : "" }}">
-                                <div class="text-nowrap">
-                                    {{ Form::label('phone', 'Мобильный телефон для связи') }}
-                                </div>
-                                {{ Form::input('tel', 'phone', old('phone'),
-                                    ['class' => 'form-control no-habb_input__tag',
-                                     'id' => 'phone',
-                                     'maxlength' => '14',
-                                     'placeholder' => 'Мобильный телефон']) }}
-
-                                @if ($errors->has('phone'))
-                                <span class="form-control-feedback">
-                                    <strong>{{ $errors->first('phone') }}</strong>
-                                </span><br>
-                                @endif
-                                <small>Номер телефона необходим, чтобы мы могли связаться с вами в случае возникновения каких-то вопросов</small>
-                            </div>
-
-                            <div class="form-group">
-
-                                @if ($model->isIosDevice)
-
-                                    <label for="birthday">Дата рождения</label>
-                                    <input type="date" class="form-control no-habb_input__tag" id="birthday" name="birthday" required placeholder="Дата рождения">
-
-                                @else
-                                    <input type="text" class="form-control habb_input-birthday__tag no-habb_input__tag" name="birthday" placeholder="Дата рождения">
-
-                                @endif
-
-                                @if ($errors->has('birthday'))
-                                    <br><div class="help-block text-danger">
-                                        <strong>{{ $errors->first('birthday') }}</strong>
-                                    </div><br>
-                                @endif
-                            </div>
-
-                            <div class="form-group habb_form-group-email__tag">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                                    </div>
-                                    <input type="email" class="form-control habb_input-email__tag no-habb_input__tag"
-                                           name="email" pattern="@EmailFieldPattern()" placeholder="yourname@example.com" maxlength="100">
-                                    @if ($errors->has('email'))
-                                        <br><div class="help-block text-danger">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </div><br>
-                                    @endif
-                                </div>
-                            </div>
                         </div>
-                    </div>
+                @endif
+
+            </div>
+
+            <div class="form-group {{ $errors->has('last_name') ? "has-danger" : "" }}">
+                {{ Form::label('last_name', 'Фамилия')}}
+                {{ Form::text('last_name', old('last_name'),
+                        array('class' => 'form-control', 'maxlength' => '100',
+                        'placeholder' => 'Введите фамилию', 'required' => true)) }}
+                @if ($errors->has('last_name'))
+                    <div class="form-control-feedback">
+                            <strong>{{ $errors->first('last_name') }}</strong>
+                        </div>
+                @endif
+            </div>
+
+            <div class="form-group {{ $errors->has('phone') ? "has-danger" : "" }}">
+                <div class="text-nowrap">
+                    {{ Form::label('phone', 'Мобильный телефон для связи') }}
                 </div>
+                {{ Form::input('tel', 'phone', old('phone'),
+                    ['class' => 'form-control',
+                     'id' => 'phone',
+                     'maxlength' => '14',
+                     'required' => true,
+                     'placeholder' => 'Мобильный телефон']) }}
 
+                @if ($errors->has('phone'))
+                    <div class="form-control-feedback">
+                                    <strong>{{ $errors->first('phone') }}</strong>
+                                </div>
+                @endif
+                <small>Номер телефона необходим, чтобы мы могли связаться с вами в случае возникновения каких-то вопросов</small>
+            </div>
 
+            <div class="form-group">
+
+                @if ($model->isIosDevice)
+
+                    <label for="birthday">Дата рождения</label>
+                    <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Дата рождения" required>
+
+                @else
+                    <input type="text" class="form-control habb_input-birthday__tag" name="birthday" placeholder="Дата рождения" required>
+
+                @endif
+
+                @if ($errors->has('birthday'))
+                    <div class="help-block text-danger">
+                        <strong>{{ $errors->first('birthday') }}</strong>
+                    </div>
+                @endif
+            </div>
+
+            <div class="form-group habb_form-group-email__tag">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                    </div>
+                    <input type="email" class="form-control habb_input-email__tag"
+                           name="email" pattern="@EmailFieldPattern()" placeholder="yourname@example.com" maxlength="100" required>
+                    @if ($errors->has('email'))
+                        <div class="help-block text-danger">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </div>
+                    @endif
+                </div>
             </div>
 
 
@@ -175,7 +115,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" id="submit-btn" class="btn btn-info btn-lg btn-block" disabled>Отправить заявку</button>
+                <button type="submit" id="submit-btn" class="btn btn-info btn-lg btn-block">Отправить заявку</button>
             </div>
             {!! Form::close() !!}
 
@@ -239,6 +179,7 @@
 
     <script src="{{ asset('scripts/formHelpers.js') }}"></script>
     <script src="{{ asset('thirdparty/inputmask/jquery.inputmask.bundle.js') }}"></script>
+    <script src="{{ asset('scripts/registrationHelpers.js') }}"></script>
     <script type="text/javascript">
 
         $(function(){
@@ -251,47 +192,7 @@
                 $('#inqured').prop('checked', true);
             });
 
-            var block__hasHabbId = $("#block__has-habb-id__tag");
-            var block__noHabbId = $("#block__no-habb-id__tag");
-            var submitBtn = $("#submit-btn");
-
-            var hasHabbBlockInputs = $(".has-habb_input__tag");
-            var noHabbBlockInputs = $(".no-habb_input__tag");
-
-            $(".btn-yes__habb-id__tag").click(function(){
-
-                hasHabbBlockInputs.attr("required", "true");
-                noHabbBlockInputs.removeAttr("required");
-
-                if (block__noHabbId.hasClass("show"))
-                    block__noHabbId.collapse("hide");
-            });
-
-            $(".btn-no__habb-id__tag").click(function(){
-
-                noHabbBlockInputs.attr("required", "true");
-                hasHabbBlockInputs.removeAttr("required");
-
-                if (block__hasHabbId.hasClass("show"))
-                    block__hasHabbId.collapse("hide");
-            });
-
-            block__hasHabbId.on("hide.bs.collapse", function(){
-                submitBtn.attr("disabled", "true");
-
-            });
-
-            block__noHabbId.on("hide.bs.collapse", function(){
-                submitBtn.attr("disabled", "true");
-            });
-
-            block__hasHabbId.on("shown.bs.collapse", function(){
-                submitBtn.removeAttr("disabled");
-            });
-
-            block__noHabbId.on("shown.bs.collapse", function(){
-                submitBtn.removeAttr("disabled");
-            });
+            habb.registrationHelpers.setDateInputTypeChange('habb_input-birthday__tag');
 
         });
     </script>

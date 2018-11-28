@@ -21,6 +21,23 @@ use App\Models\Gamer;
 trait GamerConstructor
 {
     /**
+     * @param array $input
+     * @return Gamer
+     */
+    protected function createNonActiveGamerAccount(array $input){
+        $gamer              = new Gamer;
+        $gamer->name        = $input['name'];
+        $gamer->last_name   = $input['last_name'];
+        $gamer->phone       = MiscUtils::formatPhone($input['phone']);
+        $gamer->email       = $input['email'];
+        $gamer->birthday    = MiscUtils::getValueOrDefault($input, 'birthday');
+
+        $gamer->is_active = false;
+
+        return $gamer;
+    }
+
+    /**
      * Конструирует запись геймера. Без сохранения
      * @param array $input
      * @param null $id

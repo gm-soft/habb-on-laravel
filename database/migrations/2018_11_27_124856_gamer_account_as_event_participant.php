@@ -27,11 +27,18 @@ class GamerAccountAsEventParticipant extends Migration
 
         Schema::table('gamers', function (Blueprint $table) {
             $table->boolean('is_active')->default(true)->after('secondary_games')->comment('Если true, значит аккаунт активирован');
+            $table->string('vk_page')->nullable()->change();
         });
 
         Schema::table('tournaments', function (Blueprint $table) {
             $table->dateTime('registration_deadline')->nullable()->after('event_date')->comment('Дэдлайн регистрации команд на участие');
         });
+
+        \App\Models\Tournament::withTrashed()
+            ->whereNull('registration_deadline')
+            ->update([
+                "registration_deadline" => DB::raw("`event_date`"),
+            ]);
     }
 
     /**
@@ -51,6 +58,7 @@ class GamerAccountAsEventParticipant extends Migration
 
         Schema::table('gamers', function (Blueprint $table) {
             $table->dropColumn('is_active');
+            $table->string('vk_page')->nullable()->change();
         });
 
         Schema::table('tournaments', function (Blueprint $table) {

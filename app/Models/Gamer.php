@@ -57,6 +57,15 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'phone'     => 'required|regex:/^[+0-9()-]+$/|unique:gamers'
     ];
 
+    public static function getRulesWithoutUniqueness(){
+        return [
+            'name'      => 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/',
+            'last_name' => 'required|regex:/^['.Constants::RussianAlphabet.'A-Za-z]+$/',
+            'email'     => 'required|between:3,100|email',
+            'phone'     => 'required|regex:/^[+0-9()-]+$/'
+        ];
+    }
+
     public static function getHabbIdRegistrationRules(){
         return array_add(self::$rules, 'vk_page', 'required|regex:/'.Constants::VkPageRegexPattern.'/');
     }
@@ -111,6 +120,17 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      */
     public function guestInTournaments(){
         return $this->belongsToMany(Tournament::class, Tournament::Gamers_EventGuests_ManyToManyTableName);
+    }
+
+    public function tryToAttachAsGuestToTournament($tournamentId){
+
+        $guestInTournamentsIds = $this->guestInTournamentsIds();
+
+        $guestInTournamentsIds[] = $tournamentId;
+
+        $guestInTournamentsIds = collect($guestInTournamentsIds)->unique()->values();
+
+        $this->guestInTournaments()->sync($guestInTournamentsIds);
     }
 
     /**

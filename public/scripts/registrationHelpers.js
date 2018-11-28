@@ -2,7 +2,8 @@
 (function(){
 
     var registrationHelpers = {
-        RegisterListeners : RegisterListeners
+        RegisterListeners : RegisterListeners,
+        setDateInputTypeChange: setDateInputTypeChange
     };
 
     habb.registrationHelpers = registrationHelpers;
@@ -92,13 +93,7 @@
             _submitBtn.prop('disabled', true);
         });
 
-        var birthdayTag = $('.habb_input-birthday__tag');
-        birthdayTag.blur(function () {
-                $(this).prop('type', 'text');
-            });
-        birthdayTag.focus(function(){
-            $(this).prop('type', 'date');
-        });
+        setDateInputTypeChange('habb_input-birthday__tag');
 
         //----------------
         // Дополнительные инициирующие функции. Ожидается, что либы уже добавлены в проект
@@ -180,5 +175,19 @@
         wrapper
             .removeClass(_cssClasses.formGroupHasDanger)
             .addClass(_cssClasses.formGroupHasSuccess);
+    }
+
+    function setDateInputTypeChange(selectorClass){
+
+        var dateInput = $('.' + selectorClass);
+        if (dateInput) {
+            dateInput.blur(function () {
+                $(this).prop('type', 'text');
+            });
+            dateInput.focus(function(){
+                $(this).prop('type', 'date');
+            });
+        }
+
     }
 }());
