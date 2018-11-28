@@ -35,7 +35,7 @@ class GamerController extends Controller
 
         $columns = [ "id", "name", "phone", "vk_page", "primary_game", "source"];
 
-        $totalData = Gamer::count();
+        $totalData = Gamer::getActiveAccounts()->count();
 
         $totalFiltered = $totalData;
 
@@ -46,7 +46,8 @@ class GamerController extends Controller
 
         if(empty($request->input('search.value')))
         {
-            $gamers = Gamer::offset($start)
+            $gamers = Gamer::getActiveAccounts()
+                ->offset($start)
                 ->limit($limit)
                 ->orderBy($order,$dir)
                 ->get();
@@ -54,7 +55,8 @@ class GamerController extends Controller
         else {
             $search = $request->input('search.value');
 
-            $filtered = Gamer::where('id','LIKE',"%{$search}%")
+            $filtered = Gamer::getActiveAccounts()
+                ->where('id','LIKE',"%{$search}%")
                 ->orWhere('name', 'LIKE',"%{$search}%")
                 ->orWhere('last_name', 'LIKE',"%{$search}%")
                 ->orWhere('phone', 'LIKE',"%{$search}%");
@@ -109,7 +111,7 @@ class GamerController extends Controller
 
     public function gamersTableToExcel(Request $request){
 
-        $gamers = Gamer::all();
+        $gamers = Gamer::getActiveAccounts()->get();
 
         return ExcelExporter::createInstance('admin.gamers.excel', ['model' => $gamers], "gamers.xls")->getResult();
     }
@@ -119,8 +121,7 @@ class GamerController extends Controller
 
     public function create()
     {
-        $userAgent = request()->header('User-Agent');
-        $isIosDevice = stripos($userAgent,"iPod")||stripos($userAgent,"iPhone")||stripos($userAgent,"iPad");
+        $isAppleDevice = MiscUtils::isIosDevice(request());
 
         return view('admin.gamers.create');
     }
@@ -167,6 +168,12 @@ class GamerController extends Controller
     {
         /** @var Gamer $gamer */
         $gamer = Gamer::find($id);
+
+        if(!$gamer->is_active){
+            flash('Аккаунт игрока еще не был активирован. Нельзя его редактировать', Constants::Error);
+            return Redirect::back();
+        }
+
         $model = new \App\ViewModels\Back\GamerShowViewModel();
         $model->gamer = $gamer;
         return view('admin.gamers.edit', ['model' => $model]);
@@ -175,6 +182,7 @@ class GamerController extends Controller
     public function update(Request $request, $id)
     {
         /** @var Gamer $gamer */
+        // TODO Maxim: не позволять редактировать, если аккаунт не активирован
         $gamer = $this->constructGamerInstance(Input::all(), $id);
         $res = $gamer->updateUniques();
 
@@ -221,10 +229,7 @@ class GamerController extends Controller
      */
     public function registerForm(Request $request) {
 
-        $userAgent = $request->header('User-Agent');
-        $isAppleDevice = stripos($userAgent,"iPod")||
-            stripos($userAgent,"iPhone") ||
-            stripos($userAgent,"iPad");
+        $isAppleDevice = MiscUtils::isIosDevice($request);
 
         $model = new RegisterFormViewModel();
         $model->cities = Constants::getCities();
@@ -244,7 +249,7 @@ class GamerController extends Controller
      */
     public function createGamerAccount(Request $request){
         $input = $request->input();
-        $validator = Validator::make($input, Gamer::$rules);
+        $validator = Validator::make($input, Gamer::getHabbIdRegistrationRules());
 
         if ($validator->fails()) {
             return Redirect::action('GamerController@registerForm')

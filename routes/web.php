@@ -77,6 +77,7 @@
         Route::resource('tournaments', 'TournamentController');
         Route::any('/tournament_preview', 'TournamentController@preview');
         Route::get('/tournaments/{id}/export', 'TournamentController@export');
+        Route::get('/tournaments/{id}/exportEventGuests', 'TournamentController@exportEventGuests');
 
         // Пользователи системы
         Route::resource('users', 'UserController');
@@ -118,6 +119,10 @@
         Route::get('/team', 'RegisterFormController@teamRegisterForTournament');
         Route::post('/team', 'RegisterFormController@saveTeamRegisterForTournament');
         Route::get('/team/result', 'RegisterFormController@teamRegisterForTournamentResult');
+
+        Route::get('/event_guest', 'RegisterFormController@registerAsGuestForTournamentForm');
+        Route::post('/event_guest', 'RegisterFormController@saveGuestForTournamentForm');
+        Route::get('/event_guest/result', 'RegisterFormController@registerAsGuestForTournamentResult');
 
     });
     #endregion

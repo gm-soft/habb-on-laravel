@@ -71,7 +71,8 @@ class TournamentController extends Controller
         $instance->comment                  = Input::get('comment');
         $instance->encodeHtmlDescription    (Input::get('public_description'));
 
-        $instance->event_date               = Carbon::parse(Input::get('event_date'));
+        $instance->event_date               = MiscUtils::parseLocalDatetime(Input::get('event_date'));
+        $instance->registration_deadline    = MiscUtils::parseLocalDatetime(Input::get('registration_deadline'));
         $instance->attached_to_nav          = Input::get('attached_to_nav') == "on";
         $instance->hashtags                 = Input::get('hashtags');
 
@@ -98,10 +99,17 @@ class TournamentController extends Controller
         $instance->decodeHtmlDescription();
 
         $participants = $instance->teamParticipants;
+        $participantsCount = $instance->teamParticipants()->count();
+
+        $guests = $instance->eventGuests;
+        $guestsCount = $instance->eventGuests()->count();
 
         return view('admin.tournaments.show', [
             'instance' => $instance,
-            'participants' => $participants
+            'participants' => $participants,
+            'participantsCount' => $participantsCount,
+            'guests' => $guests,
+            'guestsCount' => $guestsCount
         ]);
     }
 
@@ -115,6 +123,20 @@ class TournamentController extends Controller
         return ExcelExporter::createInstance('admin.tournaments.excel',
             ['tournament' => $instance, 'participants' => $participants, 'participantsCount' => $participantsCount],
             "$instance->name.xls")
+            ->getResult();
+    }
+
+    // TODO MAxim: add a link to this action
+    public function exportEventGuests($id) {
+        /** @var Tournament $instance */
+        $instance = Tournament::find($id);
+
+        $guests = $instance->eventGuests;
+        $guestsCount = $instance->eventGuests()->count();
+
+        return ExcelExporter::createInstance('admin.tournaments.guests',
+            ['tournament' => $instance, 'guests' => $guests, 'guestsCount' => $guestsCount],
+            "$instance->name-guests.xls")
             ->getResult();
     }
 
@@ -145,7 +167,16 @@ class TournamentController extends Controller
         $select_options = collect($select_options)->unique('id')->all();
 
         $model = new TournamentEditViewModel();
+
+
         $instance->event_date = $instance->event_date->setTimezone(MiscUtils::AlmatyLocalTimezone);
+
+        // При добавлении столбца поле даты почему-то имеет совсем невалидную дату с минусом в начале. Проставим сегодня в таком случае
+
+        $instance->registration_deadline = $instance->registration_deadline
+            ? $instance->registration_deadline->setTimezone(MiscUtils::AlmatyLocalTimezone)
+            : Carbon::now()->setTimezone(MiscUtils::AlmatyLocalTimezone);
+
         $model->tournament = $instance;
         $model->select_options = $select_options;
 
@@ -172,6 +203,7 @@ class TournamentController extends Controller
         $instance->hashtags                 = Input::get('hashtags');
 
         $instance->event_date               = MiscUtils::parseLocalDatetime(Input::get('event_date'));
+        $instance->registration_deadline    = MiscUtils::parseLocalDatetime(Input::get('registration_deadline'));
         $instance->updated_at               = Carbon::now();
 
         $result = $instance->save();
@@ -216,12 +248,13 @@ class TournamentController extends Controller
         /** @var Tournament $tournament */
         $tournament = new Tournament();
 
-        $tournament->name               = Input::get('name');
-        $tournament->public_description = Input::get('public_description');
-        $tournament->event_date         = MiscUtils::parseLocalDatetime(Input::get('event_date'));
-        $tournament->hashtags           = Input::get('hashtags');
-        $tournament->created_at         = Carbon::now();
-        $tournament->updated_at         = Carbon::now();
+        $tournament->name                   = Input::get('name');
+        $tournament->public_description     = Input::get('public_description');
+        $tournament->event_date             = MiscUtils::parseLocalDatetime(Input::get('event_date'));
+        $tournament->registration_deadline  = MiscUtils::parseLocalDatetime(Input::get('registration_deadline'));
+        $tournament->hashtags               = Input::get('hashtags');
+        $tournament->created_at             = Carbon::now();
+        $tournament->updated_at             = Carbon::now();
 
         $topNews = Post::searchByHashtags($tournament->getHashtagsAsArray(), 3);
 

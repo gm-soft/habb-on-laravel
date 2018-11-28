@@ -10,6 +10,7 @@ namespace App\Helpers;
 
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 abstract class MiscUtils
 {
@@ -112,5 +113,16 @@ abstract class MiscUtils
     public static function getLocalDatetimeNow(){
         $date = Carbon::now(self::AlmatyLocalTimezone)->setTimezone('UTC');
         return $date;
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    public static function isIosDevice(Request $request){
+        $userAgent = $request->header('User-Agent');
+        return stripos($userAgent,"iPod")||
+            stripos($userAgent,"iPhone") ||
+            stripos($userAgent,"iPad");
     }
 }

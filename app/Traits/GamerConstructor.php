@@ -21,6 +21,23 @@ use App\Models\Gamer;
 trait GamerConstructor
 {
     /**
+     * @param array $input
+     * @return Gamer
+     */
+    protected function createNonActiveGamerAccount(array $input){
+        $gamer              = new Gamer;
+        $gamer->name        = $input['name'];
+        $gamer->last_name   = $input['last_name'];
+        $gamer->phone       = MiscUtils::formatPhone($input['phone']);
+        $gamer->email       = $input['email'];
+        $gamer->birthday    = MiscUtils::getValueOrDefault($input, 'birthday');
+
+        $gamer->is_active = false;
+
+        return $gamer;
+    }
+
+    /**
      * Конструирует запись геймера. Без сохранения
      * @param array $input
      * @param null $id
@@ -35,6 +52,8 @@ trait GamerConstructor
         $gamer->phone       = $phone;
         $gamer->email       = $input['email'];
 
+        $gamer->is_active = true;
+
         $gamer->birthday    = MiscUtils::getValueOrDefault($input, 'birthday');
         $gamer->city        = MiscUtils::getValueOrDefault($input, 'city');
         $gamer->vk_page     = MiscUtils::getValueOrDefault($input, 'vk_page');
@@ -45,6 +64,7 @@ trait GamerConstructor
 
         $gamer->primary_game = MiscUtils::getValueOrDefault($input, 'primary_game');
         $gamer->secondary_games = MiscUtils::getValueOrDefault($input, 'secondary_games');
+
 
         return $gamer;
     }
@@ -65,6 +85,8 @@ trait GamerConstructor
         $gamer->email       = $input['email'];
         $gamer->city        = $input['city'];
         $gamer->vk_page     = $input['vk_page'];
+
+        $gamer->is_active = true;
 
         return $gamer;
     }

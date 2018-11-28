@@ -33,6 +33,12 @@ class TournamentViewModel
     /** @var string */
     public $eventDateString;
 
+    /** @var string */
+    public $registrationDeadlineString;
+
     /** @var bool */
-    public $showRegisterButton;
+    public $showRegisterForTournamentButton;
+
+    /** @var bool */
+    public $showRegisterForEventButton;
 }

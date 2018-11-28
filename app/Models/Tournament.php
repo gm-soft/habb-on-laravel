@@ -20,10 +20,13 @@ use LaravelArdent\Ardent\Ardent;
  * @property string comment - Комментарий пользователя
  * @property string public_description - Публичное описание, доступное открыто
  *
+ * @property Carbon registration_deadline - Дата окончания регистрации на турнир
  * @property Carbon event_date - Дата турнира
  * @property boolean attached_to_nav
  * @property string hashtags
  * @property Team[] teamParticipants
+ *
+ * @property Gamer[] eventGuests
  *
  * @property Carbon created_at
  * @property Carbon updated_at
@@ -35,17 +38,22 @@ class Tournament extends Ardent
 
     const TournamentBanner_ManyToManyTableName = "tournament_banner";
 
+    const Gamers_EventGuests_ManyToManyTableName = "gamers_event_guests";
+
 
     protected $table = 'tournaments';
     protected $dates = [
         'deleted_at',
         'event_date',
+        'registration_deadline'
     ];
 
     public static $rules = [
         'name'                  => 'required|between:1,100',
         'public_description'    => 'required|max:10000',
-        'hashtags'              => 'max:'.Constants::HashTagFieldMaxLength
+        'hashtags'              => 'max:'.Constants::HashTagFieldMaxLength,
+        'registration_deadline' => 'required',
+        'event_date'            => 'required',
     ];
 
     // Связь many-to-many от Ardent
@@ -53,7 +61,8 @@ class Tournament extends Ardent
         'banners'           => [self::BELONGS_TO_MANY, Banner::class, 'table' => self::TournamentBanner_ManyToManyTableName],
 
         // ключ должен называться как называается имя метода связи (https://www.sitepoint.com/ardent-laravel-models-steroids/)
-        'teamParticipants'           => [self::BELONGS_TO_MANY, Team::class, 'table' => Team::TeamTournamentParticipants_ManyToManyTableName]
+        'teamParticipants' => [self::BELONGS_TO_MANY, Team::class, 'table' => Team::TeamTournamentParticipants_ManyToManyTableName],
+        'eventGuests'      => [self::BELONGS_TO_MANY, Gamer::class, 'table' => self::Gamers_EventGuests_ManyToManyTableName]
     );
 
     /**
@@ -80,8 +89,16 @@ class Tournament extends Ardent
         return $this->belongsToMany(Team::class, Team::TeamTournamentParticipants_ManyToManyTableName);
     }
 
+    public function eventGuests() {
+        return $this->belongsToMany(Gamer::class, self::Gamers_EventGuests_ManyToManyTableName);
+    }
+
     public function EventDate($format = "d.m.Y"){
         return $this->event_date->format($format);
+    }
+
+    public function RegistrationDeadline($format = "d.m.Y"){
+        return $this->registration_deadline ? $this->registration_deadline->format($format) : "-";
     }
 
     public static function getActive() {

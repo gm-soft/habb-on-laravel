@@ -2,17 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: maxim
- * Date: 10/13/18
- * Time: 8:45 PM
+ * Date: 11/28/18
+ * Time: 12:08 AM
  */
 
-namespace App\ViewModels\Front\TeamCreateRequest;
+namespace App\ViewModels\Front\RegisterForm;
 
 
 use App\Helpers\Constants;
 use App\Traits\FrontDataTrait;
 
-class RegisterTeamFormViewModel
+class RegisterAsGuestForTournamentViewModel
 {
     use FrontDataTrait;
 
@@ -20,9 +20,10 @@ class RegisterTeamFormViewModel
 
     public $tournamentName;
 
-    /** @var string[] */
-    public $cities;
+    /** @var bool */
+    public $isIosDevice;
 
     /** @var string */
     public $emailPattern = Constants::EmailRegexPattern;
+
 }
