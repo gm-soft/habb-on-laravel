@@ -90,6 +90,10 @@ footer {
     background-position:  center center;
 }
 
+.carousel-background-black {
+    background-color: #0f0f0f;
+}
+
 @media (min-width: 768px) {
     .registration-container{
         width:500px;

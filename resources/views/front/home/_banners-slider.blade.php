@@ -1,4 +1,4 @@
-<div id="carouselExampleIndicators" class="carousel slide w-100" data-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide w-100 carousel-background-black" data-ride="carousel">
     <ol class="carousel-indicators">
 
         @for ($index = 0; $index < $model->banners_count; $index++)
