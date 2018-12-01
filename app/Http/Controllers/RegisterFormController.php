@@ -160,6 +160,10 @@ class RegisterFormController extends Controller
         $request->session()->forget('t');
         $request->session()->forget('link');
 
+        if (is_null($tournamentId)){
+            return Redirect::action('HomeController@index');
+        }
+
         return $this->getRegisterAsGuestForTournamentResultView($tournamentId, $linkToShare);
     }
 
@@ -404,8 +408,6 @@ class RegisterFormController extends Controller
         $values = [$captainId, $secondId, $thirdId, $forthId, $fifthId];
         if (isset($optionalId))
             $values[] = $optionalId;
-
-
 
         return count($values) === collect($values)->unique()->count();
     }

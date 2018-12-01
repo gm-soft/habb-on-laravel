@@ -205,8 +205,6 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 
             DB::commit();
 
-            VarDumper::VarExport(GamerTournamentEventGuest::findByGamerAndTournament($sharedByHabbId, $tournamentId));
-
         } catch (\Exception $e) {
 
             DB::rollback();

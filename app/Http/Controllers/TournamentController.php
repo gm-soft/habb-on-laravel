@@ -130,7 +130,6 @@ class TournamentController extends Controller
             ->getResult();
     }
 
-    // TODO MAxim: add a link to this action
     public function exportEventGuests($id) {
         /** @var Tournament $instance */
         $instance = Tournament::find($id);

@@ -8,7 +8,7 @@
         <div class="jumbotron">
             <div class="">
                 <h1 class="display-2 d-none d-lg-block d-xl-block">
-                    Вы успешно зарегистрировались на ивент <strong>"{{ $model->tournament->name }}"</strong>
+                    Ты успешно зарегистрировался на ивент <strong>"{{ $model->tournament->name }}"</strong>
                 </h1>
 
                 <h1 class="display-3 d-none d-md-block d-lg-none d-xl-none">
@@ -23,7 +23,7 @@
 
             <hr>
             <div class="lead">
-                <div class="h4">Будем ждать вас с друзьями :)</div>
+                <div class="h4">Будем ждать тебя с друзьями :)</div>
                 <div>
                     Если хочешь получить много лотерейных билетов для большого розыгрыша, то поделись этой ссылкой с друзьями
                 </div>

@@ -2,21 +2,15 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use DB;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class GamerTournamentEventGuest
- * Представление Many-to-Many
+ * Представление Many-to-Many, чтобы иметь возможность получить некоторую мета-инфу о регистрациях игроков на ивент
  *
- * @property int id
  * @property int gamer_id
  * @property int tournament_id
  * @property int link_shares_count
- *
- * @property Carbon created_at
- * @property Carbon updated_at
  *
  * @package App\Models
  */
