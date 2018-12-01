@@ -24,11 +24,17 @@ class RegisterFormController extends Controller
 {
     use GamerConstructor;
 
-    public function registerAsGuestForTournamentForm(Request $request){
-        $tournamentId = Input::get('t');
+    /**
+     * @param Request $request
+     * @param $tournamentId - Айди турнира
+     * @param $shareId - Айди юзера, который поделился ссылкой на турнир
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function registerAsGuestForTournamentForm(Request $request, $tournamentId, $shareId = null){
 
         $tournament = null;
         $model = new RegisterAsGuestForTournamentViewModel();
+        $model->sharedByHabbId = $shareId;
 
         if (!isset($tournamentId)){
 
@@ -61,7 +67,8 @@ class RegisterFormController extends Controller
         // TODO имплементировать сохранение участника
 
         // проверем сначала, есть ли такой турнир
-        $tournamentId = Input::get('t');
+        $tournamentId = Input::get('tournamentId');
+
 
         if (!isset($tournamentId)){
 
@@ -85,12 +92,14 @@ class RegisterFormController extends Controller
         if ($validator->fails()) {
 
             flash('Есть ошибки ввода в полях формы, проверьте еще раз заполняемую информацию', Constants::Error);
-            return Redirect::action('RegisterFormController@registerAsGuestForTournamentForm', ['t' => $tournamentId])
+            return \Redirect::back()
                 ->withErrors($validator->errors())
                 ->withInput(Input::all());
         }
 
         //-------------
+
+        $sharedByHabbId = Input::get('shared_by_habb_id');
 
         $mobilePhone = MiscUtils::formatPhone(Input::get('phone'));
         $gamer = Gamer::findByPhone($mobilePhone);
@@ -100,9 +109,14 @@ class RegisterFormController extends Controller
             // TODO проставить участие в таблице
 
 
-            $gamer->tryToAttachAsGuestToTournament($tournamentId);
-            session(['t' => $tournamentId]);
-            return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
+            if ($gamer->tryToAttachAsGuestToTournament($tournamentId, $sharedByHabbId)){
+
+                session(['t' => $tournamentId]);
+                return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
+            }
+
+            flash('Не получилось зарегистрировать вас как участника, попробуйте, пожалуйста, снова', Constants::Error);
+            return \Redirect::back()->withInput(Input::all());
 
         }
 
@@ -111,7 +125,7 @@ class RegisterFormController extends Controller
         if ($validator->fails()) {
 
             flash('Есть ошибки ввода в полях формы, проверьте еще раз заполняемую информацию', Constants::Error);
-            return Redirect::action('RegisterFormController@registerAsGuestForTournamentForm', ['t' => $tournamentId])
+            return \Redirect::back()
                 ->withErrors($validator->errors())
                 ->withInput(Input::all());
         }
@@ -123,16 +137,20 @@ class RegisterFormController extends Controller
         if ($saveResult == false) {
 
             flash('Не удалось зарегистрировать вас на участие в ивенте. Проверьте еще раз данные, пожалуйста, или обратитесь к администрации портала', Constants::Error);
-            return Redirect::action('RegisterFormController@registerAsGuestForTournamentForm')
+            return \Redirect::back()
                 ->withErrors($gamer->errors())
                 ->withInput(Input::all());
         }
 
         // Добавляем запись в таблицу участия
-        $newGamer->guestInTournaments()->attach($tournamentId);
+        if ($newGamer->attachToTournamentAsGuest($tournamentId, $sharedByHabbId)) {
 
-        session(['t' => $tournamentId]);
-        return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
+            session(['t' => $tournamentId]);
+            return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
+        }
+
+        flash('Не получилось зарегистрировать вас как участника, попробуйте, пожалуйста, снова', Constants::Error);
+        return \Redirect::back()->withInput(Input::all());
     }
 
     public function registerAsGuestForTournamentResult(Request $request){

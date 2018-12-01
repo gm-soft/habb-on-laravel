@@ -18,7 +18,11 @@ class RegisterAsGuestForTournamentViewModel
 
     public $tournamentId;
 
+    /** @var string */
     public $tournamentName;
+
+    /** @var int|null */
+    public $sharedByHabbId;
 
     /** @var bool */
     public $isIosDevice;

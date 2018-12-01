@@ -20,8 +20,8 @@
 
 
     Route::get('/news', 'HomeController@news');
-    Route::get('/news/{id}', 'HomeController@openPost');
-    Route::get('/tournaments/{id}', 'HomeController@openTournament');
+    Route::get('/news/{id}', 'HomeController@openPost')->where('id', '[0-9]+');
+    Route::get('/tournaments/{id}', 'HomeController@openTournament')->where('id', '[0-9]+');
 
     #endregion
 
@@ -120,8 +120,10 @@
         Route::post('/team', 'RegisterFormController@saveTeamRegisterForTournament');
         Route::get('/team/result', 'RegisterFormController@teamRegisterForTournamentResult');
 
-        Route::get('/event_guest', 'RegisterFormController@registerAsGuestForTournamentForm');
-        Route::post('/event_guest', 'RegisterFormController@saveGuestForTournamentForm');
+        Route::get('/event_guest/{tournamentId}/{shareId?}', 'RegisterFormController@registerAsGuestForTournamentForm')
+            ->where(['tournamentId' => '[0-9]+', 'shareId' => '[0-9]*']);
+
+        Route::post('/event_guest/', 'RegisterFormController@saveGuestForTournamentForm');
         Route::get('/event_guest/result', 'RegisterFormController@registerAsGuestForTournamentResult');
 
     });
