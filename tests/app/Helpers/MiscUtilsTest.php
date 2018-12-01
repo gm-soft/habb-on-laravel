@@ -64,4 +64,19 @@ class MiscUtilsTest extends TestCase
         $this->assertEquals("87017620787", MiscUtils::formatPhone($phone));
     }
 
+
+    public function test_inArray_МассивИзСтрок_ПередаютСтроку_Ок(){
+
+        $this->assertEquals(true, MiscUtils::inArray("1", ["1", "2", "3"]));
+    }
+
+    public function test_inArray_МассивИзСтрок_ПередаютЧисло_Ок(){
+
+        $this->assertEquals(true, MiscUtils::inArray(1, ["1", "2", "3"]));
+    }
+
+    public function test_inArray_МассивИзСтрок_ПередаютЧисло_СтрогоеСравнение_Ок(){
+
+        $this->assertEquals(false, MiscUtils::inArray(1, ["1", "2", "3"], true));
+    }
 }

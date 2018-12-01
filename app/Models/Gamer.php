@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Constants;
 use App\Helpers\MiscUtils;
+use App\Helpers\VarDumper;
 use App\Interfaces\ISelectableOption;
 use App\Interfaces\ITournamentParticipant;
 use App\Traits\TimestampModelTrait;
@@ -100,7 +101,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'users'                 => [self::BELONGS_TO, User::class],
         'teams'                 => [self::BELONGS_TO, Team::class],
         'external_services'     => [self::BELONGS_TO, ExternalService::class],
-        'guest_in_tournaments'  => [self::BELONGS_TO_MANY, Tournament::class, 'table' => Tournament::Gamers_EventGuests_ManyToManyTableName]
+        'guest_in_tournaments'  => [self::BELONGS_TO_MANY, Tournament::class, 'table' => GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName]
     ];
 
     /**
@@ -132,7 +133,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|Tournament[]
      */
     public function guestInTournaments(){
-        return $this->belongsToMany(Tournament::class, Tournament::Gamers_EventGuests_ManyToManyTableName);
+        return $this->belongsToMany(Tournament::class, GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName);
     }
 
     /**
@@ -140,18 +141,43 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      * @param int $tournamentId
      * @param int|null $sharedByHabbId
      * @return bool
+     * @throws \Exception
      */
-    public function tryToAttachAsGuestToTournament($tournamentId, $sharedByHabbId = null){
-
+    public function tryToAttachAsGuestToTournament($tournamentId, $sharedByHabbId = null)
+    {
         $result = true;
 
         $guestInTournamentsIds = $this->guestInTournamentsIds();
+
+        // если находим уже в списке айдишник, значит не дергаем базу снова
+        if(MiscUtils::inArray($tournamentId, $guestInTournamentsIds)){
+
+            return $result;
+        }
 
         $guestInTournamentsIds[] = $tournamentId;
 
         $guestInTournamentsIds = collect($guestInTournamentsIds)->unique()->values();
 
-        $this->guestInTournaments()->sync($guestInTournamentsIds);
+        DB::beginTransaction();
+
+        try {
+
+            $this->guestInTournaments()->sync($guestInTournamentsIds);
+
+            if (!is_null($sharedByHabbId)){
+
+                GamerTournamentEventGuest::incrementLinkSharedCount($sharedByHabbId, $tournamentId);
+            }
+
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            $result = false;
+        }
 
         return $result;
     }
@@ -161,12 +187,32 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      * @param int $tournamentId
      * @param int|null $sharedByHabbId
      * @return bool
+     * @throws \Exception
      */
     public function attachToTournamentAsGuest($tournamentId, $sharedByHabbId = null){
 
         $result = true;
 
-        $this->guestInTournaments()->attach($tournamentId);
+        DB::beginTransaction();
+
+        try {
+            $this->guestInTournaments()->attach($tournamentId);
+
+            if (!is_null($sharedByHabbId)){
+
+                GamerTournamentEventGuest::incrementLinkSharedCount($sharedByHabbId, $tournamentId);
+            }
+
+            DB::commit();
+
+            VarDumper::VarExport(GamerTournamentEventGuest::findByGamerAndTournament($sharedByHabbId, $tournamentId));
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            $result = false;
+        }
 
         return $result;
     }

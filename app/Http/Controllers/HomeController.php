@@ -7,6 +7,7 @@ use App\Helpers\FrontDataFiller;
 use App\Helpers\MiscUtils;
 use App\Helpers\VarDumper;
 use App\Models\Banner;
+use App\Models\GamerTournamentEventGuest;
 use App\Models\Post;
 use App\Models\StaticPage;
 use App\Models\Tournament;
@@ -26,6 +27,9 @@ class HomeController extends Controller
 {
     public function index()
     {
+        //GamerTournamentEventGuest::incrementLinkSharedCount(1488, 4);
+        VarDumper::VarExport(GamerTournamentEventGuest::findByGamerAndTournament(1488, 4));
+
         $model = new HomePageViewModel;
 
         $model->posts = Post::getTop(HomePageViewModel::TopPostCount);
