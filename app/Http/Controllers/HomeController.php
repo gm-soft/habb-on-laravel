@@ -7,6 +7,7 @@ use App\Helpers\FrontDataFiller;
 use App\Helpers\MiscUtils;
 use App\Helpers\VarDumper;
 use App\Models\Banner;
+use App\Models\GamerTournamentEventGuest;
 use App\Models\Post;
 use App\Models\StaticPage;
 use App\Models\Tournament;
@@ -120,7 +121,7 @@ class HomeController extends Controller
     }
 
 
-    public function openTournament($id) {
+    public function openTournament($id, $sharedByHabbId = null) {
 
         /** @var Tournament $tournament */
         $tournament = Tournament::find($id);
@@ -130,6 +131,7 @@ class HomeController extends Controller
         $topNews = Post::searchByHashtags($tournament->getHashtagsAsArray(), 3);
 
         $model = new TournamentViewModel();
+        $model->sharedByHabbId = $sharedByHabbId;
         $model->tournament = $tournament;
         $model->topNews = $topNews;
 

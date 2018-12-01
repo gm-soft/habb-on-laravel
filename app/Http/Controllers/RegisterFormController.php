@@ -24,11 +24,17 @@ class RegisterFormController extends Controller
 {
     use GamerConstructor;
 
-    public function registerAsGuestForTournamentForm(Request $request){
-        $tournamentId = Input::get('t');
+    /**
+     * @param Request $request
+     * @param $tournamentId - Айди турнира
+     * @param $sharedByHabbId - Айди юзера, который поделился ссылкой на турнир
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function registerAsGuestForTournamentForm(Request $request, $tournamentId, $sharedByHabbId = null){
 
         $tournament = null;
         $model = new RegisterAsGuestForTournamentViewModel();
+        $model->sharedByHabbId = $sharedByHabbId;
 
         if (!isset($tournamentId)){
 
@@ -58,10 +64,10 @@ class RegisterFormController extends Controller
     }
 
     public function saveGuestForTournamentForm(Request $request){
-        // TODO имплементировать сохранение участника
 
         // проверем сначала, есть ли такой турнир
-        $tournamentId = Input::get('t');
+        $tournamentId = Input::get('tournamentId');
+
 
         if (!isset($tournamentId)){
 
@@ -85,12 +91,14 @@ class RegisterFormController extends Controller
         if ($validator->fails()) {
 
             flash('Есть ошибки ввода в полях формы, проверьте еще раз заполняемую информацию', Constants::Error);
-            return Redirect::action('RegisterFormController@registerAsGuestForTournamentForm', ['t' => $tournamentId])
+            return \Redirect::back()
                 ->withErrors($validator->errors())
                 ->withInput(Input::all());
         }
 
         //-------------
+
+        $sharedByHabbId = Input::get('shared_by_habb_id');
 
         $mobilePhone = MiscUtils::formatPhone(Input::get('phone'));
         $gamer = Gamer::findByPhone($mobilePhone);
@@ -100,9 +108,14 @@ class RegisterFormController extends Controller
             // TODO проставить участие в таблице
 
 
-            $gamer->tryToAttachAsGuestToTournament($tournamentId);
-            session(['t' => $tournamentId]);
-            return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
+            if ($gamer->tryToAttachAsGuestToTournament($tournamentId, $sharedByHabbId)){
+
+                session(['t' => $tournamentId, 'link' => $this->getShareableLink($tournamentId, $gamer->id)]);
+                return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
+            }
+
+            flash('Не получилось зарегистрировать вас как участника, попробуйте, пожалуйста, снова', Constants::Error);
+            return \Redirect::back()->withInput(Input::all());
 
         }
 
@@ -111,7 +124,7 @@ class RegisterFormController extends Controller
         if ($validator->fails()) {
 
             flash('Есть ошибки ввода в полях формы, проверьте еще раз заполняемую информацию', Constants::Error);
-            return Redirect::action('RegisterFormController@registerAsGuestForTournamentForm', ['t' => $tournamentId])
+            return \Redirect::back()
                 ->withErrors($validator->errors())
                 ->withInput(Input::all());
         }
@@ -123,33 +136,65 @@ class RegisterFormController extends Controller
         if ($saveResult == false) {
 
             flash('Не удалось зарегистрировать вас на участие в ивенте. Проверьте еще раз данные, пожалуйста, или обратитесь к администрации портала', Constants::Error);
-            return Redirect::action('RegisterFormController@registerAsGuestForTournamentForm')
+            return \Redirect::back()
                 ->withErrors($gamer->errors())
                 ->withInput(Input::all());
         }
 
         // Добавляем запись в таблицу участия
-        $newGamer->guestInTournaments()->attach($tournamentId);
+        if ($newGamer->attachToTournamentAsGuest($tournamentId, $sharedByHabbId)) {
 
-        session(['t' => $tournamentId]);
-        return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
+            session(['t' => $tournamentId, 'link' => $this->getShareableLink($tournamentId, $newGamer->id)]);
+            return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
+        }
+
+        flash('Не получилось зарегистрировать вас как участника, попробуйте, пожалуйста, снова', Constants::Error);
+        return \Redirect::back()->withInput(Input::all());
     }
 
     public function registerAsGuestForTournamentResult(Request $request){
         // TODO имплементировать показ результата регистрации как участника
 
         $tournamentId = $request->session()->get('t');
+        $linkToShare = $request->session()->get('link');
         $request->session()->forget('t');
+        $request->session()->forget('link');
 
+        if (is_null($tournamentId)){
+            return Redirect::action('HomeController@index');
+        }
+
+        return $this->getRegisterAsGuestForTournamentResultView($tournamentId, $linkToShare);
+    }
+
+    public function registerAsGuestForTournamentResultDebug(Request $request){
+
+        $tournamentId = $request->get('t');
+        $linkToShare = $this->getShareableLink($tournamentId, $request->get('habb_id'));
+
+        return $this->getRegisterAsGuestForTournamentResultView($tournamentId, $linkToShare);
+    }
+
+    /**
+     * @param $tournamentId
+     * @param $linkToShare
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    private function getRegisterAsGuestForTournamentResultView($tournamentId, $linkToShare){
         /** @var Tournament $tournament */
         $tournament = Tournament::findOrFail($tournamentId);
 
         $model = new EventRegistrationResultViewModel;
         $model->tournament = $tournament;
+        $model->linkToShare = $linkToShare;
 
         FrontDataFiller::create($model)->fill();
 
         return view('front.register.tournament-guest-result', ['model' => $model]);
+    }
+
+    private function getShareableLink($tournamentId, $habbId){
+        return action('HomeController@openTournament', ['id' => $tournamentId, 'sharedByHabbId' => $habbId]);
     }
 
     //---------------
@@ -363,8 +408,6 @@ class RegisterFormController extends Controller
         $values = [$captainId, $secondId, $thirdId, $forthId, $fifthId];
         if (isset($optionalId))
             $values[] = $optionalId;
-
-
 
         return count($values) === collect($values)->unique()->count();
     }

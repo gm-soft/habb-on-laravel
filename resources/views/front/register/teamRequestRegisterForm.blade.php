@@ -6,7 +6,8 @@
     <div class="col-md-6">
         <h3>Команда</h3>
 
-        <input type="hidden" name="t" value="{{$model->tournamentId}}" >
+        <input type="hidden" name="tournamentId" value="{{$model->tournamentId}}" >
+        <input type="hidden" name="shared_by_habb_id" value="{{$model->sharedByHabbId}}" >
 
         <div class="form-group {{ $errors->has('name') ? "has-danger" : "" }}">
             {{ Form::label('name', 'Название команды:')}}

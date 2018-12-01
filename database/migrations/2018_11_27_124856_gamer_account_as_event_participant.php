@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\GamerTournamentEventGuest;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,7 +14,7 @@ class GamerAccountAsEventParticipant extends Migration
      */
     public function up()
     {
-        Schema::create(\App\Models\Tournament::Gamers_EventGuests_ManyToManyTableName, function (Blueprint $table) {
+        Schema::create(GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName, function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('gamer_id')->unsigned();
@@ -48,13 +49,13 @@ class GamerAccountAsEventParticipant extends Migration
      */
     public function down()
     {
-        Schema::table(\App\Models\Tournament::Gamers_EventGuests_ManyToManyTableName, function (Blueprint $table){
+        Schema::table(GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName, function (Blueprint $table){
 
             $table->dropForeign(['gamer_id']);
             $table->dropForeign(['tournament_id']);
         });
 
-        Schema::dropIfExists(\App\Models\Tournament::Gamers_EventGuests_ManyToManyTableName);
+        Schema::dropIfExists(GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName);
 
         Schema::table('gamers', function (Blueprint $table) {
             $table->dropColumn('is_active');

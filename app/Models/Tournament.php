@@ -38,8 +38,6 @@ class Tournament extends Ardent
 
     const TournamentBanner_ManyToManyTableName = "tournament_banner";
 
-    const Gamers_EventGuests_ManyToManyTableName = "gamers_event_guests";
-
 
     protected $table = 'tournaments';
     protected $dates = [
@@ -62,7 +60,7 @@ class Tournament extends Ardent
 
         // ключ должен называться как называается имя метода связи (https://www.sitepoint.com/ardent-laravel-models-steroids/)
         'teamParticipants' => [self::BELONGS_TO_MANY, Team::class, 'table' => Team::TeamTournamentParticipants_ManyToManyTableName],
-        'eventGuests'      => [self::BELONGS_TO_MANY, Gamer::class, 'table' => self::Gamers_EventGuests_ManyToManyTableName]
+        'eventGuests'      => [self::BELONGS_TO_MANY, Gamer::class, 'table' => GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName]
     );
 
     /**
@@ -90,7 +88,7 @@ class Tournament extends Ardent
     }
 
     public function eventGuests() {
-        return $this->belongsToMany(Gamer::class, self::Gamers_EventGuests_ManyToManyTableName);
+        return $this->belongsToMany(Gamer::class, GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName);
     }
 
     public function EventDate($format = "d.m.Y"){

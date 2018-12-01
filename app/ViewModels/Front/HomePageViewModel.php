@@ -24,9 +24,7 @@ class HomePageViewModel
      */
     public $posts;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $post_count;
 
     /** @var Banner[] */

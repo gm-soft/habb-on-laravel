@@ -125,4 +125,14 @@ abstract class MiscUtils
             stripos($userAgent,"iPhone") ||
             stripos($userAgent,"iPad");
     }
+
+    /**
+     * @param $searchable
+     * @param array $array
+     * @param bool $strict
+     * @return bool
+     */
+    public static function inArray($searchable, array $array, $strict = false){
+        return in_array($searchable, $array, $strict);
+    }
 }

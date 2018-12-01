@@ -27,7 +27,8 @@
 
             {!! Form::open(['action' => ['RegisterFormController@saveGuestForTournamentForm'], 'id' => 'form']) !!}
 
-            <input type="hidden" name="t" value="{{$model->tournamentId}}" >
+            <input type="hidden" name="tournamentId" value="{{$model->tournamentId}}" >
+            <input type="hidden" name="shared_by_habb_id" value="{{$model->sharedByHabbId}}" >
 
             <div class="form-group {{ $errors->has('name') ? "has-danger" : "" }}">
                 {{ Form::label('name', 'Имя')}}

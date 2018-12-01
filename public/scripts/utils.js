@@ -3,7 +3,8 @@
 
     var utils = {
         AjaxRequest : AjaxRequest,
-        GetCsrfToken : GetCsrfToken
+        GetCsrfToken : GetCsrfToken,
+        CopyToClipboard: copyToClipboard
     };
 
     habb.utils = utils;
@@ -38,6 +39,15 @@
 
     function _onError(xhr, status, errorThrown) {
         console.log(errorThrown);
+    }
+
+    function copyToClipboard(textToCopy){
+
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(textToCopy).select();
+        document.execCommand("copy");
+        $temp.remove();
     }
 
 }());

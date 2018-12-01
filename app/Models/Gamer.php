@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Constants;
 use App\Helpers\MiscUtils;
+use App\Helpers\VarDumper;
 use App\Interfaces\ISelectableOption;
 use App\Interfaces\ITournamentParticipant;
 use App\Traits\TimestampModelTrait;
@@ -66,11 +67,16 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         ];
     }
 
+    /**
+     * Правила валидации входных данных для регистрации на сайте
+     * @return array
+     */
     public static function getHabbIdRegistrationRules(){
         return array_add(self::$rules, 'vk_page', 'required|regex:/'.Constants::VkPageRegexPattern.'/');
     }
 
     /**
+     * Правила валидации входных данных для API систем
      * @return array
      */
     public static function getApiRules(){
@@ -95,9 +101,13 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         'users'                 => [self::BELONGS_TO, User::class],
         'teams'                 => [self::BELONGS_TO, Team::class],
         'external_services'     => [self::BELONGS_TO, ExternalService::class],
-        'guest_in_tournaments'  => [self::BELONGS_TO_MANY, Tournament::class, 'table' => Tournament::Gamers_EventGuests_ManyToManyTableName]
+        'guest_in_tournaments'  => [self::BELONGS_TO_MANY, Tournament::class, 'table' => GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName]
     ];
 
+    /**
+     * Получает список аккаунтов, которые активны
+     * @return Gamer[]
+     */
     public static function getActiveAccounts(){
         return self::where('is_active', '=', true);
     }
@@ -110,6 +120,10 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         return $this->belongsTo(Team::class, 'external_service_id');
     }
 
+    /**
+     * Команда, где человек как капитан принимает участие
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function team()
     {
         return $this->belongsTo(Team::class, Team::Captain_ForeignColumn);
@@ -119,21 +133,90 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|Tournament[]
      */
     public function guestInTournaments(){
-        return $this->belongsToMany(Tournament::class, Tournament::Gamers_EventGuests_ManyToManyTableName);
+        return $this->belongsToMany(Tournament::class, GamerTournamentEventGuest::Gamers_EventGuests_ManyToManyTableName);
     }
 
-    public function tryToAttachAsGuestToTournament($tournamentId){
+    /**
+     * Прикрепление к турниру в качестве гостя так, чтобы не перетирать прежниче участия
+     * @param int $tournamentId
+     * @param int|null $sharedByHabbId
+     * @return bool
+     * @throws \Exception
+     */
+    public function tryToAttachAsGuestToTournament($tournamentId, $sharedByHabbId = null)
+    {
+        $result = true;
 
         $guestInTournamentsIds = $this->guestInTournamentsIds();
+
+        // если находим уже в списке айдишник, значит не дергаем базу снова
+        if(MiscUtils::inArray($tournamentId, $guestInTournamentsIds)){
+
+            return $result;
+        }
 
         $guestInTournamentsIds[] = $tournamentId;
 
         $guestInTournamentsIds = collect($guestInTournamentsIds)->unique()->values();
 
-        $this->guestInTournaments()->sync($guestInTournamentsIds);
+        DB::beginTransaction();
+
+        try {
+
+            $this->guestInTournaments()->sync($guestInTournamentsIds);
+
+            if (!is_null($sharedByHabbId)){
+
+                GamerTournamentEventGuest::incrementLinkSharedCount($sharedByHabbId, $tournamentId);
+            }
+
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**
+     * Подходит только для тех сущнстоей, которые только что создали. Иначе перетрет список участий в других ивентах
+     * @param int $tournamentId
+     * @param int|null $sharedByHabbId
+     * @return bool
+     * @throws \Exception
+     */
+    public function attachToTournamentAsGuest($tournamentId, $sharedByHabbId = null){
+
+        $result = true;
+
+        DB::beginTransaction();
+
+        try {
+            $this->guestInTournaments()->attach($tournamentId);
+
+            if (!is_null($sharedByHabbId)){
+
+                GamerTournamentEventGuest::incrementLinkSharedCount($sharedByHabbId, $tournamentId);
+            }
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Возвращает список айдишников турниров, где игрок участвует как гость
      * @return array
      */
     public function guestInTournamentsIds(){
@@ -145,6 +228,10 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
         return $ids;
     }
 
+    /**
+     * Список турниров в виде таблицы, где игрок участвует на любой роли
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function getTeamsWhereTakeApart(){
         return Team::getTeamsWhereGamerTakeApart($this->id);
     }
