@@ -120,7 +120,7 @@ class HomeController extends Controller
     }
 
 
-    public function openTournament($id) {
+    public function openTournament($id, $sharedByHabbId = null) {
 
         /** @var Tournament $tournament */
         $tournament = Tournament::find($id);

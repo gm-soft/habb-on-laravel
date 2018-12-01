@@ -18,4 +18,7 @@ class EventRegistrationResultViewModel
 
     /** @var Tournament $tournament */
     public $tournament;
+
+    /** @var string */
+    public $linkToShare;
 }

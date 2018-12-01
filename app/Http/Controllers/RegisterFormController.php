@@ -27,14 +27,14 @@ class RegisterFormController extends Controller
     /**
      * @param Request $request
      * @param $tournamentId - Айди турнира
-     * @param $shareId - Айди юзера, который поделился ссылкой на турнир
+     * @param $sharedByHabbId - Айди юзера, который поделился ссылкой на турнир
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function registerAsGuestForTournamentForm(Request $request, $tournamentId, $shareId = null){
+    public function registerAsGuestForTournamentForm(Request $request, $tournamentId, $sharedByHabbId = null){
 
         $tournament = null;
         $model = new RegisterAsGuestForTournamentViewModel();
-        $model->sharedByHabbId = $shareId;
+        $model->sharedByHabbId = $sharedByHabbId;
 
         if (!isset($tournamentId)){
 
@@ -111,7 +111,7 @@ class RegisterFormController extends Controller
 
             if ($gamer->tryToAttachAsGuestToTournament($tournamentId, $sharedByHabbId)){
 
-                session(['t' => $tournamentId]);
+                session(['t' => $tournamentId, 'link' => $this->getShareableLink($tournamentId, $gamer->id)]);
                 return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
             }
 
@@ -145,7 +145,7 @@ class RegisterFormController extends Controller
         // Добавляем запись в таблицу участия
         if ($newGamer->attachToTournamentAsGuest($tournamentId, $sharedByHabbId)) {
 
-            session(['t' => $tournamentId]);
+            session(['t' => $tournamentId, 'link' => $this->getShareableLink($tournamentId, $newGamer->id)]);
             return Redirect::action('RegisterFormController@registerAsGuestForTournamentResult');
         }
 
@@ -157,17 +157,41 @@ class RegisterFormController extends Controller
         // TODO имплементировать показ результата регистрации как участника
 
         $tournamentId = $request->session()->get('t');
+        $linkToShare = $request->session()->get('link');
         $request->session()->forget('t');
+        $request->session()->forget('link');
 
+        return $this->getRegisterAsGuestForTournamentResultView($tournamentId, $linkToShare);
+    }
+
+    public function registerAsGuestForTournamentResultDebug(Request $request){
+
+        $tournamentId = $request->get('t');
+        $linkToShare = $this->getShareableLink($tournamentId, $request->get('habb_id'));
+
+        return $this->getRegisterAsGuestForTournamentResultView($tournamentId, $linkToShare);
+    }
+
+    /**
+     * @param $tournamentId
+     * @param $linkToShare
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    private function getRegisterAsGuestForTournamentResultView($tournamentId, $linkToShare){
         /** @var Tournament $tournament */
         $tournament = Tournament::findOrFail($tournamentId);
 
         $model = new EventRegistrationResultViewModel;
         $model->tournament = $tournament;
+        $model->linkToShare = $linkToShare;
 
         FrontDataFiller::create($model)->fill();
 
         return view('front.register.tournament-guest-result', ['model' => $model]);
+    }
+
+    private function getShareableLink($tournamentId, $habbId){
+        return action('HomeController@openTournament', ['id' => $tournamentId, 'sharedByHabbId' => $habbId]);
     }
 
     //---------------
