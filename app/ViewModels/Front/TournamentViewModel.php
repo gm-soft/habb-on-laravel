@@ -41,4 +41,7 @@ class TournamentViewModel
 
     /** @var bool */
     public $showRegisterForEventButton;
+
+    /** @var int|null */
+    public $sharedByHabbId;
 }

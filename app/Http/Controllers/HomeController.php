@@ -130,6 +130,7 @@ class HomeController extends Controller
         $topNews = Post::searchByHashtags($tournament->getHashtagsAsArray(), 3);
 
         $model = new TournamentViewModel();
+        $model->sharedByHabbId = $sharedByHabbId;
         $model->tournament = $tournament;
         $model->topNews = $topNews;
 
