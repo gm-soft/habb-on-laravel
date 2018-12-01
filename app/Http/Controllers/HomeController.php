@@ -27,9 +27,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        //GamerTournamentEventGuest::incrementLinkSharedCount(1488, 4);
-        VarDumper::VarExport(GamerTournamentEventGuest::findByGamerAndTournament(1488, 4));
-
         $model = new HomePageViewModel;
 
         $model->posts = Post::getTop(HomePageViewModel::TopPostCount);

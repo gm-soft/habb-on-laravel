@@ -9,6 +9,7 @@ use App\Helpers\MiscUtils;
 use App\Helpers\VarDumper;
 use App\Models\Banner;
 use App\Models\Gamer;
+use App\Models\GamerTournamentEventGuest;
 use App\Models\Post;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -104,12 +105,15 @@ class TournamentController extends Controller
         $guests = $instance->eventGuests;
         $guestsCount = $instance->eventGuests()->count();
 
+        $guestLinkShares = GamerTournamentEventGuest::getAllByTournament($id);
+
         return view('admin.tournaments.show', [
             'instance' => $instance,
             'participants' => $participants,
             'participantsCount' => $participantsCount,
             'guests' => $guests,
-            'guestsCount' => $guestsCount
+            'guestsCount' => $guestsCount,
+            'guestLinkShares' => $guestLinkShares
         ]);
     }
 
@@ -134,8 +138,15 @@ class TournamentController extends Controller
         $guests = $instance->eventGuests;
         $guestsCount = $instance->eventGuests()->count();
 
+        $guestLinkShares = GamerTournamentEventGuest::getAllByTournament($id);
+
         return ExcelExporter::createInstance('admin.tournaments.guests',
-            ['tournament' => $instance, 'guests' => $guests, 'guestsCount' => $guestsCount],
+            [
+                'tournament' => $instance,
+                'guests' => $guests,
+                'guestsCount' => $guestsCount,
+                'guestLinkShares' => $guestLinkShares
+            ],
             "$instance->name-guests.xls")
             ->getResult();
     }

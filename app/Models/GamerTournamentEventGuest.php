@@ -34,6 +34,40 @@ class GamerTournamentEventGuest
     public $link_shares_count;
 
     /**
+     * @param $tournamentId
+     * @return GamerTournamentEventGuest[]
+     */
+    public static function getAllByTournament($tournamentId) {
+
+        $rows = DB::table(self::Gamers_EventGuests_ManyToManyTableName)
+            ->where('tournament_id', '=', $tournamentId)
+            ->get();
+
+        $result = [];
+        foreach ($rows as $row){
+            $result[] = self::createFromRow($row);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int $habbId
+     * @param GamerTournamentEventGuest[] $collection
+     * @return int
+     */
+    public static function getLinkShareCountOfGamerInsideCollection($habbId, $collection){
+
+        foreach ($collection as $item){
+            if ($item->gamer_id == $habbId)
+                return $item->link_shares_count;
+        }
+
+        return null;
+    }
+
+
+    /**
      * @param int $habbId
      * @param int $tournamentId
      * @return GamerTournamentEventGuest|null
@@ -46,7 +80,16 @@ class GamerTournamentEventGuest
             return null;
         }
 
+        return self::createFromRow($row);
+    }
+
+    /**
+     * @param \Eloquent $row
+     * @return GamerTournamentEventGuest
+     */
+    private static function createFromRow($row, $asObject = true){
         $self = new self;
+
         $self->gamer_id = $row->gamer_id;
         $self->tournament_id = $row->tournament_id;
         $self->link_shares_count = $row->link_shares_count;

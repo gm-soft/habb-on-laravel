@@ -105,6 +105,8 @@
                     <th>ФИО</th>
                     <th>Телефон</th>
                     <th>Email</th>
+                    <th>Зашарил ссылку</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -125,6 +127,7 @@
                         </td>
                         <td>{{ $guest->phone }}</td>
                         <td>{{ $guest->email }}</td>
+                        <td>{{ \App\Models\GamerTournamentEventGuest::getLinkShareCountOfGamerInsideCollection($guest->id, $guestLinkShares) ?? "-" }}</td>
                     </tr>
                 @endfor
                 </tbody>
