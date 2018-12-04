@@ -58,12 +58,15 @@
                 <div class="text-nowrap">
                     {{ Form::label('phone', 'Мобильный телефон для связи') }}
                 </div>
-                {{ Form::text('phone', old('phone'),
-                    ['class' => 'form-control',
-                     'id' => 'phone',
-                     'maxlength' => '14',
-                     'required' => true,
-                     'placeholder' => 'Мобильный телефон']) }}
+
+                <input type="tel"
+                       id="phone"
+                       class="form-control"
+                       name="phone"
+                       value="{{ old('phone') }}"
+                       required
+                       maxlength="14"
+                       placeholder="Мобильный телефон">
 
                 @if ($errors->has('phone'))
                     <div class="form-control-feedback">
