@@ -61,11 +61,10 @@
 
                 <input type="tel"
                        id="phone"
-                       class="form-control"
+                       class="form-control habb_input-phone__tag"
                        name="phone"
                        value="{{ old('phone') }}"
                        required
-                       maxlength="14"
                        placeholder="Мобильный телефон">
 
                 @if ($errors->has('phone'))
@@ -190,7 +189,7 @@
 
             habb.formHelpers.setSubmitButtonDisabledAfterSubmit("form");
 
-            $('#phone').inputmask({"mask": "8(999)999-9999"});
+            $('.habb_input-phone__tag').inputmask({"mask": "8(999)999-9999"});
 
             $('#modalConfirmButton').on('click', function(){
                 $('#inqured').prop('checked', true);
