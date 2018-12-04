@@ -58,7 +58,7 @@
                 <div class="text-nowrap">
                     {{ Form::label('phone', 'Мобильный телефон для связи') }}
                 </div>
-                {{ Form::input('phone', old('phone'),
+                {{ Form::text('phone', old('phone'),
                     ['class' => 'form-control',
                      'id' => 'phone',
                      'maxlength' => '14',
