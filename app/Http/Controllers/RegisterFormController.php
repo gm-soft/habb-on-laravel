@@ -101,12 +101,18 @@ class RegisterFormController extends Controller
         $sharedByHabbId = Input::get('shared_by_habb_id');
 
         $mobilePhone = MiscUtils::formatPhone(Input::get('phone'));
-        $gamer = Gamer::findByPhone($mobilePhone);
+        $email = Input::get('email');
+        $gamer = Gamer::getGamerFoundByEmailAndPhone($mobilePhone, $email);
 
         // если нашли ишгрока по телефону
         if (!is_null($gamer)){
-            // TODO проставить участие в таблице
+                        
+            if ($gamer->phone != $mobilePhone) {
+                $gamer->phone = $mobilePhone;
+                $saveResult = $gamer->save();
 
+                // TODO обрабатывать ошибку сохранения
+            }
 
             if ($gamer->tryToAttachAsGuestToTournament($tournamentId, $sharedByHabbId)){
 
