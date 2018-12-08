@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm navbar-inverse navbar-dark">
-    <div class="container">
+    <div class="container-fluid">
         <button class="navbar-toggler navbar-toggler-right" type="button"
                 data-toggle="collapse" data-target="#backendNavbar"
                 aria-controls="backendNavbar" aria-expanded="false"

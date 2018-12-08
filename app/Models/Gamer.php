@@ -106,7 +106,7 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 
     /**
      * Получает список аккаунтов, которые активны
-     * @return Gamer[]
+     * @return Gamer
      */
     public static function getActiveAccounts(){
         return self::where('is_active', '=', true);
@@ -352,5 +352,17 @@ class Gamer extends Ardent implements ISelectableOption, ITournamentParticipant
 
         $gamer = self::where('phone' , '=', $phone)->orWhere('email' , '=', $email)->first();
         return $gamer;
+    }
+
+    /**
+     * @param Carbon $date
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getGamerRowsAfterDate($date){
+        return DB::table('gamers')
+            ->where('created_at', '>=', $date)
+            ->orderByDesc('created_at')
+            ->select(['id', 'created_at'])
+            ->get();
     }
 }

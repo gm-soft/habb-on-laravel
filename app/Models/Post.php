@@ -98,6 +98,19 @@ class Post extends Ardent
             ->get();
     }
 
+    /**
+     * @param int $limit
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function getMostViewed($limit = 3){
+        return self::query()
+            ->select()
+            ->where('deleted_at', '=', null)
+            ->orderByDesc('views')
+            ->limit($limit)
+            ->get();
+    }
+
     public static function searchByHashtags($hashtags, $limit = null){
 
         $query = self::query()
