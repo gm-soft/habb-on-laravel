@@ -129,7 +129,7 @@ class GamerController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-        $validator = Validator::make($input, Gamer::$rules);
+        $validator = Validator::make($input, Gamer::getRulesWithUniqueness());
 
         if ($validator->fails()) {
             return Redirect::action('GamerController@create')
@@ -249,15 +249,42 @@ class GamerController extends Controller
      */
     public function createGamerAccount(Request $request){
         $input = $request->input();
-        $validator = Validator::make($input, Gamer::getHabbIdRegistrationRules());
+        $validator = Validator::make($input, Gamer::getRulesWithoutUniqueness());
 
         if ($validator->fails()) {
-            return Redirect::action('GamerController@registerForm')
+            return Redirect::back()
                 ->withErrors($validator->errors())
                 ->withInput($input);
         }
 
-        $gamer = $this->constructGamerInstance(Input::all());
+        $mobilePhone = MiscUtils::formatPhone(Input::get('phone'));
+        $gamer = Gamer::getGamerFoundByEmailAndPhone($mobilePhone, Input::get('email'));
+
+        if (!is_null($gamer)){
+
+            if ($gamer->is_active)
+            {
+                flash('По указанному телефону и/или email уже зарегистрирован аккаунт', Constants::Error);
+                return Redirect::back()
+                    ->withErrors($validator->errors())
+                    ->withInput($input);
+            }
+
+            $gamer = $this->activateGamerAccount($gamer, Input::all());
+        }
+        else
+        {
+            // Свалидируем еще раз, а то мало ли
+            $validator = Validator::make($input, Gamer::getRulesWithUniqueness());
+
+            if ($validator->fails()) {
+                return Redirect::action('GamerController@registerForm')
+                    ->withErrors($validator->errors())
+                    ->withInput($input);
+            }
+
+            $gamer = $this->constructGamerInstance(Input::all());
+        }
 
         $success = $gamer->save();
         if ($success == false) {
@@ -306,7 +333,7 @@ class GamerController extends Controller
 
         $gamer = Gamer::getGamerFoundByEmailAndPhone($searchable, $searchable);
 
-        $exists = isset($gamer);
+        $exists = isset($gamer) && $gamer->is_active;
 
         return response()->json([
             'result' => true,

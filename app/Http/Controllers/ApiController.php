@@ -36,7 +36,7 @@ class ApiController extends Controller
         }
 
         $input = $request->all();
-        $validator = Validator::make($input, Gamer::getApiRules());
+        $validator = Validator::make($input, Gamer::getApiRules(false));
 
         if ($validator->fails()) {
             return response()->json([
@@ -46,22 +46,38 @@ class ApiController extends Controller
             ], HttpStatuses::NotValidData);
         }
 
-        $existingGamer = Gamer::getGamerFoundByEmailAndPhone($input["phone"], $input["email"]);
-        if (!is_null($existingGamer)) {
-            return response()->json([
-                "result" => false,
-                "message" => "Аккаунт с переданными телефоном или email уже существует в базе"
-            ], HttpStatuses::NotValidData);
+        $gamer = Gamer::getGamerFoundByEmailAndPhone($input["phone"], $input["email"]);
+        if (!is_null($gamer)) {
+
+            if ($gamer->is_active)
+            {
+                return response()->json([
+                    "result" => false,
+                    "message" => "Аккаунт с переданными телефоном или email уже существует в базе"
+                ], HttpStatuses::NotValidData);
+            }
+
+            $gamer = $this->activateGamerAccount($gamer, $request->all());
+        }
+        else {
+
+            $validator = Validator::make($input, Gamer::getApiRules(true));
+
+            if ($validator->fails()) {
+                return response()->json([
+                    "result" => false,
+                    "message" => "Ошибка при повторной валидации входных данных перед созданием игрока",
+                    "errors" => $validator->errors()->jsonSerialize()
+                ], HttpStatuses::NotValidData);
+            }
+
+            $gamer = $this->constructGamerInstanceWithRequiredOnly($request->all());
         }
 
-        $gamer = $this->constructGamerInstanceWithRequiredOnly($request->all());
-        $gamer->external_service_id = 1;
+        $gamer->external_service_id = $externalService->id;
 
         if ($gamer->save())
         {
-            $scores = GamerScore::getScoreSet();
-            $gamer->scores()->saveMany($scores);
-
             return response()->json([
                 "result" => true,
                 "gamer" =>$gamer->jsonSerialize()

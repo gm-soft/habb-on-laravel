@@ -38,6 +38,32 @@ trait GamerConstructor
     }
 
     /**
+     * @param Gamer $gamer
+     * @param array $input
+     * @return Gamer
+     */
+    protected function activateGamerAccount($gamer, array $input){
+
+        $gamer->is_active = true;
+
+        $gamer->name        = $input['name'];
+        $gamer->last_name   = $input['last_name'];
+        $gamer->birthday    = MiscUtils::getValueOrDefault($input, 'birthday');
+
+        $gamer->city        = MiscUtils::getValueOrDefault($input, 'city');
+        $gamer->vk_page     = MiscUtils::getValueOrDefault($input, 'vk_page');
+        $gamer->status      = MiscUtils::getValueOrDefault($input, 'status');
+        $gamer->institution = MiscUtils::getValueOrDefault($input, 'institution');
+        $gamer->comment     = MiscUtils::getValueOrDefault($input, 'comment');
+        $gamer->lead_id     = MiscUtils::getValueOrDefault($input, 'lead_id');
+
+        $gamer->primary_game = MiscUtils::getValueOrDefault($input, 'primary_game');
+        $gamer->secondary_games = MiscUtils::getValueOrDefault($input, 'secondary_games');
+
+        return $gamer;
+    }
+
+    /**
      * Конструирует запись геймера. Без сохранения
      * @param array $input
      * @param null $id
