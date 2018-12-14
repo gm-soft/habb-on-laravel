@@ -99,7 +99,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
                     </div>
-                    <input type="email" class="form-control habb_input-email__tag"
+                    <input type="email" class="form-control habb_input-email__tag" value="{{ old('email') }}"
                            name="email" pattern="@EmailFieldPattern()" placeholder="yourname@example.com" maxlength="100" required>
                     @if ($errors->has('email'))
                         <div class="help-block text-danger">

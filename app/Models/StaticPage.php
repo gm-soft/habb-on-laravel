@@ -32,12 +32,14 @@ class StaticPage extends Ardent
 {
     const EventSchedule_RowName = "event_schedule";
 
+    const AboutUsPage_RowName = "about_us";
+
     use TimestampModelTrait, IHasHtmlContentTrait;
 
     public static $rules = [
         'unique_name'   => 'required|max:100|unique:static_pages,unique_name',
         'title'         => 'required|max:100',
-        'content'       => 'between:0,2000',
+        'content'       => 'between:0,10000',
     ];
 
     public static function getRulesWithUniqueId($id){

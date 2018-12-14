@@ -45,10 +45,18 @@ class HomeController extends Controller
 
     public function about() {
 
-        $model = new AboutHomeViewModel();
+        /** @var StaticPage $eventSchedule */
+        $eventSchedule = StaticPage::getByUniqueName(StaticPage::AboutUsPage_RowName);
+
+        $eventSchedule->decodeHtmlContent();
+
+        $model = new StaticPageFrontViewModel();
+        $model->pageTitle = $eventSchedule->title;
+        $model->staticPage = $eventSchedule;
+
         FrontDataFiller::create($model)->fill();
 
-        return view('front.home.about', ['model' => $model]);
+        return view('front.home.static_page', ["model" => $model]);
     }
 
 
