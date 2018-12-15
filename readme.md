@@ -21,6 +21,7 @@ composer self-update
 composer update
 
 git checkout -f
+git checkout -b <branch_name> origin/<branch_name> [optional]
 git pull origin master
 
 artisan migrate --force
