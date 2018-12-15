@@ -13,14 +13,31 @@
     <link rel="stylesheet" href="{{ asset('thirdparty/fa/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/shared.css') }}">
     <link rel="stylesheet" href="{{ asset('custom/frontend.css') }}">
+
+    <style>
+        .newyear-background {
+            background-image: url("{{ asset('images/newyearbackground.png') }}");
+        }
+
+        .habb-container > .container {
+            background: rgba(255, 255, 255, 0.76);
+            padding-bottom: 12px;
+            border-radius: 2px;
+        }
+    </style>
+
     @yield('styles')
     @include("layouts.Metrika")
 
 </head>
-    <body>
+    <body class="newyear-background">
         @include("layouts.front-nav")
         @include('flash::message')
-        @yield('content')
+
+        <div class="habb-container">
+            @yield('content')
+        </div>
+
 
         @include('layouts.footer')
         <script src="{{ asset('thirdparty/jquery-3.3.1.min.js') }}"></script>
