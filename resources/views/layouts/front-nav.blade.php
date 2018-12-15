@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark bg-habb">
     <div class="container">
         <a class="navbar-brand" href="{{ url('home') }}">
-            <img src="{{ asset('images/habb-white.png') }}" width="150px">
+            <img src="{{ asset('images/habb-white-ny.png') }}" width="150px">
         </a>
 
         <button class="navbar-toggler navbar-toggler-right" type="button"

@@ -1,4 +1,4 @@
-<footer class="">
+<footer class="ny-footer">
     <div class="container">
         <div class="w-auto d-inline">
             HABB.KZ. 2018 год

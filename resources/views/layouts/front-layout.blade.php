@@ -23,7 +23,20 @@
             background: rgba(255, 255, 255, 0.76);
             padding-bottom: 12px;
             border-radius: 2px;
+
         }
+
+        .ny-footer {
+            z-index: -2;
+        }
+
+        .santa-wrapper {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            z-index: -1;
+        }
+
     </style>
 
     @yield('styles')
@@ -40,6 +53,11 @@
 
 
         @include('layouts.footer')
+
+        <div class="santa-wrapper d-md-block d-lg-block d-xl-block d-none">
+            <img src="{{ asset('images/santa.png') }}">
+        </div>
+
         <script src="{{ asset('thirdparty/jquery-3.3.1.min.js') }}"></script>
         <script src="{{ asset('thirdparty/popper.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.js') }}"></script>
