@@ -16,6 +16,9 @@ class RegisterTeamFormViewModel
 {
     use FrontDataTrait;
 
+    /** @var int|null */
+    public $sharedByHabbId;
+
     public $tournamentId;
 
     public $tournamentName;
