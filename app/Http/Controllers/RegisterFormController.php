@@ -254,7 +254,7 @@ class RegisterFormController extends Controller
 
         $optionalId = Input::get(Team::OptionalGamer_ForeignColumn);
 
-        $tournamentId = Input::get('t');
+        $tournamentId = Input::get('tournamentId');
 
         $captainMobilePhone = Input::get('captain_phone');
 
