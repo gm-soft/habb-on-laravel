@@ -41,7 +41,6 @@
             {{ Form::input('tel', 'captain_phone', old('captain_phone'),
                 ['class' => 'form-control',
                  'id' => 'captain_phone',
-                 'maxlength' => '14',
                  'placeholder' => 'Мобильный телефон',
                  'required' => true]) }}
 
