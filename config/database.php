@@ -51,6 +51,14 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+            // настройка слямзена отсюда https://docs.spatie.be/laravel-backup/v4/installation-and-setup#dumping-the-database
+            'dump' => [
+                'dump_binary_path' => '/var/www/backups', // only the path, so without `mysqldump` or `pg_dump`
+                'use_single_transaction',
+                'timeout' => 60 * 5, // 5 minute timeout
+                //'exclude_tables' => [ ],
+                //'add_extra_option' => '',
+            ]
         ],
 
         'pgsql' => [

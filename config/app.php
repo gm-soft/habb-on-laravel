@@ -182,6 +182,9 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
+        // бэкапы и все такое
+        Spatie\Backup\BackupServiceProvider::class,
+
     ],
 
     /*

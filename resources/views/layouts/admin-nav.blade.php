@@ -42,9 +42,6 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ url('admin/external_services/') }}">Внешние сервисы</a>
                         <a class="dropdown-item" href="{{ url('admin/users/') }}">Модераторы</a>
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ url('admin/requests/teamCreate/') }}">Заявка на создание команды</a>
                     </div>
                 </li>
 
@@ -60,8 +57,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Настройка</a>
                     <div class="dropdown-menu" aria-labelledby="settings">
-                        <!--a class="dropdown-item" href="{{ url('admin/server/') }}"><i class="fa fa-server" aria-hidden="true"></i> Сервер авторизации</a-->
 
+                        <a class="dropdown-item" href="{{ action('BackupController@index') }}">Бэкапы <span class="badge badge-warning">beta</span></a>
                         <a class="dropdown-item" href="{{ url('admin/keyValues/') }}">Ключ-Значение</a>
                         <a class="dropdown-item" href="{{ url('phpmyadmin') }}"><i class="fa fa-database" aria-hidden="true"></i> PhpMyAdmin</a>
                     </div>
